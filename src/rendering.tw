@@ -1,0 +1,213 @@
+:: PassageReady [.rendering] {"position":"250,475"}
+/* Everything here is done before every passage begins rendering.
+Best for checking variables and whatnot. */
+<<script>>
+/* Ensure correct versioning. */
+if (State.variables.version !== setup.version) {
+    setup.fns.update_save();
+}
+
+/* Set State.variables.ft_people = true if any variable ending in _met is true. */
+if (!State.variables.ft_people) {
+    for (let key in State.variables) {
+        if (key.includes("ppl_") && key.includes("_met") && State.variables[key] === true) {
+            State.variables.ft_people = true;
+        }
+    }
+}
+
+/* Set State.variables.ft_knowledge = true if any variable ending in _lv is true. */
+if (!State.variables.ft_knowledge) {
+    for (let key in State.variables) {
+        if (key.includes("kn_") && key.includes("_lv") && State.variables[key] == true) {
+            /* 0 is falsy, 1+ is truthy. That's why the condition is == and not ===. */
+            State.variables.ft_knowledge = true;
+        }
+    }
+}
+
+/* Handle Settings. */
+setup.fns.settingsHandler();
+<</script>>
+
+
+
+:: PassageHeader [.rendering] {"position":"250,500"}
+/* Everything here is rendered at the start of every passage rendering. 
+It's intended for actual rendering stuff. */
+<div id="chapterheader">Chapter Header Text</div>
+<span id="passagetitleheader">Passage Header Text</span>
+<<if Config.debug>>
+    <<button [[Test New Combat Instance|Combat_Overlord]]>>
+        <<set $enemy to new setup.COM.Combatant(setup.COM.monsters["ENspider"])>>
+    <</button>>
+    <br>
+    <br>
+<</if>>
+
+
+
+:: PassageFooter [.rendering] {"position":"250,525"}
+/* Everything here is rendered at the end of every passage rendering.
+It's intended for actual rendering stuff. */
+
+
+
+:: PassageDone [.rendering] {"position":"250,550"}
+/* Everything here is done after each passage is rendered. Best for 
+event handlers and the like. */
+<<script>>
+/* Check if we want background images, remove them if we don't. */
+if (!settings.bgimg) {
+    $('body').css("background-image", "none");
+}
+
+/* Add Fancy Chapter Header */
+// let curPsgTitle = State.active.title;
+let curPsgTitle = passage();
+let curPsg = Story.get(curPsgTitle);
+let curPsgChapter = "Unknown Chapter";
+
+Object.keys(setup.STR.TITLES).forEach(key => {
+    /* DESIRED: Add ability to check for an alternative title. For instance, if a possible has @1 but T2, then T2 should   takeprecedence over @1. This should be done programmatically, and not be based on which tag is processed last. Once that's  done,actually add in the new titles, like "The Departure" and whatnot. */
+    if (curPsg.tags.includes(key)) {
+        curPsgChapter = setup.STR.TITLES[key];
+        return;
+    }
+});
+
+$('div#chapterheader').text(curPsgChapter);
+$('span#passagetitleheader').text(curPsgTitle);
+
+
+
+/* Create an event handler that checks every time an element is added.
+If that element is a <<link>>, check if the passage tags it links 
+to. If they are on the bad content lists, disable them or flag them for
+a warning. */
+const targetNode = document.getElementById('passages');
+const config = {
+    childList: true,
+    subtree: true
+};
+
+const callback = function(mutationList, observer) {
+    for (const mutation of mutationList) {
+        /* Only run for new added elements. */
+        if (mutation.type !== 'childList') return;
+
+        /* Get every link and put them in an array. */
+        let linkarr = $('.macro-link').toArray();
+        linkarr.forEach(link => {
+
+            if (!$(link).hasClass('cont-disabled') && !$(link).hasClass('cont-warning')) {
+                let psgTitle = $(link).attr("data-passage");
+
+                /* Ensure we have a title, and rendering has finished. */
+                if (typeof psgTitle !== "string") return;
+
+                let psgTags = Story.get(psgTitle).tags;
+
+                /* Check Disables */
+                psgTags.forEach(function(tag) {
+                    if (State.variables.ft_disable.includes(tag)) {
+                        /* Adding the .cont-disabled class will add the css rule
+                        "display: none", hiding the element. */
+                        $(link).addClass("cont-disabled");
+                    }
+                });
+
+                /* Check Warnings */
+                psgTags.forEach(function(tag) {
+                    if (State.variables.ft_warning.includes(tag)) {
+                        /* Adding the .cont-warning class will add the some css 
+                        and allow us to show warnings. */
+                        $(link).addClass("cont-warning");
+
+                        /* Add qualifying tags to the 'cont-warning' attribute so
+                        we know which content we're warning the user about. */
+                        if (typeof $(link).attr('cont-warning') === "undefined") {
+                            $(link).attr('cont-warning', tag);
+                        } else {
+                            let tmp = " " + $(link).attr('cont-warning');
+                            $(link).attr('cont-warning', tag + tmp);
+                        }
+                    }
+
+                    if ($(link).attr('cont-warning') !== undefined && !$(link).children('span').hasClass('warning-link')) {
+                        let contarr = $(link).attr('cont-warning').split(' ');
+                        contarr = [...new Set(contarr)];
+                        $(link).append("<br><span class='warning-link'>Warning: This link contains the following content: " + contarr + "</span>");
+                    }
+
+                    /* BUG: This may make us unable to check for changes on link replace. */
+                    observer.disconnect();
+
+                });
+            }
+        });
+    }
+};
+
+/* Create an observer instance linked to the callback function */
+const observer = new MutationObserver(callback);
+
+/* Start observing the target node for configured mutations */
+observer.observe(targetNode, config);
+
+/* Unblur images on click. */
+jQuery('img, imghori, imgverti').on('click', function(e) {
+    e.preventDefault();
+    if ($(this).hasClass('blurred')) {
+        jQuery(this).toggleClass('blurred');
+    }
+});
+
+
+/* Initalize tooltips. */
+$(document).ready(function() {
+    $('.tooltip').tooltipster({
+        contentCloning: true,
+        theme: 'tooltipster-custom'
+    });
+});
+
+/* Discourage Forward/Backward if not usable. */
+if (typeof $._data($("li#forwardTab")[0], "events") === "undefined") {
+    $("li#forwardTab")
+        .ariaDisabled(State.length === State.size)
+        .ariaClick({
+            one: true
+        }, () => Engine.forward());
+} else {
+    $("li#forwardTab")
+        .ariaDisabled(State.length === State.size);
+}
+
+if ($("li#forwardTab").ariaIsDisabled()) {
+    $("li#forwardTab").css("color", "grey");
+    $("li#forwardTab").css("cursor", "not-allowed");
+} else {
+    $("li#forwardTab").css("color", "inherit");
+    $("li#forwardTab").css("cursor", "pointer");
+}
+
+if (typeof $._data($("li#backwardTab")[0], "events") === "undefined") {
+    $("li#backwardTab")
+        .ariaDisabled(State.length < 2)
+        .ariaClick({
+            one: true
+        }, () => Engine.backward());
+} else {
+    $("li#backwardTab")
+        .ariaDisabled(State.length < 2);
+}
+
+if ($("li#backwardTab").ariaIsDisabled()) {
+    $("li#backwardTab").css("color", "grey");
+    $("li#backwardTab").css("cursor", "not-allowed");
+} else {
+    $("li#backwardTab").css("color", "inherit");
+    $("li#backwardTab").css("cursor", "pointer");
+}
+<</script>>

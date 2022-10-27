@@ -1,0 +1,18 @@
+cd database
+
+# Build
+"node_modules/.bin/webpack" 
+
+# Hot Build
+npx webpack --watch -o "./public_html/"
+
+# Serve HotReload Static/Local Server:
+serve public_html/
+
+
+
+Integration into game should be relatively simple:
+put bundle.js into game, and use the functions written there to CRUD.
+
+You can get an ID from profile:me, which is likely unique 
+    https://itch.io/docs/api/serverside#reference/profileme-httpsitchioapi1keyme

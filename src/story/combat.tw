@@ -1,0 +1,173 @@
+:: Combat_Overlord [@combatoverlord .combat nostats]
+/* This passage will only be run once, and will be the predominant passage until combat is over. This will allow us to keep _vars until we are done with the combat. */
+/* <<set _pc to new setup.COM.Combatant(State.variables.Player.Derived)>> */
+<<set _pc to {health: 14, init: 63, attacks: [setup.COM.attacks.stab]}>> /* NOTE TESTING ONLY */
+<<set _en to new setup.COM.Combatant(setup.COM.monsters["ENspider"])>>
+<<set _pp to [_pc]>> /* For future compatibility, if there are more than one pc. This will NOT be used in this story. */
+<<set _ep to [_en]>> /* For future compatibility, if there are more than one en. This will NOT be used in this story. */
+
+/* TODO: These two below should actaully be handled as story variables, before this passage is called. */
+<<set _win to "victorypassagename">>
+<<set _lose to "losepassagename">>
+<<script>>
+    $(document).one(":passagedisplay", function() {
+        $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+    });
+<</script>>
+
+
+<span id="combatZone">
+/* This area will be replaced multiple times as the fight progresses. */
+/* TODO: Show the statisitical details of all combatants. */
+</span>
+<br>
+
+<br>
+<h2><span id="notifArea"></span></h2>
+
+
+<span id="playerOptions">
+/* This area will change depending on whose turn it is. It will let the player pick attacks, use items, etc, etc. */
+/* It gets set in Combat_Zone */
+</span>
+<br>
+
+
+
+:: Combat_Zone [.combat .helper nostats]
+<<script>>
+function drawCombat() {
+    $("#combatZone").empty();
+    $("#playerOptions").empty();
+    $("#combatZone").wiki(Story.get("Combat_Zone_Main").processText());
+    $("#playerOptions").wiki(Story.get("Player_Options").processText());
+};
+
+State.temporary.pphealth = setup.fns.assignFieldOfObjectsToArray(State.temporary.pp, "health");
+State.temporary.ephealth = setup.fns.assignFieldOfObjectsToArray(State.temporary.ep, "health");
+
+if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0})) { 
+	/* TODO: #notifArea displays <<ibutton>> with _lose */
+    drawCombat();
+    $("#notifArea").empty();
+    $("#notifArea").wiki("YOU LOST");
+
+} else if (setup.fns.allValuesTrue(State.temporary.ephealth, function(v) {return v <= 0})) { 
+    /* TODO: #notifArea displays <<ibutton>> with _win */
+    drawCombat();
+    $("#notifArea").empty();
+    $("#notifArea").wiki("YOU WON");
+
+} else {
+    async function processTurns(pp, ep) {
+        function waitFor(ms) {
+            return new Promise(resolve => {
+                setTimeout(() => { resolve('') }, ms);
+            });
+        };
+
+        let turn = null;
+
+        /* Check if anyone has a turn available. */
+        pp.forEach((char) => {
+            if (char.init <= 0) {
+                turn = char;
+                return;
+            }
+        });
+        if (turn === null) {
+            ep.forEach((char) => {
+                if (char.init <= 0) {
+                    turn = char;
+                    return;
+                }
+            });
+        }
+
+        State.temporary.turn = turn;
+
+        if (turn === null) {
+            /* It is no ones turn. */
+            $("#notifArea").empty();
+            $("#notifArea").wiki("Determining Turn");
+
+            /* Decrement inits. */
+            pp.forEach((char) => {
+                char.init -= 1;
+            });
+            ep.forEach((char) => {
+                char.init -= 1;
+            });
+
+            
+            drawCombat();
+	        
+            /* I chose this 40 out of pure vanity: at 40ms per render a ``frame`` at 25fps, the same rate as Diablo 2. */
+            /* This isn't a true frame rate thing at all though, since I would need to decouple the logic from the rendering if I wanted to do that, and there simply isn't a need to do that for a textbased game. */
+            await waitFor(40); 
+            return processTurns(pp, ep);
+
+        } else if (State.temporary.pp.includes(turn)) {
+            /* Player Turn */
+            $("#notifArea").empty();
+            $("#notifArea").wiki("Player Turn");
+
+            await waitFor(300);
+            drawCombat();
+            
+            /* The player will processTurns() after clicking a button. No need to do it here. */
+            return;
+        } else {
+            /* Enemy Turn */
+            $("#notifArea").empty();
+            $("#notifArea").wiki("Enemy Turn");
+
+            /* TODO: Enemy AI here */
+            await waitFor(600);
+            drawCombat();
+
+            /* setup.COM.attackCalculations(ep[0].attacks[0], State.temporary.ep[0], State.temporary.pp); */ 
+
+            /* DELETE ONCE AI IS REAL */
+            ep[0].init += ep[0].attacks[1].initRecovery;
+            pp[0].health -= 3;
+            return $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+        }
+    };
+
+    processTurns(State.temporary.pp, State.temporary.ep);
+}
+<</script>>
+
+
+
+:: Combat_Zone_Main [.combat .helper nostats]
+<br>Enemy Name: _en.name
+<br>Enemy Health: _en.health
+<br>Enemy Init: _en.init
+
+
+
+:: Player_Options [.combat .helper nostats]
+<br>Player Health: _pc.health
+<br>Player Init: _pc.init
+<br>
+/* TODO: Show the statisitical details of all attacks. */
+<<if _turn === _pc>>
+    <<for _attack range _pc.attacks>>
+        <<capture _attack>>
+            <<ibutton _attack.name "#PlayerAttack">>
+                <<script>>
+                    setup.COM.attackCalculations(State.temporary.attack, State.temporary.pc, State.temporary.ep);
+                    $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+                <</script>>
+            <</ibutton>>
+        <</capture>>
+    <</for>>
+<<else>>
+    <<for _attack range _pc.attacks>>
+        <<capture _attack>>
+            <<disable>><<ibutton _attack.name "#PlayerAttack">><</ibutton>><</disable>>
+        <</capture>>
+    <</for>>
+<</if>>

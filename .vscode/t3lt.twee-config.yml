@@ -1,0 +1,40 @@
+sugarcube-2:
+  # We don't want t3lt to flag our custom macros as not existing. It gets annoying.
+  
+  macros:
+    # Disable.js v1.0.0, by chapel, for SugarCube 2.
+    # Disables inputs.
+    disable:
+      name: disable
+      container: true
+
+    # Adds classes or IDs to buttons. Made by Akjosch.
+    ibutton:
+      name: ibutton
+      container: true
+
+    # Adds classes or IDs to links. Made by Akjosch.
+    ilink:
+    # A game-specific widget
+      name: ilink
+      container: true
+
+    # My custom macro for tooltips. 
+    tt:
+      name: tooltiptext
+      container: true
+
+    # My custom macro to set meta variables with the server.
+    setmeta:
+      name: setmeta
+      container: false
+
+    # My custom macro to set HTML backgrounds
+    bg:
+      name: bg
+      container: false
+
+    # My custom macro for in-passage images
+    img:
+      name: img
+      container: false

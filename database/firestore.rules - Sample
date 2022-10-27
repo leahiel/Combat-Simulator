@@ -1,0 +1,38 @@
+// This is just a sample firestore.rules. The rules can be updated
+// online with a tool that lets you test rules.
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // gameUUIDs/{UUID}
+    // Nothing can be deleted.
+    match /gameUUIDs/{document} {
+      // Anyone can read.
+      allow read: if true
+      // Only the itch_id field can be created or updated.
+      allow create, update: if (request.resource.data.keys().hasOnly(
+        ['itch_id']
+      ));
+    }
+
+    // itchIDs/{id}
+    // Nothing can be deleted.
+    match /itchIDs/{document} {
+      // Anyone can read.
+      allow read: if true
+      // Only certain fields can be created or updated.
+      allow create, update: if (request.resource.data.keys().hasAll(
+        ['itch_display_name', 'itch_id', 'itch_username', 'token']
+      ));
+      
+      // itchIDs/{id}/metavars/vars
+      // Nothing can be deleted.
+      match /metavars/vars {
+      // Anyone can read, create, and update.
+      allow read: if true
+      allow create, update: if true
+      }
+    }
+  }
+}

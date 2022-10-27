@@ -1,0 +1,94 @@
+:root {
+  --tooltip-background-color: hsla(0, 0%, 13%, 0.95);
+}
+
+/* Show that text can be hovered over or clicked to view more information. */
+tooltip {
+  display: inline-block;
+
+  text-decoration: hsla(0, 0%, 45%, 0.8) underline dashed;
+
+  transition: all 0.3s ease-in-out;
+}
+
+tooltip:focus,
+tooltip:hover {
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transform: translateY(-1px);
+}
+
+.tooltip_templates {
+  display: none;
+}
+
+.tooltipster-sidetip.tooltipster-custom .tooltipster-box {
+  border: none;
+  background: var(--tooltip-background-color);
+
+  max-width: 45vw;
+}
+
+.tooltipster-sidetip.tooltipster-custom.tooltipster-bottom .tooltipster-box {
+  margin-top: 8px;
+}
+
+.tooltipster-sidetip.tooltipster-custom.tooltipster-left .tooltipster-box {
+  margin-right: 8px;
+}
+
+.tooltipster-sidetip.tooltipster-custom.tooltipster-right .tooltipster-box {
+  margin-left: 8px;
+}
+
+.tooltipster-sidetip.tooltipster-custom.tooltipster-top .tooltipster-box {
+  margin-bottom: 8px;
+}
+
+.tooltipster-sidetip.tooltipster-custom .tooltipster-arrow {
+  height: 8px;
+  margin-left: -8px;
+  width: 16px;
+}
+
+.tooltipster-sidetip.tooltipster-custom.tooltipster-left .tooltipster-arrow,
+.tooltipster-sidetip.tooltipster-custom.tooltipster-right .tooltipster-arrow {
+  height: 16px;
+  margin-left: 0;
+  margin-top: -8px;
+  width: 8px;
+}
+
+.tooltipster-sidetip.tooltipster-custom .tooltipster-arrow-background {
+  display: none;
+}
+
+.tooltipster-sidetip.tooltipster-custom .tooltipster-arrow-border {
+  border: 8px solid transparent;
+}
+
+.tooltipster-sidetip.tooltipster-custom.tooltipster-bottom .tooltipster-arrow-border {
+  border-bottom-color: var(--tooltip-background-color);
+}
+
+.tooltipster-sidetip.tooltipster-custom.tooltipster-left .tooltipster-arrow-border {
+  border-left-color: var(--tooltip-background-color);
+}
+
+.tooltipster-sidetip.tooltipster-custom.tooltipster-right .tooltipster-arrow-border {
+  border-right-color: var(--tooltip-background-color);
+}
+
+.tooltipster-sidetip.tooltipster-custom.tooltipster-top .tooltipster-arrow-border {
+  border-top-color: var(--tooltip-background-color);
+}
+
+.tooltipster-sidetip.tooltipster-custom.tooltipster-bottom .tooltipster-arrow-uncropped {
+  top: -8px;
+}
+
+.tooltipster-sidetip.tooltipster-custom.tooltipster-right .tooltipster-arrow-uncropped {
+  left: -8px;
+}

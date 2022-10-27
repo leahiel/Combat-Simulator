@@ -1,0 +1,10 @@
+:: PeopleText [.uibar nostats] {"position":"125,550"}
+<<include P_Template>>
+
+
+
+:: P_Template [.people] {"position":"125,575"}
+<<if $ppl_tmpl_met>>
+    @@.knowledge;Template Matter:@@<br>
+    Lorem Ipsum about template matter.
+<</if>>

@@ -1,0 +1,159 @@
+:: StoryInterface [.ui nostats] {"position":"0,475"}
+<div id="mainwrapper">
+    <div id="passages"></div>
+    <div id="wrapperBottomText" data-passage="uiBottomText"></div>
+</div>
+<div id="settingTabs">
+    <ul>
+        <li id="backwardTab" data-passage="uiBackward"></li>
+        <li id="forwardTab" data-passage="uiForward"></li>
+        <li id="settingsTab" data-passage="uiSettings"></li>
+        <li id="disableContentsTab" data-passage="uiDisableContent"></li>
+        <li id="savesTab" data-passage="uiSaves"></li>
+        <li id="restartTab" data-passage="uiRestart"></li>
+        <li id="creditsTab" data-passage="uiCredits"></li>
+        <li id="devTab" data-passage="uiDev"></li>
+    </ul>
+</div>
+<div id="storyTabs">
+    <ul>
+        <li id="knowledgeTab" data-passage="uiKnowledge"></li>
+        <li id="peopleTab" data-passage="uiPeople"></li>
+        <!-- <li id="afterwardsTab" data-passage="uiAfterwards"></li> -->
+    </ul>
+</div>
+<div id="databaseInfoTab" data-passage="uiDatabaseInfo"></div>
+
+
+
+<!-- 
+Most of our elements here are in a dialog so that when the user is 
+done with it, they can get right back to the story. There's no back 
+button or extra link needed.
+
+Dialogs can change story variables, but they won't change on the 
+current [non-dialog] passage, unless it calls:
+  [Go To and Render Passage]  Engine.play("Passage") 
+  [Re-Render Current Passage] Engine.show()
+-->
+
+:: uiBackward [.ui nostats] {"position":"0,500"}
+/* Code is in PassageDone because we need it to run every time a 
+passage is done rendering. */
+<-
+
+:: uiForward [.ui nostats] {"position":"0,525"} 
+/* Code is in PassageDone because we need it to run every time a 
+passage is done rendering. */ 
+->
+
+:: uiSettings [.ui nostats] {"position":"0,550"}
+⚙️
+<<script>>
+    $("li#settingsTab").click(() => UI.settings());
+<</script>>
+
+:: uiDisableContent [.ui nostats] {"position":"0,575"}
+❌
+<<script>>
+$("li#disableContentsTab").click(() => {
+    Dialog.setup("Disable Content");
+    Dialog.wiki(Story.get("ContentDisabler").processText());
+    Dialog.open();
+});
+<</script>>
+
+
+:: uiSaves [.ui nostats] {"position":"0,600"}
+💾
+<<script>>
+    $("li#savesTab").click(() => UI.saves());
+<</script>> 
+
+
+:: uiRestart [.ui nostats] {"position":"0,625"}
+🔁
+<<script>>
+    $("li#restartTab").click(() => {UI.restart()});
+<</script>>
+
+:: uiCredits [.ui nostats] {"position":"0,650"}
+📜
+<<script>>
+$("li#creditsTab").click(() => {
+    Dialog.setup("Credits");
+    Dialog.wiki(Story.get("CreditsText").processText());
+    Dialog.open();
+});
+<</script>>
+
+:: uiDev [.ui nostats] {"position":"0,675"}
+🛠️
+<<script>>
+if (Config.debug) {
+    $("li#devTab").click(() => {
+        Dialog.setup("Debug Menu Deluxe");
+        Dialog.wiki(Story.get('DevOptionsText').processText());
+        Dialog.open();
+    });
+} else {
+    $("li#devTab").css("display", "none");
+}
+<</script>>
+
+:: uiKnowledge [.ui nostats] {"position":"0,700"}
+📖
+<<script>>
+$("li#knowledgeTab").click(() => {
+    Dialog.setup("Knowledge Base");
+    Dialog.wiki(Story.get("KnowledgeText").processText());
+    Dialog.open();
+});
+<</script>>
+
+:: uiPeople [.ui nostats] {"position":"0,725"}
+🧑🏻‍🤝‍🧑🏻
+<<script>>
+$("li#peopleTab").click(() => {
+    Dialog.setup("Person Base");
+    Dialog.wiki(Story.get("PeopleText").processText());
+    Dialog.open();
+});
+<</script>>
+
+:: uiDatabaseInfo [.ui nostats] {"position":"0,750"}
+<span id="database-text"></span>
+<<script>>
+if (State.variables.user.logged_in) {
+    $("#database-text").text("Connected to Server");
+} else {
+    $("#database-text").text("Disconnected");
+    $("#databaseInfoTab").css("cursor", "pointer");
+    $("#databaseInfoTab").click(() => {
+        /* REQUIRED SERVER: We shouldn't open the window directly, rather we should open a dialogue box that tells users things, that has a link with which they can click to open the window. */
+        window.open(`https://itch.io/user/oauth?client_id=9a5a87634b363c3ce3908f94c8767e1b&scope=profile%3Ame&response_type=token&redirect_uri=https%3A%2F%2Fmetadb-a53ef.web.app%2Fitch_oauth.html&state=${recall('user-uuid')}&`, "_blank");
+    });  
+}
+<</script>>
+
+:: uiAfterwards [.ui nostats] {"position":"0,775"}
+Afterwards
+<<script>>
+if (State.variables.ft_dev_ending) {
+    $("#afterwardsTab").css("cursor", "pointer");
+    $("#afterwardsTab").css("display", "contents");
+    $("#afterwardsTab").click(() => {
+        Dialog.setup();
+        Dialog.wiki(Story.get("Debug-ending").processText());
+        Dialog.open();
+    }); 
+} else {
+    $("#afterwardsTab").css("display", "none");
+}
+<</script>>
+
+:: uiBottomText [.ui nostats] {"position":"0,800"}
+<<script>>
+    /* TODO: Make this a db call. Have this as a backup.  Oh, have it call a different DB entry if the game is out of date. */
+    $(output).wiki(setup.STR.bottomUIStr);
+<</script>>

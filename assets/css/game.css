@@ -1,0 +1,921 @@
+@font-face {
+  font-family: "Blackslash";
+  src: url("../fonts/Backslash-RpJol.otf") format("otf");
+}
+
+:root {
+  --body-text: hsl(0, 0%, 93%);
+  --chapter-text-transition: opacity 0.35s;
+  --link-text: hsl(223, 64%, 63%);
+  --warning-color: hsl(0, 39%, 51%);
+  --tabTransition: font-size 0.35s, opacity 0.35s, visibility 0.35s;
+  --boxShadow: 0 2px 8px rgb(0 0 0 / 50%);
+}
+
+/*  
+   ######   ######  ########   #######  ##       ##       ########     ###    ########  
+  ##    ## ##    ## ##     ## ##     ## ##       ##       ##     ##   ## ##   ##     ## 
+  ##       ##       ##     ## ##     ## ##       ##       ##     ##  ##   ##  ##     ## 
+   ######  ##       ########  ##     ## ##       ##       ########  ##     ## ########  
+        ## ##       ##   ##   ##     ## ##       ##       ##     ## ######### ##   ##   
+  ##    ## ##    ## ##    ##  ##     ## ##       ##       ##     ## ##     ## ##    ##  
+   ######   ######  ##     ##  #######  ######## ######## ########  ##     ## ##     ##  
+ */
+
+* {
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 14px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  transition: background 100ms ease;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 5px solid transparent;
+  background-clip: content-box;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 10px hsla(0, 0%, 35%, 0.6);
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+/*
+ ##     ## ####  ######   ######  ######## ##       ##          ###    ##    ## ########  #######  ##     ##  ######  
+ ###   ###  ##  ##    ## ##    ## ##       ##       ##         ## ##   ###   ## ##       ##     ## ##     ## ##    ## 
+ #### ####  ##  ##       ##       ##       ##       ##        ##   ##  ####  ## ##       ##     ## ##     ## ##       
+ ## ### ##  ##   ######  ##       ######   ##       ##       ##     ## ## ## ## ######   ##     ## ##     ##  ######  
+ ##     ##  ##        ## ##       ##       ##       ##       ######### ##  #### ##       ##     ## ##     ##       ## 
+ ##     ##  ##  ##    ## ##    ## ##       ##       ##       ##     ## ##   ### ##       ##     ## ##     ## ##    ## 
+ ##     ## ####  ######   ######  ######## ######## ######## ##     ## ##    ## ########  #######   #######   ######   
+ */
+
+html {
+  background-color: rgb(50, 50, 50);
+}
+
+body {
+  color: rgb(255, 255, 255);
+  /* background-color: hsla(0, 0%, 0%, 0); */ /* Overwrites default SC css. */
+
+  /* height: min(calc(100% - 2rem), 80%); */
+  width: min(65rem, 90vw);
+
+  margin-top: 2.5rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  box-shadow: var(--boxShadow);
+  border-radius: 20px;
+
+  font-size: 20px;
+  text-shadow: 1px 1px 3px black;
+}
+
+h3 {
+  display: inline;
+
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h4 {
+  display: inline;
+
+  margin-bottom: 0.5rem;
+}
+
+h5 {
+  display: inline;
+
+  text-indent: 1rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+ul {
+  margin-block-start: 0.45rem;
+  margin-block-end: 0.45rem;
+}
+
+input[type="text"] {
+  min-width: min(14em, 20vw);
+  max-width: 100%;
+}
+
+button {
+  box-shadow: var(--boxShadow);
+  border-radius: 8px;
+}
+
+select {
+  box-shadow: var(--boxShadow);
+  border-radius: 2px;
+}
+
+tuttext {
+  color: lightblue;
+  font-style: italic;
+}
+
+accordionSection {
+  margin-bottom: 3rem;
+}
+
+.accordionLabel {
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  margin-bottom: 0.5rem;
+  background: #b61818;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: var(--boxShadow);
+  border-radius: 20px;
+
+  font-size: 20px;
+  text-shadow: 1px 1px 3px black;
+}
+
+.accordionLabel::after {
+  content: "\002B";
+  padding: 0.5rem;
+  transform: scale(1.8);
+  text-align: center;
+  transition: all 0.35s;
+}
+
+accordionContent {
+  max-height: 0;
+  padding: 0 0.5rem 0.5rem;
+  transition: all 0.35s;
+  display: none;
+}
+
+accordionSection input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+
+input:checked + .accordionLabel {
+  background: #8f1414;
+}
+
+input:checked + .accordionLabel::after {
+  content: "\2013";
+  transform: scale(1.5);
+}
+
+input:checked ~ accordionContent {
+  max-height: 100vh;
+  padding: 0.5rem 0.75rem;
+  display: block;
+  transition: all 0.35s;
+}
+
+resource {
+  padding: 0.2rem 0.7rem;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px 0 hsla(0, 0%, 0%, 0.3);
+  margin-left: 1rem;
+
+  text-align: right;
+  font-size: 1.2rem;
+  color: lightblue;
+  background-color: var(--middle);
+}
+
+self {
+  font-style: italic;
+  color: hsl(0, 0%, 75%);
+}
+
+tp {
+  color: hsla(200, 100%, 75%, 0.85);
+}
+
+tpi {
+  font-style: italic;
+  color: hsla(200, 100%, 75%, 0.85);
+}
+
+.redbutton {
+  background-color: darkred;
+  border-color: darkred;
+}
+
+.redbutton:hover {
+  background-color: red;
+  border-color: red;
+}
+
+/* 
+##     ## ####  
+##     ##  ##   
+##     ##  ##   
+##     ##  ##   
+##     ##  ##   
+##     ##  ##   
+ #######  ####  
+ */
+
+.knowledge {
+  display: block;
+
+  margin-top: 1.5rem;
+  margin-left: 1rem;
+  margin-bottom: -1.25rem;
+
+  line-height: 1.5rem;
+  font-weight: bold;
+  text-decoration: white underline;
+}
+
+.subknowledge {
+  display: block;
+
+  margin-left: 2rem;
+  margin-bottom: -1.25rem;
+
+  text-decoration: underline;
+}
+
+#menu-core li[id|="menu-item"] a:before,
+#debug-bar-toggle:before,
+#ui-bar-history [id|="history"],
+#ui-bar-toggle:before {
+  /* Makes the Font Awesome icons not bold. Only needed until next SugarCube update. */
+  font-weight: 400;
+}
+
+/* UI BAR CONTENTS */
+
+.dialog-header {
+  display: block;
+
+  margin-top: 0.67rem;
+  margin-bottom: 0.67rem;
+  margin-left: 0;
+  margin-right: 0;
+
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: underline 2px;
+}
+
+#ui-dialog {
+  max-width: 65vw;
+}
+
+#ui-dialog-body {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+#mainwrapper {
+  margin-left: auto;
+  margin-right: auto;
+
+  box-shadow: var(--boxShadow);
+  border-radius: 20px;
+
+  background-color: rgb(40, 40, 40);
+}
+
+#wrapperBottomText {
+  padding: 3rem;
+  color: hsl(0deg 0% 65%);
+}
+
+#passages {
+  margin-left: auto;
+  margin-right: auto;
+
+  /* margin-top: 2rem; */
+  background-color: rgb(25, 25, 25);
+  /* box-shadow:var(--boxShadow); */
+  border-radius: 20px;
+  padding: 1.5rem 2rem;
+}
+
+#databaseInfoTab {
+  position: fixed;
+  left: 10vw;
+  top: -1rem;
+
+  padding: 1.25rem 0.75rem 0rem;
+
+  background-color: hsl(0, 0%, 15%);
+  box-shadow: var(--boxShadow);
+  border-radius: 12px;
+
+  height: 4vh;
+  line-height: 4vh;
+  font-size: 2vh;
+  text-align: center;
+}
+
+#settingTabs ul {
+  position: fixed;
+  width: 0;
+
+  left: -5rem;
+  top: 3rem;
+
+  list-style-type: none;
+}
+
+#settingTabs li {
+  float: left;
+
+  height: 4vh;
+  margin-top: 1rem;
+  margin-right: 300rem;
+  padding: 0.75rem 0.5rem 0.75rem 2.75rem;
+
+  box-shadow: var(--boxShadow);
+  border-radius: 20px;
+
+  background-color: hsl(0, 0%, 15%);
+
+  line-height: 4vh;
+  font-size: 2vh;
+  text-align: center;
+  white-space: nowrap;
+
+  cursor: pointer;
+}
+
+#settingTabs li:before {
+  opacity: 0;
+  visibility: hidden;
+  font-size: 0vw;
+
+  transition: var(--tabTransition);
+}
+
+#settingTabs li:hover:before {
+  opacity: 1;
+  visibility: visible;
+  font-size: inherit;
+
+  transition: var(--tabTransition);
+}
+
+#settingTabs li#backwardTab:before {
+  content: "Back ";
+}
+
+#settingTabs li#forwardTab:before {
+  content: "Forward ";
+}
+
+#settingTabs li#settingsTab:before {
+  content: "Settings ";
+}
+
+#settingTabs li#disableContentsTab:before {
+  content: "Disable Content ";
+}
+
+#settingTabs li#savesTab:before {
+  content: "Saves ";
+}
+
+#settingTabs li#restartTab:before {
+  content: "Restart ";
+}
+
+#settingTabs li#creditsTab:before {
+  content: "Credits ";
+}
+
+#settingTabs li#devTab {
+  background-color: red;
+}
+
+#settingTabs li#devTab:before {
+  content: "Dev Menu ";
+}
+
+#storyTabs ul {
+  position: fixed;
+  width: 0;
+
+  right: -1rem;
+  top: 3rem;
+
+  list-style-type: none;
+}
+
+#storyTabs li {
+  float: right;
+  padding: 1rem 1.25rem 1rem 0.75rem;
+
+  background-color: hsl(0, 0%, 15%);
+  box-shadow: var(--boxShadow);
+  border-radius: 20px;
+
+  margin-top: 1rem;
+  margin-left: 50vw;
+
+  height: 4vh;
+  line-height: 4vh;
+  font-size: 2vh;
+  text-align: center;
+
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+#storyTabs li:after {
+  opacity: 0;
+  visibility: hidden;
+  font-size: 0vw;
+  content: " ";
+
+  transition: var(--tabTransition);
+}
+
+#storyTabs li:hover:after {
+  opacity: 1;
+  visibility: visible;
+  font-size: inherit;
+
+  transition: var(--tabTransition);
+}
+
+#storyTabs li#knowledgeTab:after {
+  content: " Knowledge";
+}
+
+#storyTabs li#peopleTab:after {
+  content: " People";
+}
+
+#debug-bar-hint {
+  display: none;
+}
+
+.buttonlistofgirls {
+  /* TODO: Make this pretty and have a magnifying glass or something. */
+  background: brown;
+}
+
+/* 
+########  ####    ###    ##        #######   ######   
+##     ##  ##    ## ##   ##       ##     ## ##    ##  
+##     ##  ##   ##   ##  ##       ##     ## ##        
+##     ##  ##  ##     ## ##       ##     ## ##   #### 
+##     ##  ##  ######### ##       ##     ## ##    ##  
+##     ##  ##  ##     ## ##       ##     ## ##    ##  
+########  #### ##     ## ########  #######   ######   
+*/
+
+#ui-overlay.open {
+  opacity: 0.75;
+}
+
+#ui-dialog-titlebar {
+  border-radius: 20px 20px 0 0;
+}
+
+#ui-dialog-title {
+  font-family: Helmet, Freesans, sans-serif;
+  text-transform: initial;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: underline 2px;
+  padding: 0.4rem 0;
+}
+
+#ui-dialog-body {
+  border-radius: 0 0 20px 20px;
+  border: none;
+
+  line-height: 1.25;
+  min-width: initial;
+
+  box-shadow: var(--boxShadow);
+  background-color: rgb(25, 25, 25);
+}
+
+#ui-dialog-close {
+  width: 2.6rem;
+  border-top-right-radius: 20px;
+}
+
+#ui-dialog-body ul.buttons {
+  text-align: right;
+}
+
+#ui-dialog-body.saves td {
+  padding: 0.5vh 3vw;
+}
+
+/* 
+#### ##     ##    ###     ######   ########  ######  
+ ##  ###   ###   ## ##   ##    ##  ##       ##    ## 
+ ##  #### ####  ##   ##  ##        ##       ##       
+ ##  ## ### ## ##     ## ##   #### ######    ######  
+ ##  ##     ## ######### ##    ##  ##             ## 
+ ##  ##     ## ##     ## ##    ##  ##       ##    ## 
+#### ##     ## ##     ##  ######   ########  ######  
+*/
+
+img {
+  border-radius: 8px;
+
+  max-width: inherit;
+  max-height: inherit;
+  height: inherit;
+  width: inherit;
+  object-fit: cover;
+}
+
+imghori {
+  display: flex;
+  overflow: hidden;
+
+  max-height: 45vh;
+  max-width: 65vw;
+  width: max-content;
+
+  margin: 1rem auto;
+  padding: 0.45rem;
+
+  border: 1px solid black;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 10px hsl(0deg 0% 35% / 60%);
+}
+
+imgverti {
+  display: flex;
+  overflow: hidden;
+
+  margin: auto 1rem;
+
+  max-height: 40vh;
+  width: max-content;
+  max-width: 35vw;
+  width: max-content;
+
+  padding: 0.45rem;
+
+  border: 1px solid black;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 10px hsl(0deg 0% 35% / 60%);
+}
+
+.blurred {
+  filter: blur(2vw) grayscale(20%) brightness(80%);
+  -webkit-filter: blur(2vw) grayscale(20%) brightness(80%);
+}
+
+/* 
+GRIDS
+*/
+
+gridcontainer {
+  display: grid;
+  row-gap: 1rem;
+  column-gap: 1rem;
+  --columns: 3; /* Max number of columns in grid */
+  grid-template-columns: repeat(auto-fill, minmax(max(200px, 96% / var(--columns)), 1fr));
+
+  margin-top: 1rem;
+  padding: 4px 12px 8px;
+  border: 1px solid hsl(312deg 74% 16% / 0%);
+  border-radius: 8px;
+  /* box-shadow: var(--boxShadow); */
+  background-color: var(--background);
+}
+
+gridcontainer.col1 {
+  grid-template-columns: initial;
+}
+
+gridcontainer.col2 {
+  grid-template-columns: max-content max-content;
+}
+
+gridcontainer h2 {
+  grid-column: 1/-1;
+
+  border-radius: 8px;
+  box-shadow: var(--boxShadow);
+  margin: 0 10vw -0.5rem;
+
+  text-align: center;
+  color: var(--backgroundplus1);
+  background-image: var(--middletodarkgradiant);
+}
+
+gridcontainer a,
+gridcontainer not-a {
+  padding: 1rem 1.5rem 1.5rem;
+  border: 1px solid hsl(312deg 74% 16% / 0%);
+  border-radius: 8px;
+  box-shadow: var(--boxShadow);
+
+  text-align: left;
+  text-decoration: none;
+  color: var(--link-text);
+
+  transition: all 0.45s cubic-bezier(0.25, 1, 0.2, 1);
+
+  /* Gradiant Transition Hack Stuff */
+  position: relative;
+
+  z-index: 1;
+  background: var(--background);
+}
+
+gridcontainer a::before,
+gridcontainer not-a::before {
+  /* Gradiant Transition Hack Stuff */
+  position: absolute;
+
+  content: "";
+  opacity: 0;
+  z-index: -1;
+
+  border-radius: 8px;
+
+  top: -1px;
+  right: -1px;
+  bottom: -1px;
+  left: -1px;
+
+  background: var(--middletodarkgradiant);
+
+  transition: all 0.45s cubic-bezier(0.25, 1, 0.2, 1);
+}
+
+gridcontainer a:hover,
+gridcontainer not-a:hover {
+  border-radius: 8px;
+  box-shadow: 8px 8px 24px 0 var(--middle);
+
+  color: hsl(0, 0%, 90%);
+}
+
+gridcontainer a:hover::before,
+gridcontainer not-a::before {
+  /* Gradiant Transition Hack Stuff */
+  opacity: 1;
+}
+
+gridwrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  width: 100%;
+
+  margin-bottom: 1rem;
+}
+
+gridhelper {
+  justify-self: flex-end;
+
+  padding: 0.2rem 0.7rem;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px 0 hsla(0, 0%, 0%, 0.3);
+
+  text-align: right;
+  font-size: 0.9rem;
+  color: var(--backgroundplus1);
+  background-color: var(--middle);
+
+  transition: all 0.45s cubic-bezier(0.25, 1, 0.2, 1);
+}
+
+imgcont {
+  height: 8vh;
+  width: 8vh;
+}
+
+gridcontainer a img,
+gridcontainer not-a img {
+  justify-self: flex-start;
+
+  background-size: cover;
+
+  filter: brightness(0) saturate(100%) invert(54%) sepia(39%) saturate(1555%) hue-rotate(199deg) brightness(91%)
+    contrast(90%);
+}
+
+gridcontainer a:hover img {
+  filter: invert(98%) sepia(2%) saturate(1971%) hue-rotate(204deg) brightness(114%) contrast(80%);
+}
+
+griditem.notalink {
+  color: #8b0000;
+}
+
+griditem.notalink img {
+  justify-self: flex-start;
+
+  background-size: cover;
+  /* Update with better color. */
+  filter: invert(10%) sepia(92%) saturate(4354%) hue-rotate(357deg) brightness(83%) contrast(113%);
+}
+
+not-a:hover griditem.notalink img {
+  filter: invert(10%) sepia(92%) saturate(4354%) hue-rotate(357deg) brightness(83%) contrast(113%);
+}
+
+gridtitle {
+  display: block;
+
+  margin-bottom: 0.2rem;
+
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+griddescript {
+  font-size: 1.1rem;
+}
+
+griditem.col2 {
+  grid-column-end: span 2;
+}
+
+griditem.row2 {
+  grid-row-end: span 2;
+}
+
+/* 
+ ######   #######  ##    ## ######## ######## ##    ## ######## 
+##    ## ##     ## ###   ##    ##    ##       ###   ##    ##    
+##       ##     ## ####  ##    ##    ##       ####  ##    ##    
+##       ##     ## ## ## ##    ##    ######   ## ## ##    ##    
+##       ##     ## ##  ####    ##    ##       ##  ####    ##    
+##    ## ##     ## ##   ###    ##    ##       ##   ###    ##    
+ ######   #######  ##    ##    ##    ######## ##    ##    ##    
+
+########  ####  ######     ###    ########  ##       ########   
+##     ##  ##  ##    ##   ## ##   ##     ## ##       ##         
+##     ##  ##  ##        ##   ##  ##     ## ##       ##         
+##     ##  ##   ######  ##     ## ########  ##       ######     
+##     ##  ##        ## ######### ##     ## ##       ##         
+##     ##  ##  ##    ## ##     ## ##     ## ##       ##         
+########  ####  ######  ##     ## ########  ######## ########  
+ */
+
+.contentdisabletitle {
+  padding-left: 1rem;
+
+  font-size: 1.1rem;
+  text-decoration: underline solid 2px;
+}
+
+.subtext {
+  color: hsl(0, 0%, 50%);
+
+  font-size: 0.9rem;
+  vertical-align: middle;
+  text-align: justify;
+}
+
+.notice {
+  font-size: 0.7rem;
+  vertical-align: middle;
+}
+
+.cont-disabled {
+  display: none;
+}
+
+.warning {
+  color: var(--warning-color);
+
+  font-size: 0.7rem;
+  vertical-align: middle;
+}
+
+.warning-link {
+  color: var(--warning-color);
+
+  font-size: 0.7rem;
+  vertical-align: top;
+}
+
+.macro-disable {
+  text-decoration: line-through var(--warning-color);
+  color: var(--warning-color);
+}
+
+/* 
+##     ## ######## #### ##       #### ######## #### ########  ######  
+##     ##    ##     ##  ##        ##     ##     ##  ##       ##    ## 
+##     ##    ##     ##  ##        ##     ##     ##  ##       ##       
+##     ##    ##     ##  ##        ##     ##     ##  ######    ######  
+##     ##    ##     ##  ##        ##     ##     ##  ##             ## 
+##     ##    ##     ##  ##        ##     ##     ##  ##       ##    ## 
+ #######     ##    #### ######## ####    ##    #### ########  ######  
+ */
+
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+  padding: 12px;
+}
+
+.display-none {
+  display: none;
+}
+
+.shade-text-to-link {
+  background-image: linear-gradient(120deg, var(--body-text), var(--link-text));
+  background-size: 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+
+.shade-text-to-link:hover {
+  text-decoration: underline;
+}
+
+/*
+########   ######   ######         ##     ## ########    ###    ########  ######## ########  
+##     ## ##    ## ##    ##        ##     ## ##         ## ##   ##     ## ##       ##     ## 
+##     ## ##       ##              ##     ## ##        ##   ##  ##     ## ##       ##     ## 
+########   ######  ##   ####       ######### ######   ##     ## ##     ## ######   ########  
+##              ## ##    ##        ##     ## ##       ######### ##     ## ##       ##   ##   
+##        ##    ## ##    ##        ##     ## ##       ##     ## ##     ## ##       ##    ##  
+##         ######   ######         ##     ## ######## ##     ## ########  ######## ##     ##  
+ */
+
+#chapterheader {
+  display: block;
+  position: relative;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  /* width: max-content; */
+
+  color: rgb(80, 80, 80);
+  font-size: 2.5rem;
+  font-family: backslash;
+
+  transition: var(--chapter-text-transition);
+
+  text-align: center;
+  line-height: 3rem;
+}
+
+#passagetitleheader {
+  display: block;
+  opacity: 0;
+
+  margin-bottom: 0.7rem;
+
+  color: rgb(70, 70, 70);
+  text-align: center;
+  line-height: 1.5rem;
+
+  transition: var(--chapter-text-transition);
+}
+
+#chapterheader:hover ~ #passagetitleheader {
+  opacity: 1;
+
+  transition: var(--chapter-text-transition);
+}
+
+#passagetitleheader:before {
+  content: "~ ";
+}
+
+#passagetitleheader:after {
+  content: " ~";
+}

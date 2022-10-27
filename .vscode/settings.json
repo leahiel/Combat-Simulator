@@ -1,0 +1,12 @@
+{
+    "twee3LanguageTools.storyformat.current": "sugarcube-2",
+    "twee3LanguageTools.passage.list": true,
+    "twee3LanguageTools.passage.group": "Tag",
+    "grammarly.selectors": [
+        {
+            "language": "html",
+            "scheme": "file",
+            "pattern": "index.html"
+        }
+    ]
+}

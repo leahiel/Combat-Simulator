@@ -1,0 +1,61 @@
+https://tauri.app/v1/guides/building/cross-platform
+
+# Hot Rebuild on Change:
+<!-- `-t` enables test mode. Delete if desired. -->
+tweegoc -o index.html src -l -w -t
+
+
+
+# Sugarcube Documentation: 
+https://www.motoslave.net/sugarcube/2/docs/
+https://github.com/tmedwards/sugarcube-2
+
+# Tweego Documentation:
+https://www.motoslave.net/tweego/docs/
+https://github.com/tmedwards/tweego
+
+
+
+# Butler Commands
+<!-- Not Yet Implemented at all. -->
+butler upgrade
+butlet login
+
+
+
+# Commands for uploading to GitHub
+git branch <!-- Ensure you're on the correct branch -->
+
+git add -p . <!-- Go through all changes and add them to your local stash. -->
+git commit -m "message" <!-- Commit your stash to your local repository -->
+
+## Create Pull Request on GitHub
+git push -u origin branch <!-- Push your local branch to remote branch -->
+
+## Push the new main to your fork's master. You MUST do this.
+<!-- Only after the pull request has been accepted... -->
+git checkout master
+git pull --rebase upstream master
+git push origin master
+
+## Update Remote Origin/Upstream
+<!-- If you didn't set it or forgot to set it at configuration (if `git remote -v` doesn't show it as set) -->
+git remote add origin https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
+git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
+
+## Force git to Update gitignore
+git rm -r --cached .
+
+
+# Build for Release:
+<!-- Run build.bat -->
+
+<!-- Alternatively, run these commands below: -->
+<!-- Build index.html file. -->
+tweegoc -o ./pre-build/index.html src -l 
+<!-- Build applications. MUST BE IN ADMIN MODE. -->
+cd pre-build
+npx electron-packager --platform=win32 ./   <!-- Windows -->
+npx electron-packager --platform=linux ./   <!-- linux -->
+npx electron-packager --platform=darwin ./  <!-- Linux -->
+npx electron-packager --platform=mas ./     <!-- Mac, requires giving money to apple to have it signed lmao. -->

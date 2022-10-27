@@ -1,0 +1,175 @@
+:: DevOptionsText [.uibar nostats] {"position":"1025,25"}
+@@.dialog-header;Development Options@@
+
+<span class="row">
+<div class="column">
+
+The PC has:
+<br><label><<checkbox "$pc.breasts" false true autocheck>> Breasts.</label>
+<br><label><<checkbox "$pc.penis" false true autocheck>> A penis and balls.</label>
+<br><label><<checkbox "$pc.vagina" false true autocheck>> A vagina.</label>
+<br>
+<br>
+
+Which Passage do you want to see?
+<<set _stage to "">>
+<span id="StageSelectRadioButtonsHere"></span>
+<br>
+<br>
+<br><label><<radiobutton "_stage-0" false>> Stage 0</label>
+<br><label><<radiobutton "_stage-1" false>> Stage 1</label>
+<br><label><<radiobutton "_stage-2" false>> Stage 2</label>
+<br><label><<radiobutton "_stage-3" false>> Stage 3</label>
+<br><label><<radiobutton "_stage-4" false>> Stage 4</label>
+<br><label><<radiobutton "_stage-ex" false>> Examples</label>
+<br>
+<br>
+<span id="psglinks"></span>
+<br>
+<br>
+</div>
+<div class="column">
+Variable Changer:
+<br>
+<br>
+<span id="storyvars"></span>
+</div>
+</span>
+
+<<done>>
+<<script>>
+/* TODO: Insert genitaliaHandler and passagesHandler into setup. */
+genitaliaHandler("pcbreasts", State.variables.pc.breasts);
+genitaliaHandler("pcpenis", State.variables.pc.penis);
+genitaliaHandler("pcvagina", State.variables.pc.vagina);
+
+passagesHandler("stage-0", "@0");
+passagesHandler("stage-1", "@1");
+passagesHandler("stage-2", "@2");
+passagesHandler("stage-3", "@3");
+passagesHandler("stage-4", "@4");
+
+let story_passages = Story.lookupWith(function(p) {
+    if (!(p.tags.includes('nostats') ||
+            p.tags.includes('Twine.image') ||
+            p.tags.includes(".initialize") ||
+            p.tags.includes(".rendering") ||
+            p.tags.includes(".people") ||
+            p.tags.includes(".knowledge") ||
+            p.tags.includes(".location"))) {
+        return p;
+    }
+});
+/* console.log(story_passages); */
+/* TODO: Replace Stage Selection thing with Passage Selection thing. */
+
+
+/* Ensure these areas are clear for us to append to. */
+$('span#StageSelectRadioButtonsHere').empty();
+$('span#storyvars').empty();
+
+
+
+Object.keys(State.variables).sort().forEach(key => {
+    /* Don't log certain variables. */
+    if (
+        key === "dev_test" || /* Obviously we don't want to manipulate this variable by accident. */
+        key.startsWith("ft_") || /* The rest are objects or arrays, which would                      */
+        key === "chaptertitles" || /* be way too complicated to get working properly.                  */
+        key === "pc" ||
+        key === "meta" ||
+        key === "user"
+    ) {
+        return;
+    }
+
+    /* Create event handlers that check if the class has changed, and then see what changed, change the variable based on that value, and then run Engine.Show(). This will prevent us from having 10,000 event handlers. */
+
+    if (typeof(State.variables[key]) === "boolean") {
+        /* For booleans, create a checkbox that has their current value in it. If checked, update variable and then re-render. */
+
+        $('span#storyvars')
+            .append("<label><input type='checkbox' id='" + key + "'> " + key + "</label><br>");
+
+        let btn = '#' + key;
+
+        if (State.variables[key]) {
+            $(btn).prop('checked', true);
+        } else {
+            $(btn).prop('checked', false);
+        }
+
+        /* FIXME: This isn't a good idea. This is making an individual event handler for each boolean. So if we have 6000 	bools, we have 6000 event handlers. Instead, we should apply a boolean class to each boolean input. That means we would only need one event handler, even with 6000 bools. */
+        $(btn).on("click", () => {
+            State.variables[key] = document.querySelector(btn).checked;
+            Engine.show();
+        });
+
+    } else if (typeof(State.variables[key]) === "number") {
+        /* DESIRED: Variable Debugger: Numbers */
+        /* add +/- to document.querySelector("#storyvars") */
+
+    } else if (typeof(State.variables[key]) === "string") {
+        /* For strings, create a textbox that has the current value. When textbox is altered, update variable and re-render. */
+        $('span#storyvars')
+            .append(key + ": <input type='text' id='" + key + "' placeholder='" + State.variables[key] + " [current value] '></textarea><br>");
+
+        $('#' + key).keyup(() => {
+            State.variables[key] = document.querySelector(btn).value;
+            Engine.show();
+        });
+
+    } else {
+        /* Something to let the dev know that an object or array slipped through. */
+        $('#storyvars').append(State.variables[key] + " " + key);
+        $('#storyvars').append('<span class="warning"> The Variable Changer is unable to handle variables of this type. You shouldn\'t log this variable.</span><br>');
+
+    }
+
+});
+
+function genitaliaHandler(btnname, varname) {
+    let btn = "input#checkbox-" + btnname;
+
+    /* Set checked if true. */
+    if (varname) {
+        $(btn).prop('checked', true);
+    } else {
+        $(btn).prop('checked', false);
+    }
+
+    /* Create event handler that refreshes passage on change. */
+    $(btn).on("click", () => {
+        varname = document.querySelector(btn).checked;
+        Engine.show();
+    });
+
+}
+
+/* Run an event handler that refreshes the passage lists when an option is selected. */
+function passagesHandler(btnname, tag) {
+    let btn = "[name='radiobutton--" + btnname + "']";
+
+    $(btn).on("click", function() {
+        /* Clear text in #passages */
+        $("#psglinks").empty();
+
+        /* Get relevant passages. */
+        let psgs = Story.lookup("tags", tag);
+
+        /* Process passages. */
+        let psgslink = [];
+        psgs.forEach(psg => {
+            let tmpstr = "* <a data-passage=\"" + psg.title + "\" class=\"link-internal macro-link\" role=\"link\" tabeindex=\"0\">" + psg.title + "</a>";
+            psgslink.push(tmpstr);
+        });
+
+        /* Place passages. */
+        psgslink.forEach(link => {
+            $("#psglinks").wiki(link);
+        });
+    });
+
+}
+<</script>>
+<</done>>

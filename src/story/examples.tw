@@ -1,0 +1,95 @@
+:: Link-Replace-Prepend [@ex nostats] {"position":"500,475"}
+/* Showing how to use Link Replaces to go through all options, and then showing a final text block. */
+<<bg "src/assets/img/desolatecity.jpeg" 0.70>>
+<<set _loc to "#1_resp">>
+Here, I want to show off using an event handler to show text, and then show the text block afterwards. ?Mr
+<br>
+<br>
+
+<span id="1_resp"></span>
+<span id="2_resp"></span>
+<span id="3_resp"></span>
+
+<<linkreplace "You gotta pick all these options, but the order doesn't matter.<br>">>
+    <<prepend _loc t8n>>
+        You gotta pick all these options, but no, the order you click them can be in any order.
+        <br>
+    <</prepend>>
+    <<if _loc is "#1_resp">>
+        <<set _loc to "#2_resp">>
+    <<elseif _loc is "#2_resp">>
+        <<set _loc to "#3_resp">>
+    <<else>>
+        <<set _loc to "done">>
+    <</if>>
+<</linkreplace>>
+<<linkreplace "Event Handlers sure are handy.<br>">>
+    <<prepend _loc t8n>>
+        They let us do so much. 
+        <br>
+    <</prepend>>
+    <<if _loc is "#1_resp">>
+        <<set _loc to "#2_resp">>
+    <<elseif _loc is "#2_resp">>
+        <<set _loc to "#3_resp">>
+    <<else>>
+        <<set _loc to "done">>
+    <</if>>
+<</linkreplace>>
+<<linkreplace "IDK I felt like adding a third option.<br>">>
+    <<prepend _loc t8n>>
+        You can add as many options as you want, baby!
+        <br>
+    <</prepend>>
+    <<if _loc is "#1_resp">>
+        <<set _loc to "#2_resp">>
+    <<elseif _loc is "#2_resp">>
+        <<set _loc to "#3_resp">>
+    <<else>>
+        <<set _loc to "done">>
+    <</if>>
+<</linkreplace>>
+<br>
+<span id="insert"></span>
+
+<<script>>
+    $(document).one(":passagedisplay", function() {
+        $("a.macro-linkreplace").on("click", function() {
+            if (State.getVar("_loc") === "done") {
+                $("#insert").wiki(Story.get("Link-Replace-Hide-Others-Helper").processText());
+                $("#insert").wiki("And there you go, all the text has been replaced! This text was manually added.");
+            }
+        });
+    })
+<</script>>
+
+:: Link-Replace-Prepend-Helper [@ex nostats] {"position":"500,500"}
+And there you go, all the text has been replaced! This text has been added using a passage.
+
+
+
+:: Link-Replace-Hide-Others [@ex nostats] {"position":"375,475"}
+Only one option can be picked, Which one will it be?
+<br>
+<br>
+<<linkreplace "The top option is superior.<br>" t8n>>
+    You picked the top option!
+<</linkreplace>>
+<<linkreplace "I like bottoms.<br>" t8n>>
+    I get it, I do, but there's no need to say that.
+<</linkreplace>>
+<span id="insert"></span>
+
+<<script>>
+    $(document).one(":passagedisplay", function() {
+        $("a.macro-linkreplace").on("click", function() {
+            $("a.macro-linkreplace").addClass("display-none");
+            $("#insert").wiki(Story.get("Link-Replace-Hide-Others-Helper").processText());
+        });
+    })
+<</script>>
+
+:: Link-Replace-Hide-Others-Helper [@ex nostats] {"position":"375,500"}
+<br>
+<br>
+This is the helper text that appears after you pick an option.

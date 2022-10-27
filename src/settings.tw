@@ -1,0 +1,227 @@
+:: StoryTitle [.initialize] {"position":"0,0"}
+Combat Simulator
+
+
+
+:: StoryData [.initialize] {"position":"0,100"}
+{
+    "ifid": "8A91596D-1642-4080-BDFE-707526D32D3E",
+    "format": "SugarCube",
+    "format-version": "2.36.1"
+}
+
+
+
+:: StorySubtitle [.initialize] {"position":"0,200"}
+
+
+
+
+:: StoryAuthor [.initialize] {"position":"0,300"}
+LeahPeach
+
+
+
+:: StoryInit [.initialize] {"position":"0,400"}
+/* Everything here is only called once, when the story is initialized. */
+
+<<script>>
+(() => {
+    /* Solution supplied by Chapel:
+        Problem:
+    https://discord.com/channels/389867840406159362/389868418855075840/1014747488139354123
+        Solution:
+    https://discord.com/channels/389867840406159362/389868418855075840/1014814647297265705
+    */
+
+    "use strict";
+    const lock = LoadScreen.lock();
+
+    // the core idea is that when the game is started or reloaded, we want the following things to happen:
+    // 1) we want all UI elements, `data-passages`, etc to render passages normally
+    // 2) we want to replace the onProcess handler with a custom one for the first "normal" passage render, including all header/footer/done/ready passage content
+    // 3) the onProcess handler should "defer" passage rendering by returning no content (an empty string) but after the promise is resolved, we will manually render the content
+    // 4) we need to remove the onProcess hanlder after the first passage render, as the promise is resolved
+    function process(psg) {
+        // handle the promise
+        Promise.all([setup.promises.importInit]).then(() => {
+            /* When in Test Mode, disable debug views by default. */
+            if (Config.debug) {
+                DebugView.disable();
+            }
+
+            // wikify the passage content after the promise is resolved, then remove the loadscreen
+            // $(".passage").wiki(psg.text.replace(/^\n+|\n+$/g, '').replace(/\n+/g, ' '));
+            // Engine.show();
+            Engine.play(passage(), true);
+            LoadScreen.unlock(lock);
+        });
+        // return no content (prevent initial render, we do it ourselves after the promise is resolved)
+        return "";
+    }
+
+    $(document).one(":passagestart", () => {
+        // one time event handler on passage start,
+        // we set the onProcess handler to our process function
+        // we need to do this here because we need to only process the passages that are part of the nav process (no UI `data-passage` content), but we do want headers, footers, etc
+        Config.passages.onProcess = process;
+
+        $(document).one(":passagedisplay", () => {
+            // we remove our process handler using another one time event
+            // passage display happens before `data-passage` content is processed, so the onProcess is back to normal by then
+            Config.passages.onProcess = undefined;
+        });
+    });
+})();
+
+/* Discord Widget */
+if (!Config.debug) {
+    setup.fns.importDiscordWidget()
+}
+
+/*
+########     ###    ########    ###    ########     ###     ######  ######## 
+##     ##   ## ##      ##      ## ##   ##     ##   ## ##   ##    ## ##       
+##     ##  ##   ##     ##     ##   ##  ##     ##  ##   ##  ##       ##       
+##     ## ##     ##    ##    ##     ## ########  ##     ##  ######  ######   
+##     ## #########    ##    ######### ##     ## #########       ## ##       
+##     ## ##     ##    ##    ##     ## ##     ## ##     ## ##    ## ##       
+########  ##     ##    ##    ##     ## ########  ##     ##  ######  ######## 
+*/
+
+/* NOTE: These variables don't update when added to the script, reload 
+the script, and then refresh. This is fine for most things, but 
+when things are added here, I want them to be initialized on the 
+save file created in a previous version. */
+/* This is because State is replaced by the loaded file. See:
+https://www.motoslave.net/sugarcube/2/docs/#guide-state-sessions-and-saving-refreshing-and-restarting */
+
+/* USER IDENTIFICATION FEATURES  */
+State.variables.user = {};
+State.variables.user.itch_id = undefined;
+State.variables.user.logged_in = false;
+
+/* META STUFF */
+/* Important variables that are hopefully one day transferable across stories. */
+State.variables.meta = {};
+State.variables.meta.psgsthatsentdb = [];
+
+setup.promises = {}
+setup.promises.importInit = importScripts(
+    "src/assets/js/uuid.min.js"
+).then(
+    () => {
+        setup.fns.importGameSSR();
+    }
+);
+
+/* 
+##     ##    ###    ########  ####    ###    ########  ##       ########  ######  
+##     ##   ## ##   ##     ##  ##    ## ##   ##     ## ##       ##       ##    ## 
+##     ##  ##   ##  ##     ##  ##   ##   ##  ##     ## ##       ##       ##       
+##     ## ##     ## ########   ##  ##     ## ########  ##       ######    ######  
+ ##   ##  ######### ##   ##    ##  ######### ##     ## ##       ##             ## 
+  ## ##   ##     ## ##    ##   ##  ##     ## ##     ## ##       ##       ##    ## 
+   ###    ##     ## ##     ## #### ##     ## ########  ######## ########  ######  
+*/
+
+/* GAME FEATURES */
+State.variables.ft_knowledge = false;
+State.variables.ft_people = false;
+State.variables.ft_disable = [];
+State.variables.ft_warning = [];
+
+/* STATE/STATUS  */
+/* Information about your current state or status.  */
+/*
+    "pc" == Playable Character
+    "pp" == Permanent Partner
+    "tp" == Temporary Partner
+*/
+State.variables.pc_nude = false;
+State.variables.pc_topless = false;
+State.variables.pc_panties = false;
+/* The body parts the playable character has. */
+State.variables.pc = {};
+
+
+/* KNOWLEDGE */
+/* These are used for tooltips and also in the knowledge tab. See UIBar/knowledge.tw */
+State.variables.kn_vampire_lv = 0;
+setup.fns.addTooltip(["vampire", "vampires"], "K_Vampires");
+
+
+// PEOPLE
+/* These are used for tooltips and also in the people tab. See UIBar/people.tw */
+State.variables.ppl_orick_met = false;
+setup.fns.addTooltip("Orick", "P_Orick");
+
+
+// LOCATIONS
+// Locations are completely unimplemented, but would be used the same way as people, but you discover them instead of meeting them.
+State.variables.loc_lox_disc = false;
+State.variables.loc_lox = 0;
+setup.fns.addTooltip("Lox", "L_Lox")
+
+
+// TOOLTIPS
+/* Misc. things that I want to have a tooltip but will otherwise never be seen. */
+setup.fns.addTooltip("tower", "TT_Tower");
+
+
+/*
+ ######  ######## ######## ######## #### ##    ##  ######    ######  
+##    ## ##          ##       ##     ##  ###   ## ##    ##  ##    ## 
+##       ##          ##       ##     ##  ####  ## ##        ##       
+ ######  ######      ##       ##     ##  ## ## ## ##   ####  ######  
+      ## ##          ##       ##     ##  ##  #### ##    ##        ## 
+##    ## ##          ##       ##     ##  ##   ### ##    ##  ##    ## 
+ ######  ########    ##       ##    #### ##    ##  ######    ######  
+*/
+
+// Toggle the option for images.
+// Setting.addToggle("images", {
+//     label: "Allow images?",
+//     default: true
+// })
+
+// Toggle for Background Images.
+Setting.addToggle("bgimg", {
+    label: "Show Background Images?",
+    default: true
+});
+settings.bgimg = true;
+
+// REQUIRED:
+// Toggle to hide images.
+// Toggle to turn off image blurring.
+
+// Toggle option for tooltips.
+Setting.addToggle("tooltips", {
+    label: "Show tooltips on important text?",
+    default: true,
+    onChange: () => {
+        Engine.show()
+    },
+});
+settings.tooltips = true;
+Setting.save();
+
+// Pronouns
+Setting.addList("pronouns", {
+    label: "Preferred Pronouns:",
+    list: [
+        "female",
+        "male",
+        "misc"
+    ],
+    default: "female",
+    onChange: () => {
+        Engine.show()
+    },
+});
+settings.pronouns = "female";
+Setting.save();
+
+/* REQUIRED: Pronouns get reset on refresh.  NTS: Is this still a bug? */
+<</script>>

@@ -1,0 +1,14 @@
+# Ignore Tagged Files
+-notes/
+
+# Ignore Generated Files
+**/node_modules
+package-lock.json
+out/**
+**.min.**
+
+# Ignore Built Files
+pre-build/*-win32-x64
+pre-build/*-linux-x64
+pre-build/*-darwin-x64
+pre-build/*-mas-x64
