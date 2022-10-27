@@ -479,6 +479,11 @@ tpi {
   background: brown;
 }
 
+#initBar {
+  margin: auto;
+  width: 65em;
+}
+
 /* 
 ########  ####    ###    ##        #######   ######   
 ##     ##  ##    ## ##   ##       ##     ## ##    ##  

@@ -7,7 +7,7 @@
 		<griddescript>
 		<h4><label>Name thyself:   <<textbox "$pc_name" "PCName_TBD">></label></h4>
 		<br>
-<br> 
+		<br> 
 		<label>Which set of pronouns do you prefer? 
 			<<cycle "_pronouns" "autoselect">>
 				<<option "she/her/hers" "female">>
@@ -16,7 +16,7 @@
 			<</cycle>>
 		</label>
 		<br>
-<br>
+		<br>
 		<h4>Your body has:</h4>
 		<br><label><<checkbox "$pc.penis" false true autocheck>> A penis.</label>
 		<br><label><<checkbox "$pc.breasts" false true checked>> Breasts.</label>

@@ -15,7 +15,6 @@ sugarcube-2:
 
     # Adds classes or IDs to links. Made by Akjosch.
     ilink:
-    # A game-specific widget
       name: ilink
       container: true
 
@@ -38,3 +37,9 @@ sugarcube-2:
     img:
       name: img
       container: false
+
+    # Sjoerd's ported Flash macro
+    # https://github.com/SjoerdHekking/custom-macros-sugarcube2
+    flash:
+      name: flash
+      container: true

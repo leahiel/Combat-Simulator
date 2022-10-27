@@ -27,8 +27,9 @@ for (let uninitEnemy of State.variables.ep) {
 </span>
 <br>
 
+<span id="notifArea" style="font-size:2em"></span><br>
+<canvas id="initBar" width="2048" height="384"></canvas>
 <br>
-<h2><span id="notifArea"></span></h2>
 
 
 <span id="playerOptions">
@@ -41,11 +42,69 @@ for (let uninitEnemy of State.variables.ep) {
 
 :: Combat_Zone [.combat .helper nostats]
 <<script>>
-function drawCombat() {
-    $("#combatZone").empty();
-    $("#playerOptions").empty();
-    $("#combatZone").wiki(Story.get("Combat_Zone_Main").processText());
-    $("#playerOptions").wiki(Story.get("Player_Options").processText());
+function drawCombat(activeChar) {
+    $("#combatZone").empty().wiki(Story.get("Combat_Zone_Main").processText());
+    $("#playerOptions").empty().wiki(Story.get("Player_Options").processText());
+
+
+    $('#initBar').clearCanvas();
+
+    /* TODO The rhombus. Yellow if no one has a turn, red if enemy, green if ally. */
+    if (activeChar === "pp") {
+        $('#initBar').drawImage({
+            source: "src/assets/img/png/turn_icon_pl.png",
+            x: 192, y: 192,
+            width: 384,
+            height: 384,
+        });
+    } else if (activeChar === "ep") {
+        $('#initBar').drawImage({
+            source: "src/assets/img/png/turn_icon_en.png",
+            x: 192, y: 192,
+            width: 384,
+            height: 384,
+        });
+    } else {
+        $('#initBar').drawImage({
+            source: "src/assets/img/png/turn_icon.png",
+            x: 192, y: 192,
+            width: 384,
+            height: 384,
+        });
+    }
+
+    /* The horizontal line. */
+    $('#initBar').drawLine({
+        strokeStyle: '#FFFF00',
+        strokeWidth: 6,
+        rounded: true,
+        x1: 432, y1: 192,
+        x2: 2000, y2: 192,
+    });
+
+    /* The player init icon positions. */
+    for (let player in State.temporary.pp) {
+        let xpos = State.temporary.pp[player].init * 8 + 432;
+
+        $('#initBar').drawImage({
+            source: "src/assets/img/png/init_icon_pl.png",
+            x: xpos, y: 230,
+            width: 36,
+            height: 48,
+        });
+    }
+    
+    /* The enemy init icon positions. */
+    for (let enemy in State.temporary.ep) {
+        let xpos = State.temporary.ep[enemy].init * 8 + 432;
+
+        $('#initBar').drawImage({
+            source: "src/assets/img/png/init_icon_en.png",
+            x: xpos, y: 160,
+            width: 36,
+            height: 48,
+        });
+    }
 };
 
 State.temporary.pphealth = setup.fns.assignFieldOfObjectsToArray(State.temporary.pp, "health");
@@ -53,15 +112,13 @@ State.temporary.ephealth = setup.fns.assignFieldOfObjectsToArray(State.temporary
 
 if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0})) { 
 	/* TODO: #notifArea displays <<ibutton>> with _lose */
-    drawCombat();
-    $("#notifArea").empty();
-    $("#notifArea").wiki("YOU LOST");
+    drawCombat(null);
+    $("#notifArea").empty().wiki("YOU LOSE");
 
 } else if (setup.fns.allValuesTrue(State.temporary.ephealth, function(v) {return v <= 0})) { 
     /* TODO: #notifArea displays <<ibutton>> with _win */
-    drawCombat();
-    $("#notifArea").empty();
-    $("#notifArea").wiki("YOU WON");
+    drawCombat(null);
+    $("#notifArea").empty().wiki("YOU WIN");
 
 } else {
     async function processTurns(pp, ep) {
@@ -93,8 +150,7 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0
 
         if (activeCharacter === null) {
             /* It is no ones turn. */
-            $("#notifArea").empty();
-            $("#notifArea").wiki("Determining Turn");
+            $("#notifArea").empty().wiki("Determining Turn");
 
             /* Decrement inits. */
             pp.forEach((char) => {
@@ -105,7 +161,7 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0
             });
 
             
-            drawCombat();
+            drawCombat(null);
 	        
             /* I chose this 40 out of pure vanity: at 40ms per render a ``frame`` at 25fps, the same rate as Diablo 2. */
             /* This isn't a true frame rate thing at all though, since I would need to decouple the logic from the rendering if I wanted to do that, and there simply isn't a need to do that for a textbased game. */
@@ -114,22 +170,20 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0
 
         } else if (State.temporary.pp.includes(activeCharacter)) {
             /* Player Turn */
-            $("#notifArea").empty();
-            $("#notifArea").wiki("Player Turn");
+            $("#notifArea").empty().wiki("Player Turn");
 
-            await waitFor(300);
-            drawCombat();
+            drawCombat("pp");
             
             /* The player will processTurns() after clicking a button. No need to do it here. */
             return;
         } else if (State.temporary.ep.includes(activeCharacter)) {
             /* Enemy Turn */
-            $("#notifArea").empty();
-            $("#notifArea").wiki("Enemy Turn");
+            $("#notifArea").empty().wiki("Enemy Turn");
+
+            drawCombat("ep");
 
             /* TODO: Enemy AI here */
             await waitFor(600);
-            drawCombat();
 
             /* setup.COM.attackCalculations(ep[0].attacks[0], State.temporary.ep[0], State.temporary.pp); */ 
 
@@ -150,25 +204,51 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0
 
 
 :: Combat_Zone_Main [.combat .helper nostats]
-<br>Enemy Name: _ep[0].name
-<br>Enemy Health: _ep[0].health
-<br>Enemy Init: _ep[0].init
-<br>
-<br>Enemy Name: _ep[1].name
-<br>Enemy Health: _ep[1].health
-<br>Enemy Init: _ep[1].init
-<br>
-<br>Enemy Name: _ep[2].name
-<br>Enemy Health: _ep[2].health
-<br>Enemy Init: _ep[2].init
-<br>
-<br>Enemy Name: _ep[3].name
-<br>Enemy Health: _ep[3].health
-<br>Enemy Init: _ep[3].init
-<br>
-<br>Enemy Name: _ep[4].name
-<br>Enemy Health: _ep[4].health
-<br>Enemy Init: _ep[4].init
+/* TODO: Make these into a grid, which will auto format the griditems depending on the number of enemies. There should be a max of 5 enemies, I think, with 3 frontline and 2 backline. I'm not adding in frontline/backline mechanics yet, but it would be good to consider them, as that can add a dimensionality to my combat. */
+/* There should also be a place for notifications with the flash ui. */
+
+<gridcontainer id="combatZoneGrid">
+    /* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. */
+    <<if _ep[0]>>
+    <griditem id="gitemA">
+        Enemy Name: _ep[0].name
+        <br>Enemy Health: _ep[0].health
+        <br>Enemy Init: _ep[0].init
+    </griditem>
+    <</if>>
+
+    <<if _ep[1]>>
+    <griditem id="gitemB">
+        Enemy Name: _ep[1].name
+        <br>Enemy Health: _ep[1].health
+        <br>Enemy Init: _ep[1].init
+    </griditem>
+    <</if>>
+
+    <<if _ep[2]>>
+    <griditem id="gitemC">
+        Enemy Name: _ep[2].name
+        <br>Enemy Health: _ep[2].health
+        <br>Enemy Init: _ep[2].init
+    </griditem>
+    <</if>>
+
+    <<if _ep[3]>>
+    <griditem id="gitemD">
+        Enemy Name: _ep[3].name
+        <br>Enemy Health: _ep[3].health
+        <br>Enemy Init: _ep[3].init
+    </griditem>
+    <</if>>
+
+    <<if _ep[4]>>
+    <griditem id="gitemE">
+        Enemy Name: _ep[4].name
+        <br>Enemy Health: _ep[4].health
+        <br>Enemy Init: _ep[4].init
+    </griditem>
+    <</if>>
+</gridcontainer>
 
 
 
@@ -181,6 +261,10 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0
     <<for _attack range _pc.attacks>>
         <<capture _attack>>
             <<ibutton _attack.name "#PlayerAttack">>
+                /* TODO for target selection: Make attack button disabled, pop up more buttons asking which enemy to attack, or otherwise make it obvious that the enemies can be clicked on to be attacked. Also show a "back" button to undo attack. */
+
+                /* If ep[0] targetable, #gitemA class += targetable */
+                /* What if there are no targetable enemies? I think we should just diable the button with a notice. */
                 <<script>>
                     setup.COM.attackCalculations(State.temporary.attack, State.temporary.pc, State.temporary.ep);
                     State.temporary.turn = null;
