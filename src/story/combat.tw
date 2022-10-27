@@ -2,9 +2,14 @@
 /* This passage will only be run once, and will be the predominant passage until combat is over. This will allow us to keep _vars until we are done with the combat. */
 /* <<set _pc to new setup.COM.Combatant(State.variables.Player.Derived)>> */
 <<set _pc to {health: 14, init: 63, attacks: [setup.COM.attacks.stab]}>> /* NOTE TESTING ONLY */
-<<set _en to new setup.COM.Combatant(setup.COM.monsters["ENspider"])>>
 <<set _pp to [_pc]>> /* For future compatibility, if there are more than one pc. This will NOT be used in this story. */
-<<set _ep to [_en]>> /* For future compatibility, if there are more than one en. This will NOT be used in this story. */
+<<script>>
+State.temporary.ep = [];
+for (let uninitEnemy of State.variables.ep) {
+    State.temporary.ep.push(new setup.COM.Combatant(setup.COM.monsters[uninitEnemy]));
+}
+<</script>>
+
 
 /* TODO: These two below should actaully be handled as story variables, before this passage is called. */
 <<set _win to "victorypassagename">>
@@ -66,27 +71,27 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0
             });
         };
 
-        let turn = null;
+        let activeCharacter = null;
 
         /* Check if anyone has a turn available. */
         pp.forEach((char) => {
             if (char.init <= 0) {
-                turn = char;
+                activeCharacter = char;
                 return;
             }
         });
-        if (turn === null) {
+        if (activeCharacter === null) {
             ep.forEach((char) => {
                 if (char.init <= 0) {
-                    turn = char;
+                    activeCharacter = char;
                     return;
                 }
             });
         }
 
-        State.temporary.turn = turn;
+        State.temporary.turn = activeCharacter;
 
-        if (turn === null) {
+        if (activeCharacter === null) {
             /* It is no ones turn. */
             $("#notifArea").empty();
             $("#notifArea").wiki("Determining Turn");
@@ -107,7 +112,7 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0
             await waitFor(40); 
             return processTurns(pp, ep);
 
-        } else if (State.temporary.pp.includes(turn)) {
+        } else if (State.temporary.pp.includes(activeCharacter)) {
             /* Player Turn */
             $("#notifArea").empty();
             $("#notifArea").wiki("Player Turn");
@@ -117,7 +122,7 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0
             
             /* The player will processTurns() after clicking a button. No need to do it here. */
             return;
-        } else {
+        } else if (State.temporary.ep.includes(activeCharacter)) {
             /* Enemy Turn */
             $("#notifArea").empty();
             $("#notifArea").wiki("Enemy Turn");
@@ -129,9 +134,12 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0
             /* setup.COM.attackCalculations(ep[0].attacks[0], State.temporary.ep[0], State.temporary.pp); */ 
 
             /* DELETE ONCE AI IS REAL */
-            ep[0].init += ep[0].attacks[1].initRecovery;
+            activeCharacter.init += activeCharacter.attacks[1].initRecovery;
             pp[0].health -= 3;
             return $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+        } else {
+            console.error("Is it no one's turn, but turn didn't equal null.");
+            console.error(activeCharacter);
         }
     };
 
@@ -142,9 +150,25 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0
 
 
 :: Combat_Zone_Main [.combat .helper nostats]
-<br>Enemy Name: _en.name
-<br>Enemy Health: _en.health
-<br>Enemy Init: _en.init
+<br>Enemy Name: _ep[0].name
+<br>Enemy Health: _ep[0].health
+<br>Enemy Init: _ep[0].init
+<br>
+<br>Enemy Name: _ep[1].name
+<br>Enemy Health: _ep[1].health
+<br>Enemy Init: _ep[1].init
+<br>
+<br>Enemy Name: _ep[2].name
+<br>Enemy Health: _ep[2].health
+<br>Enemy Init: _ep[2].init
+<br>
+<br>Enemy Name: _ep[3].name
+<br>Enemy Health: _ep[3].health
+<br>Enemy Init: _ep[3].init
+<br>
+<br>Enemy Name: _ep[4].name
+<br>Enemy Health: _ep[4].health
+<br>Enemy Init: _ep[4].init
 
 
 
@@ -159,6 +183,7 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0
             <<ibutton _attack.name "#PlayerAttack">>
                 <<script>>
                     setup.COM.attackCalculations(State.temporary.attack, State.temporary.pc, State.temporary.ep);
+                    State.temporary.turn = null;
                     $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                 <</script>>
             <</ibutton>>

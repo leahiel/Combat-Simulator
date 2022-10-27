@@ -1,5 +1,5 @@
 @ECHO OFF
-SET storyname=arenaday
+SET storyname=combatsimulator
  
 ::-------------------------------------
 REM --> Check for permissions

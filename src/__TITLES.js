@@ -4,6 +4,7 @@ let version = "0.1.0 InDev";
 // Chapter Title Names
 let TITLES = {
   "@start": "Create Your Character",
+  "@combatoverlord": "Fight!",
 };
 
 let bottomUIStr = `<span style="color:brown">This game is currently in InDev development.</span>

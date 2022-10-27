@@ -152,6 +152,7 @@ const DEFAULTENEMY = {
     aether: 0,
   },
 };
+// TODO: Add initVariancePercent to vary the starting Init. Also do thing for health.
 
 class Enemy {
   constructor(obj) {
@@ -182,8 +183,13 @@ const monsters = {
     init: 67,
     attacks: [setup.COM.attacks.vilebite, setup.COM.attacks.webshot, setup.COM.attacks.eightleggedrush],
   }),
+
   ENhog: new Enemy({
     name: "Hog",
+    health: 8,
+    init: 47,
+    attacks: [setup.COM.attacks.hogrush, setup.COM.attacks.hoggore],
+
   }),
 };
 

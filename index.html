@@ -115,6 +115,7 @@ let version = "0.1.0 InDev";
 // Chapter Title Names
 let TITLES = {
   "@start": "Create Your Character",
+  "@combatoverlord": "Fight!",
 };
 
 let bottomUIStr = `<span style="color:brown">This game is currently in InDev development.</span>
@@ -123,19 +124,19 @@ You're playing <span style="text-decoration:underline">${Story.title}</span>, Ve
 <br>
 Interested in more narrative fantasy smut? Find my other games at <a href="https://leahiel.itch.io/" target="_blank" rel="noreferrer noopener">Itch.io</a>. Feel free to follow me if you'd like to be notified of my future games as well!`;
 /* twine-user-script #2: "_attacks.min.js" */
-const DEFAULTATTACK={effect:"damage",initRecovery:45,wdm:1,directhit:{calculated:0,base:0,increased:0,more:0},critical:{chance:{calculated:0,base:0,increased:0,more:0},damage:{calculated:0,base:0,increased:0,more:0},avoid:{increased:0,more:0}},damage:{blunt:{min:0,max:0},pierce:{min:0,max:0},acid:{min:0,max:0},fire:{min:0,max:0},frost:{min:0,max:0},lightning:{min:0,max:0},sacred:{min:0,max:0},shadow:{min:0,max:0},aether:{min:0,max:0}}};class Attack{constructor(obj){let merger=mergeDeep(DEFAULTATTACK,obj);Object.assign(this,merger)}clone(){return new this.constructor(this)}toJSON(){const ownData={};return Object.keys(this).forEach((function(pn){ownData[pn]=clone(this[pn])}),this),JSON.reviveWrapper(`new ${this.constructor.name}($ReviveData$)`,ownData)}}const attacks={stab:new Attack({name:"Stab",initRecovery:50,wdm:1.25,damage:{pierce:{min:7,max:13}}}),vilebite:new Attack({name:"Vile Bite",damage:{pierce:{min:8,max:12},acid:{min:8,max:12}}}),webshot:new Attack({name:"Web Shot",damage:{frost:{min:2,max:4},acid:{min:2,max:4}}}),eightleggedrush:new Attack({name:"Eight Legged Rush",initRecovery:80,damage:{blunt:{min:13,max:19}}}),rush:new Attack({name:"Rush",initRecovery:"80",damage:{blunt:{min:9,max:13}}}),deadAttack:new Attack({name:"deadAttack",effect:null,initRecovery:0}),nullAttack:new Attack({name:"errorAttack",effect:null})};!function(S){S.COM||(S.COM={}),S.COM.attacks=attacks}(setup);
+const DEFAULTATTACK={effect:"damage",initRecovery:45,wdm:1,directhit:{calculated:0,base:0,increased:0,more:0},critical:{chance:{calculated:0,base:0,increased:0,more:0},damage:{calculated:0,base:0,increased:0,more:0},avoid:{increased:0,more:0}},damage:{blunt:{min:0,max:0},pierce:{min:0,max:0},acid:{min:0,max:0},fire:{min:0,max:0},frost:{min:0,max:0},lightning:{min:0,max:0},sacred:{min:0,max:0},shadow:{min:0,max:0},aether:{min:0,max:0}}};class Attack{constructor(obj){let merger=mergeDeep(DEFAULTATTACK,obj);Object.assign(this,merger)}clone(){return new this.constructor(this)}toJSON(){const ownData={};return Object.keys(this).forEach((function(pn){ownData[pn]=clone(this[pn])}),this),JSON.reviveWrapper(`new ${this.constructor.name}($ReviveData$)`,ownData)}}const attacks={stab:new Attack({name:"Stab",initRecovery:50,wdm:1.25,damage:{pierce:{min:7,max:13}}}),vilebite:new Attack({name:"Vile Bite",damage:{pierce:{min:8,max:12},acid:{min:8,max:12}}}),webshot:new Attack({name:"Web Shot",damage:{frost:{min:2,max:4},acid:{min:2,max:4}}}),eightleggedrush:new Attack({name:"Eight Legged Rush",initRecovery:80,damage:{blunt:{min:13,max:19}}}),hogrush:new Attack({name:"Hog Rush",initRecovery:"80",damage:{blunt:{min:9,max:13}}}),hoggore:new Attack({name:"Hog Gore",initRecovery:"72",damage:{pierce:{min:11,max:14}}}),deadAttack:new Attack({name:"deadAttack",effect:null,initRecovery:0}),nullAttack:new Attack({name:"errorAttack",effect:null})};!function(S){S.COM||(S.COM={}),S.COM.attacks=attacks}(setup);
 /* twine-user-script #3: "_combat.min.js" */
 function assignFieldOfObjectsToArray(objarr,field){let solarr=[];return objarr.forEach(v=>{solarr.push(v[field])}),solarr}function someValuesTrue(arr,cond){let isViable=!1;return arr.forEach(v=>{cond(v)&&(isViable=!0)}),isViable}function allValuesTrue(arr,cond){let isViable=!0;return arr.forEach(v=>{cond(v)||(isViable=!1)}),isViable}function attackCalculations(attack,attacker,targets){function wasBlocked(attack,attacker,target){return!1}function calculateDamage(attack,attacker,target,sub){function wasDirectHit(attack,attacker,target){return!1}let main="";switch(sub){case"blunt":case"pierce":case"acid":main="material";break;case"fire":case"frost":case"lightning":main="elemental";break;case"sacred":case"shadow":case"aether":main="occult"}let absorbPercent=Math.max(target.absorbPercent[main],target.absorbPercent[sub]);absorbPercent=Math.min(absorbPercent,target.absorbPercentMax[sub]);let absorb=0,absorbFlat=0,damageResult;return damageResult=Math.max(Math.random()*(attack.damage[sub].min-attack.damage[sub].max)+attack.damage[sub].max,0),damageResult*=1-Math.max(Math.min(target.resistance[main],target.resistanceMax[main]),Math.min(target.resistance[sub],target.resistanceMax[sub])),absorb=damageResult*absorbPercent,damageResult-=absorb,damageResult>0&&(damageResult=Math.max(damageResult-target.reduct[main]-target.reduct[sub],0)),damageResult>0&&(absorbFlat=Math.max(target.absorbFlat[sub]+target.absorbFlat[main],-1*damageResult),damageResult-=absorbFlat),Math.floor(1e4*damageResult)/1e4}let targetsHit=[0],solobj={};targets.forEach((target,idx)=>{if(!targetsHit.includes(idx))return;let damageobj={blunt:calculateDamage(attack,attacker,target,"blunt"),pierce:calculateDamage(attack,attacker,target,"pierce"),acid:calculateDamage(attack,attacker,target,"acid"),fire:calculateDamage(attack,attacker,target,"fire"),frost:calculateDamage(attack,attacker,target,"frost"),lightning:calculateDamage(attack,attacker,target,"lightning"),sacred:calculateDamage(attack,attacker,target,"sacred"),shadow:calculateDamage(attack,attacker,target,"shadow"),aether:calculateDamage(attack,attacker,target,"aether"),total:0};for(let amount in damageobj)damageobj[amount]!==damageobj.total&&(damageobj.total+=damageobj[amount]);Config.debug&&console.table(damageobj),solobj[idx]=damageobj.total});for(let key in solobj)targets[key].health-=solobj[key],targets[key].health<0&&(targets[key].health=0);attacker.init+=attack.initRecovery}!function(S){S.COM||(S.COM={}),S.COM.attackCalculations=function(attack,attacker,targets){return attackCalculations(attack,attacker,targets)},S.fns||(S.fns={}),S.fns.assignFieldOfObjectsToArray=function(objarr,field){return assignFieldOfObjectsToArray(objarr,field)},S.fns.someValuesTrue=function(arr,cond){return someValuesTrue(arr,cond)},S.fns.allValuesTrue=function(arr,cond){return allValuesTrue(arr,cond)}}(setup);
 /* twine-user-script #4: "_combatant.min.js" */
 setup.COM.Combatant=class Combatant{constructor(obj){Object.assign(this,obj)}die(){}clone(){return new this.constructor(this)}toJSON(){const ownData={};return Object.keys(this).forEach((function(pn){ownData[pn]=clone(this[pn])}),this),JSON.reviveWrapper(`new ${this.constructor.name}($ReviveData$)`,ownData)}};
 /* twine-user-script #5: "_config.min.js" */
-Config.passages.nobr=!0,Config.saves.autosave=!0,Config.history.maxStates=10,Config.history.controls=!1,Config.saves.slots=0;
+Config.passages.nobr=!0,Config.saves.autosave=!1,Config.history.maxStates=10,Config.history.controls=!1,Config.saves.slots=0;
 /* twine-user-script #6: "_enemies.min.js" */
-const DEFAULTENEMY={stats:{appearance:{mean:50,std:2.5,min:0,max:100},constitution:{mean:50,std:2.5,min:0,max:100},dexterity:{mean:50,std:2.5,min:0,max:100},education:{mean:50,std:2.5,min:0,max:100},intelligence:{mean:50,std:2.5,min:0,max:100},size:{mean:50,std:2.5,min:0,max:100},strength:{mean:50,std:2.5,min:0,max:100},telekinesis:{mean:50,std:2.5,min:0,max:100},willpower:{mean:50,std:2.5,min:0,max:100}},absorbPercent:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},absorbPercentMax:{material:45,blunt:45,pierce:45,acid:45,elemental:45,fire:45,frost:45,lightning:45,occult:45,sacred:45,shadow:45,aether:45},absorbFlat:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistance:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistanceMax:{material:75,blunt:75,pierce:75,acid:75,elemental:75,fire:75,frost:75,lightning:75,occult:75,sacred:75,shadow:75,aether:75},reduct:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0}};class Enemy{constructor(obj){let merger=mergeDeep(DEFAULTENEMY,obj);Object.assign(this,merger)}clone(){return new this.constructor(this)}toJSON(){const ownData={};return Object.keys(this).forEach((function(pn){ownData[pn]=clone(this[pn])}),this),JSON.reviveWrapper(`new ${this.constructor.name}($ReviveData$)`,ownData)}}const monsters={ENspider:new Enemy({name:"Spider",health:4,init:67,attacks:[setup.COM.attacks.vilebite,setup.COM.attacks.webshot,setup.COM.attacks.eightleggedrush]}),ENhog:new Enemy({name:"Hog"})};!function(S){S.COM||(S.COM={}),S.COM.monsters=monsters}(setup);
+const DEFAULTENEMY={stats:{appearance:{mean:50,std:2.5,min:0,max:100},constitution:{mean:50,std:2.5,min:0,max:100},dexterity:{mean:50,std:2.5,min:0,max:100},education:{mean:50,std:2.5,min:0,max:100},intelligence:{mean:50,std:2.5,min:0,max:100},size:{mean:50,std:2.5,min:0,max:100},strength:{mean:50,std:2.5,min:0,max:100},telekinesis:{mean:50,std:2.5,min:0,max:100},willpower:{mean:50,std:2.5,min:0,max:100}},absorbPercent:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},absorbPercentMax:{material:45,blunt:45,pierce:45,acid:45,elemental:45,fire:45,frost:45,lightning:45,occult:45,sacred:45,shadow:45,aether:45},absorbFlat:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistance:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistanceMax:{material:75,blunt:75,pierce:75,acid:75,elemental:75,fire:75,frost:75,lightning:75,occult:75,sacred:75,shadow:75,aether:75},reduct:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0}};class Enemy{constructor(obj){let merger=mergeDeep(DEFAULTENEMY,obj);Object.assign(this,merger)}clone(){return new this.constructor(this)}toJSON(){const ownData={};return Object.keys(this).forEach((function(pn){ownData[pn]=clone(this[pn])}),this),JSON.reviveWrapper(`new ${this.constructor.name}($ReviveData$)`,ownData)}}const monsters={ENspider:new Enemy({name:"Spider",health:4,init:67,attacks:[setup.COM.attacks.vilebite,setup.COM.attacks.webshot,setup.COM.attacks.eightleggedrush]}),ENhog:new Enemy({name:"Hog",health:8,init:47,attacks:[setup.COM.attacks.hogrush,setup.COM.attacks.hoggore]})};!function(S){S.COM||(S.COM={}),S.COM.monsters=monsters}(setup);
 /* twine-user-script #7: "_imports.min.js" */
 function importGameSSR(){function loggedin(id){State.variables.user.itch_id=id,db.getDBVars(State.variables.user.itch_id).then(result=>{State.variables.meta={...State.variables.meta,...result}}).then(()=>{State.variables.user.logged_in=!0,Engine.show()})}importScripts("src/assets/js/game_ssr.min.js").then(()=>{if(State.variables.user.logged_in=!1,db=new db,!recall("user-uuid"))return memorize("user-uuid",uuid_v4()),void db.createLoginChecker(recall("user-uuid"),loggedin);try{db.getItchID(recall("user-uuid")).then(result=>{void 0!==result&&void 0!==result.itch_id?loggedin(result.itch_id):db.createLoginChecker(recall("user-uuid"),loggedin)})}catch(e){console.warn(e)}}).catch(e=>{console.warn(e)})}async function importDiscordWidget(){importScripts("https://cdn.jsdelivr.net/npm/@widgetbot/crate@3").then(()=>{new Crate({server:"1001698951516397590",channel:"1001708306416533514"})})}
 /* twine-user-script #8: "_setup.min.js" */
-!function(S){S.fns||(S.fns={}),S.fns.update_save=function(){update_save()},S.fns.addTooltip=function(macroname,passage,metaname=!1){addTooltip(macroname,passage,metaname=!1)},S.fns.ranItems=function(amount,arr,isDuplicatable=!1){return ranItems(amount,arr,isDuplicatable=!1)},S.fns.settingsHandler=function(){settingsHandler()},S.fns.weightedRandom=function(weightedArray){return weightedRandom(weightedArray)},S.fns.importGameSSR=function(){importGameSSR()},S.fns.importDiscordWidget=function(){importDiscordWidget()},S.COM||(S.COM={}),S.COM.monsters=monsters,S.STR||(S.STR={}),S.STR.TITLES=TITLES,S.STR.version=version,S.STR.bottomUIStr=bottomUIStr,S.CONST||(S.CONST={})}(setup);
+!function(S){S.fns||(S.fns={}),S.fns.update_save=function(){update_save()},S.fns.addTooltip=function(macroname,passage,metaname=!1){addTooltip(macroname,passage,metaname)},S.fns.ranItems=function(amount,arr,isDuplicatable=!1){return ranItems(amount,arr,isDuplicatable)},S.fns.settingsHandler=function(){settingsHandler()},S.fns.weightedRandom=function(weightedArray){return weightedRandom(weightedArray)},S.fns.importGameSSR=function(){importGameSSR()},S.fns.importDiscordWidget=function(){importDiscordWidget()},S.COM||(S.COM={}),S.COM.monsters=monsters,S.STR||(S.STR={}),S.STR.TITLES=TITLES,S.STR.version=version,S.STR.bottomUIStr=bottomUIStr,S.CONST||(S.CONST={})}(setup);
 /* twine-user-script #9: "_update.min.js" */
 function update_save(){switch(State.variables.version){case void 0:console.log("Updating save data to %c0.1.0 InDev%c.","color: lightblue","color: initial"),State.variables.version="0.1.0 InDev",Save.autosave.save(),console.log("Successfully updated save data to %c0.1.0 InDev%c.","color: lightblue","color: initial")}}
 /* twine-user-script #10: "_utilities.min.js" */
@@ -191,15 +192,19 @@ setup.fns.settingsHandler();
 &lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="PassageHeader" tags=".rendering" position="250,500" size="100,100">/* Everything here is rendered at the start of every passage rendering. 
 It&#39;s intended for actual rendering stuff. */
 &lt;div id=&quot;chapterheader&quot;&gt;Chapter Header Text&lt;/div&gt;
-&lt;span id=&quot;passagetitleheader&quot;&gt;Passage Header Text&lt;/span&gt;
+&lt;span id=&quot;passagetitleheader&quot;&gt;Passage Header Text&lt;/span&gt;</tw-passagedata><tw-passagedata pid="3" name="PassageFooter" tags=".rendering" position="250,525" size="100,100">/* Everything here is rendered at the end of every passage rendering.
+It&#39;s intended for actual rendering stuff. */
 &lt;&lt;if Config.debug&gt;&gt;
+    &lt;br&gt;
+    &lt;br&gt;
     &lt;&lt;button [[Test New Combat Instance|Combat_Overlord]]&gt;&gt;
-        &lt;&lt;set $enemy to new setup.COM.Combatant(setup.COM.monsters[&quot;ENspider&quot;])&gt;&gt;
+        /* Random Int between 1 and 5 */
+        &lt;&lt;set _int to Math.ceil(Math.random() * (5))&gt;&gt;
+        &lt;&lt;set $ep to setup.fns.ranItems(_int, Object.keys(setup.COM.monsters), true)&gt;&gt;
     &lt;&lt;/button&gt;&gt;
     &lt;br&gt;
     &lt;br&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="PassageFooter" tags=".rendering" position="250,525" size="100,100">/* Everything here is rendered at the end of every passage rendering.
-It&#39;s intended for actual rendering stuff. */</tw-passagedata><tw-passagedata pid="4" name="PassageDone" tags=".rendering" position="250,550" size="100,100">/* Everything here is done after each passage is rendered. Best for 
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="PassageDone" tags=".rendering" position="250,550" size="100,100">/* Everything here is done after each passage is rendered. Best for 
 event handlers and the like. */
 &lt;&lt;script&gt;&gt;
 /* Check if we want background images, remove them if we don&#39;t. */
@@ -223,6 +228,15 @@ Object.keys(setup.STR.TITLES).forEach(key =&gt; {
 
 $(&#39;div#chapterheader&#39;).text(curPsgChapter);
 $(&#39;span#passagetitleheader&#39;).text(curPsgTitle);
+
+/* Save if it is not a combat passage. */
+if (!tags().includes(&quot;.combat&quot;)) {
+    if (Save.autosave.ok()) {
+        Save.autosave.save(curPsgChapter);
+    } else {
+        console.error(&quot;Autosave was not available for saving.&quot;)
+    }
+}
 
 
 
@@ -355,6 +369,14 @@ if ($(&quot;li#backwardTab&quot;).ariaIsDisabled()) {
     $(&quot;li#backwardTab&quot;).css(&quot;color&quot;, &quot;inherit&quot;);
     $(&quot;li#backwardTab&quot;).css(&quot;cursor&quot;, &quot;pointer&quot;);
 }
+
+/* If we delete the session, then we can&#39;t load from it: We&#39;ll only be able to load from the autosave. 
+This is important because we cannot save a function&#39;s scope within story variables:
+https://www.motoslave.net/sugarcube/2/docs/#twinescript-supported-types 
+That means we do NOT want to load into a combat instance, as we will break all sorts of things. 
+Therefore, we disallow session storage and force ourselves to load from the autosave, which solves 
+that problem. */
+session.delete(&#39;state&#39;);
 &lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="StorySubtitle" tags=".initialize" position="0,200" size="100,100"></tw-passagedata><tw-passagedata pid="6" name="StoryAuthor" tags=".initialize" position="0,300" size="100,100">LeahPeach</tw-passagedata><tw-passagedata pid="7" name="StoryInit" tags=".initialize" position="0,400" size="100,100">/* Everything here is only called once, when the story is initialized. */
 
 &lt;&lt;script&gt;&gt;
@@ -559,9 +581,14 @@ Setting.save();
 &lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Combat_Overlord" tags="@combatoverlord .combat nostats" position="975,100" size="100,100">/* This passage will only be run once, and will be the predominant passage until combat is over. This will allow us to keep _vars until we are done with the combat. */
 /* &lt;&lt;set _pc to new setup.COM.Combatant(State.variables.Player.Derived)&gt;&gt; */
 &lt;&lt;set _pc to {health: 14, init: 63, attacks: [setup.COM.attacks.stab]}&gt;&gt; /* NOTE TESTING ONLY */
-&lt;&lt;set _en to new setup.COM.Combatant(setup.COM.monsters[&quot;ENspider&quot;])&gt;&gt;
 &lt;&lt;set _pp to [_pc]&gt;&gt; /* For future compatibility, if there are more than one pc. This will NOT be used in this story. */
-&lt;&lt;set _ep to [_en]&gt;&gt; /* For future compatibility, if there are more than one en. This will NOT be used in this story. */
+&lt;&lt;script&gt;&gt;
+State.temporary.ep = [];
+for (let uninitEnemy of State.variables.ep) {
+    State.temporary.ep.push(new setup.COM.Combatant(setup.COM.monsters[uninitEnemy]));
+}
+&lt;&lt;/script&gt;&gt;
+
 
 /* TODO: These two below should actaully be handled as story variables, before this passage is called. */
 &lt;&lt;set _win to &quot;victorypassagename&quot;&gt;&gt;
@@ -618,27 +645,27 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v &lt;
             });
         };
 
-        let turn = null;
+        let activeCharacter = null;
 
         /* Check if anyone has a turn available. */
         pp.forEach((char) =&gt; {
             if (char.init &lt;= 0) {
-                turn = char;
+                activeCharacter = char;
                 return;
             }
         });
-        if (turn === null) {
+        if (activeCharacter === null) {
             ep.forEach((char) =&gt; {
                 if (char.init &lt;= 0) {
-                    turn = char;
+                    activeCharacter = char;
                     return;
                 }
             });
         }
 
-        State.temporary.turn = turn;
+        State.temporary.turn = activeCharacter;
 
-        if (turn === null) {
+        if (activeCharacter === null) {
             /* It is no ones turn. */
             $(&quot;#notifArea&quot;).empty();
             $(&quot;#notifArea&quot;).wiki(&quot;Determining Turn&quot;);
@@ -659,7 +686,7 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v &lt;
             await waitFor(40); 
             return processTurns(pp, ep);
 
-        } else if (State.temporary.pp.includes(turn)) {
+        } else if (State.temporary.pp.includes(activeCharacter)) {
             /* Player Turn */
             $(&quot;#notifArea&quot;).empty();
             $(&quot;#notifArea&quot;).wiki(&quot;Player Turn&quot;);
@@ -669,7 +696,7 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v &lt;
             
             /* The player will processTurns() after clicking a button. No need to do it here. */
             return;
-        } else {
+        } else if (State.temporary.ep.includes(activeCharacter)) {
             /* Enemy Turn */
             $(&quot;#notifArea&quot;).empty();
             $(&quot;#notifArea&quot;).wiki(&quot;Enemy Turn&quot;);
@@ -681,17 +708,36 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v &lt;
             /* setup.COM.attackCalculations(ep[0].attacks[0], State.temporary.ep[0], State.temporary.pp); */ 
 
             /* DELETE ONCE AI IS REAL */
-            ep[0].init += ep[0].attacks[1].initRecovery;
+            activeCharacter.init += activeCharacter.attacks[1].initRecovery;
             pp[0].health -= 3;
             return $(&quot;#combatZone&quot;).wiki(Story.get(&quot;Combat_Zone&quot;).processText());
+        } else {
+            console.error(&quot;Is it no one&#39;s turn, but turn didn&#39;t equal null.&quot;);
+            console.error(activeCharacter);
         }
     };
 
     processTurns(State.temporary.pp, State.temporary.ep);
 }
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="10" name="Combat_Zone_Main" tags=".combat .helper nostats" position="1225,100" size="100,100">&lt;br&gt;Enemy Name: _en.name
-&lt;br&gt;Enemy Health: _en.health
-&lt;br&gt;Enemy Init: _en.init</tw-passagedata><tw-passagedata pid="11" name="Player_Options" tags=".combat .helper nostats" position="100,225" size="100,100">&lt;br&gt;Player Health: _pc.health
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="10" name="Combat_Zone_Main" tags=".combat .helper nostats" position="1225,100" size="100,100">&lt;br&gt;Enemy Name: _ep[0].name
+&lt;br&gt;Enemy Health: _ep[0].health
+&lt;br&gt;Enemy Init: _ep[0].init
+&lt;br&gt;
+&lt;br&gt;Enemy Name: _ep[1].name
+&lt;br&gt;Enemy Health: _ep[1].health
+&lt;br&gt;Enemy Init: _ep[1].init
+&lt;br&gt;
+&lt;br&gt;Enemy Name: _ep[2].name
+&lt;br&gt;Enemy Health: _ep[2].health
+&lt;br&gt;Enemy Init: _ep[2].init
+&lt;br&gt;
+&lt;br&gt;Enemy Name: _ep[3].name
+&lt;br&gt;Enemy Health: _ep[3].health
+&lt;br&gt;Enemy Init: _ep[3].init
+&lt;br&gt;
+&lt;br&gt;Enemy Name: _ep[4].name
+&lt;br&gt;Enemy Health: _ep[4].health
+&lt;br&gt;Enemy Init: _ep[4].init</tw-passagedata><tw-passagedata pid="11" name="Player_Options" tags=".combat .helper nostats" position="100,225" size="100,100">&lt;br&gt;Player Health: _pc.health
 &lt;br&gt;Player Init: _pc.init
 &lt;br&gt;
 /* TODO: Show the statisitical details of all attacks. */
@@ -701,6 +747,7 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v &lt;
             &lt;&lt;ibutton _attack.name &quot;#PlayerAttack&quot;&gt;&gt;
                 &lt;&lt;script&gt;&gt;
                     setup.COM.attackCalculations(State.temporary.attack, State.temporary.pc, State.temporary.ep);
+                    State.temporary.turn = null;
                     $(&quot;#combatZone&quot;).wiki(Story.get(&quot;Combat_Zone&quot;).processText());
                 &lt;&lt;/script&gt;&gt;
             &lt;&lt;/ibutton&gt;&gt;

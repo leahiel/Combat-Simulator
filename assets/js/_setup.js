@@ -15,11 +15,11 @@
   // ANCHOR[id=utilities]
   // LINK: assets/js/_utilities.js
   S.fns.addTooltip = function (macroname, passage, metaname = false) {
-    addTooltip(macroname, passage, (metaname = false));
+    addTooltip(macroname, passage, metaname);
   };
 
   S.fns.ranItems = function (amount, arr, isDuplicatable = false) {
-    return ranItems(amount, arr, (isDuplicatable = false));
+    return ranItems(amount, arr, isDuplicatable);
   };
 
   S.fns.settingsHandler = function () {

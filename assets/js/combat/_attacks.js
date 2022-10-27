@@ -78,6 +78,8 @@ const DEFAULTATTACK = {
   },
 };
 
+// TODO: Add initVariancePercent to vary the recovery Init a little.
+
 /**
  * There are currently no Attack methods, it is just used as a constructor to easily make new attacks.
  */
@@ -161,8 +163,8 @@ const attacks = {
   }),
 
   // Hog
-  rush: new Attack({
-    name: "Rush",
+  hogrush: new Attack({
+    name: "Hog Rush",
     initRecovery: "80",
     damage: {
       blunt: {
@@ -171,6 +173,18 @@ const attacks = {
       },
     },
   }),
+
+  hoggore: new Attack({
+    name: "Hog Gore",
+    initRecovery: "72",
+    damage: {
+      pierce: {
+        min: 11,
+        max: 14,
+      },
+    },
+  }),
+
 
   // MISC. ATTACKS
   /** When a character is dead, this attack should replace its attack. */

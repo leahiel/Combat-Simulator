@@ -37,19 +37,23 @@ setup.fns.settingsHandler();
 It's intended for actual rendering stuff. */
 <div id="chapterheader">Chapter Header Text</div>
 <span id="passagetitleheader">Passage Header Text</span>
-<<if Config.debug>>
-    <<button [[Test New Combat Instance|Combat_Overlord]]>>
-        <<set $enemy to new setup.COM.Combatant(setup.COM.monsters["ENspider"])>>
-    <</button>>
-    <br>
-    <br>
-<</if>>
 
 
 
 :: PassageFooter [.rendering] {"position":"250,525"}
 /* Everything here is rendered at the end of every passage rendering.
 It's intended for actual rendering stuff. */
+<<if Config.debug>>
+    <br>
+    <br>
+    <<button [[Test New Combat Instance|Combat_Overlord]]>>
+        /* Random Int between 1 and 5 */
+        <<set _int to Math.ceil(Math.random() * (5))>>
+        <<set $ep to setup.fns.ranItems(_int, Object.keys(setup.COM.monsters), true)>>
+    <</button>>
+    <br>
+    <br>
+<</if>>
 
 
 
@@ -78,6 +82,15 @@ Object.keys(setup.STR.TITLES).forEach(key => {
 
 $('div#chapterheader').text(curPsgChapter);
 $('span#passagetitleheader').text(curPsgTitle);
+
+/* Save if it is not a combat passage. */
+if (!tags().includes(".combat")) {
+    if (Save.autosave.ok()) {
+        Save.autosave.save(curPsgChapter);
+    } else {
+        console.error("Autosave was not available for saving.")
+    }
+}
 
 
 
@@ -210,4 +223,12 @@ if ($("li#backwardTab").ariaIsDisabled()) {
     $("li#backwardTab").css("color", "inherit");
     $("li#backwardTab").css("cursor", "pointer");
 }
+
+/* If we delete the session, then we can't load from it: We'll only be able to load from the autosave. 
+This is important because we cannot save a function's scope within story variables:
+https://www.motoslave.net/sugarcube/2/docs/#twinescript-supported-types 
+That means we do NOT want to load into a combat instance, as we will break all sorts of things. 
+Therefore, we disallow session storage and force ourselves to load from the autosave, which solves 
+that problem. */
+session.delete('state');
 <</script>>
