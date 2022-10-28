@@ -109,7 +109,7 @@ State.variables.meta.psgsthatsentdb = [];
 setup.promises = {}
 setup.promises.importInit = importScripts(
     "src/assets/js/uuid.min.js",
-    "src/assets/js/_jcanvas.min.js",
+    "src/assets/js/jcanvas.min.js",
 ).then(
     () => {
         setup.fns.importGameSSR();

@@ -45,42 +45,42 @@ function drawCombat() {
             value: State.temporary.ep[0].health,
             max: State.temporary.ep[0].healthMax
         });
-        updateInitBar(State.temporary.ep[0], "enemy", $('canvas.initBar#enemyA'));
+        updateCanvas(State.temporary.ep[0], "enemy", $('canvas.initBar#enemyA'));
     }
     if (State.temporary.ep[1]) {
         $('#gitemB progress.healthBar').attr({
             value: State.temporary.ep[1].health,
             max: State.temporary.ep[1].healthMax
         });
-        updateInitBar(State.temporary.ep[1], "enemy", $('canvas.initBar#enemyB'));
+        updateCanvas(State.temporary.ep[1], "enemy", $('canvas.initBar#enemyB'));
     }
     if (State.temporary.ep[2]) {
         $('#gitemC progress.healthBar').attr({
             value: State.temporary.ep[2].health,
             max: State.temporary.ep[2].healthMax
         });
-        updateInitBar(State.temporary.ep[2], "enemy", $('canvas.initBar#enemyC'));
+        updateCanvas(State.temporary.ep[2], "enemy", $('canvas.initBar#enemyC'));
     }
     if (State.temporary.ep[3]) {
         $('#gitemD progress.healthBar').attr({
             value: State.temporary.ep[3].health,
             max: State.temporary.ep[3].healthMax
         });
-        updateInitBar(State.temporary.ep[3], "enemy", $('canvas.initBar#enemyD'));
+        updateCanvas(State.temporary.ep[3], "enemy", $('canvas.initBar#enemyD'));
     }
     if (State.temporary.ep[4]) {
         $('#gitemE progress.healthBar').attr({
             value: State.temporary.ep[4].health,
             max: State.temporary.ep[4].healthMax
         });
-        updateInitBar(State.temporary.ep[4], "enemy", $('canvas.initBar#enemyE'));
+        updateCanvas(State.temporary.ep[4], "enemy", $('canvas.initBar#enemyE'));
     }
     if (State.temporary.pp[0]) {
         $('progress.healthBar#playerA').attr({
             value: State.temporary.pp[0].health,
             max: State.temporary.pp[0].healthMax
         });
-        updateInitBar(State.temporary.pp[0], "player", $('canvas.initBar#playerA'));
+        updateCanvas(State.temporary.pp[0], "player", $('canvas.initBar#playerA'));
     }
 
     /* TODO: In order for player canvas to work, I need to not refresh everything, as below line does, but rather just refresh the specific things I need: HP and Attacks */
@@ -88,10 +88,63 @@ function drawCombat() {
 
 };
 
-function updateInitBar(char, ally, initBarElement) {
+function updateCanvas(char, ally, canvasElement) {
     /* jCanvas library documentation: https://projects.calebevans.me/jcanvas/docs/ */
-    initBarElement.clearCanvas();
+    canvasElement.clearCanvas();
 
+    /* The left most starting position of the initbar line. */
+    let horiBarXPos = 432;
+
+    /* 
+    HP Bar
+    */
+    /* "HP:" Text */
+    canvasElement.drawText({
+        fillStyle: '#FFFFFF',
+        fontSize: 80,
+        strokeWidth: 5,
+        strokeStyle: '#FFFFFF',
+        text: 'HP:',
+        x: horiBarXPos + 60, 
+        y: 78,
+    });
+    
+    /* Outline */
+    canvasElement.drawLine({
+        strokeStyle: '#000000',
+        strokeWidth: 80,
+        rounded: true,
+        x1: horiBarXPos + 200,
+        y1: 78,
+        x2: 2000,
+        y2: 78,
+    });
+    /* Background */
+    canvasElement.drawLine({
+        strokeStyle: '#8C99A6',
+        strokeWidth: 60,
+        rounded: true,
+        x1: horiBarXPos + 220,
+        y1: 78,
+        x2: 1980,
+        y2: 78,
+    });
+    /* Actual Heath Bar */
+    if (char.health > 0) {
+        canvasElement.drawLine({
+            strokeStyle: '#AA0000',
+            strokeWidth: 60,
+            rounded: true,
+            x1: horiBarXPos + 220,
+            y1: 78,
+            x2: Math.max(( char.health / char.healthMax ) * 1980, horiBarXPos + 20),
+            y2: 78,
+        });
+    }
+
+    /*
+    Init Bar
+    */
     /* The rhombus. */
     let rhombusimg = "";
     if (ally === "player" && char.init <= 0) {
@@ -104,7 +157,7 @@ function updateInitBar(char, ally, initBarElement) {
         /* Yellow rhombus. */
         rhombusimg = "src/assets/img/png/turn_icon.png";
     }
-    initBarElement.drawImage({
+    canvasElement.drawImage({
         source: rhombusimg,
         x: 192,
         y: 192,
@@ -112,10 +165,8 @@ function updateInitBar(char, ally, initBarElement) {
         height: 384,
     });
 
-    /* The left most starting position of the horizontal line. */
-    let horiBarXPos = 432;
     /* The horizontal line. */
-    initBarElement.drawLine({
+    canvasElement.drawLine({
         strokeStyle: '#FFFF00',
         strokeWidth: 10,
         rounded: true,
@@ -137,7 +188,7 @@ function updateInitBar(char, ally, initBarElement) {
             iconimg = "src/assets/img/png/init_icon_en.png";
         }
 
-        initBarElement.drawImage({
+        canvasElement.drawImage({
             source: iconimg,
             x: xpos,
             y: 230,
@@ -256,8 +307,6 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
     <<if _ep[0]>>
     <griditem id="gitemA">
         _ep[0].name
-        <br>Hp:
-        <progress class="healthBar" sc-eval:value="_ep[0].health" sc-eval:max="_ep[0].healthMax"></progress>
         <canvas class="initBar" id="enemyA" width="2048" height="384"></canvas>
     </griditem>
     <</if>>
@@ -265,8 +314,6 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
     <<if _ep[1]>>
     <griditem id="gitemB">
         _ep[1].name
-        <br>Hp:
-        <progress class="healthBar" sc-eval:value="_ep[1].health" sc-eval:max="_ep[1].healthMax"></progress>
         <canvas class="initBar" id="enemyB" width="2048" height="384"></canvas>
     </griditem>
     <</if>>
@@ -274,8 +321,6 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
     <<if _ep[2]>>
     <griditem id="gitemC">
         _ep[2].name
-        <br>Hp:
-        <progress class="healthBar" sc-eval:value="_ep[2].health" sc-eval:max="_ep[2].healthMax"></progress>
         <canvas class="initBar" id="enemyC" width="2048" height="384"></canvas>
     </griditem>
     <</if>>
@@ -283,8 +328,6 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
     <<if _ep[3]>>
     <griditem id="gitemD">
         _ep[3].name
-        <br>Hp:
-        <progress class="healthBar" sc-eval:value="_ep[3].health" sc-eval:max="_ep[3].healthMax"></progress>
         <canvas class="initBar" id="enemyD" width="2048" height="384"></canvas>
     </griditem>
     <</if>>
@@ -292,8 +335,6 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
     <<if _ep[4]>>
     <griditem id="gitemE">
         _ep[4].name
-        <br>Hp:
-        <progress class="healthBar" sc-eval:value="_ep[4].health" sc-eval:max="_ep[4].healthMax"></progress>
         <canvas class="initBar" id="enemyE" width="2048" height="384"></canvas>
     </griditem>
     <</if>>

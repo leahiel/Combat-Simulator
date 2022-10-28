@@ -545,7 +545,7 @@ combatZoneGrid span,
 combatZoneGrid griditem {
   text-align: center;
 
-  padding: 0.5em 1em;
+  padding: 0.25em 0.75em;
 
   border: 1px solid hsl(312deg 74% 16% / 0%);
   border-radius: 8px;
