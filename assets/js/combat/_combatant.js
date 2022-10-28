@@ -2,6 +2,7 @@
 setup.COM.Combatant = class Combatant {
   constructor(obj) {
     Object.assign(this, obj);
+    this.health = this.healthMax;
     // derive the rest of `this` here, things like `this.health` and so forth
   }
 

@@ -1,7 +1,7 @@
 :: Combat_Overlord [@combatoverlord .combat nostats]
 /* This passage will only be run once, and will be the predominant passage until combat is over. This will allow us to keep _vars until we are done with the combat. */
 /* <<set _pc to new setup.COM.Combatant(State.variables.Player.Derived)>> */
-<<set _pc to {health: 14, init: 63, attacks: [setup.COM.attacks.stab]}>> /* NOTE TESTING ONLY */
+<<set _pc to {health: 14, healthMax: 14, init: 63, attacks: [setup.COM.attacks.stab]}>> /* NOTE TESTING ONLY */
 <<set _pp to [_pc]>> /* For future compatibility, if there are more than one pc. This will NOT be used in this story. */
 <<script>>
 State.temporary.ep = [];
@@ -29,6 +29,10 @@ for (let uninitEnemy of State.variables.ep) {
 
 <span id="notifArea" style="font-size:2em"></span><br>
 <canvas id="initBar" width="2048" height="384"></canvas>
+/* Here's the documentation for jCanvas. 
+Present me, please say thank you to past me for having forethought for once:
+https://projects.calebevans.me/jcanvas/docs/ 
+*/
 <br>
 
 
@@ -49,7 +53,7 @@ function drawCombat(activeChar) {
 
     $('#initBar').clearCanvas();
 
-    /* TODO The rhombus. Yellow if no one has a turn, red if enemy, green if ally. */
+    /* The rhombus. Yellow if no one has a turn, red if enemy, green if ally. */
     if (activeChar === "pp") {
         $('#initBar').drawImage({
             source: "src/assets/img/png/turn_icon_pl.png",
@@ -73,37 +77,44 @@ function drawCombat(activeChar) {
         });
     }
 
+    /* The left most starting position of the horizontal line. */
+    let horiBarXPos = 432;
+
     /* The horizontal line. */
     $('#initBar').drawLine({
         strokeStyle: '#FFFF00',
         strokeWidth: 6,
         rounded: true,
-        x1: 432, y1: 192,
+        x1: horiBarXPos, y1: 192,
         x2: 2000, y2: 192,
     });
 
     /* The player init icon positions. */
     for (let player in State.temporary.pp) {
-        let xpos = State.temporary.pp[player].init * 8 + 432;
+        if (State.temporary.pp[player].health > 0) {
+            let xpos = Math.min(State.temporary.pp[player].init * 8 + horiBarXPos, 2000);
 
-        $('#initBar').drawImage({
-            source: "src/assets/img/png/init_icon_pl.png",
-            x: xpos, y: 230,
-            width: 36,
-            height: 48,
-        });
+            $('#initBar').drawImage({
+                source: "src/assets/img/png/init_icon_pl.png",
+                x: xpos, y: 230,
+                width: 36,
+                height: 48,
+            });
+        }
     }
     
     /* The enemy init icon positions. */
     for (let enemy in State.temporary.ep) {
-        let xpos = State.temporary.ep[enemy].init * 8 + 432;
+        if (State.temporary.ep[enemy].health > 0) {
+            let xpos = Math.min(State.temporary.ep[enemy].init * 8 + horiBarXPos, 2000);
 
-        $('#initBar').drawImage({
-            source: "src/assets/img/png/init_icon_en.png",
-            x: xpos, y: 160,
-            width: 36,
-            height: 48,
-        });
+            $('#initBar').drawImage({
+                source: "src/assets/img/png/init_icon_en.png",
+                x: xpos, y: 160,
+                width: 36,
+                height: 48,
+            });
+        }
     }
 };
 
@@ -132,14 +143,14 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0
 
         /* Check if anyone has a turn available. */
         pp.forEach((char) => {
-            if (char.init <= 0) {
+            if (char.init <= 0 && char.health > 0) {
                 activeCharacter = char;
                 return;
             }
         });
         if (activeCharacter === null) {
             ep.forEach((char) => {
-                if (char.init <= 0) {
+                if (char.init <= 0 && char.health > 0) {
                     activeCharacter = char;
                     return;
                 }
@@ -154,18 +165,16 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0
 
             /* Decrement inits. */
             pp.forEach((char) => {
-                char.init -= 1;
+                char.init -= .25;
             });
             ep.forEach((char) => {
-                char.init -= 1;
+                char.init -= .25;
             });
 
             
             drawCombat(null);
 	        
-            /* I chose this 40 out of pure vanity: at 40ms per render a ``frame`` at 25fps, the same rate as Diablo 2. */
-            /* This isn't a true frame rate thing at all though, since I would need to decouple the logic from the rendering if I wanted to do that, and there simply isn't a need to do that for a textbased game. */
-            await waitFor(40); 
+            await waitFor(10); 
             return processTurns(pp, ep);
 
         } else if (State.temporary.pp.includes(activeCharacter)) {
@@ -207,56 +216,59 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v <= 0
 /* TODO: Make these into a grid, which will auto format the griditems depending on the number of enemies. There should be a max of 5 enemies, I think, with 3 frontline and 2 backline. I'm not adding in frontline/backline mechanics yet, but it would be good to consider them, as that can add a dimensionality to my combat. */
 /* There should also be a place for notifications with the flash ui. */
 
-<gridcontainer id="combatZoneGrid">
+<combatZoneGrid>
     /* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. */
     <<if _ep[0]>>
     <griditem id="gitemA">
-        Enemy Name: _ep[0].name
-        <br>Enemy Health: _ep[0].health
-        <br>Enemy Init: _ep[0].init
+        _ep[0].name
+        <br>Hp:
+        <progress class="healthBar" sc-eval:value="_ep[0].health" sc-eval:max="_ep[0].healthMax"></progress>
     </griditem>
     <</if>>
 
     <<if _ep[1]>>
     <griditem id="gitemB">
-        Enemy Name: _ep[1].name
-        <br>Enemy Health: _ep[1].health
-        <br>Enemy Init: _ep[1].init
+        _ep[1].name
+        <br>Hp:
+        <progress class="healthBar" sc-eval:value="_ep[1].health" sc-eval:max="_ep[1].healthMax"></progress>
     </griditem>
     <</if>>
 
     <<if _ep[2]>>
     <griditem id="gitemC">
-        Enemy Name: _ep[2].name
-        <br>Enemy Health: _ep[2].health
-        <br>Enemy Init: _ep[2].init
+        _ep[2].name
+        <br>Hp:
+        <progress class="healthBar" sc-eval:value="_ep[2].health" sc-eval:max="_ep[2].healthMax"></progress>
     </griditem>
     <</if>>
 
     <<if _ep[3]>>
     <griditem id="gitemD">
-        Enemy Name: _ep[3].name
-        <br>Enemy Health: _ep[3].health
-        <br>Enemy Init: _ep[3].init
+        _ep[3].name
+        <br>Hp:
+        <progress class="healthBar" sc-eval:value="_ep[3].health" sc-eval:max="_ep[3].healthMax"></progress>
     </griditem>
     <</if>>
 
     <<if _ep[4]>>
     <griditem id="gitemE">
-        Enemy Name: _ep[4].name
-        <br>Enemy Health: _ep[4].health
-        <br>Enemy Init: _ep[4].init
+        _ep[4].name
+        <br>Hp:
+        <progress class="healthBar" sc-eval:value="_ep[4].health" sc-eval:max="_ep[4].healthMax"></progress>
     </griditem>
     <</if>>
-</gridcontainer>
+</combatZoneGrid>
 
 
 
 :: Player_Options [.combat .helper nostats]
-<br>Player Health: _pc.health
-<br>Player Init: _pc.init
+$pc_name
+<br>HP: _pc.health / _pc.healthMax
+<br>
+<progress class="healthBar" sc-eval:value="_pc.health" sc-eval:max="_pc.healthMax"></progress>
 <br>
 /* TODO: Show the statisitical details of all attacks. */
+/* TODO: Incorporate menu into something like https://www.cssscript.com/multi-level-radial-tree-menu/ or https://codepen.io/onlyveen/pen/MVaLoX*/
 <<if _turn === _pc>>
     <<for _attack range _pc.attacks>>
         <<capture _attack>>

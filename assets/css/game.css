@@ -479,9 +479,85 @@ tpi {
   background: brown;
 }
 
+/*
+ ######   #######  ##     ## ########     ###    ######## 
+##    ## ##     ## ###   ### ##     ##   ## ##      ##    
+##       ##     ## #### #### ##     ##  ##   ##     ##    
+##       ##     ## ## ### ## ########  ##     ##    ##    
+##       ##     ## ##     ## ##     ## #########    ##    
+##    ## ##     ## ##     ## ##     ## ##     ##    ##    
+ ######   #######  ##     ## ########  ##     ##    ##    
+*/
+
 #initBar {
   margin: auto;
   width: 65em;
+}
+
+combatZoneGrid [data-name="/if"]  {
+  /* This hides the SugarCube debug information on the combat screen, which makes it look nice. */
+  display: none;
+}
+
+combatZoneGrid {
+  display: grid;
+  row-gap: 1rem;
+  column-gap: 1rem;
+
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+
+  margin-top: 1rem;
+  padding: 4px 12px 8px;
+  border: 1px solid hsl(312deg 74% 16% / 0%);
+  border-radius: 8px;
+  /* box-shadow: var(--boxShadow); */
+  background-color: var(--background);
+
+  justify-items: center;
+  grid-auto-flow: dense; 
+}
+
+combatZoneGrid span,
+combatZoneGrid griditem {
+  text-align: center;
+
+  padding: 0.5em 1em;
+
+  border: 1px solid hsl(312deg 74% 16% / 0%);
+  border-radius: 8px;
+  box-shadow: var(--boxShadow);
+  background-color: var(--background);
+}
+
+combatZoneGrid span[title="<<if _ep[0]>>"],
+combatZoneGrid griditem#gitemA {
+  grid-row: 2;
+  grid-column: 1 / span 2;
+}
+
+combatZoneGrid span[title="<<if _ep[1]>>"],
+combatZoneGrid griditem#gitemB {
+  grid-row: 2;
+  grid-column: 3 / span 2;
+}
+
+combatZoneGrid span[title="<<if _ep[2]>>"],
+combatZoneGrid griditem#gitemC {
+  grid-row: 2;
+  grid-column: 5 / span 2;
+}
+
+combatZoneGrid span[title="<<if _ep[3]>>"],
+combatZoneGrid griditem#gitemD {
+  grid-row: 1;
+  grid-column: 2 / span 2;
+}
+
+combatZoneGrid span[title="<<if _ep[4]>>"],
+combatZoneGrid griditem#gitemE {
+  grid-row: 1;
+  grid-column: 4 / span 2;
 }
 
 /* 
@@ -596,7 +672,13 @@ imgverti {
 }
 
 /* 
-GRIDS
+ ######   ########  #### ########   ######  
+##    ##  ##     ##  ##  ##     ## ##    ## 
+##        ##     ##  ##  ##     ## ##       
+##   #### ########   ##  ##     ##  ######  
+##    ##  ##   ##    ##  ##     ##       ## 
+##    ##  ##    ##   ##  ##     ## ##    ## 
+ ######   ##     ## #### ########   ######  
 */
 
 gridcontainer {
