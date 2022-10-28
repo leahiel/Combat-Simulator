@@ -264,7 +264,7 @@ async function processTurns(pp, ep) {
         /* setup.COM.attackCalculations(ep[0].attacks[0], State.temporary.ep[0], State.temporary.pp); */
 
         /* DELETE ONCE AI IS REAL */
-        activeCharacter.init += activeCharacter.attacks[1].initRecovery;
+        activeCharacter.init += activeCharacter.attacks[0].initRecovery;
         pp[0].health -= 3;
         return $("#combatZone").wiki(Story.get("Combat_Zone").processText());
     } else {

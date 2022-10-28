@@ -125,6 +125,7 @@ const attacks = {
   // Spider
   vilebite: new Attack({
     name: "Vile Bite",
+    family: "Spider",
     damage: {
       pierce: {
         min: 8,
@@ -139,6 +140,7 @@ const attacks = {
 
   webshot: new Attack({
     name: "Web Shot",
+    family: "Spider",
     damage: {
       frost: {
         min: 2,
@@ -153,6 +155,7 @@ const attacks = {
 
   eightleggedrush: new Attack({
     name: "Eight Legged Rush",
+    family: "Spider",
     initRecovery: 80,
     damage: {
       blunt: {
@@ -165,6 +168,7 @@ const attacks = {
   // Hog
   hogrush: new Attack({
     name: "Hog Rush",
+    family: "Hog",
     initRecovery: "80",
     damage: {
       blunt: {
@@ -176,6 +180,7 @@ const attacks = {
 
   hoggore: new Attack({
     name: "Hog Gore",
+    family: "Hog",
     initRecovery: "72",
     damage: {
       pierce: {
@@ -185,6 +190,18 @@ const attacks = {
     },
   }),
 
+  // Carbuncle
+  cuddlebutt: new Attack({
+    name: "Cuddle Butt",
+    family: "Carbuncle",
+    initRecovery: "16",
+    damage: {
+      blunt: {
+        min: 3,
+        max: 5,
+      },
+    },
+  }),
 
   // MISC. ATTACKS
   /** When a character is dead, this attack should replace its attack. */
@@ -201,6 +218,19 @@ const attacks = {
   }),
 };
 
+const familyAttacks = {};
+for (let key in attacks) {
+  if (attacks[key].family) {
+    if (!familyAttacks[attacks[key].family]) {
+      // familyAttacks[attacks[key].family] = {};
+      familyAttacks[attacks[key].family] = [];
+    }
+
+    // familyAttacks[attacks[key].family][attacks[key].name] = attacks[key];
+    familyAttacks[attacks[key].family].push(attacks[key]);
+  }
+}
+
 // Add all the attacks to setup.
 (function (S) {
   if (!S.COM) {
@@ -208,4 +238,5 @@ const attacks = {
   }
 
   S.COM.attacks = attacks;
+  S.COM.familyAttacks = familyAttacks;
 })(setup);

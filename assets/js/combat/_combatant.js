@@ -3,8 +3,6 @@ setup.COM.Combatant = class Combatant {
   constructor(obj) {
     Object.assign(this, obj);
     this.health = this.healthMax;
-    // this.init = this.initStart;
-
     let max = (this.initStart * (1 + this.initVariance));
     let min = (this.initStart * (1 - this.initVariance));
     this.init = Math.floor(Math.random() * (max - min + 1)) + Math.floor(min);

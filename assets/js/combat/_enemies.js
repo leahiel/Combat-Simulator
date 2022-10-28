@@ -152,6 +152,7 @@ const DEFAULTENEMY = {
     aether: 0,
   },
   initVariance: 0.10,
+  family: null,
 };
 // TODO: Add initVariancePercent to vary the starting Init. Also do thing for health.
 
@@ -160,6 +161,10 @@ class Enemy {
     // This is required as we need to deep assign.
     let merger = mergeDeep(DEFAULTENEMY, obj);
     Object.assign(this, merger);
+
+    if (this.family === null) {
+      console.error(`${this.name}'s family is null.`);
+    }
   }
 
   // Required for full SC2 compatibility.
@@ -180,17 +185,27 @@ class Enemy {
 const monsters = {
   ENspider: new Enemy({
     name: "Spider",
+    family: "Spider",
     healthMax: 4,
     initStart: 67,
-    attacks: [setup.COM.attacks.vilebite, setup.COM.attacks.webshot, setup.COM.attacks.eightleggedrush],
+    attacks: setup.COM.attacks.Spider,
   }),
 
   ENhog: new Enemy({
     name: "Hog",
+    family: "Hog",
     healthMax: 8,
     initStart: 47,
-    attacks: [setup.COM.attacks.hogrush, setup.COM.attacks.hoggore],
+    attacks: setup.COM.familyAttacks.Hog,
   }),
+
+  ENAquamarineCarbuncle: new Enemy({
+    name: "Aquamarine Carbuncle",
+    family: "Carbuncle",
+    healthMax: 13,
+    initStart: 24,
+    attacks: setup.COM.familyAttacks.Carbuncle,
+  })
 };
 
 // Add all the monsters to setup.
