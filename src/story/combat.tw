@@ -1,7 +1,7 @@
 :: Combat_Overlord [@combatoverlord .combat nostats]
 /* This passage will only be run once, and will be the predominant passage until combat is over. This will allow us to keep _vars until we are done with the combat. */
 /* <<set _pc to new setup.COM.Combatant(State.variables.Player.Derived)>> */
-<<set _pc to {health: 14, healthMax: 14, init: 63, attacks: [setup.COM.attacks.stab]}>> /* NOTE TESTING ONLY */
+<<set _pc to {health: 26, healthMax: 28, init: 63, attacks: [setup.COM.attacks.stab], name: $pc_name}>> /* NOTE TESTING ONLY */
 <<set _pp to [_pc]>> /* For future compatibility, if there are more than one pc. This will NOT be used in this story. */
 <<script>>
 State.temporary.ep = [];
@@ -17,6 +17,7 @@ for (let uninitEnemy of State.variables.ep) {
 <<script>>
     $(document).one(":passagedisplay", function() {
         $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+        document.getElementById("chapterheader").scrollIntoView();
     });
 <</script>>
 
@@ -24,16 +25,13 @@ for (let uninitEnemy of State.variables.ep) {
 /* This area will be replaced multiple times as the fight progresses. */
 /* TODO: Show the statisitical details of all combatants. */
 </span>
-<br>
 
-<span id="notifArea" style="font-size:2em"></span><br>
-<br>
+<span id="notifArea"></span>
 
 <span id="playerOptions">
 /* This area will change depending on whose turn it is. It will let the player pick attacks, use items, etc, etc. */
 /* It gets set in Combat_Zone */
 </span>
-<br>
 
 
 
@@ -83,9 +81,7 @@ function drawCombat() {
         updateCanvas(State.temporary.pp[0], "player", $('canvas.initBar#playerA'));
     }
 
-    /* TODO: In order for player canvas to work, I need to not refresh everything, as below line does, but rather just refresh the specific things I need: HP and Attacks */
-    $("#playerOptions").empty().wiki(Story.get("Player_Options").processText())
-
+    $("#playerAttacks").empty().wiki(Story.get("Player_Attacks").processText());
 };
 
 function updateCanvas(char, ally, canvasElement) {
@@ -147,15 +143,19 @@ function updateCanvas(char, ally, canvasElement) {
     */
     /* The rhombus. */
     let rhombusimg = "";
+    let linecolor = "";
     if (ally === "player" && char.init <= 0) {
-        /* Green rhombus. */
+        /* Green rhombus and line. */
         rhombusimg = "src/assets/img/png/turn_icon_pl.png";
+        linecolor = "#2EFF23";
     } else if (ally === "enemy" && char.init <= 0) {
-        /* Red rhombus. */
+        /* Red rhombus and line. */
         rhombusimg = "src/assets/img/png/turn_icon_en.png";
+        linecolor = "#FF0000";
     } else {
-        /* Yellow rhombus. */
+        /* Yellow rhombus and line. */
         rhombusimg = "src/assets/img/png/turn_icon.png";
+        linecolor = "#FFFF00";
     }
     canvasElement.drawImage({
         source: rhombusimg,
@@ -166,8 +166,9 @@ function updateCanvas(char, ally, canvasElement) {
     });
 
     /* The horizontal line. */
+
     canvasElement.drawLine({
-        strokeStyle: '#FFFF00',
+        strokeStyle: linecolor,
         strokeWidth: 10,
         rounded: true,
         x1: horiBarXPos,
@@ -191,9 +192,9 @@ function updateCanvas(char, ally, canvasElement) {
         canvasElement.drawImage({
             source: iconimg,
             x: xpos,
-            y: 230,
-            width: 36,
-            height: 48,
+            y: 320,
+            width: 72,
+            height: 88,
         });
     }
 };
@@ -273,6 +274,7 @@ async function processTurns(pp, ep) {
 };
 
 $("#combatZone").empty().wiki(Story.get("Combat_Zone_Main").processText());
+$("#playerOptions").empty().wiki(Story.get("Player_Options").processText());
 
 State.temporary.pphealth = setup.fns.assignFieldOfObjectsToArray(State.temporary.pp, "health");
 State.temporary.ephealth = setup.fns.assignFieldOfObjectsToArray(State.temporary.ep, "health");
@@ -343,14 +345,51 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
 
 
 :: Player_Options [.combat .helper nostats]
-$pc_name
-<br>HP: _pp[0].health / _pp[0].healthMax
-<br>
-<progress class="healthBar" id="playerA" sc-eval:value="_pp[0].health" sc-eval:max="_pp[0].healthMax"></progress>
-<canvas class="initBar" id="playerA" width="2048" height="384"></canvas>
-<br>
 /* TODO: Show the statisitical details of all attacks. */
 /* TODO: Incorporate menu into something like https://www.cssscript.com/multi-level-radial-tree-menu/ or https://codepen.io/onlyveen/pen/MVaLoX*/
+<span id="playerAttacks"></span>
+
+<playerOptionsGrid>
+    /* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. */
+    <<if _pp[0]>>
+    <griditem id="gitemA">
+        _pp[0].name
+        <canvas class="initBar" id="playerA" width="2048" height="384"></canvas>
+    </griditem>
+    <</if>>
+
+    <<if _pp[1]>>
+    <griditem id="gitemB">
+        _pp[1].name
+        <canvas class="initBar" id="playerB" width="2048" height="384"></canvas>
+    </griditem>
+    <</if>>
+
+    <<if _pp[2]>>
+    <griditem id="gitemC">
+        _pp[2].name
+        <canvas class="initBar" id="playerC" width="2048" height="384"></canvas>
+    </griditem>
+    <</if>>
+
+    <<if _pp[3]>>
+    <griditem id="gitemD">
+        _pp[3].name
+        <canvas class="initBar" id="playerD" width="2048" height="384"></canvas>
+    </griditem>
+    <</if>>
+
+    <<if _pp[4]>>
+    <griditem id="gitemE">
+        _pp[4].name
+        <canvas class="initBar" id="playerE" width="2048" height="384"></canvas>
+    </griditem>
+    <</if>>
+</playerOptionsGrid>
+
+
+
+:: Player_Attacks [.combat .helper nostats]
 <<if _turn === _pc>>
     <<for _attack range _pc.attacks>>
         <<capture _attack>>

@@ -506,6 +506,7 @@ tpi {
   text-align: center;
 
   font-size: 2em;
+  margin: 1em 0;
   border: 1px solid hsl(312deg 74% 16% / 0%);
   border-radius: 8px;
   box-shadow: var(--boxShadow);
@@ -522,13 +523,11 @@ combatZoneGrid [data-name="/if"]  {
   display: none;
 }
 
+playeroptionsgrid,
 combatZoneGrid {
   display: grid;
   row-gap: 1rem;
   column-gap: 1rem;
-
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
 
   margin-top: 1rem;
   padding: 4px 12px 8px;
@@ -541,6 +540,19 @@ combatZoneGrid {
   grid-auto-flow: dense; 
 }
 
+combatZoneGrid {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+playerOptionsGrid {
+  padding: 4px 4em;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+playeroptionsgrid span,
+playeroptionsgrid griditem,
 combatZoneGrid span,
 combatZoneGrid griditem {
   text-align: center;
