@@ -76,7 +76,7 @@ function drawCombat() {
         updateInitBar(State.temporary.ep[4], "enemy", $('canvas.initBar#enemyE'));
     }
     if (State.temporary.pp[0]) {
-        $('#gitemA progress.healthBar').attr({
+        $('progress.healthBar#playerA').attr({
             value: State.temporary.pp[0].health,
             max: State.temporary.pp[0].healthMax
         });
@@ -303,9 +303,9 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
 
 :: Player_Options [.combat .helper nostats]
 $pc_name
-<br>HP: _pc.health / _pc.healthMax
+<br>HP: _pp[0].health / _pp[0].healthMax
 <br>
-<progress class="healthBar" sc-eval:value="_pc.health" sc-eval:max="_pc.healthMax"></progress>
+<progress class="healthBar" id="playerA" sc-eval:value="_pp[0].health" sc-eval:max="_pp[0].healthMax"></progress>
 <canvas class="initBar" id="playerA" width="2048" height="384"></canvas>
 <br>
 /* TODO: Show the statisitical details of all attacks. */

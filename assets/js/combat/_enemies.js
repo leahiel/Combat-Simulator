@@ -151,6 +151,7 @@ const DEFAULTENEMY = {
     shadow: 0,
     aether: 0,
   },
+  initVariance: 0.10,
 };
 // TODO: Add initVariancePercent to vary the starting Init. Also do thing for health.
 
