@@ -6,4 +6,36 @@ My name is LeahPeach!
 This game was made from my template, which you can browse, fork, or clone at this <a href="https://github.com/leahiel/Twine-Templatet" target="_blank" rel="noreferrer noopener">GitHub Repository↗</a>
 <br>
 <br>
-This game was made using extensive knowledge and help from the fine folks over at the Twine Games Discord (<a href="https://discord.gg/r848Gn7sRn" target="_blank" rel="noreferrer noopener">Invite link↗</a>).
+This game was made using extensive knowledge and help from the fine folks over at the Twine Games Discord (<a href="https://discord.gg/r848Gn7sRn" target="_blank" rel="noreferrer noopener">Join us here!↗</a>) Special thanks to Chapel, Greyelf, Sjoerdhekking, and AlyxMS for their support or helping with debugging. Special thanks for Chapel for going above and beyond!
+<br>
+<br>
+<h3>This game uses some SugarCube macros by these fine folks:</h3>
+<br>Disable Macro by Chapel, Unlicensed
+<br>* Github: https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/docs/disable-macro.md
+<br>* Chapel's Homepage: https://twinelab.net/
+<br>* Chapel's Itch.io: https://chapel.itch.io/
+<br>
+<br>Flash Macro, © SjoerdHekking, MIT
+<br>* Flash Macro is a port of FlashJS, © betaWeb, MIT
+<br>* Ported Macro: https://github.com/SjoerdHekking/custom-macros-sugarcube2/tree/main/Notification
+<br>* Original Code: https://github.com/betaWeb/flashjs
+<br>* SjoerdHekking's Itch.io: https://sjoerdhekking.itch.io/
+<br>
+<br>
+<h3>This game uses code made by other fantastic people:</h3>
+<br>function_weightedRandom.js, © AlyxMS, GNU Affero GPL v3.0
+<br>* UNMODIFIED
+<br>* Github: https://github.com/AlyxMS/Twine-SugarCube-repository
+<br>
+<br>Tooltipster v4.2.8, © Caleb Jacob and Louis Ameline, MIT
+<br>* CSS MODIFIED by Myself, JS unmodified 
+<br>* Homepage: https://calebjacob.github.io/tooltipster/
+<br>* Github: https://github.com/calebjacob/tooltipster
+<br>
+<br>jCanvas v21.0.1, © Caleb Evans, MIT
+<br>* MODIFIED by Myself
+<br>* Homepage: https://projects.calebevans.me/jcanvas/
+<br>* Github: https://github.com/caleb531/jcanvas
+<br>
+
+
