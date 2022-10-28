@@ -205,7 +205,7 @@ It&#39;s intended for actual rendering stuff. */
 &lt;div id=&quot;chapterheader&quot;&gt;Chapter Header Text&lt;/div&gt;
 &lt;span id=&quot;passagetitleheader&quot;&gt;Passage Header Text&lt;/span&gt;</tw-passagedata><tw-passagedata pid="9" name="PassageFooter" tags=".rendering" position="250,525" size="100,100">/* Everything here is rendered at the end of every passage rendering.
 It&#39;s intended for actual rendering stuff. */
-/* &lt;&lt;if Config.debug&gt;&gt; */
+&lt;&lt;if Config.debug&gt;&gt;
     &lt;br&gt;
     &lt;br&gt;
     &lt;&lt;button [[Test New Combat Instance|Combat_Overlord]]&gt;&gt;
@@ -215,7 +215,7 @@ It&#39;s intended for actual rendering stuff. */
     &lt;&lt;/button&gt;&gt;
     &lt;br&gt;
     &lt;br&gt;
-/* &lt;&lt;/if&gt;&gt; */</tw-passagedata><tw-passagedata pid="10" name="PassageDone" tags=".rendering" position="250,550" size="100,100">/* Everything here is done after each passage is rendered. Best for 
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="10" name="PassageDone" tags=".rendering" position="250,550" size="100,100">/* Everything here is done after each passage is rendered. Best for 
 event handlers and the like. */
 &lt;&lt;script&gt;&gt;
 /* Check if we want background images, remove them if we don&#39;t. */
@@ -611,7 +611,6 @@ for (let uninitEnemy of State.variables.ep) {
     });
 &lt;&lt;/script&gt;&gt;
 
-&lt;span id=&quot;nextCombatZone&quot;&gt;&lt;/span&gt;
 &lt;span id=&quot;combatZone&quot;&gt;
 /* This area will be replaced multiple times as the fight progresses. */
 /* TODO: Show the statisitical details of all combatants. */
@@ -621,112 +620,125 @@ for (let uninitEnemy of State.variables.ep) {
 &lt;span id=&quot;notifArea&quot; style=&quot;font-size:2em&quot;&gt;&lt;/span&gt;&lt;br&gt;
 &lt;br&gt;
 
-&lt;span id=&quot;nextPlayerOptions&quot;&gt;&lt;/span&gt;
 &lt;span id=&quot;playerOptions&quot;&gt;
 /* This area will change depending on whose turn it is. It will let the player pick attacks, use items, etc, etc. */
 /* It gets set in Combat_Zone */
 &lt;/span&gt;
 &lt;br&gt;</tw-passagedata><tw-passagedata pid="15" name="Combat_Zone" tags=".combat .helper nostats" position="600,225" size="100,100">&lt;&lt;script&gt;&gt;
-$(&quot;#combatZone&quot;).empty().wiki(Story.get(&quot;Combat_Zone_Main&quot;).processText());
 function drawCombat() {
     if (State.temporary.ep[0]) {
-        $(&#39;#gitemA progress.healthBar&#39;).attr({value: State.temporary.ep[0].health, max: State.temporary.ep[0].healthMax});
+        $(&#39;#gitemA progress.healthBar&#39;).attr({
+            value: State.temporary.ep[0].health,
+            max: State.temporary.ep[0].healthMax
+        });
         updateInitBar(State.temporary.ep[0], &quot;enemy&quot;, $(&#39;canvas.initBar#enemyA&#39;));
     }
     if (State.temporary.ep[1]) {
-        $(&#39;#gitemB progress.healthBar&#39;).attr({value: State.temporary.ep[1].health, max: State.temporary.ep[1].healthMax});
+        $(&#39;#gitemB progress.healthBar&#39;).attr({
+            value: State.temporary.ep[1].health,
+            max: State.temporary.ep[1].healthMax
+        });
         updateInitBar(State.temporary.ep[1], &quot;enemy&quot;, $(&#39;canvas.initBar#enemyB&#39;));
     }
     if (State.temporary.ep[2]) {
-        $(&#39;#gitemC progress.healthBar&#39;).attr({value: State.temporary.ep[2].health, max: State.temporary.ep[2].healthMax});
+        $(&#39;#gitemC progress.healthBar&#39;).attr({
+            value: State.temporary.ep[2].health,
+            max: State.temporary.ep[2].healthMax
+        });
         updateInitBar(State.temporary.ep[2], &quot;enemy&quot;, $(&#39;canvas.initBar#enemyC&#39;));
     }
     if (State.temporary.ep[3]) {
-        $(&#39;#gitemD progress.healthBar&#39;).attr({value: State.temporary.ep[3].health, max: State.temporary.ep[3].healthMax});
+        $(&#39;#gitemD progress.healthBar&#39;).attr({
+            value: State.temporary.ep[3].health,
+            max: State.temporary.ep[3].healthMax
+        });
         updateInitBar(State.temporary.ep[3], &quot;enemy&quot;, $(&#39;canvas.initBar#enemyD&#39;));
     }
     if (State.temporary.ep[4]) {
-        $(&#39;#gitemE progress.healthBar&#39;).attr({value: State.temporary.ep[4].health, max: State.temporary.ep[4].healthMax});
+        $(&#39;#gitemE progress.healthBar&#39;).attr({
+            value: State.temporary.ep[4].health,
+            max: State.temporary.ep[4].healthMax
+        });
         updateInitBar(State.temporary.ep[4], &quot;enemy&quot;, $(&#39;canvas.initBar#enemyE&#39;));
     }
     if (State.temporary.pp[0]) {
-        $(&#39;#gitemA progress.healthBar&#39;).attr({value: State.temporary.pp[0].health, max: State.temporary.pp[0].healthMax});
+        $(&#39;#gitemA progress.healthBar&#39;).attr({
+            value: State.temporary.pp[0].health,
+            max: State.temporary.pp[0].healthMax
+        });
         updateInitBar(State.temporary.pp[0], &quot;player&quot;, $(&#39;canvas.initBar#playerA&#39;));
     }
-    
-    /*
-    $(&quot;#nextPlayerOptions&quot;).wiki(Story.get(&quot;Player_Options&quot;).processText());
-    $(&quot;#nextPlayerOptions&quot;).clone().appendTo($(&quot;#playerOptions&quot;).empty());
-    $(&quot;#nextPlayerOptions&quot;).empty();
-    */
+
     /* TODO: In order for player canvas to work, I need to not refresh everything, as below line does, but rather just refresh the specific things I need: HP and Attacks */
     $(&quot;#playerOptions&quot;).empty().wiki(Story.get(&quot;Player_Options&quot;).processText())
-    
+
 };
 
 function updateInitBar(char, ally, initBarElement) {
-    /* Here&#39;s the documentation for jCanvas. 
-    Present me, please say thank you to past me for having forethought for once:
-    https://projects.calebevans.me/jcanvas/docs/ 
-    */
-
+    /* jCanvas library documentation: https://projects.calebevans.me/jcanvas/docs/ */
     initBarElement.clearCanvas();
-    /* The rhombus. Yellow if no one has a turn, red if enemy, green if ally. */
+
+    /* The rhombus. */
     let rhombusimg = &quot;&quot;;
     if (ally === &quot;player&quot; &amp;&amp; char.init &lt;= 0) {
+        /* Green rhombus. */
         rhombusimg = &quot;src/assets/img/png/turn_icon_pl.png&quot;;
     } else if (ally === &quot;enemy&quot; &amp;&amp; char.init &lt;= 0) {
+        /* Red rhombus. */
         rhombusimg = &quot;src/assets/img/png/turn_icon_en.png&quot;;
     } else {
-        rhombusimg =&quot;src/assets/img/png/turn_icon.png&quot;;
+        /* Yellow rhombus. */
+        rhombusimg = &quot;src/assets/img/png/turn_icon.png&quot;;
     }
-    
     initBarElement.drawImage({
         source: rhombusimg,
-        x: 192, y: 192,
+        x: 192,
+        y: 192,
         width: 384,
         height: 384,
     });
 
-
     /* The left most starting position of the horizontal line. */
     let horiBarXPos = 432;
-
     /* The horizontal line. */
     initBarElement.drawLine({
         strokeStyle: &#39;#FFFF00&#39;,
         strokeWidth: 10,
         rounded: true,
-        x1: horiBarXPos, y1: 256,
-        x2: 2000, y2: 256,
+        x1: horiBarXPos,
+        y1: 256,
+        x2: 2000,
+        y2: 256,
     });
 
-    /* Set init icon img. */
-    let iconimg = &quot;&quot;;
-    if (ally === &quot;player&quot;) {
-        iconimg = &quot;src/assets/img/png/init_icon_pl.png&quot;;
-    } else if (ally === &quot;enemy&quot;) {
-        iconimg = &quot;src/assets/img/png/init_icon_en.png&quot;;
-    }
-
-    /* Draw init icon. */
+    /* Init indicator. */
     if (char.health &gt; 0) {
         let xpos = Math.min(char.init * 8 + horiBarXPos, 2000);
+        let iconimg = &quot;&quot;;
+        if (ally === &quot;player&quot;) {
+            /* Green indicator. */
+            iconimg = &quot;src/assets/img/png/init_icon_pl.png&quot;;
+        } else if (ally === &quot;enemy&quot;) {
+            /* Red indicator. */
+            iconimg = &quot;src/assets/img/png/init_icon_en.png&quot;;
+        }
 
         initBarElement.drawImage({
             source: iconimg,
-            x: xpos, y: 230,
+            x: xpos,
+            y: 230,
             width: 36,
             height: 48,
         });
     }
-
 };
 
 async function processTurns(pp, ep) {
     function waitFor(ms) {
         return new Promise(resolve =&gt; {
-            setTimeout(() =&gt; { resolve(&#39;&#39;) }, ms);
+            setTimeout(() =&gt; {
+                resolve(&#39;&#39;)
+            }, ms);
         });
     };
 
@@ -748,6 +760,7 @@ async function processTurns(pp, ep) {
         });
     }
 
+    /* So that we can use this value in other Twine places, notably, ::Player_Options. */
     State.temporary.turn = activeCharacter;
 
     if (activeCharacter === null) {
@@ -762,18 +775,15 @@ async function processTurns(pp, ep) {
             char.init -= .25;
         });
 
-        
         drawCombat();
-        
-        await waitFor(10); 
+        await waitFor(10);
         return processTurns(pp, ep);
-
     } else if (State.temporary.pp.includes(activeCharacter)) {
         /* Player Turn */
         $(&quot;#notifArea&quot;).empty().wiki(&quot;Player Turn&quot;);
 
         drawCombat();
-        
+
         /* The player will processTurns() after clicking a button. No need to do it here. */
         return;
     } else if (State.temporary.ep.includes(activeCharacter)) {
@@ -785,7 +795,7 @@ async function processTurns(pp, ep) {
         /* TODO: Enemy AI here */
         await waitFor(600);
 
-        /* setup.COM.attackCalculations(ep[0].attacks[0], State.temporary.ep[0], State.temporary.pp); */ 
+        /* setup.COM.attackCalculations(ep[0].attacks[0], State.temporary.ep[0], State.temporary.pp); */
 
         /* DELETE ONCE AI IS REAL */
         activeCharacter.init += activeCharacter.attacks[1].initRecovery;
@@ -797,15 +807,21 @@ async function processTurns(pp, ep) {
     }
 };
 
+$(&quot;#combatZone&quot;).empty().wiki(Story.get(&quot;Combat_Zone_Main&quot;).processText());
+
 State.temporary.pphealth = setup.fns.assignFieldOfObjectsToArray(State.temporary.pp, &quot;health&quot;);
 State.temporary.ephealth = setup.fns.assignFieldOfObjectsToArray(State.temporary.ep, &quot;health&quot;);
 
-if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {return v &lt;= 0})) { 
-	/* TODO: #notifArea displays &lt;&lt;ibutton&gt;&gt; with _lose */
+if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
+        return v &lt;= 0
+    })) {
+    /* TODO: #notifArea displays &lt;&lt;ibutton&gt;&gt; with _lose */
     drawCombat();
     $(&quot;#notifArea&quot;).empty().wiki(&quot;YOU LOSE&quot;);
 
-} else if (setup.fns.allValuesTrue(State.temporary.ephealth, function(v) {return v &lt;= 0})) { 
+} else if (setup.fns.allValuesTrue(State.temporary.ephealth, function(v) {
+        return v &lt;= 0
+    })) {
     /* TODO: #notifArea displays &lt;&lt;ibutton&gt;&gt; with _win */
     drawCombat();
     $(&quot;#notifArea&quot;).empty().wiki(&quot;YOU WIN&quot;);

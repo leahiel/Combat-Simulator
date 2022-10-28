@@ -43,7 +43,7 @@ It's intended for actual rendering stuff. */
 :: PassageFooter [.rendering] {"position":"250,525"}
 /* Everything here is rendered at the end of every passage rendering.
 It's intended for actual rendering stuff. */
-/* <<if Config.debug>> */
+<<if Config.debug>>
     <br>
     <br>
     <<button [[Test New Combat Instance|Combat_Overlord]]>>
@@ -53,7 +53,7 @@ It's intended for actual rendering stuff. */
     <</button>>
     <br>
     <br>
-/* <</if>> */
+<</if>>
 
 
 
