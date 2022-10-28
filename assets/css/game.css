@@ -10,6 +10,9 @@
   --warning-color: hsl(0, 39%, 51%);
   --tabTransition: font-size 0.35s, opacity 0.35s, visibility 0.35s;
   --boxShadow: 0 2px 8px rgb(0 0 0 / 50%);
+
+  --background: hsl(0, 0%, 10%);
+  --backgroundplus1: hsl(0, 0%, 15%);
 }
 
 /*  
@@ -223,6 +226,10 @@ tpi {
 .redbutton:hover {
   background-color: red;
   border-color: red;
+}
+
+.hidden {
+  display: none;
 }
 
 /* 
@@ -489,9 +496,25 @@ tpi {
  ######   #######  ##     ## ########  ##     ##    ##    
 */
 
-#initBar {
+/* #nextCombatZone,
+#nextPlayerOptions {
+  display: none;
+} */
+
+#notifArea {
+  display: grid;
+  text-align: center;
+
+  font-size: 2em;
+  border: 1px solid hsl(312deg 74% 16% / 0%);
+  border-radius: 8px;
+  box-shadow: var(--boxShadow);
+  background-color: var(--backgroundplus1);
+}
+
+.initBar {
   margin: auto;
-  width: 65em;
+  /* width: 10em; */
 }
 
 combatZoneGrid [data-name="/if"]  {

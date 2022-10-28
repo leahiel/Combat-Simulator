@@ -3,10 +3,11 @@ setup.COM.Combatant = class Combatant {
   constructor(obj) {
     Object.assign(this, obj);
     this.health = this.healthMax;
+    this.init = this.initStart;
     // derive the rest of `this` here, things like `this.health` and so forth
   }
 
-  // TODO: These methods hould be prototype'd.
+  // TODO: These methods should be prototype'd.
 
   die() {
     // unset/delete this instance.

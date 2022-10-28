@@ -3,6 +3,8 @@ https://tauri.app/v1/guides/building/cross-platform
 # Hot Rebuild on Change:
 <!-- `-t` enables test mode. Delete if desired. -->
 tweegoc -o index.html src -l -w -t
+<!-- Because I use Canvas, I need to serve the files, so open up a hot server. -->
+hot-server
 
 
 

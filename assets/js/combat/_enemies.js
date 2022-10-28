@@ -180,16 +180,15 @@ const monsters = {
   ENspider: new Enemy({
     name: "Spider",
     healthMax: 4,
-    init: 67,
+    initStart: 67,
     attacks: [setup.COM.attacks.vilebite, setup.COM.attacks.webshot, setup.COM.attacks.eightleggedrush],
   }),
 
   ENhog: new Enemy({
     name: "Hog",
     healthMax: 8,
-    init: 47,
+    initStart: 47,
     attacks: [setup.COM.attacks.hogrush, setup.COM.attacks.hoggore],
-
   }),
 };
 
