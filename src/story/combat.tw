@@ -268,8 +268,7 @@ async function processTurns(pp, ep) {
         pp[0].health -= 3;
         return $("#combatZone").wiki(Story.get("Combat_Zone").processText());
     } else {
-        console.error("Is it no one's turn, but turn didn't equal null.");
-        console.error(activeCharacter);
+        console.error(`Is it no one's turn, but it is ${activeCharacter.name}'s turn.`);
     }
 };
 
@@ -401,7 +400,6 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
                 <<script>>
                     setup.COM.attackCalculations(State.temporary.attack, State.temporary.pc, State.temporary.ep);
                     State.temporary.pc.init += State.temporary.attack.initRecovery;
-                    console.log(State.temporary.pc.init);
                     State.temporary.turn = null;
                     $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                 <</script>>

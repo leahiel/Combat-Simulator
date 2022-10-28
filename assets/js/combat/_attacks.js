@@ -6,6 +6,7 @@ const DEFAULTATTACK = {
   initRecovery: 45,
   /** The weapon damage multiplier multiplies the weapon damage for the attack by this amount. */
   wdm: 1,
+  family: null,
 
   directhit: {
     calculated: 0,
@@ -88,6 +89,10 @@ class Attack {
     // This is required as we need to deep assign.
     let merger = mergeDeep(DEFAULTATTACK, obj);
     Object.assign(this, merger);
+
+    if (this.family === null) {
+      console.error(`${this.name}'s family is null.`);
+    }
   }
 
   // TODO: These methods hould be prototype'd.
@@ -111,6 +116,7 @@ const attacks = {
   // SPEAR ATTACKS
   stab: new Attack({
     name: "Stab",
+    family: "Player",
     initRecovery: 50,
     wdm: 1.25,
     damage: {
@@ -207,6 +213,7 @@ const attacks = {
   /** When a character is dead, this attack should replace its attack. */
   deadAttack: new Attack({
     name: "deadAttack",
+    family: "Debug",
     effect: null,
     initRecovery: 0,
   }),
@@ -214,6 +221,7 @@ const attacks = {
   /** The attack that is used when attacks aren't initialized. */
   nullAttack: new Attack({
     name: "errorAttack",
+    family: "Debug",
     effect: null,
   }),
 };

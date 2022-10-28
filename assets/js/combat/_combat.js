@@ -269,7 +269,7 @@ function attackCalculations(attack, attacker, targets) {
     // NOTE: Not implemented in this game.
 
     // Calculate Critical Strike, iff Crit hits.
-    // NOTE: Not implementd in this game.
+    // NOTE: Not implemented in this game.
 
     // NOTE: If the attack was blocked, this should return the string "Blocked" instead.
     solobj[idx] = damageobj.total;
