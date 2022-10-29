@@ -96,16 +96,17 @@ function settingsHandler() {
  * ranItems(5, arr)  // => ["A", "C", "B"] with console warning.
  */
 function ranItems(amount, arr, isDuplicatable = false) {
+  let solarr = [];
+
   if (amount === 1) {
-    return arr[Math.floor(Math.random() * arr.length)];
+    return [arr[Math.floor(Math.random() * arr.length)]];
   }
 
   if (isDuplicatable) {
-    let temparr = [];
     for (amount; amount > 0; amount--) {
-      temparr.push(arr[Math.floor(Math.random() * arr.length)]);
+      solarr.push(arr[Math.floor(Math.random() * arr.length)]);
     }
-    return temparr;
+    return solarr;
   }
 
   if (amount > arr.length) {
@@ -117,17 +118,15 @@ function ranItems(amount, arr, isDuplicatable = false) {
 
   // DESIRED: Optimize this.
   // To start with, if amount === arr.length, we can just return a shufflized array.
-  let temparr = [];
   for (amount; amount > 0; amount--) {
     let randItem = arr[Math.floor(Math.random() * arr.length)];
-    while (temparr.includes(randItem)) {
+    while (solarr.includes(randItem)) {
       randItem = arr[Math.floor(Math.random() * arr.length)];
     }
-
-    temparr.push(randItem);
+    solarr.push(randItem);
   }
 
-  return temparr;
+  return solarr;
 }
 
 /**

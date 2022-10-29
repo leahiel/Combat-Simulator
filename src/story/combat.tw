@@ -90,6 +90,7 @@ function updateCanvas(char, ally, canvasElement) {
 
     /* The left most starting position of the initbar line. */
     let horiBarXPos = 432;
+    let hpBarXPos = horiBarXPos + 220;
 
     /* 
     HP Bar
@@ -101,7 +102,7 @@ function updateCanvas(char, ally, canvasElement) {
         strokeWidth: 5,
         strokeStyle: '#FFFFFF',
         text: 'HP:',
-        x: horiBarXPos + 60, 
+        x: hpBarXPos - 160, 
         y: 78,
     });
     
@@ -110,7 +111,7 @@ function updateCanvas(char, ally, canvasElement) {
         strokeStyle: '#000000',
         strokeWidth: 80,
         rounded: true,
-        x1: horiBarXPos + 200,
+        x1: hpBarXPos - 20,
         y1: 78,
         x2: 2000,
         y2: 78,
@@ -120,7 +121,7 @@ function updateCanvas(char, ally, canvasElement) {
         strokeStyle: '#8C99A6',
         strokeWidth: 60,
         rounded: true,
-        x1: horiBarXPos + 220,
+        x1: hpBarXPos,
         y1: 78,
         x2: 1980,
         y2: 78,
@@ -131,9 +132,9 @@ function updateCanvas(char, ally, canvasElement) {
             strokeStyle: '#AA0000',
             strokeWidth: 60,
             rounded: true,
-            x1: horiBarXPos + 220,
+            x1: hpBarXPos,
             y1: 78,
-            x2: Math.max(( char.health / char.healthMax ) * 1980, horiBarXPos + 20),
+            x2: Math.max((char.health / char.healthMax * (1980 - hpBarXPos)) + hpBarXPos, hpBarXPos),
             y2: 78,
         });
     }
