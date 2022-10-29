@@ -224,18 +224,21 @@ function attackCalculations(attack, attacker, targets) {
 
   // TODO: An assignAttack function needs to be made for parties with more than one character.
   // NOTE: Since there will only be 1v1 battles in this game, this is not a concern.
-  let targetsHit = [0];
+
+  let viableTargets = [];
+  for (let i = 0; i < targets.length; i++) {
+    if (targets[i].health > 0) {
+      viableTargets.push(targets[i]);
+    }
+  }
+
+  let targetsHit = ranItems(1, viableTargets);
 
   /*
    * Actual Attack Calculations
    */
   let solobj = {};
-  targets.forEach((target, idx) => {
-    if (!targetsHit.includes(idx)) {
-      // This target was not aimed for.
-      return;
-    }
-
+  targetsHit.forEach((target, idx) => {
     // Order of Operations
     // Resistance
     // Remove Percentage Absorb
@@ -278,10 +281,11 @@ function attackCalculations(attack, attacker, targets) {
   // Apply solobj to party
   // NOTE: In time this will do more than just damage, and so this code will need to be changed.
   for (let key in solobj) {
-    targets[key].health -= solobj[key];
-    if (targets[key].health < 0) {
-      targets[key].health = 0;
+    targetsHit[key].health -= solobj[key];
+    if (targetsHit[key].health < 0) {
+      targetsHit[key].health = 0;
     }
+    combatMessage(`Took ${Math.floor(solobj[key])} damage.`, "default", targetsHit[key].location);
   }
 
   // Character has been stunned/blocked/attacked recently and needs to recover. The stun/block/attack needs to add init to the correct targets.

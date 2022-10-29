@@ -128,7 +128,7 @@ Interested in more narrative fantasy smut? Find my other games at <a href="https
 /* twine-user-script #2: "_attacks.min.js" */
 const DEFAULTATTACK={effect:"damage",initRecovery:45,wdm:1,family:null,directhit:{calculated:0,base:0,increased:0,more:0},critical:{chance:{calculated:0,base:0,increased:0,more:0},damage:{calculated:0,base:0,increased:0,more:0},avoid:{increased:0,more:0}},damage:{blunt:{min:0,max:0},pierce:{min:0,max:0},acid:{min:0,max:0},fire:{min:0,max:0},frost:{min:0,max:0},lightning:{min:0,max:0},sacred:{min:0,max:0},shadow:{min:0,max:0},aether:{min:0,max:0}}};class Attack{constructor(obj){let merger=mergeDeep(DEFAULTATTACK,obj);Object.assign(this,merger),null===this.family&&console.error(`${this.name}'s family is null.`)}clone(){return new this.constructor(this)}toJSON(){const ownData={};return Object.keys(this).forEach((function(pn){ownData[pn]=clone(this[pn])}),this),JSON.reviveWrapper(`new ${this.constructor.name}($ReviveData$)`,ownData)}}const attacks={stab:new Attack({name:"Stab",family:"Player",initRecovery:50,wdm:1.25,damage:{pierce:{min:7,max:13}}}),vilebite:new Attack({name:"Vile Bite",family:"Spider",damage:{pierce:{min:8,max:12},acid:{min:8,max:12}}}),webshot:new Attack({name:"Web Shot",family:"Spider",damage:{frost:{min:2,max:4},acid:{min:2,max:4}}}),eightleggedrush:new Attack({name:"Eight Legged Rush",family:"Spider",initRecovery:80,damage:{blunt:{min:13,max:19}}}),hogrush:new Attack({name:"Hog Rush",family:"Hog",initRecovery:"80",damage:{blunt:{min:9,max:13}}}),hoggore:new Attack({name:"Hog Gore",family:"Hog",initRecovery:"72",damage:{pierce:{min:11,max:14}}}),cuddlebutt:new Attack({name:"Cuddle Butt",family:"Carbuncle",initRecovery:"16",damage:{blunt:{min:3,max:5}}}),deadAttack:new Attack({name:"deadAttack",family:"Debug",effect:null,initRecovery:0}),nullAttack:new Attack({name:"errorAttack",family:"Debug",effect:null})},familyAttacks={};for(let key in attacks)attacks[key].family&&(familyAttacks[attacks[key].family]||(familyAttacks[attacks[key].family]=[]),familyAttacks[attacks[key].family].push(attacks[key]));!function(S){S.COM||(S.COM={}),S.COM.attacks=attacks,S.COM.familyAttacks=familyAttacks}(setup);
 /* twine-user-script #3: "_combat.min.js" */
-function assignFieldOfObjectsToArray(objarr,field){let solarr=[];return objarr.forEach(v=>{solarr.push(v[field])}),solarr}function someValuesTrue(arr,cond){let isViable=!1;return arr.forEach(v=>{cond(v)&&(isViable=!0)}),isViable}function allValuesTrue(arr,cond){let isViable=!0;return arr.forEach(v=>{cond(v)||(isViable=!1)}),isViable}function attackCalculations(attack,attacker,targets){function wasBlocked(attack,attacker,target){return!1}function calculateDamage(attack,attacker,target,sub){function wasDirectHit(attack,attacker,target){return!1}let main="";switch(sub){case"blunt":case"pierce":case"acid":main="material";break;case"fire":case"frost":case"lightning":main="elemental";break;case"sacred":case"shadow":case"aether":main="occult"}let absorbPercent=Math.max(target.absorbPercent[main],target.absorbPercent[sub]);absorbPercent=Math.min(absorbPercent,target.absorbPercentMax[sub]);let absorb=0,absorbFlat=0,damageResult;return damageResult=Math.max(Math.random()*(attack.damage[sub].min-attack.damage[sub].max)+attack.damage[sub].max,0),damageResult*=1-Math.max(Math.min(target.resistance[main],target.resistanceMax[main]),Math.min(target.resistance[sub],target.resistanceMax[sub])),absorb=damageResult*absorbPercent,damageResult-=absorb,damageResult>0&&(damageResult=Math.max(damageResult-target.reduct[main]-target.reduct[sub],0)),damageResult>0&&(absorbFlat=Math.max(target.absorbFlat[sub]+target.absorbFlat[main],-1*damageResult),damageResult-=absorbFlat),Math.floor(1e4*damageResult)/1e4}let targetsHit=[0],solobj={};targets.forEach((target,idx)=>{if(!targetsHit.includes(idx))return;let damageobj={blunt:calculateDamage(attack,attacker,target,"blunt"),pierce:calculateDamage(attack,attacker,target,"pierce"),acid:calculateDamage(attack,attacker,target,"acid"),fire:calculateDamage(attack,attacker,target,"fire"),frost:calculateDamage(attack,attacker,target,"frost"),lightning:calculateDamage(attack,attacker,target,"lightning"),sacred:calculateDamage(attack,attacker,target,"sacred"),shadow:calculateDamage(attack,attacker,target,"shadow"),aether:calculateDamage(attack,attacker,target,"aether"),total:0};for(let amount in damageobj)damageobj[amount]!==damageobj.total&&(damageobj.total+=damageobj[amount]);Config.debug&&console.table(damageobj),solobj[idx]=damageobj.total});for(let key in solobj)targets[key].health-=solobj[key],targets[key].health<0&&(targets[key].health=0);attacker.init+=attack.initRecovery}!function(S){S.COM||(S.COM={}),S.COM.attackCalculations=function(attack,attacker,targets){return attackCalculations(attack,attacker,targets)},S.fns||(S.fns={}),S.fns.assignFieldOfObjectsToArray=function(objarr,field){return assignFieldOfObjectsToArray(objarr,field)},S.fns.someValuesTrue=function(arr,cond){return someValuesTrue(arr,cond)},S.fns.allValuesTrue=function(arr,cond){return allValuesTrue(arr,cond)}}(setup);
+function assignFieldOfObjectsToArray(objarr,field){let solarr=[];return objarr.forEach(v=>{solarr.push(v[field])}),solarr}function someValuesTrue(arr,cond){let isViable=!1;return arr.forEach(v=>{cond(v)&&(isViable=!0)}),isViable}function allValuesTrue(arr,cond){let isViable=!0;return arr.forEach(v=>{cond(v)||(isViable=!1)}),isViable}function attackCalculations(attack,attacker,targets){function wasBlocked(attack,attacker,target){return!1}function calculateDamage(attack,attacker,target,sub){function wasDirectHit(attack,attacker,target){return!1}let main="";switch(sub){case"blunt":case"pierce":case"acid":main="material";break;case"fire":case"frost":case"lightning":main="elemental";break;case"sacred":case"shadow":case"aether":main="occult"}let absorbPercent=Math.max(target.absorbPercent[main],target.absorbPercent[sub]);absorbPercent=Math.min(absorbPercent,target.absorbPercentMax[sub]);let absorb=0,absorbFlat=0,damageResult;return damageResult=Math.max(Math.random()*(attack.damage[sub].min-attack.damage[sub].max)+attack.damage[sub].max,0),damageResult*=1-Math.max(Math.min(target.resistance[main],target.resistanceMax[main]),Math.min(target.resistance[sub],target.resistanceMax[sub])),absorb=damageResult*absorbPercent,damageResult-=absorb,damageResult>0&&(damageResult=Math.max(damageResult-target.reduct[main]-target.reduct[sub],0)),damageResult>0&&(absorbFlat=Math.max(target.absorbFlat[sub]+target.absorbFlat[main],-1*damageResult),damageResult-=absorbFlat),Math.floor(1e4*damageResult)/1e4}let viableTargets=[];for(let i=0;i<targets.length;i++)targets[i].health>0&&viableTargets.push(targets[i]);let targetsHit=ranItems(1,viableTargets),solobj={};targetsHit.forEach((target,idx)=>{let damageobj={blunt:calculateDamage(attack,attacker,target,"blunt"),pierce:calculateDamage(attack,attacker,target,"pierce"),acid:calculateDamage(attack,attacker,target,"acid"),fire:calculateDamage(attack,attacker,target,"fire"),frost:calculateDamage(attack,attacker,target,"frost"),lightning:calculateDamage(attack,attacker,target,"lightning"),sacred:calculateDamage(attack,attacker,target,"sacred"),shadow:calculateDamage(attack,attacker,target,"shadow"),aether:calculateDamage(attack,attacker,target,"aether"),total:0};for(let amount in damageobj)damageobj[amount]!==damageobj.total&&(damageobj.total+=damageobj[amount]);Config.debug&&console.table(damageobj),solobj[idx]=damageobj.total});for(let key in solobj)targetsHit[key].health-=solobj[key],targetsHit[key].health<0&&(targetsHit[key].health=0),combatMessage(`Took ${Math.floor(solobj[key])} damage.`,"default",targetsHit[key].location);attacker.init+=attack.initRecovery}!function(S){S.COM||(S.COM={}),S.COM.attackCalculations=function(attack,attacker,targets){return attackCalculations(attack,attacker,targets)},S.fns||(S.fns={}),S.fns.assignFieldOfObjectsToArray=function(objarr,field){return assignFieldOfObjectsToArray(objarr,field)},S.fns.someValuesTrue=function(arr,cond){return someValuesTrue(arr,cond)},S.fns.allValuesTrue=function(arr,cond){return allValuesTrue(arr,cond)}}(setup);
 /* twine-user-script #4: "_combatant.min.js" */
 setup.COM.Combatant=class Combatant{constructor(obj){Object.assign(this,obj),this.health=this.healthMax;let max=this.initStart*(1+this.initVariance),min=this.initStart*(1-this.initVariance);this.init=Math.floor(Math.random()*(max-min+1))+Math.floor(min)}die(){}clone(){return new this.constructor(this)}toJSON(){const ownData={};return Object.keys(this).forEach((function(pn){ownData[pn]=clone(this[pn])}),this),JSON.reviveWrapper(`new ${this.constructor.name}($ReviveData$)`,ownData)}};
 /* twine-user-script #5: "_config.min.js" */
@@ -657,6 +657,43 @@ State.temporary.pc = new setup.COM.Combatant(
         State.temporary.ep.push(new setup.COM.Combatant(setup.COM.monsters[uninitEnemy]));
     }
 
+    /* Add the locations of each character to their obj. */
+    for (let i = 0; i &lt; State.temporary.ep.length; i++) {
+        switch (i) {
+            case 0:
+                State.temporary.ep[i].location = &quot;enemyA&quot;;
+                break;
+            case 1:
+                State.temporary.ep[i].location = &quot;enemyB&quot;;
+                break;
+            case 2:
+                State.temporary.ep[i].location = &quot;enemyC&quot;;
+                break;
+            case 3:
+                State.temporary.ep[i].location = &quot;enemyD&quot;;
+                break;
+            case 4:
+                State.temporary.ep[i].location = &quot;enemyE&quot;;
+                break;
+        }
+    }
+    for (let i = 0; i &lt; State.temporary.pp.length; i++) {
+        switch (i) {
+            case 0:
+                State.temporary.pp[i].location = &quot;playerA&quot;;
+                break;
+            case 1:
+                State.temporary.pp[i].location = &quot;playerB&quot;;
+                break;
+            case 2:
+                State.temporary.pp[i].location = &quot;playerC&quot;;
+                break;
+            case 3:
+                State.temporary.pp[i].location = &quot;playerD&quot;;
+                break;
+        }
+    }
+
     $(document).one(&quot;:passagedisplay&quot;, function() {
         /* On passage completion, initialize. */
         $(&quot;#combatZone&quot;).wiki(Story.get(&quot;Combat_Zone&quot;).processText());
@@ -889,6 +926,7 @@ async function processTurns(pp, ep) {
         $(&quot;#notifArea&quot;).empty().wiki(&quot;Player Turn&quot;);
 
         drawCombat();
+        /* drawCombat() updates playerOptionsGrid, so the player can make a choice there. */
 
         /* The player will processTurns() after clicking a button. No need to do it here. */
         return;
@@ -897,13 +935,11 @@ async function processTurns(pp, ep) {
         $(&quot;#notifArea&quot;).empty().wiki(&quot;Enemy Turn&quot;);
 
         drawCombat();
-
-        /* TODO: Enemy AI here */
         await waitFor(600);
 
+        /* Enemy AI */
         let chosenAttack = setup.fns.ranItems(1, activeCharacter.attacks)[0];
-
-        setup.COM.attackCalculations(ep[0].attacks[0], State.temporary.ep[0], State.temporary.pp);
+        setup.COM.attackCalculations(chosenAttack, activeCharacter, State.temporary.pp);
 
         return $(&quot;#combatZone&quot;).wiki(Story.get(&quot;Combat_Zone&quot;).processText());
     } else {

@@ -30,6 +30,43 @@ State.temporary.pc = new setup.COM.Combatant(
         State.temporary.ep.push(new setup.COM.Combatant(setup.COM.monsters[uninitEnemy]));
     }
 
+    /* Add the locations of each character to their obj. */
+    for (let i = 0; i < State.temporary.ep.length; i++) {
+        switch (i) {
+            case 0:
+                State.temporary.ep[i].location = "enemyA";
+                break;
+            case 1:
+                State.temporary.ep[i].location = "enemyB";
+                break;
+            case 2:
+                State.temporary.ep[i].location = "enemyC";
+                break;
+            case 3:
+                State.temporary.ep[i].location = "enemyD";
+                break;
+            case 4:
+                State.temporary.ep[i].location = "enemyE";
+                break;
+        }
+    }
+    for (let i = 0; i < State.temporary.pp.length; i++) {
+        switch (i) {
+            case 0:
+                State.temporary.pp[i].location = "playerA";
+                break;
+            case 1:
+                State.temporary.pp[i].location = "playerB";
+                break;
+            case 2:
+                State.temporary.pp[i].location = "playerC";
+                break;
+            case 3:
+                State.temporary.pp[i].location = "playerD";
+                break;
+        }
+    }
+
     $(document).one(":passagedisplay", function() {
         /* On passage completion, initialize. */
         $("#combatZone").wiki(Story.get("Combat_Zone").processText());
@@ -267,6 +304,7 @@ async function processTurns(pp, ep) {
         $("#notifArea").empty().wiki("Player Turn");
 
         drawCombat();
+        /* drawCombat() updates playerOptionsGrid, so the player can make a choice there. */
 
         /* The player will processTurns() after clicking a button. No need to do it here. */
         return;
@@ -275,13 +313,11 @@ async function processTurns(pp, ep) {
         $("#notifArea").empty().wiki("Enemy Turn");
 
         drawCombat();
-
-        /* TODO: Enemy AI here */
         await waitFor(600);
 
+        /* Enemy AI */
         let chosenAttack = setup.fns.ranItems(1, activeCharacter.attacks)[0];
-
-        setup.COM.attackCalculations(ep[0].attacks[0], State.temporary.ep[0], State.temporary.pp);
+        setup.COM.attackCalculations(chosenAttack, activeCharacter, State.temporary.pp);
 
         return $("#combatZone").wiki(Story.get("Combat_Zone").processText());
     } else {
