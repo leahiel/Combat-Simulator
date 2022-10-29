@@ -43,6 +43,10 @@ It's intended for actual rendering stuff. */
 :: PassageFooter [.rendering] {"position":"250,525"}
 /* Everything here is rendered at the end of every passage rendering.
 It's intended for actual rendering stuff. */
+
+<span id='flash-notifs-here'></span>
+
+
 /* <<if Config.debug>> */
     <br>
     <br>
@@ -50,6 +54,21 @@ It's intended for actual rendering stuff. */
         /* Random Int between 1 and 5 */
         <<set _int to Math.ceil(Math.random() * (5))>>
         <<set $ep to setup.fns.ranItems(_int, Object.keys(setup.COM.monsters), true)>>
+    <</button>>
+    <<button "F EnemyA!">>
+        <<run setup.fns.combatMessage("Took 8 damage.", "enemyA");>>
+    <</button>>
+    <<button " EnemyB!">>
+        <<run setup.fns.combatMessage("Took 8 damage.", "enemyB");>>
+    <</button>>
+    <<button "F EnemyC!">>
+        <<run setup.fns.combatMessage("Took 8 damage.", "enemyC");>>
+    <</button>>
+    <<button "F EnemyD!">>
+        <<run setup.fns.combatMessage("Took 8 damage.", "enemyD");>>
+    <</button>>
+    <<button "F EnemyE!">>
+        <<run setup.fns.combatMessage("Took 8 damage.", "enemyE");>>
     <</button>>
 /* <</if>> */
 
@@ -220,6 +239,19 @@ if ($("li#backwardTab").ariaIsDisabled()) {
 } else {
     $("li#backwardTab").css("color", "inherit");
     $("li#backwardTab").css("cursor", "pointer");
+}
+
+/* Don't allow scrolling during combat. */
+if (tags().includes(".combat")) {
+    $('body').css({
+        "height": "100%",
+        "overflow": "hidden",
+    })
+} else {
+    $('body').css({
+        "height": "initial",
+        "overflow": "initial",
+    })
 }
 
 /* If we delete the session, then we can't load from it: We'll only be able to load from the autosave. 

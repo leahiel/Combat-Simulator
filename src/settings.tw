@@ -75,9 +75,11 @@ LeahPeach
 })();
 
 /* Discord Widget */
+/* FIXME: Uncomment when UI fixing is done.
 if (!Config.debug) {
     setup.fns.importDiscordWidget()
 }
+*/
 
 /*
 ########     ###    ########    ###    ########     ###     ######  ######## 

@@ -11,7 +11,7 @@ for (let uninitEnemy of State.variables.ep) {
 <</script>>
 
 
-/* TODO: These two below should actaully be handled as story variables, before this passage is called. */
+/* TODO: These two below should actually be handled as story variables, before this passage is called. */
 <<set _win to "victorypassagename">>
 <<set _lose to "losepassagename">>
 <<script>>
