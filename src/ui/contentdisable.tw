@@ -6,12 +6,10 @@ Please select which content you do not want to encounter.
 
 <span class="row">
 <div class="column">
-@@.contentdisabletitle;Genital Mutilation and Gore@@
-<br>@@.subtext;There's a very minor and optional section that you have to go past several rather obvious attempts <span style="color:brown;">by me, the author,</span> to make you turn back from to receive. However, the torture indured by your character is significant enough to require this option.@@
-<br>@@.warning;And no, the section is not for sexual satisfaction.@@
-<br>@@.warning;This content cannot be warned for. If you stumble across it, the related paragraphs will simply not appear, so you won't even know where or what you missed.@@
-<br><<disable>><label><<checkbox "_warn-nsfw" false true autocheck>> Warn</label><</disable>>
-<br><label><<checkbox "_disable-genitalmutaliation" false true autocheck>> Disable</label>
+@@.contentdisabletitle;NSFW1@@
+<br>@@.subtext;Subtext1.@@
+<br><label><<checkbox "_warn-nsfw1" false true autocheck>> Warn</label>
+<br><label><<checkbox "_disable-nsfw1" false true autocheck>> Disable</label>
 <br>
 <br>@@.contentdisabletitle;NSFW2@@
 <br>@@.subtext;Subtext2.@@
@@ -39,11 +37,11 @@ Please select which content you do not want to encounter.
 
 	/* Run an event handler that refreshes the passage when an option changes. */
 	<<run 
-        checkboxHandler("genitalmutaliation");
+        checkboxHandler("nsfw1");
         checkboxHandler("nsfw2");
         checkboxHandler("nsfw3");
         checkboxHandler("nsfw");
-        
+
         function checkboxHandler(content) {
             let warn_content = "input#checkbox--warn-" + content;
             $(warn_content).on("click", function() {
@@ -51,11 +49,11 @@ Please select which content you do not want to encounter.
                     /* Ensure the content isn't already in the array. */
                     if (!variables().ft_warning.includes(content)) {
                         variables().ft_warning.push(content);
-                    }
+                    } 
                 } else {
-                    variables().ft_warning = variables().ft_warning.filter(v => v !== content);
+                    variables().ft_warning = variables().ft_warning.filter(v => v !== content); 
                 }
-                Engine.show();
+			    Engine.show();
             });
 
             let disable_content = "input#checkbox--disable-" + content;
@@ -64,12 +62,12 @@ Please select which content you do not want to encounter.
                     /* Ensure the content isn't already in the array. */
                     if (!variables().ft_disable.includes(content)) {
                         variables().ft_disable.push(content);
-                    }
+                    } 
                 } else {
-                    variables().ft_disable = variables().ft_disable.filter(v => v !== content);
+                    variables().ft_disable = variables().ft_disable.filter(v => v !== content); 
                 }
-                Engine.show();
+			    Engine.show();
             });
-        }
+        };
 	>>
 <</done>>
