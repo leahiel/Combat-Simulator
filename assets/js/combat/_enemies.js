@@ -154,7 +154,6 @@ const DEFAULTENEMY = {
   initVariance: 0.10,
   family: null,
 };
-// TODO: Add initVariancePercent to vary the starting Init. Also do thing for health.
 
 class Enemy {
   constructor(obj) {

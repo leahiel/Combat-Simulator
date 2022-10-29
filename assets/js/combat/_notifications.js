@@ -1,7 +1,9 @@
+/// https://github.com/SjoerdHekking/custom-macros-sugarcube2/tree/main/Notification
+
 /**
  * Sends a Flash notification to the location of a given character during combat.
  */
-function combatMessage(text, charLoc) {
+function combatMessage(text, type, charLoc) {
     /* Get bounding box of character element. */
     let eleName = "";
     switch (charLoc) {
@@ -53,7 +55,7 @@ function combatMessage(text, charLoc) {
     }
 
     /* Create the message. */
-    window.FlashMessage.create(text, "default", {
+    window.FlashMessage.create(text, type, {
         progress: true,
         interactive: true,
         timeout: 8000,
@@ -90,7 +92,7 @@ function combatMessage(text, charLoc) {
         S.fns = {};
     }
 
-    S.fns.combatMessage = function (text, charLoc) {
-        combatMessage(text, charLoc);
+    S.fns.combatMessage = function (text, type, charLoc) {
+        combatMessage(text, type, charLoc);
     };
 })(setup);

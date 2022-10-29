@@ -46,7 +46,6 @@ It's intended for actual rendering stuff. */
 
 <span id='flash-notifs-here'></span>
 
-
 /* <<if Config.debug>> */
     <br>
     <br>
@@ -56,19 +55,19 @@ It's intended for actual rendering stuff. */
         <<set $ep to setup.fns.ranItems(_int, Object.keys(setup.COM.monsters), true)>>
     <</button>>
     <<button "F EnemyA!">>
-        <<run setup.fns.combatMessage("Took 8 damage.", "enemyA");>>
+        <<run setup.fns.combatMessage("Took 8 damage.", "default", "enemyA");>>
     <</button>>
     <<button " EnemyB!">>
-        <<run setup.fns.combatMessage("Took 8 damage.", "enemyB");>>
+        <<run setup.fns.combatMessage("Took 8 damage.", "default", "enemyB");>>
     <</button>>
     <<button "F EnemyC!">>
-        <<run setup.fns.combatMessage("Took 8 damage.", "enemyC");>>
+        <<run setup.fns.combatMessage("Took 8 damage.", "default", "enemyC");>>
     <</button>>
     <<button "F EnemyD!">>
-        <<run setup.fns.combatMessage("Took 8 damage.", "enemyD");>>
+        <<run setup.fns.combatMessage("Took 8 damage.", "default", "enemyD");>>
     <</button>>
     <<button "F EnemyE!">>
-        <<run setup.fns.combatMessage("Took 8 damage.", "enemyE");>>
+        <<run setup.fns.combatMessage("Took 8 damage.", "default", "enemyE");>>
     <</button>>
 /* <</if>> */
 

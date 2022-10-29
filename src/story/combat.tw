@@ -1,22 +1,39 @@
 :: Combat_Overlord [@combatoverlord .combat nostats]
 /* This passage will only be run once, and will be the predominant passage until combat is over. This will allow us to keep _vars until we are done with the combat. */
-/* <<set _pc to new setup.COM.Combatant(State.variables.Player.Derived)>> */
-<<set _pc to {health: 26, healthMax: 28, init: 63, attacks: [setup.COM.attacks.stab], name: $pc_name}>> /* NOTE TESTING ONLY */
-<<set _pp to [_pc]>> /* For future compatibility, if there are more than one pc. This will NOT be used in this story. */
-<<script>>
-State.temporary.ep = [];
-for (let uninitEnemy of State.variables.ep) {
-    State.temporary.ep.push(new setup.COM.Combatant(setup.COM.monsters[uninitEnemy]));
-}
-<</script>>
-
-
 /* TODO: These two below should actually be handled as story variables, before this passage is called. */
 <<set _win to "victorypassagename">>
 <<set _lose to "losepassagename">>
+
+/* <<set _pc to new setup.COM.Combatant(State.variables.Player.Derived)>> */
 <<script>>
+/* NOTE TESTING ONLY */
+State.temporary.pc = new setup.COM.Combatant(
+    new setup.COM.Player({
+        health: 124, 
+        healthMax: 125, 
+        init: 63, 
+        initStart: 63,
+        initVariance: 0.10,
+        attacks: [setup.COM.attacks.stab], 
+        name: State.variables.pc_name,
+    })
+);
+<</script>>
+
+
+/* In the future, initialization of pp will be done properly. */
+<<set _pp to [_pc]>> 
+<<script>>
+    /* Initialize Enemy Party */
+    State.temporary.ep = [];
+    for (let uninitEnemy of State.variables.ep) {
+        State.temporary.ep.push(new setup.COM.Combatant(setup.COM.monsters[uninitEnemy]));
+    }
+
     $(document).one(":passagedisplay", function() {
+        /* On passage completion, initialize. */
         $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+        /* And scroll into view. */
         document.getElementById("chapterheader").scrollIntoView();
     });
 <</script>>
@@ -262,11 +279,10 @@ async function processTurns(pp, ep) {
         /* TODO: Enemy AI here */
         await waitFor(600);
 
-        /* setup.COM.attackCalculations(ep[0].attacks[0], State.temporary.ep[0], State.temporary.pp); */
+        let chosenAttack = setup.fns.ranItems(1, activeCharacter.attacks)[0];
 
-        /* DELETE ONCE AI IS REAL */
-        activeCharacter.init += activeCharacter.attacks[0].initRecovery;
-        pp[0].health -= 3;
+        setup.COM.attackCalculations(ep[0].attacks[0], State.temporary.ep[0], State.temporary.pp);
+
         return $("#combatZone").wiki(Story.get("Combat_Zone").processText());
     } else {
         console.error(`Is it no one's turn, but it is ${activeCharacter.name}'s turn.`);
