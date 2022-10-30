@@ -83,7 +83,7 @@ Only one option can be picked, Which one will it be?
 <<script>>
     $(document).one(":passagedisplay", function() {
         $("a.macro-linkreplace").on("click", function() {
-            $("a.macro-linkreplace").addClass("display-none");
+            $("a.macro-linkreplace").addClass("hidden");
             $("#insert").wiki(Story.get("Link-Replace-Hide-Others-Helper").processText());
         });
     })

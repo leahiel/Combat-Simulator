@@ -1,29 +1,42 @@
 :: Combat_Overlord [@combatoverlord .combat nostats]
-/* This passage will only be run once, and will be the predominant passage until combat is over. This will allow us to keep _vars until we are done with the combat. */
-/* TODO: These two below should actually be handled as story variables, before this passage is called. */
+/**
+ * This passage will only be run once, and will be the predominant 
+ * passage until combat is over. This will allow us to keep _vars 
+ * until we are done with the combat. 
+ */
+
+/* NYI: These should be handled as story variables before combat begins. */
 <<set _win to "victorypassagename">>
 <<set _lose to "losepassagename">>
 
-/* <<set _pc to new setup.COM.Combatant(State.variables.Player.Derived)>> */
 <<script>>
-/* NOTE TESTING ONLY */
-State.temporary.pc = new setup.COM.Combatant(
-    new setup.COM.Player({
-        health: 124, 
-        healthMax: 125, 
-        init: 63, 
-        initStart: 63,
-        initVariance: 0.10,
-        attacks: [setup.COM.attacks.stab], 
-        name: State.variables.pc_name,
-    })
-);
-<</script>>
+    /** 
+     * Because Player is barely functional and only used here for 
+     * testing and development purposes, the whole initialization of 
+     * _pp is a mess. 
+     *
+     * In the future, initialization of pp will be done properly.
+     */
+    /* NYI: Initialize Player Party */
+    /*
+    State.tempory.pp = [];
+    for (let uninitPlayer of State.variables.pp) {
+        State.temporary.pp.push(new setup.COM.Combatant(uninitPlayer));
+    }
+    */
+    State.temporary.pc = new setup.COM.Combatant(
+        new setup.COM.Player({
+            health: 124,
+            healthMax: 125,
+            init: 63,
+            initStart: 63,
+            initVariance: 0.10,
+            attacks: [setup.COM.attacks.stab],
+            name: State.variables.pc_name,
+        })
+    );
+    State.temporary.pp = [State.temporary.pc];
 
-
-/* In the future, initialization of pp will be done properly. */
-<<set _pp to [_pc]>> 
-<<script>>
     /* Initialize Enemy Party */
     State.temporary.ep = [];
     for (let uninitEnemy of State.variables.ep) {
@@ -75,23 +88,53 @@ State.temporary.pc = new setup.COM.Combatant(
     });
 <</script>>
 
-<span id="combatZone">
-/* This area will be replaced multiple times as the fight progresses. */
-/* TODO: Show the statisitical details of all combatants. */
-</span>
+/* NYI: Show the statisitical details of all Combatants. */
+/* NYI: Show the statisitical details of all Player Attacks. */
+/* <span id="combatInfoZone"></span> */
 
+/* This is effectively the enemies' side of the "field". */
+<span id="combatZone"></span>
+
+/* This is the dividing bar between the enemies and the player. */
 <span id="notifArea"></span>
 
-<span id="playerOptions">
-/* This area will change depending on whose turn it is. It will let the player pick attacks, use items, etc, etc. */
-/* It gets set in Combat_Zone */
-</span>
+/**
+ * This is effectively the player's side of the "field". 
+ * It lets the player pick attacks, use items, etc, etc.
+ */
+<span id="playerOptions"></span>
 
 
 
 :: Combat_Zone [.combat .helper nostats]
+/**
+ * The Combat_Zone passage dictates the logic of the combat. It 
+ * iterates through "ticks" of combat, which decrement all character's
+ * initialization as well as update their Canvas information. It also 
+ * determines whose turn it is.
+ * 
+ * Its contents are run at the very beginning of combat, and at the 
+ * end of every Player or Enemy turn.
+ */
 <<script>>
+/**
+ * Determine which characters should have their Canvas information 
+ * updated.
+ * 
+ * Redraw ::Player_Attacks.
+ */
 function drawCombat() {
+    /**
+     * We reprocess this so that if it is the player's turn, they can
+     * make an attack. Or alternatively, if it is not their turn, 
+     * their attack icons are disabled.
+     */
+    $("#playerAttacks").empty().wiki(Story.get("Player_Attacks").processText());
+
+    /**
+     * Determine which characters should have their Canvas information 
+     * updated.
+     */
     if (State.temporary.ep[0]) {
         $('#gitemA progress.healthBar').attr({
             value: State.temporary.ep[0].health,
@@ -134,21 +177,28 @@ function drawCombat() {
         });
         updateCanvas(State.temporary.pp[0], "player", $('canvas.initBar#playerA'));
     }
-
-    $("#playerAttacks").empty().wiki(Story.get("Player_Attacks").processText());
 };
 
+/**
+ * Update the Canvas information of the given entity.
+ * 
+ * TODO: Since location information is now stored in char, we can get 
+ * rid of the confusing ally parameter.
+ */
 function updateCanvas(char, ally, canvasElement) {
-    /* jCanvas library documentation: https://projects.calebevans.me/jcanvas/docs/ */
+    /** 
+     * jCanvas library documentation: 
+     * https://projects.calebevans.me/jcanvas/docs/ 
+     */
     canvasElement.clearCanvas();
 
     /* The left most starting position of the initbar line. */
     let horiBarXPos = 432;
     let hpBarXPos = horiBarXPos + 220;
 
-    /* 
-    HP Bar
-    */
+    /**
+     * HP Bar
+     */
     /* "HP:" Text */
     canvasElement.drawText({
         fillStyle: '#FFFFFF',
@@ -193,9 +243,9 @@ function updateCanvas(char, ally, canvasElement) {
         });
     }
 
-    /*
-    Init Bar
-    */
+    /**
+     * Init Bar
+     */
     /* The rhombus. */
     let rhombusimg = "";
     let linecolor = "";
@@ -221,7 +271,6 @@ function updateCanvas(char, ally, canvasElement) {
     });
 
     /* The horizontal line. */
-
     canvasElement.drawLine({
         strokeStyle: linecolor,
         strokeWidth: 10,
@@ -254,6 +303,10 @@ function updateCanvas(char, ally, canvasElement) {
     }
 };
 
+/**
+ * This function is called every "tick". It decrements Combatants
+ * inits and determines whose turn it is.
+ */
 async function processTurns(pp, ep) {
     function waitFor(ms) {
         return new Promise(resolve => {
@@ -328,23 +381,22 @@ async function processTurns(pp, ep) {
 $("#combatZone").empty().wiki(Story.get("Combat_Zone_Main").processText());
 $("#playerOptions").empty().wiki(Story.get("Player_Options").processText());
 
+/* REVIEW: I don't think these two temporary variables are really needed. */
 State.temporary.pphealth = setup.fns.assignFieldOfObjectsToArray(State.temporary.pp, "health");
 State.temporary.ephealth = setup.fns.assignFieldOfObjectsToArray(State.temporary.ep, "health");
 
 if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
         return v <= 0
     })) {
-    /* TODO: #notifArea displays <<ibutton>> with _lose */
+    /* NYI: #notifArea displays <<ibutton>> with _lose */
     drawCombat();
     $("#notifArea").empty().wiki("YOU LOSE");
-
 } else if (setup.fns.allValuesTrue(State.temporary.ephealth, function(v) {
         return v <= 0
     })) {
-    /* TODO: #notifArea displays <<ibutton>> with _win */
+    /* NYI: #notifArea displays <<ibutton>> with _win */
     drawCombat();
     $("#notifArea").empty().wiki("YOU WIN");
-
 } else {
     processTurns(State.temporary.pp, State.temporary.ep);
 }
@@ -353,8 +405,9 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
 
 
 :: Combat_Zone_Main [.combat .helper nostats]
-/* I'm not adding in frontline/backline mechanics yet, but it would be good to consider them, as that can add a dimensionality to my combat. */
-
+/**
+ * The HTML elements of the enemies.
+ */
 <combatZoneGrid>
     /* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. */
     <<if _ep[0]>>
@@ -396,10 +449,18 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
 
 
 :: Player_Options [.combat .helper nostats]
-/* TODO: Show the statisitical details of all attacks. */
-/* TODO: Incorporate menu into something like https://www.cssscript.com/multi-level-radial-tree-menu/ or https://codepen.io/onlyveen/pen/MVaLoX*/
+/**
+ * The HTML elements of the player characters.
+ *
+ * DESIRED: Incorporate Attack menu into something like:
+ *   https://www.cssscript.com/multi-level-radial-tree-menu/
+ *   https://codepen.io/onlyveen/pen/MVaLoX
+ */
+
+/* Where the player attack elements currently show up. */
 <span id="playerAttacks"></span>
 
+/* HTML elements of the player characters. */
 <playerOptionsGrid>
     /* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. */
     <<if _pp[0]>>
@@ -441,6 +502,9 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
 
 
 :: Player_Attacks [.combat .helper nostats]
+/**
+ * Determines the logic and HTML elements behind the player attacks.
+ */
 <<if _turn === _pc>>
     <<for _attack range _pc.attacks>>
         <<capture _attack>>

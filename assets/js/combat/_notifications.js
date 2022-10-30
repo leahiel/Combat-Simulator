@@ -1,7 +1,7 @@
-/// https://github.com/SjoerdHekking/custom-macros-sugarcube2/tree/main/Notification
-
 /**
  * Sends a Flash notification to the location of a given character during combat.
+ * 
+ * https://github.com/SjoerdHekking/custom-macros-sugarcube2/tree/main/Notification
  */
 function combatMessage(text, type, charLoc) {
     /* Get bounding box of character element. */
@@ -45,7 +45,9 @@ function combatMessage(text, type, charLoc) {
         bottom: $(eleName)[0].getBoundingClientRect().bottom,
     };
 
-    /* Make sure parent container exists. */
+    // Make sure parent container exists. 
+    // Flash deletes the parent container to prevent DOM polluting, so
+    // this is required.
     if ($("#flash-" + charLoc).length === 0) {
         console.log(`Flash container does not exist.`);
         $("<div>", {
@@ -54,7 +56,7 @@ function combatMessage(text, type, charLoc) {
         }).prependTo("#flash-notifs-here");
     }
 
-    /* Create the message. */
+    // Create the message.
     window.FlashMessage.create(text, type, {
         progress: true,
         interactive: true,
@@ -72,7 +74,7 @@ function combatMessage(text, type, charLoc) {
         },
     });
 
-    /* Ensure the message is correctly placed. */
+    // Ensure the message is correctly placed.
     $("div." + charLoc + "-flash-layout").css({
         top: charPos.bottom + 20,
         left: charPos.left,
@@ -80,13 +82,16 @@ function combatMessage(text, type, charLoc) {
 }
 
 /**
- * TODO: A handler function that should be called whenever the screen is manipulated (resized, window boundries move, phone switches to landscape/portrait, etc) that replaces the charLoc notif placements into a correct place.
- * 
- * Also gotta make the location (in combat.tw ?) that calls this proposed handler.
+ * TODO: A handler function that should be called whenever the screen 
+ * is manipulated (resized, window boundries move, phone switches to 
+ * landscape/portrait, etc) that replaces the charLoc notif placements
+ * into a correct place.
+ *
+ * Also gotta make the location (in combat.tw ?) that calls this 
+ * proposed handler.
  */
 
-
-// Add all the monsters to setup.
+// Add the notification functions to setup.
 (function (S) {
     if (!S.fns) {
         S.fns = {};

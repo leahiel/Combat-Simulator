@@ -12,30 +12,29 @@
     ☑    Damage (of each type)
     ☑    Init [start, base, and recovery]
     ☑    Health [Combatant Only]
+    ☑    Blocking
+    ☑    Grazes
+    ☑    Critical Hit (Chance [Base/Increased/More], Strike [Base/Increased/More])
+    ☑    Direct Hit (Chance [Base/Increased/More], Strike [Base/Increased/More])
     "" but Unused:
     ☑     Absorb (Percent, PercentMax, Flat)
     ☑     Resistant (base, Max)
     ☑     Reduct (base)
 
     These Affixes are Missing on Combatants/Attacks:
-    →    Blocking
     →    Stunning
-        Glancing Blow
-    →    Critical Hit (Chance [Base/Increased/More], Strike [Base/Increased/More])
-    →    Direct Hit (Chance [Base/Increased/More], Strike [Base/Increased/More])
-        Weapon Expertise Modifier
+    ☐   Weapon Expertise Modifier
     →    Targets Able to Hit (Attacks)
     →    Targets to Hit (Attacker)
-    →    1 v [1-4]
-        [1-4] v [1-4]
+    →    1 v [1-5]
+    ☐   [1-4] v [1-5]
     
     These Features Missing in Combat:
-        Combatant Stats effecting combat stats, lol.
         Weapon Damage Modifier on Attacks. (There are no weapons yet!)
 
-    No Real Guide/Help system. Good luck!
-    No Equipment. (Subsequently, No Item Affixes.)
-    No Experience, No Leveling, No growth.
-    No Monster Affixes.
-    No Realistic/Intended Difficulty Setting Change
+    ☐ No Real Guide/Help system. Good luck!
+    ☐ No Equipment. (Subsequently, No Item Affixes.)
+    ☐ No Experience, No Leveling, No growth.
+    ☐ No Monster Affixes.
+    ☐ No Realistic/Intended Difficulty Setting Change
     → No Buffs/Debuffs (These last their length in units of init.)

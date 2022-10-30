@@ -226,5 +226,8 @@ Setting.addList("pronouns", {
 settings.pronouns = "female";
 Setting.save();
 
-/* REQUIRED: Pronouns get reset on refresh.  NTS: Is this still a bug? */
+/** 
+ * ~FIXME~: Pronouns get reset on refresh.  
+ * REVIEW: Is this still a bug? 
+ */
 <</script>>
