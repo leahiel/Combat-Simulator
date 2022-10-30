@@ -15,24 +15,19 @@ const DEFAULTATTACK = {
     more: 0,
   },
 
-  critical: {
-    chance: {
-      calculated: 0,
-      base: 0,
-      increased: 0,
-      more: 0,
-    },
-    damage: {
-      calculated: 0,
-      base: 0,
-      increased: 0,
-      more: 0,
-    },
-    avoid: {
-      increased: 0,
-      more: 0,
-    },
-  },
+  criticalChanceCalculated: 0,
+  criticalChanceBase: 0,
+  criticalChanceIncreased: 0,
+  criticalChanceMore: 1,
+  criticalDamageCalculated: 0,
+  criticalDamageBase: 0,
+  criticalDamageIncreased: 0,
+  criticalDamageMore: 1,
+
+  directChanceCalculated: 0,
+  directChanceBase: 0,
+  directChanceIncreased: 0,
+  directChanceMore: 1,
 
   damage: {
     // Material Damage Types

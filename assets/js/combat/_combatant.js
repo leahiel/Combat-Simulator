@@ -7,6 +7,9 @@ setup.COM.Combatant = class Combatant {
     let min = (this.initStart * (1 - this.initVariance));
     this.init = Math.floor(Math.random() * (max - min + 1)) + Math.floor(min);
     // derive the rest of `this` here, things like `this.health` and so forth
+
+    this.grazedCalculated = 0.05;
+    this.blockCalculated = 0.05;
   }
 
   // TODO: These methods should be prototype'd.

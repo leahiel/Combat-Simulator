@@ -151,6 +151,19 @@ const DEFAULTENEMY = {
     shadow: 0,
     aether: 0,
   },
+  criticalChanceBase: 0.05,
+  criticalChanceIncreased: 1,
+  criticalChanceMore: 1,
+  criticalDamageBase: 1.5,
+  criticalDamageIncreased: 1,
+  criticalDamageMore: 1,
+
+  directChanceBase: 0.05,
+  directChanceIncreased: 1,
+  directChanceMore: 1,
+
+  grazeChanceBase: 0.05,
+
   initVariance: 0.10,
   family: null,
 };
@@ -256,7 +269,7 @@ const monsters = {
   }),
 };
 
-// Add all the monsters to setup.
+// Add all the enemies to setup.
 (function (S) {
   if (!S.COM) {
     S.COM = {};

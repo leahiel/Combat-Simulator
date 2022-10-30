@@ -86,6 +86,72 @@ function settingsHandler() {
 }
 
 /**
+ * Returns an array containing just the values of the specified of multiple objects.
+ *
+ * @example
+ * let arr = [{health: 14}, {health: 12}]
+ * assignFieldOfObjectsToArray(arr, "health")
+ * // => [14, 12]
+ */
+ function assignFieldOfObjectsToArray(objarr, field) {
+  let solarr = [];
+
+  objarr.forEach((v) => {
+    solarr.push(v[field]);
+  });
+
+  return solarr;
+}
+
+/**
+ * Check each item in array for a condition. Return true if just one item returns true. Else, return false.
+ *
+ * @example
+ * let arr = [1, 3, 4]
+ * someValuesTrue(arr, function(v) {
+ *  return v <= 3
+ * }
+ * // => true
+ */
+function someValuesTrue(arr, cond) {
+  let isViable = false;
+
+  arr.forEach((v) => {
+    if (cond(v)) {
+      // If one condition is true, return true.
+      isViable = true;
+      return;
+    }
+  });
+
+  return isViable;
+}
+
+/**
+ * Check each item in array for a condition. Return true if all items returns true. Else, return false.
+ *
+ * @example
+ * let arr = [1, 3, 4]
+ * allValuesTrue(arr, function(v) {
+ *  return v <= 5
+ * }
+ * // => true
+ */
+function allValuesTrue(arr, cond) {
+  let isViable = true;
+
+  arr.forEach((v) => {
+    if (!cond(v)) {
+      // If one condition is false, return false.
+      isViable = false;
+      return;
+    }
+  });
+
+  return isViable;
+}
+
+/**
  * Returns an array either with no duplicate items (default), or with duplicate items.
  *
  * @example
@@ -153,7 +219,9 @@ function weightedRandom(weightedArray) {
   }
 }
 
-/** https://stackoverflow.com/a/37164538 */
+/** https://stackoverflow.com/a/37164538 
+ * ...couldn't I use $.extend() for this?
+*/
 function mergeDeep(target, source) {
   function isObject(item) {
     return item && typeof item === "object" && !Array.isArray(item);
@@ -171,4 +239,9 @@ function mergeDeep(target, source) {
     });
   }
   return output;
+}
+
+/** https://api.jquery.com/jquery.extend/ */
+function cloneDeep(obj) {
+  return jQuery.extend(true, {}, obj);
 }

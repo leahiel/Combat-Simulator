@@ -30,6 +30,22 @@
     return weightedRandom(weightedArray);
   };
 
+  S.fns.assignFieldOfObjectsToArray = function (objarr, field) {
+    return assignFieldOfObjectsToArray(objarr, field);
+  };
+
+  S.fns.someValuesTrue = function (arr, cond) {
+    return someValuesTrue(arr, cond);
+  };
+
+  S.fns.allValuesTrue = function (arr, cond) {
+    return allValuesTrue(arr, cond);
+  };
+
+  // S.fns.cloneDeep = function (obj) {
+  //   return cloneDeep(obj);
+  // };
+
   // ANCHOR[id=IMPORTS]
   // LINK: assets/js/_imports.js
   S.fns.importGameSSR = function () {

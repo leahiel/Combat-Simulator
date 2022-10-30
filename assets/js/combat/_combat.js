@@ -30,72 +30,6 @@
 //  #######     ##    #### ######## ####    ##    #### ########  ######
 
 /**
- * Returns an array containing just the values of the specified of multiple objects.
- *
- * @example
- * let arr = [{health: 14}, {health: 12}]
- * assignFieldOfObjectsToArray(arr, "health")
- * // => [14, 12]
- */
-function assignFieldOfObjectsToArray(objarr, field) {
-  let solarr = [];
-
-  objarr.forEach((v) => {
-    solarr.push(v[field]);
-  });
-
-  return solarr;
-}
-
-/**
- * Check each item in array for a condition. Return true if just one item returns true. Else, return false.
- *
- * @example
- * let arr = [1, 3, 4]
- * someValuesTrue(arr, function(v) {
- *  return v <= 3
- * }
- * // => true
- */
-function someValuesTrue(arr, cond) {
-  let isViable = false;
-
-  arr.forEach((v) => {
-    if (cond(v)) {
-      // If one condition is true, return true.
-      isViable = true;
-      return;
-    }
-  });
-
-  return isViable;
-}
-
-/**
- * Check each item in array for a condition. Return true if all items returns true. Else, return false.
- *
- * @example
- * let arr = [1, 3, 4]
- * allValuesTrue(arr, function(v) {
- *  return v <= 5
- * }
- * // => true
- */
-function allValuesTrue(arr, cond) {
-  let isViable = true;
-
-  arr.forEach((v) => {
-    if (!cond(v)) {
-      // If one condition is false, return false.
-      isViable = false;
-      return;
-    }
-  });
-
-  return isViable;
-}
-
-/**
  *
  * @param {*} attack
  * @param {*} attacker
@@ -103,45 +37,15 @@ function allValuesTrue(arr, cond) {
  */
 function attackCalculations(attack, attacker, targets) {
   /**
-   * Return boolean.
-   * Was the attack blocked?
-   */
-  function wasBlocked(attack, attacker, target) {
-    // NOTE: Blocking is not implemented for this game.
-    return false;
-
-    // if (Math.random() < target.block.calculated) {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
-  }
-
-  /**
    * Calculate the damage dealt to each of the targets from one element.
    *
+   * @param {Object} statusobj Lets us know if stuff was crit or grazed or whatnot.
    * @param {Attack} attack
    * @param {Combatant} attacker
    * @param {[...Combatant]} targets
    * @param {String} sub The specific damage type being calculated for.
    */
-  function calculateDamage(attack, attacker, target, sub) {
-    /**
-     * Determine if this attack is a direct hit.
-     */
-    function wasDirectHit(attack, attacker, target) {
-      // TODO: I don't want to have attacks cache calculated things. Rather, derive them where they are needed.
-      // NOTE: With the todo in mind, we're just gonna disable direct hits for now.
-      return false;
-
-      // if (Math.random() <= attack.directhit.calculated) {
-      //   return true;
-      // } else {
-      //   return false;
-      // }
-    }
-
-    // TODO: Reference attacker's stats where needed.
+  function calculateDamage(statusobj, attack, target, sub) {
     let main = "";
     switch (sub) {
       case "blunt":
@@ -166,10 +70,15 @@ function attackCalculations(attack, attacker, targets) {
     let absorb = 0;
     let absorbFlat = 0;
     let damageResult;
+    let blockedDamageModifier = 0;
 
-    // TODO: I need a wasDirectHit function.
-    if (wasDirectHit(attack, attacker, target)) {
+    // Determine Initial Damage Value
+    if (statusobj.direct && !statusobj.grazed) {
+      // Direct Hit
       damageResult = attack.damage[sub].max;
+
+      // Direct Hits "pierce" this percentage of Block.
+      blockedDamageModifier = .2;
     } else {
       // TODO: I need a randomValue function.
       damageResult = Math.max(
@@ -178,6 +87,51 @@ function attackCalculations(attack, attacker, targets) {
       );
     }
 
+    // Apply Blocked Damage
+    if (statusobj.blocked) {
+      switch (main) {
+        case "material":
+          damageResult *= (0 + blockedDamageModifier); // 0 damage.
+          break;
+        case "elemental":
+          damageResult *= (0.2 + blockedDamageModifier); // 80% Less Elemental Damage.
+          break;
+        case "occult":
+          damageResult *= (0.35 + blockedDamageModifier); // 65% Less Occult Damage.
+          break;
+      }
+    }
+
+    // If we do no damage, don't bother with the rest of the damage calculations.
+    if (damageResult === 0) {
+      return 0;
+    }
+
+    // Apply Expertise Modifier
+    // NOTE: NYI
+    // Shouldn't this be done in applyStats()?
+
+    // Apply Critical Strike Damage if Applicable
+    if (statusobj.critical && !statusobj.grazed) {
+      damageResult *= attack.criticalDamageCalculated;
+    }
+
+    // Apply Grazed Damage
+    // We don't apply Grazed if the attack was a Critical or Direct Hit. Instead, Grazed turned those attacks into normal attacks.
+    if (statusobj.grazed && !(statusobj.critical || statusobj.direct)) {
+      switch (main) {
+        case "material":
+          damageResult *= 0.5; // 50% Less Material Damage.
+          break;
+        case "elemental":
+          damageResult *= 0.65; // 35% Less Elemental Damage.
+          break;
+        case "occult":
+          damageResult *= 0.85; // 15% Less Occult Damage.
+          break;
+      }
+    }
+    
     // Resistance %
     damageResult =
       damageResult *
@@ -202,29 +156,33 @@ function attackCalculations(attack, attacker, targets) {
       damageResult = damageResult - absorbFlat;
     }
 
-    // Glancing Blow Calculations
-    // Disabled for simplicity.
-    // TODO: make wasGlancingBlow function.
-    // if (isGlancingBlow) {
-    //   switch (main) {
-    //     case "material":
-    //       damageResult = damageResult.times(0.5); // 50% Less Material Damage.
-    //       break;
-    //     case "elemental":
-    //       damageResult = damageResult.times(0.65); // 35% Less Material Damage.
-    //       break;
-    //     case "occult":
-    //       damageResult = damageResult.times(0.85); // 15% Less Material Damage.
-    //       break;
-    //   }
-    // }
-
     return Math.floor(damageResult * 10000) / 10000;
   }
+  /**
+   * Applies the char's stats to the Attack.
+   * Does not modify original Attack.
+   */
+  function applyStats(attack, char) {
+    let solAttack = cloneDeep(attack);
+    solAttack.criticalChanceBase += char.criticalChanceBase;
+    solAttack.criticalChanceIncreased += char.criticalChanceIncreased;
+    solAttack.criticalChanceMore *= char.criticalChanceMore;
+    solAttack.criticalChanceCalculated = solAttack.criticalChanceBase * solAttack.criticalChanceIncreased * solAttack.criticalChanceMore;
 
-  // TODO: An assignAttack function needs to be made for parties with more than one character.
-  // NOTE: Since there will only be 1v1 battles in this game, this is not a concern.
+    solAttack.criticalDamageBase += char.criticalDamageBase;
+    solAttack.criticalDamageIncreased += char.criticalDamageIncreased;
+    solAttack.criticalDamageMore *= char.criticalDamageMore;
+    solAttack.criticalDamageCalculated = solAttack.criticalDamageBase * solAttack.criticalDamageIncreased * solAttack.criticalDamageMore;
 
+    solAttack.directChanceBase += char.directChanceBase;
+    solAttack.directChanceIncreased += char.directahanceIncreased;
+    solAttack.directChanceMore *= char.directChanceMore;
+    solAttack.directChanceCalculated = solAttack.directChanceBase * solAttack.directChanceIncreased * solAttack.directChanceMore;
+
+    return solAttack;
+  }
+
+  // TODO: A proper assignAttack function needs to be made.
   let viableTargets = [];
   for (let i = 0; i < targets.length; i++) {
     if (targets[i].health > 0) {
@@ -239,23 +197,57 @@ function attackCalculations(attack, attacker, targets) {
    */
   let solobj = {};
   targetsHit.forEach((target, idx) => {
+    solobj[idx] = {};
+
+    // Apply the attacker's stats to a copy of the attack.
+    let thisAttack = applyStats(attack, attacker);
+
     // Order of Operations
+    // Determine Modifiers (Direct, Critical, Glancing, Blocking)
     // Resistance
     // Remove Percentage Absorb
     // Flat Reduct
     // Remove Flat Absorb
     // Add Healing
 
+    // Determine if Direct Hit.
+    if (Math.random() < thisAttack.directChanceCalculated) {
+      solobj[idx].direct = true;
+    } else {
+      solobj[idx].direct = false;
+    }
+
+    // Determine if Critical Strike.
+    if (Math.random() < thisAttack.criticalChanceCalculated) {
+      solobj[idx].critical = true;
+    } else {
+      solobj[idx].critical = false;
+    }
+
+    // Calculate if Grazed.
+    if (Math.random() < target.grazedCalculated) {
+      solobj[idx].grazed = true;
+    } else {
+      solobj[idx].grazed = false;
+    }
+
+    // Calculate if Blocked.
+    if (Math.random() < target.blockCalculated) {
+      solobj[idx].blocked = true;
+    } else {
+      solobj[idx].blocked = false;
+    }
+
     let damageobj = {
-      blunt: calculateDamage(attack, attacker, target, "blunt"),
-      pierce: calculateDamage(attack, attacker, target, "pierce"),
-      acid: calculateDamage(attack, attacker, target, "acid"),
-      fire: calculateDamage(attack, attacker, target, "fire"),
-      frost: calculateDamage(attack, attacker, target, "frost"),
-      lightning: calculateDamage(attack, attacker, target, "lightning"),
-      sacred: calculateDamage(attack, attacker, target, "sacred"),
-      shadow: calculateDamage(attack, attacker, target, "shadow"),
-      aether: calculateDamage(attack, attacker, target, "aether"),
+      blunt: calculateDamage(solobj[idx], thisAttack, target, "blunt"),
+      pierce: calculateDamage(solobj[idx], thisAttack, target, "pierce"),
+      acid: calculateDamage(solobj[idx], thisAttack, target, "acid"),
+      fire: calculateDamage(solobj[idx], thisAttack, target, "fire"),
+      frost: calculateDamage(solobj[idx], thisAttack, target, "frost"),
+      lightning: calculateDamage(solobj[idx], thisAttack, target, "lightning"),
+      sacred: calculateDamage(solobj[idx], thisAttack, target, "sacred"),
+      shadow: calculateDamage(solobj[idx], thisAttack, target, "shadow"),
+      aether: calculateDamage(solobj[idx], thisAttack, target, "aether"),
     };
 
     damageobj.total = 0;
@@ -264,28 +256,22 @@ function attackCalculations(attack, attacker, targets) {
       damageobj.total += damageobj[amount];
     }
 
-    if (Config.debug) {
-      console.table(damageobj);
-    }
-
-    // Calculate Expertise Modifier
-    // NOTE: Not implemented in this game.
-
-    // Calculate Critical Strike, iff Crit hits.
-    // NOTE: Not implemented in this game.
+    // if (Config.debug) {
+    //   console.table(damageobj);
+    // }
 
     // NOTE: If the attack was blocked, this should return the string "Blocked" instead.
-    solobj[idx] = damageobj.total;
+    solobj[idx].damage = damageobj.total;
   });
 
   // Apply solobj to party
   // NOTE: In time this will do more than just damage, and so this code will need to be changed.
   for (let key in solobj) {
-    targetsHit[key].health -= solobj[key];
+    targetsHit[key].health -= solobj[key].damage;
     if (targetsHit[key].health < 0) {
       targetsHit[key].health = 0;
     }
-    combatMessage(`Took ${Math.floor(solobj[key])} damage.`, "default", targetsHit[key].location);
+    combatMessage(`Took ${Math.floor(solobj[key].damage)} damage.`, "default", targetsHit[key].location);
   }
 
   // Character has been stunned/blocked/attacked recently and needs to recover. The stun/block/attack needs to add init to the correct targets.
@@ -303,19 +289,4 @@ function attackCalculations(attack, attacker, targets) {
     return attackCalculations(attack, attacker, targets);
   };
 
-  if (!S.fns) {
-    S.fns = {};
-  }
-
-  S.fns.assignFieldOfObjectsToArray = function (objarr, field) {
-    return assignFieldOfObjectsToArray(objarr, field);
-  };
-
-  S.fns.someValuesTrue = function (arr, cond) {
-    return someValuesTrue(arr, cond);
-  };
-
-  S.fns.allValuesTrue = function (arr, cond) {
-    return allValuesTrue(arr, cond);
-  };
 })(setup);

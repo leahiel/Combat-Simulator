@@ -177,7 +177,7 @@ class Player {
     }
 }
 
-// Add all the monsters to setup.
+// Add the Player class so we can make Players.
 (function (S) {
     if (!S.COM) {
         S.COM = {};

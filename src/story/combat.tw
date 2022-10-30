@@ -354,7 +354,6 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
 
 :: Combat_Zone_Main [.combat .helper nostats]
 /* I'm not adding in frontline/backline mechanics yet, but it would be good to consider them, as that can add a dimensionality to my combat. */
-/* TODO: There should also be a place for notifications with the flash ui. */
 
 <combatZoneGrid>
     /* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. */
