@@ -27,7 +27,7 @@ function attackCalculations(attack, attacker, targets) {
     /**
      * Calculate the damage dealt to each of the targets from one element.
      *
-     * @param {Object} statusobj Lets us know if stuff was crit or grazed or whatnot.
+     * @param {Object} statusobj Lets us know if stuff was crit or defleccted or whatnot.
      * @param {Attack} attack
      * @param {Combatant} attacker
      * @param {[...Combatant]} targets
@@ -63,7 +63,7 @@ function attackCalculations(attack, attacker, targets) {
         let blockedDamageModifier = 0;
 
         // Determine Initial Damage Value
-        if (statusobj.direct && !statusobj.grazed) {
+        if (statusobj.direct && !statusobj.deflected) {
             // Direct Hit
             damageResult = attack.damage[subDamageType].max;
 
@@ -82,7 +82,7 @@ function attackCalculations(attack, attacker, targets) {
         if (statusobj.blocked) {
             switch (mainDamageType) {
                 case "material":
-                    damageResult *= 0 + blockedDamageModifier; // 0 damage.
+                    damageResult *= 0 + blockedDamageModifier; // 100% Less Material Damage.
                     break;
                 case "elemental":
                     damageResult *= 0.2 + blockedDamageModifier; // 80% Less Elemental Damage.
@@ -102,14 +102,14 @@ function attackCalculations(attack, attacker, targets) {
         // Shouldn't that be done in applyStats()?
 
         // Apply Critical Strike Damage if Applicable
-        if (statusobj.critical && !statusobj.grazed) {
+        if (statusobj.critical && !statusobj.deflected) {
             damageResult *= attack.criticalDamageCalculated;
         }
 
-        // Apply Grazed Damage
-        if (statusobj.grazed && !(statusobj.critical || statusobj.direct)) {
-            // We don't apply Grazed if the attack was a Critical or
-            // Direct Hit. Instead, Grazed turns those attacks into
+        // Apply Deflected Damage
+        if (statusobj.deflected && !(statusobj.critical || statusobj.direct)) {
+            // We don't apply Deflected if the attack was a Critical or
+            // Direct Hit. Instead, Deflected turns those attacks into
             // normal attacks.
             switch (mainDamageType) {
                 case "material":
@@ -224,25 +224,26 @@ function attackCalculations(attack, attacker, targets) {
             solobj[idx].direct = false;
         }
 
-        // Determine if Critical Strike.
-        if (Math.random() < thisAttack.criticalChanceCalculated) {
-            solobj[idx].critical = true;
-        } else {
-            solobj[idx].critical = false;
-        }
-
-        // Calculate if Grazed.
-        if (Math.random() < target.grazedCalculated) {
-            solobj[idx].grazed = true;
-        } else {
-            solobj[idx].grazed = false;
-        }
-
         // Calculate if Blocked.
         if (Math.random() < target.blockCalculated) {
             solobj[idx].blocked = true;
         } else {
             solobj[idx].blocked = false;
+        }
+
+        // Determine if Critical Strike.
+        if ((Math.random() < thisAttack.criticalChanceCalculated) && !solobj[idx].blocked) {
+            // Critical Strikes do not occur if the attack was blocked.
+            solobj[idx].critical = true;
+        } else {
+            solobj[idx].critical = false;
+        }
+
+        // Calculate if Deflected.
+        if (Math.random() < target.deflectedCalculated) {
+            solobj[idx].deflected = true;
+        } else {
+            solobj[idx].deflected = false;
         }
 
         // NYI: Calculate if Stunned.
@@ -282,7 +283,12 @@ function attackCalculations(attack, attacker, targets) {
             targetsHit[key].health = 0;
         }
         // TODO: The combat message should change based on Block/Crit/etc.
-        combatMessage(`Took ${Math.floor(solobj[key].damage)} damage.`, "default", targetsHit[key].location);
+        let blockMsg = solobj[key].blocked ? "✓" : "";
+        let critMsg = solobj[key].critical ? "✓" : "";
+        let directMsg = solobj[key].direct ? "✓" : "";
+        let deflectMsg = solobj[key].deflected ? "✓" : "";
+
+        combatMessage(`C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Took ${Math.floor(solobj[key].damage)} damage.`, "default", targetsHit[key].location);
     }
 
     // TODO: The target(s) may need to recover from a block/stun.

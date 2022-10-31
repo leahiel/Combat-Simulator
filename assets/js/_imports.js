@@ -7,7 +7,6 @@ function importGameSSR() {
             /* Ensure we are logged in every time. */
             State.variables.user.logged_in = false;
 
-            /* FIXME SERVER: We are making a local db from the exported object db (from game_ssr.js) This line is fucking cursed. Rename the exported object. */
             db = new db();
 
             if (!recall("user-uuid")) {

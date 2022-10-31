@@ -1,5 +1,5 @@
 /** The default attack object. Name must be specified itself when creating a new Attack. Values not specified will use these default values instead. */
-// TODO: Add initVariancePercent to vary the recovery Init a little.
+// NYI: initVariancePercent to vary the recovery Init a little.
 const DEFAULTATTACK = {
     family: null,
 
@@ -233,7 +233,7 @@ const DEFAULTENEMY = {
     directChanceIncreased: 1,
     directChanceMore: 1,
 
-    grazeChanceBase: 0.05,
+    deflectChanceBase: 0.05,
 
     initVariance: 0.1,
     family: null,
