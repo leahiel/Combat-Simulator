@@ -68,49 +68,35 @@ function drawCombat() {
     /**
      * Determine which characters should have their Canvas information 
      * updated.
+     * 
+     * If so, update their canvas.
      */
-    if (State.variables.ci.ep[0]) {
-        $('#gitemA progress.healthBar').attr({
-            value: State.variables.ci.ep[0].health,
-            max: State.variables.ci.ep[0].healthMax
-        });
-        updateCanvas(State.variables.ci.ep[0], "enemy", $('canvas.initBar#enemyA'));
+    function determineIfCanvas(char) {
+        if (char) {
+            let status = "";
+            if (char.location.includes("enemy")) {
+                status = "enemy";
+            } else if (char.location.includes("player")) {
+                status = "player";
+            }
+            $(`#gittem${char.location.slice(-1)} progress.healthBar`).attr({
+                value: char.health,
+                max: char.healthMax
+            });
+            updateCanvas(char, status, $(`canvas.initBar#${char.location}`));
+        }
     }
-    if (State.variables.ci.ep[1]) {
-        $('#gitemB progress.healthBar').attr({
-            value: State.variables.ci.ep[1].health,
-            max: State.variables.ci.ep[1].healthMax
-        });
-        updateCanvas(State.variables.ci.ep[1], "enemy", $('canvas.initBar#enemyB'));
-    }
-    if (State.variables.ci.ep[2]) {
-        $('#gitemC progress.healthBar').attr({
-            value: State.variables.ci.ep[2].health,
-            max: State.variables.ci.ep[2].healthMax
-        });
-        updateCanvas(State.variables.ci.ep[2], "enemy", $('canvas.initBar#enemyC'));
-    }
-    if (State.variables.ci.ep[3]) {
-        $('#gitemD progress.healthBar').attr({
-            value: State.variables.ci.ep[3].health,
-            max: State.variables.ci.ep[3].healthMax
-        });
-        updateCanvas(State.variables.ci.ep[3], "enemy", $('canvas.initBar#enemyD'));
-    }
-    if (State.variables.ci.ep[4]) {
-        $('#gitemE progress.healthBar').attr({
-            value: State.variables.ci.ep[4].health,
-            max: State.variables.ci.ep[4].healthMax
-        });
-        updateCanvas(State.variables.ci.ep[4], "enemy", $('canvas.initBar#enemyE'));
-    }
-    if (State.variables.ci.pp[0]) {
-        $('progress.healthBar#playerA').attr({
-            value: State.variables.ci.pp[0].health,
-            max: State.variables.ci.pp[0].healthMax
-        });
-        updateCanvas(State.variables.ci.pp[0], "player", $('canvas.initBar#playerA'));
-    }
+
+    determineIfCanvas(State.variables.ci.ep[0]);
+    determineIfCanvas(State.variables.ci.ep[1]);
+    determineIfCanvas(State.variables.ci.ep[2]);
+    determineIfCanvas(State.variables.ci.ep[3]);
+    determineIfCanvas(State.variables.ci.ep[4]);
+
+    determineIfCanvas(State.variables.ci.pp[0]);
+    determineIfCanvas(State.variables.ci.pp[1]);
+    determineIfCanvas(State.variables.ci.pp[2]);
+    determineIfCanvas(State.variables.ci.pp[3]);
 };
 
 /**
@@ -340,7 +326,7 @@ if (setup.fns.allValuesTrue(State.variables.ci.pphealth, function(v) {
  * The HTML elements of the enemies.
  */
 <combatZoneGrid>
-    /* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. */
+    /* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. It might now be possible though, since we only update Canvas element (as opposed to the Canvas itself) rarely. */
     <<if $ci.ep[0]>>
     <griditem id="gitemA">
         /* TODO: Add the name to the canvas instead so that I have total control over the thing. */

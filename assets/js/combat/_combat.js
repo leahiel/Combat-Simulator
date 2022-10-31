@@ -207,9 +207,8 @@ function assignViableTargets(attack, attacker) {
 }
 
 /**
- * Automatically determine the targets of an attack, then processes the attack.
- *
- * NYI: This should also randomly choose an attack with which to attack random targets.
+ * Randomly decided on an attack, then randomly determine the targets 
+ * of the attack, then processes the attack.
  */
 function attackRandomWithRandom(attacker) {
     let attacksClone = cloneDeep(attacker.attacks);
@@ -423,13 +422,17 @@ function attackCalculations(attack, attacker, targets) {
         return solAttack;
     }
 
+    /**
+     * Null generally means no viable attack was generated with 
+     * attackRandomWithRandom().
+     */
     if (attack === null) {
         combatMessage(
             `C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Had no viable attacks.`,
             "default",
             attacker.location
         );
-        attacker.init += 50;
+        attacker.init += attacker.initStart;
     }
 
     /*
@@ -516,7 +519,7 @@ function attackCalculations(attack, attacker, targets) {
         if (targets[key].health < 0) {
             targets[key].health = 0;
         }
-        // TODO: The combat message should change based on Block/Crit/etc.
+
         let blockMsg = solobj[key].blocked ? "✓" : "";
         let critMsg = solobj[key].critical ? "✓" : "";
         let directMsg = solobj[key].direct ? "✓" : "";
