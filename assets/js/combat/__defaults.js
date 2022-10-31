@@ -69,6 +69,8 @@ const DEFAULTATTACK = {
     },
 };
 
+
+
 const DEFAULTENEMY = {
     stats: {
         appearance: {
@@ -238,6 +240,8 @@ const DEFAULTENEMY = {
     initVariance: 0.1,
     family: null,
 };
+
+
 
 const DEFAULTPLAYER = {
     stats: {

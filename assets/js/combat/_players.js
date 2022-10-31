@@ -1,5 +1,5 @@
 /**
- * Aa Player is the base object on the that is used to calculate
+ * A Player is the base object on the that is used to calculate
  * Combatants, which in the future, may be modified by modifiers and
  * statuses.
  *

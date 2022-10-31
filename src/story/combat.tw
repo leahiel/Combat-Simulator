@@ -18,24 +18,10 @@
      * In the future, initialization of pp will be done properly.
      */
     /* NYI: Initialize Player Party */
-    /*
-    State.tempory.pp = [];
+    State.temporary.pp = [];
     for (let uninitPlayer of State.variables.pp) {
         State.temporary.pp.push(new setup.COM.Combatant(uninitPlayer));
     }
-    */
-    State.temporary.pc = new setup.COM.Combatant(
-        new setup.COM.Player({
-            health: 124,
-            healthMax: 125,
-            init: 63,
-            initStart: 63,
-            initVariance: 0.10,
-            attacks: [setup.COM.attacks.stab],
-            name: State.variables.pc_name,
-        })
-    );
-    State.temporary.pp = [State.temporary.pc];
 
     /* Initialize Enemy Party */
     State.temporary.ep = [];
@@ -505,8 +491,8 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
 /**
  * Determines the logic and HTML elements behind the player attacks.
  */
-<<if _turn === _pc>>
-    <<for _attack range _pc.attacks>>
+<<if _turn === _pp[0]>>
+    <<for _attack range _pp[0].attacks>>
         <<capture _attack>>
             <<ibutton _attack.name "#PlayerAttack">>
                 /* TODO for target selection: Make attack button disabled, pop up more buttons asking which enemy to attack, or otherwise make it obvious that the enemies can be clicked on to be attacked. Also show a "back" button to undo attack. */
@@ -514,8 +500,8 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
                 /* If ep[0] targetable, #gitemA class += targetable */
                 /* What if there are no targetable enemies? I think we should just diable the button with a notice. */
                 <<script>>
-                    setup.COM.attackCalculations(State.temporary.attack, State.temporary.pc, State.temporary.ep);
-                    State.temporary.pc.init += State.temporary.attack.initRecovery;
+                    setup.COM.attackCalculations(State.temporary.attack, State.temporary.pp[0], State.temporary.ep);
+                    State.temporary.pp[0].init += State.temporary.attack.initRecovery;
                     State.temporary.turn = null;
                     $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                 <</script>>
@@ -523,7 +509,7 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
         <</capture>>
     <</for>>
 <<else>>
-    <<for _attack range _pc.attacks>>
+    <<for _attack range _pp[0].attacks>>
         <<capture _attack>>
             <<disable>><<ibutton _attack.name "#PlayerAttack">><</ibutton>><</disable>>
         <</capture>>

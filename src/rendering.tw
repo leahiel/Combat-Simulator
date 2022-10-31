@@ -50,6 +50,10 @@ It's intended for actual rendering stuff. */
     <br>
     <br>
     <<button [[Test New Combat Instance|Combat_Overlord]]>>
+
+
+        <<set $pp to [new setup.COM.Player({health: 124,healthMax: 125,init: 63,initStart: 63,initVariance: 0.10,attacks: [setup.COM.attacks.stab],name: State.variables.pc_name})]>>
+
         /* Random Int between 1 and 5 */
         <<set _int to Math.ceil(Math.random() * (5))>>
         <<set $ep to setup.fns.ranItems(_int, Object.keys(setup.COM.monsters), true)>>
