@@ -60,8 +60,8 @@ function combatMessage(text, type, charLoc) {
     window.FlashMessage.create(text, type, {
         progress: true,
         interactive: true,
-        timeout: 8000,
-        appear_delay: 200,
+        timeout: 2000,
+        appear_delay: 100,
         container: "#flash-" + charLoc,
         theme: "default",
         layout: charLoc,

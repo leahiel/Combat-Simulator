@@ -1,6 +1,4 @@
 TODO:
-    Create player object so I can stop fucking around with test characters and have a party of characters.
-        Fix all the problems that is associated with that.
     Target Selection for Attacks
         Target Selection should in based "Attacks", but it means that locations are important, and therefore need to be gone over thoroughly.
         Work on Enemy Attacks first.

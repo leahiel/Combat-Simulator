@@ -5,67 +5,15 @@
  * until we are done with the combat. 
  */
 
-/* NYI: These should be handled as story variables before combat begins. */
-<<set _win to "victorypassagename">>
-<<set _lose to "losepassagename">>
-
 <<script>>
     /** 
      * Because Player is barely functional and only used here for 
      * testing and development purposes, the whole initialization of 
-     * _pp is a mess. 
+     * $ci.pp is a mess. 
      *
      * In the future, initialization of pp will be done properly.
      */
-    /* NYI: Initialize Player Party */
-    State.temporary.pp = [];
-    for (let uninitPlayer of State.variables.pp) {
-        State.temporary.pp.push(new setup.COM.Combatant(uninitPlayer));
-    }
-
-    /* Initialize Enemy Party */
-    State.temporary.ep = [];
-    for (let uninitEnemy of State.variables.ep) {
-        State.temporary.ep.push(new setup.COM.Combatant(setup.COM.monsters[uninitEnemy]));
-    }
-
-    /* Add the locations of each character to their obj. */
-    for (let i = 0; i < State.temporary.ep.length; i++) {
-        switch (i) {
-            case 0:
-                State.temporary.ep[i].location = "enemyA";
-                break;
-            case 1:
-                State.temporary.ep[i].location = "enemyB";
-                break;
-            case 2:
-                State.temporary.ep[i].location = "enemyC";
-                break;
-            case 3:
-                State.temporary.ep[i].location = "enemyD";
-                break;
-            case 4:
-                State.temporary.ep[i].location = "enemyE";
-                break;
-        }
-    }
-    for (let i = 0; i < State.temporary.pp.length; i++) {
-        switch (i) {
-            case 0:
-                State.temporary.pp[i].location = "playerA";
-                break;
-            case 1:
-                State.temporary.pp[i].location = "playerB";
-                break;
-            case 2:
-                State.temporary.pp[i].location = "playerC";
-                break;
-            case 3:
-                State.temporary.pp[i].location = "playerD";
-                break;
-        }
-    }
-
+    
     $(document).one(":passagedisplay", function() {
         /* On passage completion, initialize. */
         $("#combatZone").wiki(Story.get("Combat_Zone").processText());
@@ -121,47 +69,47 @@ function drawCombat() {
      * Determine which characters should have their Canvas information 
      * updated.
      */
-    if (State.temporary.ep[0]) {
+    if (State.variables.ci.ep[0]) {
         $('#gitemA progress.healthBar').attr({
-            value: State.temporary.ep[0].health,
-            max: State.temporary.ep[0].healthMax
+            value: State.variables.ci.ep[0].health,
+            max: State.variables.ci.ep[0].healthMax
         });
-        updateCanvas(State.temporary.ep[0], "enemy", $('canvas.initBar#enemyA'));
+        updateCanvas(State.variables.ci.ep[0], "enemy", $('canvas.initBar#enemyA'));
     }
-    if (State.temporary.ep[1]) {
+    if (State.variables.ci.ep[1]) {
         $('#gitemB progress.healthBar').attr({
-            value: State.temporary.ep[1].health,
-            max: State.temporary.ep[1].healthMax
+            value: State.variables.ci.ep[1].health,
+            max: State.variables.ci.ep[1].healthMax
         });
-        updateCanvas(State.temporary.ep[1], "enemy", $('canvas.initBar#enemyB'));
+        updateCanvas(State.variables.ci.ep[1], "enemy", $('canvas.initBar#enemyB'));
     }
-    if (State.temporary.ep[2]) {
+    if (State.variables.ci.ep[2]) {
         $('#gitemC progress.healthBar').attr({
-            value: State.temporary.ep[2].health,
-            max: State.temporary.ep[2].healthMax
+            value: State.variables.ci.ep[2].health,
+            max: State.variables.ci.ep[2].healthMax
         });
-        updateCanvas(State.temporary.ep[2], "enemy", $('canvas.initBar#enemyC'));
+        updateCanvas(State.variables.ci.ep[2], "enemy", $('canvas.initBar#enemyC'));
     }
-    if (State.temporary.ep[3]) {
+    if (State.variables.ci.ep[3]) {
         $('#gitemD progress.healthBar').attr({
-            value: State.temporary.ep[3].health,
-            max: State.temporary.ep[3].healthMax
+            value: State.variables.ci.ep[3].health,
+            max: State.variables.ci.ep[3].healthMax
         });
-        updateCanvas(State.temporary.ep[3], "enemy", $('canvas.initBar#enemyD'));
+        updateCanvas(State.variables.ci.ep[3], "enemy", $('canvas.initBar#enemyD'));
     }
-    if (State.temporary.ep[4]) {
+    if (State.variables.ci.ep[4]) {
         $('#gitemE progress.healthBar').attr({
-            value: State.temporary.ep[4].health,
-            max: State.temporary.ep[4].healthMax
+            value: State.variables.ci.ep[4].health,
+            max: State.variables.ci.ep[4].healthMax
         });
-        updateCanvas(State.temporary.ep[4], "enemy", $('canvas.initBar#enemyE'));
+        updateCanvas(State.variables.ci.ep[4], "enemy", $('canvas.initBar#enemyE'));
     }
-    if (State.temporary.pp[0]) {
+    if (State.variables.ci.pp[0]) {
         $('progress.healthBar#playerA').attr({
-            value: State.temporary.pp[0].health,
-            max: State.temporary.pp[0].healthMax
+            value: State.variables.ci.pp[0].health,
+            max: State.variables.ci.pp[0].healthMax
         });
-        updateCanvas(State.temporary.pp[0], "player", $('canvas.initBar#playerA'));
+        updateCanvas(State.variables.ci.pp[0], "player", $('canvas.initBar#playerA'));
     }
 };
 
@@ -338,7 +286,7 @@ async function processTurns(pp, ep) {
         drawCombat();
         await waitFor(10);
         return processTurns(pp, ep);
-    } else if (State.temporary.pp.includes(activeCharacter)) {
+    } else if (State.variables.ci.pp.includes(activeCharacter)) {
         /* Player Turn */
         $("#notifArea").empty().wiki("Player Turn");
 
@@ -347,16 +295,16 @@ async function processTurns(pp, ep) {
 
         /* The player will processTurns() after clicking a button. No need to do it here. */
         return;
-    } else if (State.temporary.ep.includes(activeCharacter)) {
+    } else if (State.variables.ci.ep.includes(activeCharacter)) {
         /* Enemy Turn */
         $("#notifArea").empty().wiki("Enemy Turn");
 
         drawCombat();
-        await waitFor(600);
+        await waitFor(300);
 
         /* Enemy AI */
         let chosenAttack = setup.fns.ranItems(1, activeCharacter.attacks)[0];
-        setup.COM.attackCalculations(chosenAttack, activeCharacter, State.temporary.pp);
+        setup.COM.attackCalculations(chosenAttack, activeCharacter, State.variables.ci.pp);
 
         return $("#combatZone").wiki(Story.get("Combat_Zone").processText());
     } else {
@@ -368,23 +316,23 @@ $("#combatZone").empty().wiki(Story.get("Combat_Zone_Main").processText());
 $("#playerOptions").empty().wiki(Story.get("Player_Options").processText());
 
 /* REVIEW: I don't think these two temporary variables are really needed. */
-State.temporary.pphealth = setup.fns.assignFieldOfObjectsToArray(State.temporary.pp, "health");
-State.temporary.ephealth = setup.fns.assignFieldOfObjectsToArray(State.temporary.ep, "health");
+State.variables.ci.pphealth = setup.fns.assignFieldOfObjectsToArray(State.variables.ci.pp, "health");
+State.variables.ci.ephealth = setup.fns.assignFieldOfObjectsToArray(State.variables.ci.ep, "health");
 
-if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
+if (setup.fns.allValuesTrue(State.variables.ci.pphealth, function(v) {
         return v <= 0
     })) {
-    /* NYI: #notifArea displays <<ibutton>> with _lose */
     drawCombat();
-    $("#notifArea").empty().wiki("YOU LOSE");
-} else if (setup.fns.allValuesTrue(State.temporary.ephealth, function(v) {
+    /* Update notice area with wikified lose message. */
+    $("#notifArea").empty().wiki(State.variables.ci.lose);
+} else if (setup.fns.allValuesTrue(State.variables.ci.ephealth, function(v) {
         return v <= 0
     })) {
-    /* NYI: #notifArea displays <<ibutton>> with _win */
     drawCombat();
-    $("#notifArea").empty().wiki("YOU WIN");
+    /* Update notice area with wikified win message. */
+    $("#notifArea").empty().wiki(State.variables.ci.win);
 } else {
-    processTurns(State.temporary.pp, State.temporary.ep);
+    processTurns(State.variables.ci.pp, State.variables.ci.ep);
 }
 <</script>>
 
@@ -396,37 +344,37 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
  */
 <combatZoneGrid>
     /* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. */
-    <<if _ep[0]>>
+    <<if $ci.ep[0]>>
     <griditem id="gitemA">
-        _ep[0].name
+        $ci.ep[0].name
         <canvas class="initBar" id="enemyA" width="2048" height="384"></canvas>
     </griditem>
     <</if>>
 
-    <<if _ep[1]>>
+    <<if $ci.ep[1]>>
     <griditem id="gitemB">
-        _ep[1].name
+        $ci.ep[1].name
         <canvas class="initBar" id="enemyB" width="2048" height="384"></canvas>
     </griditem>
     <</if>>
 
-    <<if _ep[2]>>
+    <<if $ci.ep[2]>>
     <griditem id="gitemC">
-        _ep[2].name
+        $ci.ep[2].name
         <canvas class="initBar" id="enemyC" width="2048" height="384"></canvas>
     </griditem>
     <</if>>
 
-    <<if _ep[3]>>
+    <<if $ci.ep[3]>>
     <griditem id="gitemD">
-        _ep[3].name
+        $ci.ep[3].name
         <canvas class="initBar" id="enemyD" width="2048" height="384"></canvas>
     </griditem>
     <</if>>
 
-    <<if _ep[4]>>
+    <<if $ci.ep[4]>>
     <griditem id="gitemE">
-        _ep[4].name
+        $ci.ep[4].name
         <canvas class="initBar" id="enemyE" width="2048" height="384"></canvas>
     </griditem>
     <</if>>
@@ -449,37 +397,37 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
 /* HTML elements of the player characters. */
 <playerOptionsGrid>
     /* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. */
-    <<if _pp[0]>>
+    <<if $ci.pp[0]>>
     <griditem id="gitemA">
-        _pp[0].name
+        $ci.pp[0].name
         <canvas class="initBar" id="playerA" width="2048" height="384"></canvas>
     </griditem>
     <</if>>
 
-    <<if _pp[1]>>
+    <<if $ci.pp[1]>>
     <griditem id="gitemB">
-        _pp[1].name
+        $ci.pp[1].name
         <canvas class="initBar" id="playerB" width="2048" height="384"></canvas>
     </griditem>
     <</if>>
 
-    <<if _pp[2]>>
+    <<if $ci.pp[2]>>
     <griditem id="gitemC">
-        _pp[2].name
+        $ci.pp[2].name
         <canvas class="initBar" id="playerC" width="2048" height="384"></canvas>
     </griditem>
     <</if>>
 
-    <<if _pp[3]>>
+    <<if $ci.pp[3]>>
     <griditem id="gitemD">
-        _pp[3].name
+        $ci.pp[3].name
         <canvas class="initBar" id="playerD" width="2048" height="384"></canvas>
     </griditem>
     <</if>>
 
-    <<if _pp[4]>>
+    <<if $ci.pp[4]>>
     <griditem id="gitemE">
-        _pp[4].name
+        $ci.pp[4].name
         <canvas class="initBar" id="playerE" width="2048" height="384"></canvas>
     </griditem>
     <</if>>
@@ -491,8 +439,8 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
 /**
  * Determines the logic and HTML elements behind the player attacks.
  */
-<<if _turn === _pp[0]>>
-    <<for _attack range _pp[0].attacks>>
+<<if _turn === $ci.pp[0]>>
+    <<for _attack range $ci.pp[0].attacks>>
         <<capture _attack>>
             <<ibutton _attack.name "#PlayerAttack">>
                 /* TODO for target selection: Make attack button disabled, pop up more buttons asking which enemy to attack, or otherwise make it obvious that the enemies can be clicked on to be attacked. Also show a "back" button to undo attack. */
@@ -500,8 +448,8 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
                 /* If ep[0] targetable, #gitemA class += targetable */
                 /* What if there are no targetable enemies? I think we should just diable the button with a notice. */
                 <<script>>
-                    setup.COM.attackCalculations(State.temporary.attack, State.temporary.pp[0], State.temporary.ep);
-                    State.temporary.pp[0].init += State.temporary.attack.initRecovery;
+                    setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.pp[0], State.variables.ci.ep);
+                    State.variables.ci.pp[0].init += State.temporary.attack.initRecovery;
                     State.temporary.turn = null;
                     $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                 <</script>>
@@ -509,7 +457,7 @@ if (setup.fns.allValuesTrue(State.temporary.pphealth, function(v) {
         <</capture>>
     <</for>>
 <<else>>
-    <<for _attack range _pp[0].attacks>>
+    <<for _attack range $ci.pp[0].attacks>>
         <<capture _attack>>
             <<disable>><<ibutton _attack.name "#PlayerAttack">><</ibutton>><</disable>>
         <</capture>>

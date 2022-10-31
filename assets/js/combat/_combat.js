@@ -17,6 +17,90 @@
  * etc), enemies, status, victory/lose conditions, and more.
  */
 
+class CombatInstance {
+    constructor(obj) {
+        // This is required as we need to deep assign.
+        // let merger = mergeDeep(DEFAULTCOMBATINSTANCE, obj);
+        Object.assign(this, obj);
+
+        /* Default Values */
+        this.epFrontlineTargetable = true;
+        this.epBacklineTargetable = false;
+        this.ppFrontlineTargetable = true;
+        this.ppBacklineTargetable = false;
+
+        /* Initialize Player Party */
+        let temp_ppo = this.pp;
+        this.pp = [];
+        for (let uninitPlayer of temp_ppo) {
+            this.pp.push(new setup.COM.Combatant(uninitPlayer));
+        }
+
+        /* Initialize Enemy Party */
+        let temp_epo = this.ep;
+        this.ep = [];
+        for (let uninitEnemy of temp_epo) {
+            this.ep.push(new setup.COM.Combatant(setup.COM.monsters[uninitEnemy]));
+        }
+
+        /* Add the locations of each character to their obj. */
+        for (let i = 0; i < this.ep.length; i++) {
+            this.ep[i].ally = false;
+            this.ep[i].enemy = true;
+            switch (i) {
+                case 0:
+                    this.ep[i].location = "enemyA";
+                    break;
+                case 1:
+                    this.ep[i].location = "enemyB";
+                    break;
+                case 2:
+                    this.ep[i].location = "enemyC";
+                    break;
+                case 3:
+                    this.ep[i].location = "enemyD";
+                    break;
+                case 4:
+                    this.ep[i].location = "enemyE";
+                    break;
+            }
+        }
+        for (let i = 0; i < this.pp.length; i++) {
+            this.pp[i].ally = true;
+            this.pp[i].enemy = false;
+            switch (i) {
+                case 0:
+                    this.pp[i].location = "playerA";
+                    break;
+                case 1:
+                    this.pp[i].location = "playerB";
+                    break;
+                case 2:
+                    this.pp[i].location = "playerC";
+                    break;
+                case 3:
+                    this.pp[i].location = "playerD";
+                    break;
+            }
+        }
+    }
+}
+
+// If player attack, use this result to assign buttons.
+// If enemy attack, use this result to deal damage.
+// Will require a rewrite in attackCalculations, and probably an
+//   enemyAttack(attack, attacker, assignAttack()) function, which
+//   just calls attackCalculations.
+function assignAttack(attack) {
+    /**
+     * The Combat Instance gives us information on the state of the
+     * combat: e.g. Whether backlines are targetable.
+     */
+    let combatInstance = State.variables.ci;
+
+    console.log(targets);
+}
+
 /**
  *
  * @param {*} attack
@@ -186,6 +270,12 @@ function attackCalculations(attack, attacker, targets) {
         return solAttack;
     }
 
+    /**
+     * The Combat Instance gives us information on the state of the
+     * combat: e.g. Whether backlines are targetable.
+     */
+    let combatInstance = State.variables.ci;
+
     // TODO: A proper assignAttack function needs to be made.
     /* NYI: Frontline/Backline target/attack mechanics. */
     // The output of that will replace viableTargets and targetsHit.
@@ -232,7 +322,7 @@ function attackCalculations(attack, attacker, targets) {
         }
 
         // Determine if Critical Strike.
-        if ((Math.random() < thisAttack.criticalChanceCalculated) && !solobj[idx].blocked) {
+        if (Math.random() < thisAttack.criticalChanceCalculated && !solobj[idx].blocked) {
             // Critical Strikes do not occur if the attack was blocked.
             solobj[idx].critical = true;
         } else {
@@ -288,7 +378,13 @@ function attackCalculations(attack, attacker, targets) {
         let directMsg = solobj[key].direct ? "✓" : "";
         let deflectMsg = solobj[key].deflected ? "✓" : "";
 
-        combatMessage(`C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Took ${Math.floor(solobj[key].damage)} damage.`, "default", targetsHit[key].location);
+        combatMessage(
+            `C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Took ${Math.floor(
+                solobj[key].damage
+            )} damage.`,
+            "default",
+            targetsHit[key].location
+        );
     }
 
     // TODO: The target(s) may need to recover from a block/stun.
@@ -304,4 +400,5 @@ function attackCalculations(attack, attacker, targets) {
     S.COM.attackCalculations = function (attack, attacker, targets) {
         return attackCalculations(attack, attacker, targets);
     };
+    S.COM.CombatInstance = CombatInstance;
 })(setup);
