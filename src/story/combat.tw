@@ -269,7 +269,7 @@ async function processTurns(pp, ep) {
     }
 
     /* So that we can use this value in other Twine places, notably, ::Player_Options. */
-    State.temporary.turn = activeCharacter;
+    State.variables.ci.turn = activeCharacter;
 
     if (activeCharacter === null) {
         /* It is no ones turn. */
@@ -303,12 +303,9 @@ async function processTurns(pp, ep) {
         await waitFor(300);
 
         /* Enemy AI */
-        let chosenAttack = setup.fns.ranItems(1, activeCharacter.attacks)[0];
-        setup.COM.attackCalculations(chosenAttack, activeCharacter, State.variables.ci.pp);
+        setup.COM.attackRandomWithRandom(activeCharacter);
 
         return $("#combatZone").wiki(Story.get("Combat_Zone").processText());
-    } else {
-        console.error(`Is it no one's turn, but it is ${activeCharacter.name}'s turn.`);
     }
 };
 
@@ -346,6 +343,7 @@ if (setup.fns.allValuesTrue(State.variables.ci.pphealth, function(v) {
     /* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. */
     <<if $ci.ep[0]>>
     <griditem id="gitemA">
+        /* TODO: Add the name to the canvas instead so that I have total control over the thing. */
         $ci.ep[0].name
         <canvas class="initBar" id="enemyA" width="2048" height="384"></canvas>
     </griditem>
@@ -439,21 +437,18 @@ if (setup.fns.allValuesTrue(State.variables.ci.pphealth, function(v) {
 /**
  * Determines the logic and HTML elements behind the player attacks.
  */
-<<if _turn === $ci.pp[0]>>
+<<if $ci.turn === $ci.pp[0]>>
     <<for _attack range $ci.pp[0].attacks>>
         <<capture _attack>>
-            <<ibutton _attack.name "#PlayerAttack">>
-                /* TODO for target selection: Make attack button disabled, pop up more buttons asking which enemy to attack, or otherwise make it obvious that the enemies can be clicked on to be attacked. Also show a "back" button to undo attack. */
-
-                /* If ep[0] targetable, #gitemA class += targetable */
-                /* What if there are no targetable enemies? I think we should just diable the button with a notice. */
-                <<script>>
-                    setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.pp[0], State.variables.ci.ep);
-                    State.variables.ci.pp[0].init += State.temporary.attack.initRecovery;
-                    State.temporary.turn = null;
-                    $("#combatZone").wiki(Story.get("Combat_Zone").processText());
-                <</script>>
-            <</ibutton>>
+            <<set _viableTargets = setup.COM.assignViableTargets(_attack, $ci.pp[0])>>
+            <<if _viableTargets.length === 0>>
+                /* There are no viable targets, so disable the button. */
+                <<disable>><<ibutton _attack.name "#PlayerAttack">><</ibutton>><</disable>>
+            <<else>>
+                <<ibutton _attack.name "#PlayerAttack">>
+                    <<run $("#playerAttacks").empty().wiki(Story.get("Player_Attack_Targets").processText());>>
+                <</ibutton>>
+            <</if>>
         <</capture>>
     <</for>>
 <<else>>
@@ -463,3 +458,141 @@ if (setup.fns.allValuesTrue(State.variables.ci.pphealth, function(v) {
         <</capture>>
     <</for>>
 <</if>>
+
+
+
+:: Player_Attack_Targets [.combat .helper nostats]
+<<if _attack.targetType === "area">>
+    /* Handle all. */
+    <<if _attack.opponentTargetable && _attack.allyTargetable>>
+        <<if _attack.frontlineTargetable && _attack.backlineTargetable>>
+            <<ibutton "Hit Everyone" "#AttackTarget">>
+                <<script>>
+                    let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.pp[0]);
+                    setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.pp[0], targets);
+                    State.variables.ci.turn = null;
+                    $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+                <</script>>
+            <</ibutton>>
+        <<elseif _attack.frontlineTargetable>>
+            <<ibutton "Hit Both Frontlines" "#AttackTarget">>
+                <<script>>
+                    let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.pp[0]);
+                    setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.pp[0], targets);
+                    State.variables.ci.turn = null;
+                    $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+                <</script>>
+            <</ibutton>>
+        <<elseif _attack.backlineTargetable>>
+            <<ibutton "Hit Both Backlines" "#AttackTarget">>
+                <<script>>
+                    let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.pp[0]);
+                    setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.pp[0], targets);
+                    State.variables.ci.turn = null;
+                    $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+                <</script>>
+            <</ibutton>>
+        <</if>>
+
+    /* Handle enemies. */
+    <<elseif _attack.opponentTargetable>>
+        <<if _attack.frontlineTargetable && _attack.backlineTargetable>>
+            <<ibutton "Hit All Enemies" "#AttackTarget">>
+                <<script>>
+                    let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.pp[0]);
+                    setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.pp[0], targets);
+                    State.variables.ci.turn = null;
+                    $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+                <</script>>
+            <</ibutton>>
+        <<elseif _attack.frontlineTargetable>>
+            <<ibutton "Hit Frontline" "#AttackTarget">>
+                <<script>>
+                    let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.pp[0]);
+                    setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.pp[0], targets);
+                    State.variables.ci.turn = null;
+                    $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+                <</script>>
+            <</ibutton>>
+        <<elseif _attack.backlineTargetable>>
+            <<ibutton "Hit Backline" "#AttackTarget">>
+                <<script>>
+                    let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.pp[0]);
+                    setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.pp[0], targets);
+                    State.variables.ci.turn = null;
+                    $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+                <</script>>
+            <</ibutton>>
+        <</if>>
+
+    /* Handle allies. */
+    <<elseif _attack.allyTargetable>>
+        <<if _attack.frontlineTargetable && _attack.backlineTargetable>>
+            <<ibutton "Hit All Allies" "#AttackTarget">>
+                <<script>>
+                    let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.pp[0]);
+                    setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.pp[0], targets);
+                    State.variables.ci.turn = null;
+                    $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+                <</script>>
+            <</ibutton>>
+        <<elseif _attack.frontlineTargetable>>
+            <<ibutton "Hit Frontline Allies" "#AttackTarget">>
+                <<script>>
+                    let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.pp[0]);
+                    setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.pp[0], targets);
+                    State.variables.ci.turn = null;
+                    $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+                <</script>>
+            <</ibutton>>
+        <<elseif _attack.backlineTargetable>>
+            <<ibutton "Hit Backline Allies" "#AttackTarget">>
+                <<script>>
+                    let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.pp[0]);
+                    setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.pp[0], targets);
+                    State.variables.ci.turn = null;
+                    $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+                <</script>>
+            <</ibutton>>
+        <</if>>
+    <</if>>
+<<else>>/* _attack.targetType = "single" */
+    <<for _target range $ci.ep>>
+        <<capture _target>>
+            <<if _viableTargets.includes(_target) && _target.health > 0>>
+                <<ibutton _target.name "#AttackTarget">>
+                    <<script>>
+                        setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.pp[0], [State.temporary.target]);
+                        State.variables.ci.turn = null;
+                        $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+                    <</script>>
+                <</ibutton>>
+            <<else>>
+                /* The target is not a viable target. */
+                <<disable>><<ibutton _target.name "#AttackTarget">><</ibutton>><</disable>>
+            <</if>>
+        <</capture>>
+    <</for>>
+    <br>
+    <<for _target range $ci.pp>>
+        <<capture _target>>
+            <<if _viableTargets.includes(_target)>>
+                <<ibutton _target.name "#AttackTarget">>
+                    <<script>>
+                        setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.pp[0], State.temporary.target);
+                        State.variables.ci.turn = null;
+                        $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+                    <</script>>
+                <</ibutton>>
+            <<else>>
+                /* The target is not a viable target. */
+                <<disable>><<ibutton _target.name "#AttackTarget">><</ibutton>><</disable>>
+            <</if>>
+        <</capture>>
+    <</for>>
+<</if>>
+<br>
+/* Provide an option if the player wants to chose a different attack. */
+<<ibutton "Back" "#BackAttack">>
+    <<run $("#playerAttacks").empty().wiki(Story.get("Player_Attacks").processText());>>
+<</ibutton>>

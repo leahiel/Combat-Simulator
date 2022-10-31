@@ -7,8 +7,14 @@ const DEFAULTATTACK = {
     effect: "damage",
     /** The amount of init after using this Attack that the character who used it should take to recover. */
     initRecovery: 45,
-    /** The weapon damage multiplier multiplies the weapon damage for the attack by this amount. */
+    /** NYI: The weapon damage multiplier multiplies the weapon damage for the attack by this amount. */
     wdm: 1,
+
+    targetType: "single", // "area"
+    allyTargetable: false,
+    opponentTargetable: true,
+    frontlineTargetable: false,
+    backlineTargetable: false,
 
     criticalChanceCalculated: 0,
     criticalChanceBase: 0,

@@ -10,6 +10,10 @@ class Attack {
         if (this.family === null) {
             console.error(`${this.name}'s family is null.`);
         }
+
+        if (!this.frontlineTargetable && !this.backlineTargetable) {
+            console.error(`${this.name} has both frontline and backline untargetable.`);
+        }
     }
 }
 
@@ -20,6 +24,27 @@ const attacks = {
         family: "Player",
         initRecovery: 50,
         wdm: 1.25,
+        targetType: "single",
+        frontlineTargetable: true,
+        backlineTargetable: false,
+        damage: {
+            pierce: {
+                min: 7,
+                max: 13,
+            },
+        },
+    }),
+
+    swipe: new Attack({
+        name: "Swipe",
+        family: "Player",
+        initRecovery: 50,
+        wdm: 1.25,
+        targetType: "area",
+        allyTargetable: false,
+        opponentTargetable: true,
+        frontlineTargetable: true,
+        backlineTargetable: false,
         damage: {
             pierce: {
                 min: 7,
@@ -33,6 +58,11 @@ const attacks = {
     vilebite: new Attack({
         name: "Vile Bite",
         family: "Spider",
+        targetType: "single",
+        allyTargetable: false,
+        opponentTargetable: true,
+        frontlineTargetable: true,
+        backlineTargetable: false,
         damage: {
             pierce: {
                 min: 8,
@@ -48,6 +78,11 @@ const attacks = {
     webshot: new Attack({
         name: "Web Shot",
         family: "Spider",
+        targetType: "area",
+        allyTargetable: false,
+        opponentTargetable: true,
+        frontlineTargetable: true,
+        backlineTargetable: true,
         damage: {
             frost: {
                 min: 2,
@@ -64,6 +99,11 @@ const attacks = {
         name: "Eight Legged Rush",
         family: "Spider",
         initRecovery: 80,
+        targetType: "single",
+        allyTargetable: false,
+        opponentTargetable: true,
+        frontlineTargetable: true,
+        backlineTargetable: false,
         damage: {
             blunt: {
                 min: 13,
@@ -77,6 +117,11 @@ const attacks = {
         name: "Hog Rush",
         family: "Hog",
         initRecovery: "80",
+        targetType: "single",
+        allyTargetable: false,
+        opponentTargetable: true,
+        frontlineTargetable: true,
+        backlineTargetable: false,
         damage: {
             blunt: {
                 min: 9,
@@ -89,6 +134,11 @@ const attacks = {
         name: "Hog Gore",
         family: "Hog",
         initRecovery: "72",
+        targetType: "single",
+        allyTargetable: false,
+        opponentTargetable: true,
+        frontlineTargetable: true,
+        backlineTargetable: false,
         damage: {
             pierce: {
                 min: 11,
@@ -102,6 +152,11 @@ const attacks = {
         name: "Cuddle Butt",
         family: "Carbuncle",
         initRecovery: "16",
+        targetType: "single",
+        allyTargetable: false,
+        opponentTargetable: true,
+        frontlineTargetable: true,
+        backlineTargetable: false,
         damage: {
             blunt: {
                 min: 3,
@@ -110,20 +165,21 @@ const attacks = {
         },
     }),
 
-    // MISC. ATTACKS
-    /** When a character is dead, this attack should replace its attack. */
-    deadAttack: new Attack({
-        name: "deadAttack",
-        family: "Debug",
-        effect: null,
-        initRecovery: 0,
-    }),
-
-    /** The attack that is used when attacks aren't initialized. */
-    nullAttack: new Attack({
-        name: "errorAttack",
-        family: "Debug",
-        effect: null,
+    crystalshot: new Attack({
+        name: "Crystal Shot",
+        family: "Carbuncle",
+        initRecovery: "36",
+        targetType: "single",
+        allyTargetable: false,
+        opponentTargetable: true,
+        frontlineTargetable: true,
+        backlineTargetable: true,
+        damage: {
+            pierce: {
+                min: 7,
+                max: 10,
+            },
+        },
     }),
 };
 

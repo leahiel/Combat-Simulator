@@ -257,6 +257,9 @@ function mergeDeep(target, source) {
  * https://api.jquery.com/jquery.extend/
  */
 function cloneDeep(obj) {
+    if (Array.isArray(obj)) {
+        return jQuery.extend(true, [], obj);
+    }
     return jQuery.extend(true, {}, obj);
 }
 

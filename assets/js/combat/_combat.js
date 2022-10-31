@@ -24,10 +24,10 @@ class CombatInstance {
         Object.assign(this, obj);
 
         /* Default Values */
-        this.epFrontlineTargetable = true;
-        this.epBacklineTargetable = false;
-        this.ppFrontlineTargetable = true;
-        this.ppBacklineTargetable = false;
+        this.epfrontlineTargetable = true;
+        this.epbacklineTargetable = false;
+        this.ppfrontlineTargetable = true;
+        this.ppbacklineTargetable = false;
 
         /* Initialize Player Party */
         let temp_ppo = this.pp;
@@ -86,19 +86,164 @@ class CombatInstance {
     }
 }
 
+/**
+ * Given an attack, attacker, and the target, return a bool regarding
+ * whether the attack is able to hit the target.
+ *
+ * NYI: If all frontline characters are dead, frontline attacks should
+ *   be able to hit the backline. I have no idea how to do this
+ *   properly.
+ */
+function determineTargetViability(attack, attacker, target) {
+    if (target === undefined) {
+        return false;
+    }
+
+    /**
+     * The Combat Instance gives us information on the state of the
+     * combat. Relevant information for this function includes:
+     *
+     * CombatInstance.ep // Which gives us access to ep/pp.ally,
+     * CombatInstance.pp // ep/pp.enemy, ep/pp.location.
+     * CombatInstance.allyTargetable
+     * CombatInstance.opponentTargetable
+     * CombatInstance.frontlineTargetable
+     * CombatInstance.backlineTargetable
+     */
+    let ci = State.variables.ci;
+    let attackerStatus = "";
+    if (attacker.location.includes("player")) {
+        attackerStatus = "player";
+    } else {
+        attackerStatus = "enemy";
+    }
+
+    // Determine if/which enemies are targetable.
+    if (
+        (attack.allyTargetable && attackerStatus === "enemy") ||
+        (attack.opponentTargetable && attackerStatus === "player")
+    ) {
+        if (attack.frontlineTargetable) {
+            if ([ci.ep[0], ci.ep[1], ci.ep[2]].includes(target)) return true;
+        }
+
+        if (attack.backlineTargetable) {
+            if ([ci.ep[3], ci.ep[4]].includes(target)) return true;
+        }
+    }
+
+    // Determine if/which players are targetable.
+    if (
+        (attack.allyTargetable && attackerStatus === "player") ||
+        (attack.opponentTargetable && attackerStatus === "enemy")
+    ) {
+        if (attack.frontlineTargetable) {
+            if ([ci.pp[0], ci.pp[1]].includes(target)) return true;
+        }
+
+        if (attack.backlineTargetable) {
+            if ([ci.pp[2], ci.pp[3]].includes(target)) return true;
+        }
+    }
+
+    return false;
+}
+
 // If player attack, use this result to assign buttons.
 // If enemy attack, use this result to deal damage.
 // Will require a rewrite in attackCalculations, and probably an
 //   enemyAttack(attack, attacker, assignAttack()) function, which
 //   just calls attackCalculations.
-function assignAttack(attack) {
+/**
+ * Returns an array of the objects that are viable targets for an attack.
+ */
+function assignViableTargets(attack, attacker) {
     /**
      * The Combat Instance gives us information on the state of the
-     * combat: e.g. Whether backlines are targetable.
+     * combat. Relevant information for this function includes:
+     *
+     * CombatInstance.ep // Which gives us access to ep/pp.ally,
+     * CombatInstance.pp // ep/pp.enemy, ep/pp.location.
+     * CombatInstance.allyTargetable
+     * CombatInstance.opponentTargetable
+     * CombatInstance.frontlineTargetable
+     * CombatInstance.backlineTargetable
      */
-    let combatInstance = State.variables.ci;
+    let ci = State.variables.ci;
+    let solTargets = [];
 
-    console.log(targets);
+    // Determine Targets on Enemy side of the field.
+    if (determineTargetViability(attack, attacker, ci.ep[0])) {
+        solTargets.push(ci.ep[0]);
+    }
+    if (determineTargetViability(attack, attacker, ci.ep[1])) {
+        solTargets.push(ci.ep[1]);
+    }
+    if (determineTargetViability(attack, attacker, ci.ep[2])) {
+        solTargets.push(ci.ep[2]);
+    }
+    if (determineTargetViability(attack, attacker, ci.ep[3])) {
+        solTargets.push(ci.ep[3]);
+    }
+    if (determineTargetViability(attack, attacker, ci.ep[4])) {
+        solTargets.push(ci.ep[4]);
+    }
+
+    // Determine Targets on Player side of the field.
+    if (determineTargetViability(attack, attacker, ci.pp[0])) {
+        solTargets.push(ci.pp[0]);
+    }
+    if (determineTargetViability(attack, attacker, ci.pp[2])) {
+        solTargets.push(ci.pp[1]);
+    }
+    if (determineTargetViability(attack, attacker, ci.pp[2])) {
+        solTargets.push(ci.pp[2]);
+    }
+    if (determineTargetViability(attack, attacker, ci.pp[3])) {
+        solTargets.push(ci.pp[3]);
+    }
+
+    return solTargets;
+}
+
+/**
+ * Automatically determine the targets of an attack, then processes the attack.
+ *
+ * NYI: This should also randomly choose an attack with which to attack random targets.
+ */
+function attackRandomWithRandom(attacker) {
+    let attacksClone = cloneDeep(attacker.attacks);
+    let determiningAttack = true;
+    let chosenAttack;
+    let targets;
+
+    /**
+     * Determine which attack to use, but if the attack has no viable
+     * targets, then chose a different attack.
+     */
+    while (determiningAttack) {
+        if (attacksClone.length === 0) {
+            // There are no viable targets left.
+            chosenAttack = null;
+            determiningAttack = false;
+        }
+
+        chosenAttack = ranItems(1, attacksClone)[0];
+        targets = assignViableTargets(chosenAttack, attacker);
+
+        if (targets.length === 0) {
+            attacksClone = attacksClone.filter((attack) => attack !== chosenAttack);
+        } else {
+            determiningAttack = false;
+        }
+    }
+
+    if (chosenAttack.targetType === "single") {
+        // Pick one target at random.
+        targets = ranItems(1, targets);
+    }
+
+    attackCalculations(chosenAttack, attacker, targets);
 }
 
 /**
@@ -246,6 +391,14 @@ function attackCalculations(attack, attacker, targets) {
      * @param {Combatant} char
      *
      * @returns new Attack
+     *
+     * REVIEW: There could be a buff that changes target
+     * characteristics, should be this be done elsewhere to account
+     * for that?
+     *
+     * If so, then applyStats wouldn't be able to applyOpponentStats
+     * as well, so the idea of the function would need to be split in
+     * two.
      */
     function applyStats(attack, char) {
         let solAttack = cloneDeep(attack);
@@ -270,29 +423,20 @@ function attackCalculations(attack, attacker, targets) {
         return solAttack;
     }
 
-    /**
-     * The Combat Instance gives us information on the state of the
-     * combat: e.g. Whether backlines are targetable.
-     */
-    let combatInstance = State.variables.ci;
-
-    // TODO: A proper assignAttack function needs to be made.
-    /* NYI: Frontline/Backline target/attack mechanics. */
-    // The output of that will replace viableTargets and targetsHit.
-    let viableTargets = [];
-    for (let i = 0; i < targets.length; i++) {
-        if (targets[i].health > 0) {
-            viableTargets.push(targets[i]);
-        }
+    if (attack === null) {
+        combatMessage(
+            `C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Had no viable attacks.`,
+            "default",
+            attacker.location
+        );
+        attacker.init += 50;
     }
-
-    let targetsHit = ranItems(1, viableTargets);
 
     /*
      * Actual Attack Calculations
      */
     let solobj = {};
-    targetsHit.forEach((target, idx) => {
+    targets.forEach((target, idx) => {
         solobj[idx] = {};
 
         // Apply the attacker's stats to a copy of the attack.
@@ -368,9 +512,9 @@ function attackCalculations(attack, attacker, targets) {
 
     // Apply solobj to party
     for (let key in solobj) {
-        targetsHit[key].health -= solobj[key].damage;
-        if (targetsHit[key].health < 0) {
-            targetsHit[key].health = 0;
+        targets[key].health -= solobj[key].damage;
+        if (targets[key].health < 0) {
+            targets[key].health = 0;
         }
         // TODO: The combat message should change based on Block/Crit/etc.
         let blockMsg = solobj[key].blocked ? "✓" : "";
@@ -383,7 +527,7 @@ function attackCalculations(attack, attacker, targets) {
                 solobj[key].damage
             )} damage.`,
             "default",
-            targetsHit[key].location
+            targets[key].location
         );
     }
 
@@ -396,6 +540,18 @@ function attackCalculations(attack, attacker, targets) {
     if (!S.COM) {
         S.COM = {};
     }
+
+    // S.COM.determineTargetViability = function (attack, attacker, target) {
+    //     return determineTargetViability(attack, attacker, target);
+    // };
+
+    S.COM.assignViableTargets = function (attacker, attack) {
+        return assignViableTargets(attacker, attack);
+    };
+
+    S.COM.attackRandomWithRandom = function (attacker) {
+        return attackRandomWithRandom(attacker);
+    };
 
     S.COM.attackCalculations = function (attack, attacker, targets) {
         return attackCalculations(attack, attacker, targets);

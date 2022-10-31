@@ -52,7 +52,7 @@ It's intended for actual rendering stuff. */
     <<button [[Gen. Random Combat Instance|Combat_Overlord]]>>
         /* NYI: Players should be drawn from an already existing Player Object. */
         /* I haven't really figured out how to store the Player Objects yet though. */
-        <<set _pp to [new setup.COM.Player({health: 124,healthMax: 125,init: 63,initStart: 63,initVariance: 0.10,attacks: [setup.COM.attacks.stab],name: State.variables.pc_name})]>>
+        <<set _pp to [new setup.COM.Player({health: 124,healthMax: 125,init: 63,initStart: 2,initVariance: 0.10,attacks: [setup.COM.attacks.stab, setup.COM.attacks.swipe],name: State.variables.pc_name})]>>
 
         /* Random Int between 1 and 5 */
         <<set _int to Math.ceil(Math.random() * (5))>>
@@ -63,11 +63,9 @@ It's intended for actual rendering stuff. */
             State.variables.ci = new setup.COM.CombatInstance({
                 win: "victoryCodeToBeWiki'd",
                 lose: "lossCodeToBeWiki'd",
-                pp: State.temporary.pp,  // Array of Player Objects.
-                ep: State.temporary.ep,  // Array of monster names.
+                pp: State.temporary.pp,  /* Array of Player Objects. */
+                ep: State.temporary.ep,  /* Array of monster names. */
             });
-
-            console.log(State.variables.ci);
         <</script>>
     <</button>>
 /* <</if>> */

@@ -25,19 +25,11 @@
 	</griditem>
 
 	<griditem class="col2">
-        <gridtitle>Setting</gridtitle>
-        <griddescript>You've found yourself enslaved, and now you're stuck at the /* REQUIRED */ :arena name:. There isn't much you can do about your fate, just fight, die, or become strong enough to earn your freedom. You're far from being strong enough to earn the reknown required to free yourself., but you've gotten yourself a little reknown.	
-		<br>
-		<resource style="color: lightblue">+50 Reknown</resource>
-		<br>
-		But life isn't easy. You'll have to think carefully about how you want to fight your opponents, who are varied from both skilled gladiators to random monsters that those free advenuturers capture and bring into the pit.
-		</griddescript>
-    </griditem>
-
-	<griditem class="col2">
 		<gridtitle>Your Combat Stats</gridtitle>
 		<griddescript>
-		REQUIRED: STAT INITIALIZER GOES HERE. PLS NO MIND EMPTINESS FOR NOW.
+		REQUIRED: 
+		<br>
+		STAT INITIALIZER GOES HERE. PLS NO MIND EMPTINESS FOR NOW. 
 		</griddescript>
 	</griditem>
 	

@@ -1,8 +1,6 @@
 TODO:
-    Target Selection for Attacks
-        Target Selection should in based "Attacks", but it means that locations are important, and therefore need to be gone over thoroughly.
-        Work on Enemy Attacks first.
-
+    Ability to have more than one player.
+    Player Options Grid (which should contain a minimum of 5 rows and 3 columns. Probably 5x5?
 
 ☐  = Planned for Implementation
 ☑  = Currently Implemented
