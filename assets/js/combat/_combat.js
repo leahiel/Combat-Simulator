@@ -523,11 +523,21 @@ function attackCalculations(attack, attacker, targets) {
 
     // Apply solobj to party
     for (let key in solobj) {
+        // Apply Damage
         targets[key].health -= solobj[key].damage;
         if (targets[key].health < 0) {
             targets[key].health = 0;
         }
 
+        // Apply Block Recovery
+        if (solobj[key].blocked) {
+            targets[key].init += targets[key].blockRecovery;
+        }
+
+        // Apply Stun
+        targets[key].init += attack.stun;
+
+        // Prepare Combat Notification Message
         let blockMsg = solobj[key].blocked ? "✓" : "";
         let critMsg = solobj[key].critical ? "✓" : "";
         let directMsg = solobj[key].direct ? "✓" : "";
@@ -542,7 +552,6 @@ function attackCalculations(attack, attacker, targets) {
         );
     }
 
-    // TODO: The target(s) may need to recover from a block/stun.
     attacker.init += attack.initRecovery;
 }
 

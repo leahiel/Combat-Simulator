@@ -9,6 +9,8 @@ const DEFAULTATTACK = {
     initRecovery: 45,
     /** NYI: The weapon damage multiplier multiplies the weapon damage for the attack by this amount. */
     wdm: 1,
+    /** The amount of init added to the defender after an attack. */
+    stun: 0,
 
     targetType: "single", // "area"
     allyTargetable: false,
@@ -230,6 +232,9 @@ const DEFAULTENEMY = {
         shadow: 0,
         aether: 0,
     },
+    /** The amount of init after blocking. */
+    blockRecovery: 15,
+
     criticalChanceBase: 0.05,
     criticalChanceIncreased: 1,
     criticalChanceMore: 1,
@@ -402,6 +407,8 @@ const DEFAULTPLAYER = {
         shadow: 0,
         aether: 0,
     },
+    /** The amount of init after blocking. */
+    blockRecovery: 15,
     initVariance: 0.1,
     family: "player",
 };
