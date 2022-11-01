@@ -229,6 +229,23 @@ async function processTurns(pp, ep) {
 
     let activeCharacter = null;
 
+    /* If all of the front of a side are dead, allow frontline attacks
+    to hit backline. */
+    if (
+        State.variables.ci.ep[0].health <= 0 && 
+        State.variables.ci.ep[1].health <= 0 &&
+        State.variables.ci.ep[2].health <= 0
+    ) {
+        State.variables.ci.epbacklineTargetable = true
+    }
+    if (
+        State.variables.ci.pp[0].health <= 0 && 
+        State.variables.ci.pp[1].health <= 0
+    ) {
+        State.variables.ci.ppbacklineTargetable = true
+    }
+
+
     /* Check if anyone has a turn available. */
     pp.forEach((char) => {
         if (char.init <= 0 && char.health > 0) {

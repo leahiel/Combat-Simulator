@@ -102,6 +102,10 @@ function determineTargetViability(attack, attacker, target) {
         return false;
     }
 
+    if (target.health <= 0) {
+        return false;
+    }
+
     /**
      * The Combat Instance gives us information on the state of the
      * combat. Relevant information for this function includes:
@@ -126,11 +130,11 @@ function determineTargetViability(attack, attacker, target) {
         (attack.allyTargetable && attackerStatus === "enemy") ||
         (attack.opponentTargetable && attackerStatus === "player")
     ) {
-        if (attack.frontlineTargetable) {
+        if (attack.frontlineTargetable || ci.epfrontlineTargetable) {
             if ([ci.ep[0], ci.ep[1], ci.ep[2]].includes(target)) return true;
         }
 
-        if (attack.backlineTargetable) {
+        if (attack.backlineTargetable || ci.epbacklineTargetable) {
             if ([ci.ep[3], ci.ep[4]].includes(target)) return true;
         }
     }
@@ -140,11 +144,11 @@ function determineTargetViability(attack, attacker, target) {
         (attack.allyTargetable && attackerStatus === "player") ||
         (attack.opponentTargetable && attackerStatus === "enemy")
     ) {
-        if (attack.frontlineTargetable) {
+        if (attack.frontlineTargetable || ci.ppfrontlineTargetable) {
             if ([ci.pp[0], ci.pp[1]].includes(target)) return true;
         }
 
-        if (attack.backlineTargetable) {
+        if (attack.backlineTargetable || ci.ppbacklineTargetable) {
             if ([ci.pp[2], ci.pp[3]].includes(target)) return true;
         }
     }
