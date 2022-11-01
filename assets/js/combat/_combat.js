@@ -24,6 +24,9 @@ class CombatInstance {
         Object.assign(this, obj);
 
         /* Default Values */
+
+        // NYI: These values should be updates as the battle goes on.
+        // NYI: When the frontline is dead, the backline should be targetable, which is why these values exist.
         this.epfrontlineTargetable = true;
         this.epbacklineTargetable = false;
         this.ppfrontlineTargetable = true;
@@ -193,7 +196,7 @@ function assignViableTargets(attack, attacker) {
     if (determineTargetViability(attack, attacker, ci.pp[0])) {
         solTargets.push(ci.pp[0]);
     }
-    if (determineTargetViability(attack, attacker, ci.pp[2])) {
+    if (determineTargetViability(attack, attacker, ci.pp[1])) {
         solTargets.push(ci.pp[1]);
     }
     if (determineTargetViability(attack, attacker, ci.pp[2])) {
@@ -231,6 +234,7 @@ function attackRandomWithRandom(attacker) {
         targets = assignViableTargets(chosenAttack, attacker);
 
         if (targets.length === 0) {
+            /* If no targets, remove attack from attacksClone and get another attack. */
             attacksClone = attacksClone.filter((attack) => attack !== chosenAttack);
         } else {
             determiningAttack = false;

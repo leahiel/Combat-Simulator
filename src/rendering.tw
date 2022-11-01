@@ -52,7 +52,10 @@ It's intended for actual rendering stuff. */
     <<button [[Gen. Random Combat Instance|Combat_Overlord]]>>
         /* NYI: Players should be drawn from an already existing Player Object. */
         /* I haven't really figured out how to store the Player Objects yet though. */
-        <<set _pp to [new setup.COM.Player({healthMax: 125,initStart: 43,initVariance: 0.10,attacks: [setup.COM.attacks.stab, setup.COM.attacks.swipe],name: State.variables.pc_name})]>>
+        <<set _pp to []>>
+        <<set _pp[0] to new setup.COM.Player({healthMax: 125,initStart: 43,initVariance: 0.10,attacks: [setup.COM.attacks.stab, setup.COM.attacks.swipe],name: "Player 1"})>>
+        <<set _pp[1] to new setup.COM.Player({healthMax: 125,initStart: 63,initVariance: 0.10,attacks: [setup.COM.attacks.stab, setup.COM.attacks.swipe],name: "Player 2"})>>
+
 
         /* Random Int between 1 and 5 */
         <<set _int to Math.ceil(Math.random() * (5))>>
