@@ -23,16 +23,16 @@ function combatMessage(text, type, charLoc) {
             eleName = "combatzonegrid #gitemE";
             break;
         case "playerA":
-            eleName = "playeroptionsgrid #gitemA";
+            eleName = "playerZoneGrid #gitemA";
             break;
         case "playerB":
-            eleName = "playeroptionsgrid #gitemB";
+            eleName = "playerZoneGrid #gitemB";
             break;
         case "playerC":
-            eleName = "playeroptionsgrid #gitemC";
+            eleName = "playerZoneGrid #gitemC";
             break;
         case "playerD":
-            eleName = "playeroptionsgrid #gitemD";
+            eleName = "playerZoneGrid #gitemD";
             break;
         default:
             eleName = "combatzonegrid #gitemA";

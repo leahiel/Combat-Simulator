@@ -15,12 +15,17 @@
 				<<option "they/them/theirs" "misc">>
 			<</cycle>>
 		</label>
+		/* 
 		<br>
 		<br>
 		<h4>Your body has:</h4>
 		<br><label><<checkbox "$pc.penis" false true autocheck>> A penis.</label>
 		<br><label><<checkbox "$pc.breasts" false true checked>> Breasts.</label>
-		<br><label><<checkbox "$pc.vagina" false true checked>> A vagina.</label>
+		<br><label><<checkbox "$pc.vagina" false true checked>> A vagina.</label> 
+		*/
+		<<set $pc.penis to false>>
+		<<set $pc.breasts to true>>
+		<<set $pc.vagina to true>>
         </griddescript>
 	</griditem>
 

@@ -535,21 +535,13 @@ input:checked ~ accordionContent {
  *  ######   #######  ##     ## ########  ##     ##    ##    
  */
 
-#notifArea {
-    display: grid;
-    text-align: center;
-
-    font-size: 2em;
-    margin: 1em 0;
-    border: 1px solid hsl(312deg 74% 16% / 0%);
-    border-radius: 8px;
-    box-shadow: var(--boxShadow);
-    background-color: var(--backgroundplus1);
-}
-
 .initBar {
     margin: auto;
     /* width: 10em; */
+}
+
+#macro-disable {
+    border: none;
 }
 
 combatZoneGrid [data-name="/if"] {
@@ -558,7 +550,15 @@ combatZoneGrid [data-name="/if"] {
     display: none;
 }
 
-playeroptionsgrid,
+playerCombatGrid {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1.5fr 1fr;
+    column-gap: 1em;
+}
+
+playerZoneGrid,
+playerOptionsGrid,
 combatZoneGrid {
     display: grid;
     row-gap: 1rem;
@@ -580,14 +580,35 @@ combatZoneGrid {
     grid-template-rows: 1fr 1fr;
 }
 
-playerOptionsGrid {
-    padding: 4px 4em;
+playerZoneGrid {
+    display: inline-grid;
+
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
+
+    padding: 2em 4px;
 }
 
-playeroptionsgrid span,
-playeroptionsgrid griditem,
+playerOptionsGrid {
+    display: inline-grid;
+    
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 0.70fr 0.70fr 0.70fr 0.70fr 0.70fr;
+    row-gap: 0.5rem;
+    column-gap: 0.5rem;
+
+    padding: 4px;
+
+    border: 1px solid hsl(312deg 74% 16% / 0%);
+    border-radius: 8px;
+    box-shadow: var(--boxShadow);
+    background-color: var(--background);
+}
+
+playerZoneGrid span,
+playerZoneGrid griditem,
+playerOptionsGrid span,
+playerOptionsGrid griditem,
 combatZoneGrid span,
 combatZoneGrid griditem {
     text-align: center;
@@ -598,6 +619,25 @@ combatZoneGrid griditem {
     border-radius: 8px;
     box-shadow: var(--boxShadow);
     background-color: var(--background);
+}
+
+playerOptionsGrid span,
+playerOptionsGrid griditem {
+    width: 100%;
+    padding: 0.25em 0;
+}
+
+#notifArea {
+    grid-column: 1 / span 3;
+    text-align: center;
+
+    width: 100%;
+
+    font-size: 1.5em;
+    border: 1px solid hsl(312deg 74% 16% / 0%);
+    border-radius: 8px;
+    box-shadow: var(--boxShadow);
+    background-color: var(--backgroundplus1);
 }
 
 combatZoneGrid span[title="<<if _ep[0]>>"],
