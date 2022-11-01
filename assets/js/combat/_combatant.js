@@ -9,6 +9,10 @@ class Combatant {
     constructor(obj) {
         Object.assign(this, obj);
 
+        this.original = obj;
+        this.buffs = [];
+        this.debuffs = [];
+
         this.health = this.healthMax;
 
         let max = this.initStart * (1 + this.initVariance);
@@ -17,6 +21,10 @@ class Combatant {
 
         this.deflectedCalculated = 0.05;
         this.blockCalculated = 0.05;
+    }
+
+    reform() {
+        // Apply buffs and debuffs
     }
 };
 

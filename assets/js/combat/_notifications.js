@@ -49,7 +49,7 @@ function combatMessage(text, type, charLoc) {
     // Flash deletes the parent container to prevent DOM polluting, so
     // this is required.
     if ($("#flash-" + charLoc).length === 0) {
-        console.log(`Flash container does not exist.`);
+        // console.log(`Flash container does not exist.`);
         $("<div>", {
             class: "flash-container",
             id: "flash-" + charLoc,

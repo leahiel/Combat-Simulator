@@ -1,5 +1,12 @@
 TODO:
     Add in buffs/debuffs.
+    Really, I want some way for attacks to process their own special code. Perhaps AttackCalculations will have a section that is like:
+        attack.custom(targets)
+    Where the attack.custom() is something like:
+        attack.custom = (targets) => {for (target in targets) {target.health += 1}}
+    This will allow custom code to run for buffs and debuffs.
+    
+     
 
 ☐  = Planned for Implementation
 ☑  = Currently Implemented

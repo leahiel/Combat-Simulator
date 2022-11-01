@@ -214,7 +214,7 @@ function assignViableTargets(attack, attacker) {
 }
 
 /**
- * Randomly decided on an attack, then randomly determine the targets 
+ * Randomly decided on an attack, then randomly determine the targets
  * of the attack, then processes the attack.
  */
 function attackRandomWithRandom(attacker) {
@@ -431,7 +431,7 @@ function attackCalculations(attack, attacker, targets) {
     }
 
     /**
-     * Null generally means no viable attack was generated with 
+     * Null generally means no viable attack was generated with
      * attackRandomWithRandom().
      */
     if (attack === null) {
@@ -491,8 +491,6 @@ function attackCalculations(attack, attacker, targets) {
             solobj[idx].deflected = false;
         }
 
-        // NYI: Calculate if Stunned.
-
         // Any other On-Hit should be calculated here.
 
         let damageobj = {
@@ -535,7 +533,30 @@ function attackCalculations(attack, attacker, targets) {
         }
 
         // Apply Stun
+        // REVIEW: Should stunning always be applied, or have a percentage chance to apply?
+        // Probably have a percentage chance.
         targets[key].init += attack.stun;
+
+        // Apply Buffs
+        if (attack.buffs.length > 0) {
+            for (let buff of attack.buffs) {
+                // Get an array of buff names from targets[key].
+                // Do not apply buff if target already has buff.
+                // TODO: It should update duration.
+                let buffNames = assignFieldOfObjectsToArray(targets[key].buffs, "names");
+                if (buff.type === "buff" && !buffNames.includes(buff.name)) {
+                    targets[key].buffs.push(cloneDeep(buff));
+                }
+
+                // Get an array of debuff names from targets[key].
+                // Do not apply debuff if target already has debuff.
+                // TODO: It should update duration.
+                let debuffNames = assignFieldOfObjectsToArray(targets[key].debuffs, "names");
+                if (buff.type === "debuff" && !debuffNames.includes(buff.name)) {
+                    targets[key].debuffs.push(cloneDeep(buff));
+                }
+            }
+        }
 
         // Prepare Combat Notification Message
         let blockMsg = solobj[key].blocked ? "✓" : "";

@@ -227,6 +227,44 @@ async function processTurns(pp, ep) {
         });
     };
 
+    /** Decrement init of the character, and apply buffs if applicable. */
+    function decrementInits(char) {
+        let initDecrementAmount = .25;
+        char.init -= initDecrementAmount;
+
+        for (let buff of char.buffs) {
+            /* Decrement buff. If buff duration goes down a whole number, apply its effects. */
+            let buffStart = Math.floor(buff.duration);
+            buff.duration -= initDecrementAmount;
+            let buffEnd = Math.floor(buff.duration);
+
+            if (buffStart > buffEnd) {
+                buff.custom(char);
+            }
+
+            /* Remove expired buffs. */
+            if (buff.durection < 0) {
+                char.buffs = char.buffs.filter(function(value) { return value !== buff;});
+            }
+        }
+
+        for (let debuff of char.debuffs) {
+            /* Decrement debuff. If debuff duration goes down a whole number, apply its effects. */
+            let debuffStart = Math.floor(debuff.duration);
+            debuff.duration -= initDecrementAmount;
+            let debuffEnd = Math.floor(debuff.duration);
+
+            if (debuffStart > debuffEnd) {
+                debuff.custom(char);
+            }
+
+            /* Remove expired debuffs. */
+            if (debuff.duration < 0) {
+                char.debuffs = char.debuffs.filter(function(value) { return value !== debuff;});
+            }
+        }
+    }
+
     let activeCharacter = null;
 
     /* If all of the front of a side are dead, allow frontline attacks
@@ -271,10 +309,14 @@ async function processTurns(pp, ep) {
 
         /* Decrement inits. */
         pp.forEach((char) => {
-            char.init -= .25;
+            if (char.health > 0) {
+                decrementInits(char);
+            }
         });
         ep.forEach((char) => {
-            char.init -= .25;
+            if (char.health > 0) {
+                decrementInits(char);
+            }
         });
 
         drawCombat();

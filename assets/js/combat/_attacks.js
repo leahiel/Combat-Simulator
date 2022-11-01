@@ -14,6 +14,11 @@ class Attack {
         if (!this.frontlineTargetable && !this.backlineTargetable) {
             console.error(`${this.name} has both frontline and backline untargetable.`);
         }
+
+        if (this.description === undefined) {
+            console.error(`Attack: ${this.name} lacks a description.`);
+            this.description = "Description missing.";
+        }
     }
 }
 
@@ -35,9 +40,10 @@ const attacks = {
         },
     }),
 
-    swipe: new Attack({
-        name: "Swipe",
+    sweep: new Attack({
+        name: "Sweep",
         family: "Player",
+        buffs: [buffs.buffTESTING],
         initRecovery: 50,
         wdm: 1.25,
         targetType: "area",

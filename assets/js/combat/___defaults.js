@@ -1,4 +1,8 @@
 /** The default attack object. Name must be specified itself when creating a new Attack. Values not specified will use these default values instead. */
+const DEFAULTBUFF = {
+    //
+};
+
 // NYI: initVariancePercent to vary the recovery Init a little.
 const DEFAULTATTACK = {
     family: null,
@@ -11,6 +15,9 @@ const DEFAULTATTACK = {
     wdm: 1,
     /** The amount of init added to the defender after an attack. */
     stun: 0,
+
+    /** The buffs or debuffs the attack performs. */
+    buffs: [],
 
     targetType: "single", // "area"
     allyTargetable: false,
@@ -76,8 +83,6 @@ const DEFAULTATTACK = {
         },
     },
 };
-
-
 
 const DEFAULTENEMY = {
     stats: {
@@ -251,8 +256,6 @@ const DEFAULTENEMY = {
     initVariance: 0.1,
     family: null,
 };
-
-
 
 const DEFAULTPLAYER = {
     stats: {
