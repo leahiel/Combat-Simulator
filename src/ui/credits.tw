@@ -3,7 +3,7 @@ My name is LeahPeach!
 <br>I made dis c:
 <br>
 <br>
-This game was made from my template, which you can browse, fork, or clone at this <a href="https://github.com/leahiel/Twine-Templatet" target="_blank" rel="noreferrer noopener">GitHub Repository↗</a>
+This game was made from my template, which you can browse, fork, or clone at this <a href="https://github.com/leahiel/Twine-Template" target="_blank" rel="noreferrer noopener">GitHub Repository↗</a>
 <br>
 <br>
 This game was made using extensive knowledge and help from the fine folks over at the Twine Games Discord (<a href="https://discord.gg/r848Gn7sRn" target="_blank" rel="noreferrer noopener">Join us here!↗</a>) Special thanks to Chapel, Greyelf, Sjoerdhekking, and AlyxMS for their support or helping with debugging. Special thanks for Chapel for going above and beyond!
@@ -17,9 +17,14 @@ This game was made using extensive knowledge and help from the fine folks over a
 <br>
 <br>Flash Macro, © SjoerdHekking, MIT
 <br>* Flash Macro is a port of FlashJS, © betaWeb, MIT
+<br>* UNMODIFIED
 <br>* Ported Macro: https://github.com/SjoerdHekking/custom-macros-sugarcube2/tree/main/Notification
 <br>* Original Code: https://github.com/betaWeb/flashjs
 <br>* SjoerdHekking's Itch.io: https://sjoerdhekking.itch.io/
+<br>
+<br>A Macro, by Maliface, Used with Explicit Written Permission
+<br>* Readme: https://github.com/MalifaciousGames/Mali-s-Macros/blob/main/a-macro/a-macro.md
+<br>* Other Code by Maliface: https://github.com/MalifaciousGames/Mali-s-Macros
 <br>
 <br>
 <h3>This game uses code made by other fantastic people:</h3>
@@ -36,6 +41,3 @@ This game was made using extensive knowledge and help from the fine folks over a
 <br>* MODIFIED by Myself
 <br>* Homepage: https://projects.calebevans.me/jcanvas/
 <br>* Github: https://github.com/caleb531/jcanvas
-<br>
-
-

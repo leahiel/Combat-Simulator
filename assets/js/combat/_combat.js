@@ -364,7 +364,7 @@ function attackCalculations(attack, attacker, targets) {
             solAttack.criticalDamageBase * solAttack.criticalDamageIncreased * solAttack.criticalDamageMore;
 
         solAttack.directChanceBase += char.directChanceBase;
-        solAttack.directChanceIncreased += char.directahanceIncreased;
+        solAttack.directChanceIncreased += char.directChanceIncreased;
         solAttack.directChanceMore *= char.directChanceMore;
         solAttack.directChanceCalculated =
             solAttack.directChanceBase * solAttack.directChanceIncreased * solAttack.directChanceMore;
@@ -411,6 +411,7 @@ function attackCalculations(attack, attacker, targets) {
         solobj[idx].blocked = Math.random() < target.blockCalculated ? true : false;
 
         // Determine if Critical Strike.
+        // NOTE: Critical Strikes do not occur if the attack was blocked.
         solobj[idx].critical =
             Math.random() < thisAttack.criticalChanceCalculated && !solobj[idx].blocked ? true : false;
 

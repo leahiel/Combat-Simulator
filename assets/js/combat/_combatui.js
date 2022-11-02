@@ -97,8 +97,6 @@ function combatMessage(text, type, charLoc) {
 
 /** Clears the Player Options Grid. */
 function clearPlayerOptions() {
-    // We start at 1 because #NotifArea is 0, and we don't want to
-    // clear that.
     for (let i = 1; i <= 15; i++) {
         $(`playerOptionsGrid #gitem${i}`).empty();
     }

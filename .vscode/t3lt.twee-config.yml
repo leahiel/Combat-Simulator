@@ -8,14 +8,24 @@ sugarcube-2:
       name: disable
       container: true
 
-    # Adds classes or IDs to buttons. Made by Akjosch.
-    ibutton:
-      name: ibutton
+    # Part of Maliface's A macro: https://github.com/MalifaciousGames/Mali-s-Macros/blob/main/a-macro/a-macro.md
+    a:
+      name: a
       container: true
 
-    # Adds classes or IDs to links. Made by Akjosch.
-    ilink:
-      name: ilink
+    # Part of Maliface's A macro:
+    but:
+      name: but
+      container: true
+    
+    # Part of Maliface's A macro:
+    adel:
+      name: adel
+      container: true
+    
+    # Part of Maliface's A macro:
+    butdel:
+      name: butdel
       container: true
 
     # My custom macro for tooltips. 

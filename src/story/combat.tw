@@ -364,17 +364,17 @@ if (ppdead) {
                 <<script>>
                     $(`playerOptionsGrid #gitem${State.temporary.int + 1}`).wiki(`
                         <<disable>>
-                            <<ibutton _attack.name "#PlayerAttack">>
-                            <</ibutton>>
+                            <<but _attack.name id "PlayerAttack">>
+                            <</but>>
                         <</disable>>
                     `);
                 <</script>>
             <<else>>
                 <<script>>
                     $(`playerOptionsGrid #gitem${State.temporary.int + 1}`).wiki(`
-                        <<ibutton _attack.name "#PlayerAttack">>
+                        <<but _attack.name id "PlayerAttack">>
                             <<run $("#playerAttacks").empty().wiki(Story.get("Player_Attack_Targets").processText());>>
-                        <</ibutton>>
+                        <</but>>
                     `);
                 <</script>>
             <</if>>
@@ -396,42 +396,42 @@ if (ppdead) {
         <<if _attack.frontlineTargetable && _attack.backlineTargetable>>
             <<script>>
                 $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<ibutton "Hit Everyone" "#AttackTarget">>
+                    <<but "Hit Everyone" id "#AttackTarget">>
                         <<script>>
                             let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
                             setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
                             State.variables.ci.activeCharacter = null;
                             $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                         <</script>>
-                    <</ibutton>>
+                    <</but>>
                 `);
             <</script>>
 
         <<elseif _attack.frontlineTargetable>>
             <<script>>
                 $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<ibutton "Hit Both Frontlines" "#AttackTarget">>
+                     <<but "Hit Both Frontlines" id "#AttackTarget">>
                         <<script>>
                             let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
                             setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
                             State.variables.ci.activeCharacter = null;
                             $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                         <</script>>
-                    <</ibutton>>
+                    <</but>>
                 `);
             <</script>>
 
         <<elseif _attack.backlineTargetable>>
             <<script>>
                 $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<ibutton "Hit Both Backlines" "#AttackTarget">>
+                    <<but "Hit Both Backlines" id "#AttackTarget">>  
                         <<script>>
                             let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
                             setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
                             State.variables.ci.activeCharacter = null;
                             $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                         <</script>>
-                    <</ibutton>>
+                    <</but>>
                 `);
             <</script>>
         <</if>>
@@ -441,42 +441,42 @@ if (ppdead) {
         <<if _attack.frontlineTargetable && _attack.backlineTargetable>>
             <<script>>
                 $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<ibutton "Hit All Enemies" "#AttackTarget">>
+                    <<but "Hit All Enemies" id "#AttackTarget">>  
                         <<script>>
                             let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
                             setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
                             State.variables.ci.activeCharacter = null;
                             $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                         <</script>>
-                    <</ibutton>>
+                    <</but>>
                 `);
             <</script>>
 
         <<elseif _attack.frontlineTargetable>>
             <<script>>
                 $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<ibutton "Hit Frontline" "#AttackTarget">>
+                    <<but "Hit Frontline" id "#AttackTarget">>
                         <<script>>
                             let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
                             setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
                             State.variables.ci.activeCharacter = null;
                             $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                         <</script>>
-                    <</ibutton>>
+                    <</but>>
                 `);
             <</script>>
 
         <<elseif _attack.backlineTargetable>>
             <<script>>
                 $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<ibutton "Hit Backline" "#AttackTarget">>
+                    <<but "Hit Backline" id "#AttackTarget">>
                         <<script>>
                             let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
                             setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
                             State.variables.ci.activeCharacter = null;
                             $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                         <</script>>
-                    <</ibutton>>
+                    <</but>>
                 `);
             <</script>>
         <</if>>
@@ -486,42 +486,42 @@ if (ppdead) {
         <<if _attack.frontlineTargetable && _attack.backlineTargetable>>
             <<script>>
                 $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<ibutton "Hit All Allies" "#AttackTarget">>
+                    <<but "Hit All Allies" id "#AttackTarget">>
                         <<script>>
                             let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
                             setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
                             State.variables.ci.activeCharacter = null;
                             $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                         <</script>>
-                    <</ibutton>>
+                    <</but>>
                 `);
             <</script>>
 
         <<elseif _attack.frontlineTargetable>>
             <<script>>
                 $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<ibutton "Hit Frontline Allies" "#AttackTarget">>
+                    <<but "Hit Frontline Allies" id "#AttackTarget">>
                         <<script>>
                             let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
                             setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
                             State.variables.ci.activeCharacter = null;
                             $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                         <</script>>
-                    <</ibutton>>
+                    <</but>>
                 `);
             <</script>>
             
         <<elseif _attack.backlineTargetable>>
             <<script>>
                 $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<ibutton "Hit Backline Allies" "#AttackTarget">>
+                    <<but "Hit Backline Allies" id "#AttackTarget">>
                         <<script>>
                             let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
                             setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
                             State.variables.ci.activeCharacter = null;
                             $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                         <</script>>
-                    <</ibutton>>
+                    <</but>>
                 `);
             <</script>>
             
@@ -533,13 +533,13 @@ if (ppdead) {
             <<if _viableTargets.includes(_target) && _target.health > 0>>
                 <<script>>
                     $(`playerOptionsGrid #gitem${State.temporary.int + 1}`).wiki(`
-                        <<ibutton _target.name "#AttackTarget">>
+                        <<but _target.name id "#AttackTarget">>
                             <<script>>
                                 setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, [State.temporary.target]);
                                 State.variables.ci.activeCharacter = null;
                                 $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                             <</script>>
-                        <</ibutton>>
+                        <</but>>
                     `);
                 <</script>>
             <<else>>
@@ -547,8 +547,8 @@ if (ppdead) {
                 <<script>>
                     $(`playerOptionsGrid #gitem${State.temporary.int + 1}`).wiki(`
                         <<disable>>
-                            <<ibutton _target.name "#AttackTarget">>
-                            <</ibutton>>
+                            <<but _target.name id "#AttackTarget">>
+                            <</but>>
                         <</disable>>
                     `);
                 <</script>>
@@ -562,13 +562,13 @@ if (ppdead) {
             <<if _viableTargets.includes(_target)>>
                 <<script>>
                     $(`playerOptionsGrid #gitem${State.temporary.int + 7}`).wiki(`
-                        <<ibutton _target.name "#AttackTarget">>
+                        <<but _target.name id "#AttackTarget">>
                             <<script>>
                                 setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, State.temporary.target);
                                 State.variables.ci.activeCharacter = null;
                                 $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                             <</script>>
-                        <</ibutton>>
+                        <</but>>
                     `);
                 <</script>>
                 
@@ -577,8 +577,8 @@ if (ppdead) {
                 <<script>>
                     $(`playerOptionsGrid #gitem${State.temporary.int + 7}`).wiki(`
                         <<disable>>
-                            <<ibutton _target.name "#AttackTarget">>
-                            <</ibutton>>
+                            <<but _target.name id "#AttackTarget">>
+                            <</but>>
                         <</disable>>
                     `);
                 <</script>>
@@ -590,9 +590,9 @@ if (ppdead) {
 /* Provide an option if the player wants to chose a different attack. */
 <<script>>
     $(`playerOptionsGrid #gitem13`).wiki(`
-        <<ibutton "Back" "#BackAttack">>
+        <<but "Back" id "#BackAttack">>
             <<run $("#playerAttacks").empty().wiki(Story.get("Player_Attacks").processText());>>
-        <</ibutton>>
+        <</but>>
     `);
 <</script>>
     
