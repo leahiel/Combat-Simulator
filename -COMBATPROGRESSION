@@ -1,44 +1,32 @@
-TODO:
-// TODO: Add a "onApply IIFE" and "onEnd IIFE" so we can do something like altering max health.
-// Alternatively, we could just have an onApplyIIFE, and then redo the Combatant every time a buff runs out. 
-// Both methods have pros and cons. I have no idea how I would redo the combatant, for instance, while having an "onEnd IIFE" just seems prone to errors. Tough decision.
-
 ☐  = Planned for Implementation
 ☑  = Currently Implemented
-→  = Planned for Implementation next cycle.
+→  = Currently Working On.
 
-    ☑  Combat primitive functional.
-    ☑  1v1 only.
-    ☐  Attacks based on weapon.
-    ☐  Attack Statistics Visible to User
-    ☐  Monster Statistics Visible to User
+    Combat:
+    ☑  Primitive Combat System functional.
+        ☐  Weapon Damage Modifier on Attacks. [Req: Weapons!]
+        ☐  Weapon Expertise Modifier [Req: Player Stats!]
 
-    These Affixes are Complete and Used on Combatants and Attacks:
-    ☑    Damage (of each type)
-    ☑    Init [start, base, and recovery]
-    ☑    Health [Combatant Only]
-    ☑    Blocking
-    ☑    Grazes
-    ☑    Critical Hit (Chance [Base/Increased/More], Strike [Base/Increased/More])
-    ☑    Direct Hit (Chance [Base/Increased/More], Strike [Base/Increased/More])
-    ☑     Absorb (Percent, PercentMax, Flat)
-    ☑     Resistant (base, Max)
-    ☑     Reduct (base)
+    Combat Initialization:
+    ☐ Setting (Music, Background, ETC) 
+    ☐ Reward/Defeat Screen 
+    ☐ Combatant Equipment Applies Stats to Combatant [Req: Equipables!]
+        ☐  Available Attacks based on Equipped Weapon [Req: Equipables!]
+    ☐ Monster Rarity and Affix System
 
-    These Affixes are Missing on Combatants/Attacks:
-    →    Stunning
-    ☐   Weapon Expertise Modifier
-    →    Targets Able to Hit (Attacks)
-    →    Targets to Hit (Attacker)
-    →    1 v [1-5]
-    ☐   [1-4] v [1-5]
-    
-    These Features Missing in Combat:
-        Weapon Damage Modifier on Attacks. (There are no weapons yet!)
+    Information Screen:
+    →  Combat Instance Statistics Visible
+    →  Attack Statistics Visible
+    →  Monster Statistics Visible
+    ☐ Useable as a Guide/Help system.
 
-    ☐ No Real Guide/Help system. Good luck!
-    ☐ No Equipment. (Subsequently, No Item Affixes.)
-    ☐ No Experience, No Leveling, No growth.
-    ☐ No Monster Affixes.
+    Character Equipment and Itemization System:
+    ☐  A Functional Primitive Equipment System
+        ☐  Equipables
+            ☐  Item Affixes [Reg: Equipables!]
+
+    Character Customization:
+    ☐ Experience, Leveling, and Growth
+
+    Misc:
     ☐ No Realistic/Intended Difficulty Setting Change
-    → No Buffs/Debuffs (These last their length in units of init.)

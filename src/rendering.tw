@@ -203,44 +203,6 @@ $(document).ready(function() {
     });
 });
 
-/* Discourage Forward/Backward if not usable. */
-if (typeof $._data($("li#forwardTab")[0], "events") === "undefined") {
-    $("li#forwardTab")
-        .ariaDisabled(State.length === State.size)
-        .ariaClick({
-            one: true
-        }, () => Engine.forward());
-} else {
-    $("li#forwardTab")
-        .ariaDisabled(State.length === State.size);
-}
-
-if ($("li#forwardTab").ariaIsDisabled()) {
-    $("li#forwardTab").css("color", "grey");
-    $("li#forwardTab").css("cursor", "not-allowed");
-} else {
-    $("li#forwardTab").css("color", "inherit");
-    $("li#forwardTab").css("cursor", "pointer");
-}
-
-if (typeof $._data($("li#backwardTab")[0], "events") === "undefined") {
-    $("li#backwardTab")
-        .ariaDisabled(State.length < 2)
-        .ariaClick({
-            one: true
-        }, () => Engine.backward());
-} else {
-    $("li#backwardTab")
-        .ariaDisabled(State.length < 2);
-}
-
-if ($("li#backwardTab").ariaIsDisabled()) {
-    $("li#backwardTab").css("color", "grey");
-    $("li#backwardTab").css("cursor", "not-allowed");
-} else {
-    $("li#backwardTab").css("color", "inherit");
-    $("li#backwardTab").css("cursor", "pointer");
-}
 
 /* Don't allow scrolling during combat. */
 if (tags().includes(".combat")) {

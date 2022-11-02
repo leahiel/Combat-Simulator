@@ -76,11 +76,11 @@ body {
     /* background-color: hsla(0, 0%, 0%, 0); */ /* Overwrites default SC css. */
 
     /* height: min(calc(100% - 2rem), 80%); */
-    width: min(65rem, 90vw);
+    width: 65vw;
 
     margin-top: 2.5rem;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: 6vw;
 
     box-shadow: var(--boxShadow);
     border-radius: 20px;
@@ -205,6 +205,65 @@ tpi {
 
 .shade-text-to-link:hover {
     text-decoration: underline;
+}
+
+/**
+ * #### ##    ## ########  #######      ######   ######  ########  ######## ######## ##    ## 
+ *  ##  ###   ## ##       ##     ##    ##    ## ##    ## ##     ## ##       ##       ###   ## 
+ *  ##  ####  ## ##       ##     ##    ##       ##       ##     ## ##       ##       ####  ## 
+ *  ##  ## ## ## ######   ##     ##     ######  ##       ########  ######   ######   ## ## ## 
+ *  ##  ##  #### ##       ##     ##          ## ##       ##   ##   ##       ##       ##  #### 
+ *  ##  ##   ### ##       ##     ##    ##    ## ##    ## ##    ##  ##       ##       ##   ### 
+ * #### ##    ## ##        #######      ######   ######  ##     ## ######## ######## ##    ## 
+ */
+
+ #infoScreen {
+    display: block;
+    position: fixed;
+    
+    left: -5vw;
+    top: -5vh;
+
+    height: 110vh;
+    width: 20vw;
+
+    padding-top: calc(5vh + 1rem);
+    padding-left: calc(5vw + 1rem);
+    padding-bottom: calc(5vh + 1rem);
+    padding-right: 1rem;
+
+    background-color: var(--background);
+
+    box-shadow: var(--boxShadow);
+
+    font-size: 20px;
+    text-shadow: 1px 1px 3px black;
+}
+
+#infoScreenTitle {
+    display: block;
+
+    padding: 1rem 0;
+
+    color: rgb(80, 80, 80);
+    font-size: 2.5rem;
+    font-family: backslash;
+
+    transition: var(--chapter-text-transition);
+
+    text-align: center;
+    line-height: 3rem;
+}
+
+#infoScreenDescription {
+    display: block;
+
+    padding: 1rem;
+
+    border: 1px solid hsl(312deg 74% 16% / 0%);
+    border-radius: 8px;
+    box-shadow: inset -0.05rem 0.1rem 0.5rem rgb(0, 0, 0);
+    background-color: hsl(0, 0%, 40%);
 }
 
 /**
@@ -368,7 +427,7 @@ input:checked ~ accordionContent {
 
 #databaseInfoTab {
     position: fixed;
-    left: 10vw;
+    right: 22vw;
     top: -1rem;
 
     padding: 1.25rem 0.75rem 0rem;
@@ -381,89 +440,6 @@ input:checked ~ accordionContent {
     line-height: 4vh;
     font-size: 2vh;
     text-align: center;
-}
-
-#settingTabs ul {
-    position: fixed;
-    width: 0;
-
-    left: -5rem;
-    top: 3rem;
-
-    list-style-type: none;
-}
-
-#settingTabs li {
-    float: left;
-
-    height: 4vh;
-    margin-top: 1rem;
-    margin-right: 300rem;
-    padding: 0.75rem 0.5rem 0.75rem 2.75rem;
-
-    box-shadow: var(--boxShadow);
-    border-radius: 20px;
-
-    background-color: hsl(0, 0%, 15%);
-
-    line-height: 4vh;
-    font-size: 2vh;
-    text-align: center;
-    white-space: nowrap;
-
-    cursor: pointer;
-}
-
-#settingTabs li:before {
-    opacity: 0;
-    visibility: hidden;
-    font-size: 0vw;
-
-    transition: var(--tabTransition);
-}
-
-#settingTabs li:hover:before {
-    opacity: 1;
-    visibility: visible;
-    font-size: inherit;
-
-    transition: var(--tabTransition);
-}
-
-#settingTabs li#backwardTab:before {
-    content: "Back ";
-}
-
-#settingTabs li#forwardTab:before {
-    content: "Forward ";
-}
-
-#settingTabs li#settingsTab:before {
-    content: "Settings ";
-}
-
-#settingTabs li#disableContentsTab:before {
-    content: "Disable Content ";
-}
-
-#settingTabs li#savesTab:before {
-    content: "Saves ";
-}
-
-#settingTabs li#restartTab:before {
-    content: "Restart ";
-}
-
-#settingTabs li#creditsTab:before {
-    content: "Credits ";
-}
-
-#settingTabs li#devTab {
-    background-color: red;
-}
-
-#settingTabs li#devTab:before {
-    content: "Dev Menu ";
 }
 
 #storyTabs ul {
@@ -521,6 +497,34 @@ input:checked ~ accordionContent {
     content: " People";
 }
 
+#storyTabs li#settingsTab:after {
+    content: " Settings";
+}
+
+#storyTabs li#disableContentsTab:after {
+    content: " Disable Content";
+}
+
+#storyTabs li#savesTab:after {
+    content: " Saves";
+}
+
+#storyTabs li#restartTab:after {
+    content: " Restart";
+}
+
+#storyTabs li#creditsTab:after {
+    content: " Credits";
+}
+
+#storyTabs li#devTab {
+    background-color: red;
+}
+
+#storyTabs li#devTab:after {
+    content: " Dev Menu";
+}
+
 #debug-bar-hint {
     display: none;
 }
@@ -547,7 +551,7 @@ input:checked ~ accordionContent {
 
 combatZoneGrid [data-name="/if"] {
     /* This hides the SugarCube debug information on the combat 
-    screen, which makes it look nice. */
+    screen, which makes it look nice in debug mode. */
     display: none;
 }
 

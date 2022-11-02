@@ -8,17 +8,14 @@
  *     only CONSTANTS, and have no dependencies.
  * Files appended with one underscore (e.g. _combat.js, _imports.js),
  *     contains dependent data.
- * Files not appended with an underscore are imported directly into
- *     the game with SugarCube's importedScripts() function.
+ * Files not appended with an underscore are either:
+ *     - imported directly into the game with SugarCube's 
+ *         importedScripts() function.
+ *     - SugarCube macros.
  */
 
 // ANCHOR[id=setup]
 (function (S) {
-    // ANCHOR[id=CONST]
-    if (!S.CONST) {
-        S.CONST = {};
-    }
-
     /**
      * While currently unused, when we have massive lists of
      * CONSTANTS, we will put them into their own files, and just
@@ -26,4 +23,9 @@
      *
      * An example of a massive list of CONSTANTS include names.
      */
+    // ANCHOR[id=CONST]
+    if (!S.CONST) {
+        S.CONST = {};
+    }
+
 })(setup);

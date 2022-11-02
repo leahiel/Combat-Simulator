@@ -1,12 +1,26 @@
 :: StoryInterface [.ui nostats] {"position":"0,475"}
+<div id="infoScreen">
+    <span id="infoScreenTitle">
+        Info Screen Title
+    </span>
+    <span id="infoScreenDescription">
+        Info Screen Description.
+    </span>
+
+    <!-- I'm gonna steal discord's small bio widget style for enemy/attack information in the item screen -->
+</div>
+
 <div id="mainwrapper">
     <div id="passages"></div>
     <div id="wrapperBottomText" data-passage="uiBottomText"></div>
 </div>
-<div id="settingTabs">
+
+<div id="storyTabs">
     <ul>
-        <li id="backwardTab" data-passage="uiBackward"></li>
-        <li id="forwardTab" data-passage="uiForward"></li>
+        <li id="knowledgeTab" data-passage="uiKnowledge"></li>
+        <li id="peopleTab" data-passage="uiPeople"></li>
+        <!-- <li id="afterwardsTab" data-passage="uiAfterwards"></li> -->
+
         <li id="settingsTab" data-passage="uiSettings"></li>
         <li id="disableContentsTab" data-passage="uiDisableContent"></li>
         <li id="savesTab" data-passage="uiSaves"></li>
@@ -15,13 +29,7 @@
         <li id="devTab" data-passage="uiDev"></li>
     </ul>
 </div>
-<div id="storyTabs">
-    <ul>
-        <li id="knowledgeTab" data-passage="uiKnowledge"></li>
-        <li id="peopleTab" data-passage="uiPeople"></li>
-        <!-- <li id="afterwardsTab" data-passage="uiAfterwards"></li> -->
-    </ul>
-</div>
+
 <div id="databaseInfoTab" data-passage="uiDatabaseInfo"></div>
 
 
@@ -36,16 +44,6 @@ current [non-dialog] passage, unless it calls:
   [Go To and Render Passage]  Engine.play("Passage") 
   [Re-Render Current Passage] Engine.show()
 -->
-
-:: uiBackward [.ui nostats] {"position":"0,500"}
-/* Code is in PassageDone because we need it to run every time a 
-passage is done rendering. */
-<-
-
-:: uiForward [.ui nostats] {"position":"0,525"} 
-/* Code is in PassageDone because we need it to run every time a 
-passage is done rendering. */ 
-->
 
 :: uiSettings [.ui nostats] {"position":"0,550"}
 ⚙️
