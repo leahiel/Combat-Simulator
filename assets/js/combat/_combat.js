@@ -1,35 +1,38 @@
-/**
- * The combat in this game should also be able to:
- *     Be Sped Up
- *         - i.e. Requires an AI for both sides.
- *             [Actually, the player should have a Macro system a la
- *              Siralim. But that will take awhile to get programmed.]
- *
- *     Have two AI settings:
- *         - Intended
- *         - Realistic
- *             [This means there will be an Intended and Realistic
- *              mode for every single combat related object: Items,
- *              magic, enemies, attacks, etc etc.]
- *
- * In the future, the combat passage will be expanded to instead take
- * combatInstances data, which detail the setting (music, background
- * etc), enemies, status, victory/lose conditions, and more.
- */
+/// The combat in this game should also be able to:
+///     Be Sped Up
+///         - i.e. Requires an AI for both sides.
+///             [Actually, the player should have a Macro system a la
+///              Siralim. But that will take awhile to get programmed.]
+///
+///     Have two AI settings:
+///         - Intended
+///         - Realistic
+///             [This means there will be an Intended and Realistic
+///              mode for every single combat related object: Items,
+///              magic, enemies, attacks, etc etc.]
 
+/**
+ * The CombatInstance object contains information about the current
+ * combat instance, such as the parties of the opponents and whether
+ * backlines are targetable.
+ *
+ * It also initializes a combat as a whole, and as such, modifies
+ * Combatant data with information only it knows, like location data.
+ *
+ * In the future, the CombatInstance will be expanded to instead take
+ * data which details the setting (music, background, etc), as well as
+ * victory/lose conditions, and more.
+ */
 class CombatInstance {
     constructor(obj) {
-        // This is required as we need to deep assign.
-        // let merger = mergeDeep(DEFAULTCOMBATINSTANCE, obj);
-        Object.assign(this, obj);
+        // Merge our obj onto default, then merge those onto this.
+        jQuery.extend(true, this, /* DEFAULTATTACK, */ obj);
 
         /* Default Values */
 
-        // NYI: These values should be updates as the battle goes on.
-        // NYI: When the frontline is dead, the backline should be targetable, which is why these values exist.
-        this.epfrontlineTargetable = true;
+        this.epfrontlineTargetable = true; // FIXME: This value never toggles.
         this.epbacklineTargetable = false;
-        this.ppfrontlineTargetable = true;
+        this.ppfrontlineTargetable = true; // FIXME: This value never toggles.
         this.ppbacklineTargetable = false;
 
         /* Initialize Player Party */
@@ -47,44 +50,23 @@ class CombatInstance {
         }
 
         /* Add the locations of each character to their obj. */
-        for (let i = 0; i < this.ep.length; i++) {
-            this.ep[i].ally = false;
-            this.ep[i].enemy = true;
-            switch (i) {
-                case 0:
-                    this.ep[i].location = "enemyA";
-                    break;
-                case 1:
-                    this.ep[i].location = "enemyB";
-                    break;
-                case 2:
-                    this.ep[i].location = "enemyC";
-                    break;
-                case 3:
-                    this.ep[i].location = "enemyD";
-                    break;
-                case 4:
-                    this.ep[i].location = "enemyE";
-                    break;
-            }
+        let alphabet = ["A", "B", "C", "D", "E", "F"];
+        let int = 0;
+        // Enemy Party locations.
+        for (let char of this.ep) {
+            char.ally = false;
+            char.enemy = true;
+            char.location = `enemy${alphabet[int]}`;
+            int += 1;
         }
-        for (let i = 0; i < this.pp.length; i++) {
-            this.pp[i].ally = true;
-            this.pp[i].enemy = false;
-            switch (i) {
-                case 0:
-                    this.pp[i].location = "playerA";
-                    break;
-                case 1:
-                    this.pp[i].location = "playerB";
-                    break;
-                case 2:
-                    this.pp[i].location = "playerC";
-                    break;
-                case 3:
-                    this.pp[i].location = "playerD";
-                    break;
-            }
+
+        int = 0;
+        // Player Party locations.
+        for (let char of this.pp) {
+            char.ally = true;
+            char.enemy = false;
+            char.location = `player${alphabet[int]}`;
+            int += 1;
         }
     }
 }
@@ -92,10 +74,6 @@ class CombatInstance {
 /**
  * Given an attack, attacker, and the target, return a bool regarding
  * whether the attack is able to hit the target.
- *
- * NYI: If all frontline characters are dead, frontline attacks should
- *   be able to hit the backline. I have no idea how to do this
- *   properly.
  */
 function determineTargetViability(attack, attacker, target) {
     if (target === undefined) {
@@ -118,12 +96,7 @@ function determineTargetViability(attack, attacker, target) {
      * CombatInstance.backlineTargetable
      */
     let ci = State.variables.ci;
-    let attackerStatus = "";
-    if (attacker.location.includes("player")) {
-        attackerStatus = "player";
-    } else {
-        attackerStatus = "enemy";
-    }
+    let attackerStatus = attacker.location.includes("player") ? "player" : "enemy";
 
     // Determine if/which enemies are targetable.
     if (
@@ -156,58 +129,29 @@ function determineTargetViability(attack, attacker, target) {
     return false;
 }
 
-// If player attack, use this result to assign buttons.
-// If enemy attack, use this result to deal damage.
-// Will require a rewrite in attackCalculations, and probably an
-//   enemyAttack(attack, attacker, assignAttack()) function, which
-//   just calls attackCalculations.
 /**
  * Returns an array of the objects that are viable targets for an attack.
  */
 function assignViableTargets(attack, attacker) {
     /**
      * The Combat Instance gives us information on the state of the
-     * combat. Relevant information for this function includes:
-     *
-     * CombatInstance.ep // Which gives us access to ep/pp.ally,
-     * CombatInstance.pp // ep/pp.enemy, ep/pp.location.
-     * CombatInstance.allyTargetable
-     * CombatInstance.opponentTargetable
-     * CombatInstance.frontlineTargetable
-     * CombatInstance.backlineTargetable
+     * combat.
      */
     let ci = State.variables.ci;
     let solTargets = [];
 
     // Determine Targets on Enemy side of the field.
-    if (determineTargetViability(attack, attacker, ci.ep[0])) {
-        solTargets.push(ci.ep[0]);
-    }
-    if (determineTargetViability(attack, attacker, ci.ep[1])) {
-        solTargets.push(ci.ep[1]);
-    }
-    if (determineTargetViability(attack, attacker, ci.ep[2])) {
-        solTargets.push(ci.ep[2]);
-    }
-    if (determineTargetViability(attack, attacker, ci.ep[3])) {
-        solTargets.push(ci.ep[3]);
-    }
-    if (determineTargetViability(attack, attacker, ci.ep[4])) {
-        solTargets.push(ci.ep[4]);
+    for (let char of ci.ep) {
+        if (determineTargetViability(attack, attacker, char)) {
+            solTargets.push(char);
+        }
     }
 
     // Determine Targets on Player side of the field.
-    if (determineTargetViability(attack, attacker, ci.pp[0])) {
-        solTargets.push(ci.pp[0]);
-    }
-    if (determineTargetViability(attack, attacker, ci.pp[1])) {
-        solTargets.push(ci.pp[1]);
-    }
-    if (determineTargetViability(attack, attacker, ci.pp[2])) {
-        solTargets.push(ci.pp[2]);
-    }
-    if (determineTargetViability(attack, attacker, ci.pp[3])) {
-        solTargets.push(ci.pp[3]);
+    for (let char of ci.pp) {
+        if (determineTargetViability(attack, attacker, char)) {
+            solTargets.push(char);
+        }
     }
 
     return solTargets;
@@ -219,7 +163,6 @@ function assignViableTargets(attack, attacker) {
  */
 function attackRandomWithRandom(attacker) {
     let attacksClone = cloneDeep(attacker.attacks);
-    let determiningAttack = true;
     let chosenAttack;
     let targets;
 
@@ -227,6 +170,7 @@ function attackRandomWithRandom(attacker) {
      * Determine which attack to use, but if the attack has no viable
      * targets, then chose a different attack.
      */
+    let determiningAttack = true;
     while (determiningAttack) {
         if (attacksClone.length === 0) {
             // There are no viable targets left.
@@ -262,14 +206,12 @@ function attackRandomWithRandom(attacker) {
 function attackCalculations(attack, attacker, targets) {
     /**
      * Calculate the damage dealt to each of the targets from one element.
+     * Returns an Integer.
      *
      * @param {Object} statusobj Lets us know if stuff was crit or defleccted or whatnot.
      * @param {Attack} attack
-     * @param {Combatant} attacker
-     * @param {[...Combatant]} targets
+     * @param {Combatant} target
      * @param {String} subDamageType The specific damage type being calculated for.
-     *
-     * @returns Integer
      */
     function calculateDamage(statusobj, attack, target, subDamageType) {
         let mainDamageType = "";
@@ -463,35 +405,17 @@ function attackCalculations(attack, attacker, targets) {
         // Add Healing from Absorb
 
         // Determine if Direct Hit.
-        if (Math.random() < thisAttack.directChanceCalculated) {
-            solobj[idx].direct = true;
-        } else {
-            solobj[idx].direct = false;
-        }
+        solobj[idx].direct = Math.random() < thisAttack.directChanceCalculated ? true : false;
 
         // Calculate if Blocked.
-        if (Math.random() < target.blockCalculated) {
-            solobj[idx].blocked = true;
-        } else {
-            solobj[idx].blocked = false;
-        }
+        solobj[idx].blocked = Math.random() < target.blockCalculated ? true : false;
 
         // Determine if Critical Strike.
-        if (Math.random() < thisAttack.criticalChanceCalculated && !solobj[idx].blocked) {
-            // Critical Strikes do not occur if the attack was blocked.
-            solobj[idx].critical = true;
-        } else {
-            solobj[idx].critical = false;
-        }
+        solobj[idx].critical =
+            Math.random() < thisAttack.criticalChanceCalculated && !solobj[idx].blocked ? true : false;
 
         // Calculate if Deflected.
-        if (Math.random() < target.deflectedCalculated) {
-            solobj[idx].deflected = true;
-        } else {
-            solobj[idx].deflected = false;
-        }
-
-        // Any other On-Hit should be calculated here.
+        solobj[idx].deflected = Math.random() < target.deflectedCalculated ? true : false;
 
         let damageobj = {
             blunt: calculateDamage(solobj[idx], thisAttack, target, "blunt"),
@@ -503,9 +427,9 @@ function attackCalculations(attack, attacker, targets) {
             sacred: calculateDamage(solobj[idx], thisAttack, target, "sacred"),
             shadow: calculateDamage(solobj[idx], thisAttack, target, "shadow"),
             aether: calculateDamage(solobj[idx], thisAttack, target, "aether"),
+            total: 0,
         };
 
-        damageobj.total = 0;
         for (let amount in damageobj) {
             if (damageobj[amount] === damageobj.total) continue;
             damageobj.total += damageobj[amount];
@@ -519,61 +443,60 @@ function attackCalculations(attack, attacker, targets) {
         solobj[idx].damage = damageobj.total;
     });
 
-    // Apply solobj to party
-    for (let key in solobj) {
+    /** Apply solobj to party */
+    for (let idx in solobj) {
         // Apply Damage
-        targets[key].health -= solobj[key].damage;
-        if (targets[key].health < 0) {
-            targets[key].health = 0;
+        targets[idx].health -= solobj[idx].damage;
+        if (targets[idx].health < 0) {
+            targets[idx].health = 0;
         }
 
         // Apply Block Recovery
-        if (solobj[key].blocked) {
-            targets[key].init += targets[key].blockRecovery;
+        if (solobj[idx].blocked) {
+            targets[idx].init += targets[idx].blockRecovery;
         }
 
         // Apply Stun
         // REVIEW: Should stunning always be applied, or have a percentage chance to apply?
         // Probably have a percentage chance.
-        targets[key].init += attack.stun;
+        targets[idx].init += attack.stun;
 
         // Apply Buffs and Debuffs
         if (attack.buffs.length > 0) {
             for (let buff of attack.buffs) {
-                // Get an array of buff names from targets[key].
-                let buffNames = assignFieldOfObjectsToArray(targets[key].buffs, "name");
+                // Get an array of buff names from targets[idx].
+                let buffNames = assignFieldOfObjectsToArray(targets[idx].buffs, "name");
 
                 // Do not apply buff if target already has the buff.
                 if (!buffNames.includes(buff.name)) {
-                    targets[key].buffs.push(cloneDeep(buff));
+                    targets[idx].buffs.push(cloneDeep(buff));
+                    buff.onApply(targets[idx]);
 
-                    buff.onApply(targets[key]);
-
-                // Reapply buff if target already has the buff.
+                    // Reapply buff if target already has the buff.
                 } else if (buffNames.includes(buff.name)) {
-                    // The index of the buff in buffNames should be the same as the index of the buff in targets[key].buffs.
+                    // The index of the buff in buffNames should be the same as the index of the buff in targets[idx].buffs.
                     let buffidx = buffNames.indexOf(buff.name);
                     // Reset the duration of the buff.
-                    targets[key].buffs[buffidx].duration = buff.duration;
+                    targets[idx].buffs[buffidx].duration = buff.duration;
 
                     // Reapply the buff.
-                    buff.onReapply(targets[key]);
+                    buff.onReapply(targets[idx]);
                 }
             }
         }
 
         // Prepare Combat Notification Message
-        let blockMsg = solobj[key].blocked ? "✓" : "";
-        let critMsg = solobj[key].critical ? "✓" : "";
-        let directMsg = solobj[key].direct ? "✓" : "";
-        let deflectMsg = solobj[key].deflected ? "✓" : "";
+        let blockMsg = solobj[idx].blocked ? "✓" : "";
+        let critMsg = solobj[idx].critical ? "✓" : "";
+        let directMsg = solobj[idx].direct ? "✓" : "";
+        let deflectMsg = solobj[idx].deflected ? "✓" : "";
 
         combatMessage(
             `C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Took ${Math.floor(
-                solobj[key].damage
+                solobj[idx].damage
             )} damage.`,
             "default",
-            targets[key].location
+            targets[idx].location
         );
     }
 

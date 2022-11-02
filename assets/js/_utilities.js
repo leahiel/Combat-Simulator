@@ -226,41 +226,15 @@ function weightedRandom(weightedArray) {
 }
 
 /**
- * Non-destructively deep merges two objects.
- *
- * https://stackoverflow.com/a/37164538
- *
- * REVIEW: Couldn't I use $.extend() for this?
- */
-function mergeDeep(target, source) {
-    function isObject(item) {
-        return item && typeof item === "object" && !Array.isArray(item);
-    }
-
-    let output = Object.assign({}, target);
-    if (isObject(target) && isObject(source)) {
-        Object.keys(source).forEach((key) => {
-            if (isObject(source[key])) {
-                if (!(key in target)) Object.assign(output, { [key]: source[key] });
-                else output[key] = mergeDeep(target[key], source[key]);
-            } else {
-                Object.assign(output, { [key]: source[key] });
-            }
-        });
-    }
-    return output;
-}
-
-/**
  * Non-destructively deep clones an object.
  *
  * https://api.jquery.com/jquery.extend/
  */
-function cloneDeep(obj) {
+function cloneDeep(obj, ...args) {
     if (Array.isArray(obj)) {
-        return jQuery.extend(true, [], obj);
+        return jQuery.extend(true, [], obj, args);
     }
-    return jQuery.extend(true, {}, obj);
+    return jQuery.extend(true, {}, obj, args);
 }
 
 // Add the required utility functions to setup.

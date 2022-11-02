@@ -3,9 +3,8 @@
  */
 class Attack {
     constructor(obj) {
-        // This is required as we need to deep assign.
-        let merger = mergeDeep(DEFAULTATTACK, obj);
-        Object.assign(this, merger);
+        // Merge our obj onto default, then merge those onto this.
+        jQuery.extend(true, this, DEFAULTATTACK, obj);
 
         if (this.family === null) {
             console.error(`${this.name}'s family is null.`);
@@ -26,7 +25,7 @@ const attacks = {
     // SPEAR ATTACKS
     stab: new Attack({
         name: "Stab",
-        family: "Player",
+        family: "spearWeaponAttacks",
         initRecovery: 50,
         wdm: 1.25,
         targetType: "single",
@@ -42,7 +41,7 @@ const attacks = {
 
     sweep: new Attack({
         name: "Sweep",
-        family: "Player",
+        family: "spearWeaponAttacks",
         buffs: [buffs.buffTESTING],
         initRecovery: 50,
         wdm: 1.25,
@@ -189,15 +188,17 @@ const attacks = {
     }),
 };
 
+/**
+ * Group up attacks of the same family so we can easily add them to 
+ * enemies and players. 
+ */
 const familyAttacks = {};
 for (let key in attacks) {
     if (attacks[key].family) {
         if (!familyAttacks[attacks[key].family]) {
-            // familyAttacks[attacks[key].family] = {};
             familyAttacks[attacks[key].family] = [];
         }
 
-        // familyAttacks[attacks[key].family][attacks[key].name] = attacks[key];
         familyAttacks[attacks[key].family].push(attacks[key]);
     }
 }

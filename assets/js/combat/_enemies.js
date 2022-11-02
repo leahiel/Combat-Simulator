@@ -5,9 +5,8 @@
  */
 class Enemy {
     constructor(obj) {
-        // This is required as we need to deep assign.
-        let merger = mergeDeep(DEFAULTENEMY, obj);
-        Object.assign(this, merger);
+        // Merge our obj onto default, then merge those onto this.
+        jQuery.extend(true, this, DEFAULTENEMY, obj);
 
         if (this.family === null) {
             console.error(`${this.name}'s family is null.`);

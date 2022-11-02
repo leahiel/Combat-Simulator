@@ -81,8 +81,8 @@ async function processTurns(pp, ep) {
 
     let activeCharacter = null;
 
-    /* If all of the front of a side are dead, allow frontline attacks
-    to hit backline. */
+    /* If all of the frontline of a side are dead, allow frontline
+    attacks to hit backline. */
     if (
         State.variables.ci.ep[0].health <= 0 && 
         State.variables.ci.ep[1].health <= 0 &&
@@ -153,28 +153,40 @@ async function processTurns(pp, ep) {
         await waitFor(300);
 
         /* Enemy AI */
+        /* Not yet fully implemented, but this should call activeCharacter.ai() when complete.  */
         setup.COM.attackRandomWithRandom(activeCharacter);
 
-        return $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+        $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+        return;
     }
 };
 
 $("#combatZone").empty().wiki(Story.get("Combat_Zone_Main").processText());
 $("#playerZone").empty().wiki(Story.get("Player_Zone").processText());
 
-/* REVIEW: I don't think these two temporary variables are really needed. */
-State.variables.ci.pphealth = setup.fns.assignFieldOfObjectsToArray(State.variables.ci.pp, "health");
-State.variables.ci.ephealth = setup.fns.assignFieldOfObjectsToArray(State.variables.ci.ep, "health");
+/* Determine if all characters in pp are dead. */
+let ppdead = true;
+for (let char of State.variables.ci.pp) {
+    if (char.health > 0) {
+        ppdead = false;
+        break;
+    }
+}
 
-if (setup.fns.allValuesTrue(State.variables.ci.pphealth, function(v) {
-        return v <= 0
-    })) {
+/* Determine if all characters in ep are dead. */
+let epdead = true;
+for (let char of State.variables.ci.ep) {
+    if (char.health > 0) {
+        epdead = false;
+        break;
+    }
+}
+
+if (ppdead) {
     setup.COM.drawCombat();
     /* Update notice area with wikified lose message. */
     $("#notifArea").empty().wiki(State.variables.ci.lose);
-} else if (setup.fns.allValuesTrue(State.variables.ci.ephealth, function(v) {
-        return v <= 0
-    })) {
+} else if (epdead) {
     setup.COM.drawCombat();
     /* Update notice area with wikified win message. */
     $("#notifArea").empty().wiki(State.variables.ci.win);

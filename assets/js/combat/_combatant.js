@@ -7,7 +7,8 @@
  */
 class Combatant {
     constructor(obj) {
-        Object.assign(this, obj);
+        // Merge our obj onto default, then merge those onto this.
+        jQuery.extend(true, this, /* DEFAULTCOMBATANT, */ obj);
 
         this.original = cloneDeep(obj);
         this.buffs = [];
@@ -18,6 +19,10 @@ class Combatant {
         let min = this.initStart * (1 - this.initVariance);
         this.init = Math.floor(Math.random() * (max - min + 1)) + Math.floor(min);
 
+        /**
+         * NYI: These should be calculated with a function here, but 
+         * that ability is NYI. 
+         */
         this.deflectedCalculated = 0.05;
         this.blockCalculated = 0.05;
     }

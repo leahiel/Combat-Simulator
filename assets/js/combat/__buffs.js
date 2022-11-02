@@ -3,9 +3,8 @@
  */
 class Buff {
     constructor(obj) {
-        // This is required as we need to deep assign.
-        let merger = mergeDeep(DEFAULTBUFF, obj);
-        Object.assign(this, merger);
+        // Merge our obj onto default, then merge those onto this.
+        jQuery.extend(true, this, DEFAULTBUFF, obj);
 
         if (this.custom === undefined) {
             console.error(`Buff: ${this.name} lacks custom functionality.`);

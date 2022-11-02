@@ -6,17 +6,11 @@
  */
 function determineIfCanvas(char) {
     if (char) {
-        let status = "";
-        if (char.location.includes("enemy")) {
-            status = "enemy";
-        } else if (char.location.includes("player")) {
-            status = "player";
-        }
         $(`#gittem${char.location.slice(-1)} progress.healthBar`).attr({
             value: char.health,
             max: char.healthMax,
         });
-        updateCanvas(char, status, $(`canvas.initBar#${char.location}`));
+        updateCanvas(char, $(`canvas.initBar#${char.location}`));
     }
 }
 
@@ -34,16 +28,13 @@ function drawCombat() {
      */
     $("#playerAttacks").empty().wiki(Story.get("Player_Attacks").processText());
 
-    determineIfCanvas(State.variables.ci.ep[0]);
-    determineIfCanvas(State.variables.ci.ep[1]);
-    determineIfCanvas(State.variables.ci.ep[2]);
-    determineIfCanvas(State.variables.ci.ep[3]);
-    determineIfCanvas(State.variables.ci.ep[4]);
+    for (let char of State.variables.ci.ep) {
+        determineIfCanvas(char);
+    }
 
-    determineIfCanvas(State.variables.ci.pp[0]);
-    determineIfCanvas(State.variables.ci.pp[1]);
-    determineIfCanvas(State.variables.ci.pp[2]);
-    determineIfCanvas(State.variables.ci.pp[3]);
+    for (let char of State.variables.ci.pp) {
+        determineIfCanvas(char);
+    }
 }
 
 /**
@@ -53,37 +44,11 @@ function drawCombat() {
  */
 function combatMessage(text, type, charLoc) {
     /* Get bounding box of character element. */
-    let eleName = "";
-    switch (charLoc) {
-        case "enemyA":
-            eleName = "combatzonegrid #gitemA";
-            break;
-        case "enemyB":
-            eleName = "combatzonegrid #gitemB";
-            break;
-        case "enemyC":
-            eleName = "combatzonegrid #gitemC";
-            break;
-        case "enemyD":
-            eleName = "combatzonegrid #gitemD";
-            break;
-        case "enemyE":
-            eleName = "combatzonegrid #gitemE";
-            break;
-        case "playerA":
-            eleName = "playerZoneGrid #gitemA";
-            break;
-        case "playerB":
-            eleName = "playerZoneGrid #gitemB";
-            break;
-        case "playerC":
-            eleName = "playerZoneGrid #gitemC";
-            break;
-        case "playerD":
-            eleName = "playerZoneGrid #gitemD";
-            break;
-        default:
-            eleName = "combatzonegrid #gitemA";
+    let eleName = "combatzonegrid #gitemA";
+    if (charLoc.includes("enemy")) {
+        eleName = `combatzonegrid #gitem${charLoc.charAt(charLoc.length - 1)}`;
+    } else if (charLoc.includes("player")) {
+        eleName = `playerZoneGrid #gitem${charLoc.charAt(charLoc.length - 1)}`;
     }
 
     let charPos = {
@@ -93,11 +58,12 @@ function combatMessage(text, type, charLoc) {
         bottom: $(eleName)[0].getBoundingClientRect().bottom,
     };
 
-    // Make sure parent container exists.
-    // Flash deletes the parent container to prevent DOM polluting, so
-    // this is required.
+    /**
+     * Ensure parent container exists.
+     * Flash deletes the parent container to prevent DOM polluting, so
+     * this is required.
+     */
     if ($("#flash-" + charLoc).length === 0) {
-        // console.log(`Flash container does not exist.`);
         $("<div>", {
             class: "flash-container",
             id: "flash-" + charLoc,
@@ -129,8 +95,10 @@ function combatMessage(text, type, charLoc) {
     });
 }
 
-/** Clears the Player Options Grid */
+/** Clears the Player Options Grid. */
 function clearPlayerOptions() {
+    // We start at 1 because #NotifArea is 0, and we don't want to
+    // clear that.
     for (let i = 1; i <= 15; i++) {
         $(`playerOptionsGrid #gitem${i}`).empty();
     }
@@ -138,11 +106,8 @@ function clearPlayerOptions() {
 
 /**
  * Update the Canvas information of the given entity.
- *
- * TODO: Since location information is now stored in char, we can get
- * rid of the confusing ally parameter.
  */
-function updateCanvas(char, ally, canvasElement) {
+function updateCanvas(char, canvasElement) {
     /**
      * jCanvas library documentation:
      * https://projects.calebevans.me/jcanvas/docs/
@@ -153,10 +118,8 @@ function updateCanvas(char, ally, canvasElement) {
     let horiBarXPos = 432;
     let hpBarXPos = horiBarXPos + 220;
 
-    /**
-     * HP Bar
-     */
-    /* "HP:" Text */
+    /** HP Bar*/
+    // "HP:" Text
     canvasElement.drawText({
         fillStyle: "#FFFFFF",
         fontSize: 80,
@@ -167,7 +130,7 @@ function updateCanvas(char, ally, canvasElement) {
         y: 78,
     });
 
-    /* Outline */
+    // Outline 
     canvasElement.drawLine({
         strokeStyle: "#000000",
         strokeWidth: 80,
@@ -177,7 +140,7 @@ function updateCanvas(char, ally, canvasElement) {
         x2: 2000,
         y2: 78,
     });
-    /* Background */
+    // Background 
     canvasElement.drawLine({
         strokeStyle: "#8C99A6",
         strokeWidth: 60,
@@ -187,7 +150,7 @@ function updateCanvas(char, ally, canvasElement) {
         x2: 1980,
         y2: 78,
     });
-    /* Actual Heath Bar */
+    // Actual Heath Bar
     if (char.health > 0) {
         canvasElement.drawLine({
             strokeStyle: "#AA0000",
@@ -200,17 +163,15 @@ function updateCanvas(char, ally, canvasElement) {
         });
     }
 
-    /**
-     * Init Bar
-     */
-    /* The rhombus. */
+    /** Init Bar */
+    // The rhombus.
     let rhombusimg = "";
     let linecolor = "";
-    if (ally === "player" && char.init <= 0) {
+    if (char.location.includes("player") && char.init <= 0) {
         /* Green rhombus and line. */
         rhombusimg = "src/assets/img/png/turn_icon_pl.png";
         linecolor = "#2EFF23";
-    } else if (ally === "enemy" && char.init <= 0) {
+    } else if (char.location.includes("enemy") && char.init <= 0) {
         /* Red rhombus and line. */
         rhombusimg = "src/assets/img/png/turn_icon_en.png";
         linecolor = "#FF0000";
@@ -227,7 +188,7 @@ function updateCanvas(char, ally, canvasElement) {
         height: 384,
     });
 
-    /* The horizontal line. */
+    // The horizontal line.
     canvasElement.drawLine({
         strokeStyle: linecolor,
         strokeWidth: 10,
@@ -238,14 +199,14 @@ function updateCanvas(char, ally, canvasElement) {
         y2: 256,
     });
 
-    /* Init indicator. */
+    // Init indicator.
     if (char.health > 0) {
         let xpos = Math.min(char.init * 8 + horiBarXPos, 2000);
         let iconimg = "";
-        if (ally === "player") {
+        if (char.location.includes("player")) {
             /* Green indicator. */
             iconimg = "src/assets/img/png/init_icon_pl.png";
-        } else if (ally === "enemy") {
+        } else if (char.location.includes("enemy")) {
             /* Red indicator. */
             iconimg = "src/assets/img/png/init_icon_en.png";
         }
@@ -258,6 +219,10 @@ function updateCanvas(char, ally, canvasElement) {
             height: 88,
         });
     }
+
+    /**
+     * TODO: Buff Indicators.
+     */
 }
 
 /**
