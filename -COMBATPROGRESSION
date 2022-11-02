@@ -1,12 +1,7 @@
 TODO:
-    Add in buffs/debuffs.
-    Really, I want some way for attacks to process their own special code. Perhaps AttackCalculations will have a section that is like:
-        attack.custom(targets)
-    Where the attack.custom() is something like:
-        attack.custom = (targets) => {for (target in targets) {target.health += 1}}
-    This will allow custom code to run for buffs and debuffs.
-    
-     
+// TODO: Add a "onApply IIFE" and "onEnd IIFE" so we can do something like altering max health.
+// Alternatively, we could just have an onApplyIIFE, and then redo the Combatant every time a buff runs out. 
+// Both methods have pros and cons. I have no idea how I would redo the combatant, for instance, while having an "onEnd IIFE" just seems prone to errors. Tough decision.
 
 ☐  = Planned for Implementation
 ☑  = Currently Implemented

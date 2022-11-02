@@ -21,14 +21,19 @@ class Buff {
 const buffs = {
     buffTESTING: new Buff({
         type: "debuff", // "buff", "debuff"
-        duration: 50,
+        duration: 1000,
         name: "Buff Name",
         description: "Buff Description",
-        custom: function (target) {
-            target.health += 1;
-            if (target.health > target.healthMax) {
-                target.health = target.healthMax;
-            }
+        onApply: function (target) {
+            console.log(`${this.name} applied!`);
+            return;
+        },
+        onReapply: function (target) {
+            console.log(`${this.name} reapplied!`);
+            return;
+        },
+        perInit: function (target) {
+            // console.log(`${this.name} perInit'd!`);
             return;
         },
     }),

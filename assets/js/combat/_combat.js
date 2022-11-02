@@ -537,23 +537,27 @@ function attackCalculations(attack, attacker, targets) {
         // Probably have a percentage chance.
         targets[key].init += attack.stun;
 
-        // Apply Buffs
+        // Apply Buffs and Debuffs
         if (attack.buffs.length > 0) {
             for (let buff of attack.buffs) {
                 // Get an array of buff names from targets[key].
-                // Do not apply buff if target already has buff.
-                // TODO: It should update duration.
-                let buffNames = assignFieldOfObjectsToArray(targets[key].buffs, "names");
-                if (buff.type === "buff" && !buffNames.includes(buff.name)) {
-                    targets[key].buffs.push(cloneDeep(buff));
-                }
+                let buffNames = assignFieldOfObjectsToArray(targets[key].buffs, "name");
 
-                // Get an array of debuff names from targets[key].
-                // Do not apply debuff if target already has debuff.
-                // TODO: It should update duration.
-                let debuffNames = assignFieldOfObjectsToArray(targets[key].debuffs, "names");
-                if (buff.type === "debuff" && !debuffNames.includes(buff.name)) {
-                    targets[key].debuffs.push(cloneDeep(buff));
+                // Do not apply buff if target already has the buff.
+                if (!buffNames.includes(buff.name)) {
+                    targets[key].buffs.push(cloneDeep(buff));
+
+                    buff.onApply(targets[key]);
+
+                // Reapply buff if target already has the buff.
+                } else if (buffNames.includes(buff.name)) {
+                    // The index of the buff in buffNames should be the same as the index of the buff in targets[key].buffs.
+                    let buffidx = buffNames.indexOf(buff.name);
+                    // Reset the duration of the buff.
+                    targets[key].buffs[buffidx].duration = buff.duration;
+
+                    // Reapply the buff.
+                    buff.onReapply(targets[key]);
                 }
             }
         }

@@ -21,7 +21,7 @@
 /* This is effectively the enemies' side of the "field". */
 <span id="combatZone"></span>
 
-<br><br>
+<br>
 
 /**
  * This is effectively the player's side of the "field". 
@@ -42,178 +42,6 @@
  * end of every Player or Enemy turn.
  */
 <<script>>
-/**
- * Determine which characters should have their Canvas information 
- * updated.
- * 
- * Redraw ::Player_Attacks.
- */
-function drawCombat() {
-    /**
-     * We reprocess this so that if it is the player's turn, they can
-     * make an attack. Or alternatively, if it is not their turn, 
-     * their attack icons are disabled.
-     */
-    $("#playerAttacks").empty().wiki(Story.get("Player_Attacks").processText());
-
-    /**
-     * Determine which characters should have their Canvas information 
-     * updated.
-     * 
-     * If so, update their canvas.
-     */
-    function determineIfCanvas(char) {
-        if (char) {
-            let status = "";
-            if (char.location.includes("enemy")) {
-                status = "enemy";
-            } else if (char.location.includes("player")) {
-                status = "player";
-            }
-            $(`#gittem${char.location.slice(-1)} progress.healthBar`).attr({
-                value: char.health,
-                max: char.healthMax
-            });
-            updateCanvas(char, status, $(`canvas.initBar#${char.location}`));
-        }
-    }
-
-    determineIfCanvas(State.variables.ci.ep[0]);
-    determineIfCanvas(State.variables.ci.ep[1]);
-    determineIfCanvas(State.variables.ci.ep[2]);
-    determineIfCanvas(State.variables.ci.ep[3]);
-    determineIfCanvas(State.variables.ci.ep[4]);
-
-    determineIfCanvas(State.variables.ci.pp[0]);
-    determineIfCanvas(State.variables.ci.pp[1]);
-    determineIfCanvas(State.variables.ci.pp[2]);
-    determineIfCanvas(State.variables.ci.pp[3]);
-};
-
-/**
- * Update the Canvas information of the given entity.
- * 
- * TODO: Since location information is now stored in char, we can get 
- * rid of the confusing ally parameter.
- */
-function updateCanvas(char, ally, canvasElement) {
-    /** 
-     * jCanvas library documentation: 
-     * https://projects.calebevans.me/jcanvas/docs/ 
-     */
-    canvasElement.clearCanvas();
-
-    /* The left most starting position of the initbar line. */
-    let horiBarXPos = 432;
-    let hpBarXPos = horiBarXPos + 220;
-
-    /**
-     * HP Bar
-     */
-    /* "HP:" Text */
-    canvasElement.drawText({
-        fillStyle: '#FFFFFF',
-        fontSize: 80,
-        strokeWidth: 5,
-        strokeStyle: '#FFFFFF',
-        text: 'HP:',
-        x: hpBarXPos - 160, 
-        y: 78,
-    });
-    
-    /* Outline */
-    canvasElement.drawLine({
-        strokeStyle: '#000000',
-        strokeWidth: 80,
-        rounded: true,
-        x1: hpBarXPos - 20,
-        y1: 78,
-        x2: 2000,
-        y2: 78,
-    });
-    /* Background */
-    canvasElement.drawLine({
-        strokeStyle: '#8C99A6',
-        strokeWidth: 60,
-        rounded: true,
-        x1: hpBarXPos,
-        y1: 78,
-        x2: 1980,
-        y2: 78,
-    });
-    /* Actual Heath Bar */
-    if (char.health > 0) {
-        canvasElement.drawLine({
-            strokeStyle: '#AA0000',
-            strokeWidth: 60,
-            rounded: true,
-            x1: hpBarXPos,
-            y1: 78,
-            x2: Math.max((char.health / char.healthMax * (1980 - hpBarXPos)) + hpBarXPos, hpBarXPos),
-            y2: 78,
-        });
-    }
-
-    /**
-     * Init Bar
-     */
-    /* The rhombus. */
-    let rhombusimg = "";
-    let linecolor = "";
-    if (ally === "player" && char.init <= 0) {
-        /* Green rhombus and line. */
-        rhombusimg = "src/assets/img/png/turn_icon_pl.png";
-        linecolor = "#2EFF23";
-    } else if (ally === "enemy" && char.init <= 0) {
-        /* Red rhombus and line. */
-        rhombusimg = "src/assets/img/png/turn_icon_en.png";
-        linecolor = "#FF0000";
-    } else {
-        /* Yellow rhombus and line. */
-        rhombusimg = "src/assets/img/png/turn_icon.png";
-        linecolor = "#FFFF00";
-    }
-    canvasElement.drawImage({
-        source: rhombusimg,
-        x: 192,
-        y: 192,
-        width: 384,
-        height: 384,
-    });
-
-    /* The horizontal line. */
-    canvasElement.drawLine({
-        strokeStyle: linecolor,
-        strokeWidth: 10,
-        rounded: true,
-        x1: horiBarXPos,
-        y1: 256,
-        x2: 2000,
-        y2: 256,
-    });
-
-    /* Init indicator. */
-    if (char.health > 0) {
-        let xpos = Math.min(char.init * 8 + horiBarXPos, 2000);
-        let iconimg = "";
-        if (ally === "player") {
-            /* Green indicator. */
-            iconimg = "src/assets/img/png/init_icon_pl.png";
-        } else if (ally === "enemy") {
-            /* Red indicator. */
-            iconimg = "src/assets/img/png/init_icon_en.png";
-        }
-
-        canvasElement.drawImage({
-            source: iconimg,
-            x: xpos,
-            y: 320,
-            width: 72,
-            height: 88,
-        });
-    }
-};
-
 /**
  * This function is called every "tick". It decrements Combatants
  * inits and determines whose turn it is.
@@ -239,28 +67,14 @@ async function processTurns(pp, ep) {
             let buffEnd = Math.floor(buff.duration);
 
             if (buffStart > buffEnd) {
-                buff.custom(char);
+                buff.perInit(char);
             }
 
             /* Remove expired buffs. */
-            if (buff.durection < 0) {
+            if (buff.duration < 0) {
                 char.buffs = char.buffs.filter(function(value) { return value !== buff;});
-            }
-        }
-
-        for (let debuff of char.debuffs) {
-            /* Decrement debuff. If debuff duration goes down a whole number, apply its effects. */
-            let debuffStart = Math.floor(debuff.duration);
-            debuff.duration -= initDecrementAmount;
-            let debuffEnd = Math.floor(debuff.duration);
-
-            if (debuffStart > debuffEnd) {
-                debuff.custom(char);
-            }
-
-            /* Remove expired debuffs. */
-            if (debuff.duration < 0) {
-                char.debuffs = char.debuffs.filter(function(value) { return value !== debuff;});
+                char.reform();
+                setup.COM.determineIfCanvas(char);
             }
         }
     }
@@ -319,15 +133,15 @@ async function processTurns(pp, ep) {
             }
         });
 
-        drawCombat();
+        setup.COM.drawCombat();
         await waitFor(10);
         return processTurns(pp, ep);
     } else if (State.variables.ci.pp.includes(activeCharacter)) {
         /* Player Turn */
         $("#notifArea").empty().wiki("Player Turn");
 
-        drawCombat();
-        /* drawCombat() updates playerZoneGrid, so the player can make a choice there. */
+        setup.COM.drawCombat();
+        /* setup.COM.drawCombat() updates playerZoneGrid, so the player can make a choice there. */
 
         /* The player will processTurns() after clicking a button. No need to do it here. */
         return;
@@ -335,7 +149,7 @@ async function processTurns(pp, ep) {
         /* Enemy Turn */
         $("#notifArea").empty().wiki("Enemy Turn");
 
-        drawCombat();
+        setup.COM.drawCombat();
         await waitFor(300);
 
         /* Enemy AI */
@@ -355,13 +169,13 @@ State.variables.ci.ephealth = setup.fns.assignFieldOfObjectsToArray(State.variab
 if (setup.fns.allValuesTrue(State.variables.ci.pphealth, function(v) {
         return v <= 0
     })) {
-    drawCombat();
+    setup.COM.drawCombat();
     /* Update notice area with wikified lose message. */
     $("#notifArea").empty().wiki(State.variables.ci.lose);
 } else if (setup.fns.allValuesTrue(State.variables.ci.ephealth, function(v) {
         return v <= 0
     })) {
-    drawCombat();
+    setup.COM.drawCombat();
     /* Update notice area with wikified win message. */
     $("#notifArea").empty().wiki(State.variables.ci.win);
 } else {
@@ -419,10 +233,6 @@ if (setup.fns.allValuesTrue(State.variables.ci.pphealth, function(v) {
 :: Player_Zone [.combat .helper nostats]
 /**
  * The HTML elements of the player characters.
- *
- * DESIRED: Incorporate Attack menu into something like:
- *   https://www.cssscript.com/multi-level-radial-tree-menu/
- *   https://codepen.io/onlyveen/pen/MVaLoX
  */
 
 /* Where the player attack elements currently show up. */
@@ -566,12 +376,7 @@ if (setup.fns.allValuesTrue(State.variables.ci.pphealth, function(v) {
 
 
 :: Player_Attack_Targets [.combat .helper nostats]
-/* Clear the Player Options Grid */
-<<script>>
-    for (let i = 1; i <= 15; i++) {
-        $(`playerOptionsGrid #gitem${i}`).empty();
-    }
-<</script>>
+<<run setup.COM.clearPlayerOptions()>>
 
 <<if _attack.targetType === "area">>
     /* Handle all. */

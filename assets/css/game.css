@@ -540,6 +540,7 @@ input:checked ~ accordionContent {
     /* width: 10em; */
 }
 
+.macro-disable,
 #macro-disable {
     border: none;
 }

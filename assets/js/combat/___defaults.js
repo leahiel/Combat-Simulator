@@ -1,6 +1,15 @@
 /** The default attack object. Name must be specified itself when creating a new Attack. Values not specified will use these default values instead. */
 const DEFAULTBUFF = {
-    //
+    duration: 0,
+    onApply: function (target) {
+        return;
+    },
+    onReapply: function (target) {
+        return;
+    },
+    perInit: function (target) {
+        return;
+    },
 };
 
 // NYI: initVariancePercent to vary the recovery Init a little.
