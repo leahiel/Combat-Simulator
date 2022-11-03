@@ -217,11 +217,15 @@ if (tags().includes(".combat")) {
     })
 }
 
-/* If we delete the session, then we can't load from it: We'll only be able to load from the autosave. 
-This is important because we cannot save a function's scope within story variables:
-https://www.motoslave.net/sugarcube/2/docs/#twinescript-supported-types 
-That means we do NOT want to load into a combat instance, as we will break all sorts of things. 
-Therefore, we disallow session storage and force ourselves to load from the autosave, which solves 
-that problem. */
+/**
+ *  If we delete the session, then we can't load from it: We'll only 
+ * be able to load from the autosave. This is important because we 
+ * cannot save a function's scope within story variables:
+ * https://www.motoslave.net/sugarcube/2/docs/#twinescript-supported-types 
+ * That means we do NOT want to load into a combat instance, as we 
+ * will break all sorts of things. Therefore, we disallow session 
+ * storage and force ourselves to load from the autosave, which solves 
+ * that problem. 
+ */
 session.delete('state');
 <</script>>

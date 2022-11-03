@@ -54,6 +54,11 @@ class Combatant {
         // Keep buffs and debuffs the same.
         this.buffs = oldCombatant.buffs;
     }
+
+    /** Convert the data into a string so that the player can understand the data within. */
+    getInfo() {
+        return `${this.name}'s Combatant information screen.`;
+    }
 };
 
 // Add the Combatant class to setup.

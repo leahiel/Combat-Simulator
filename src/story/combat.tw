@@ -204,39 +204,59 @@ if (ppdead) {
 <combatZoneGrid>
     /* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. It might now be possible though, since we only update Canvas element (as opposed to the Canvas itself) rarely. */
     <<if $ci.ep[0]>>
-    <griditem id="gitemA">
-        /* TODO: Add the name to the canvas instead so that I have total control over the thing. */
-        $ci.ep[0].name
-        <canvas class="initBar" id="enemyA" width="2048" height="384"></canvas>
-    </griditem>
+        <griditem id="gitemA">
+            /* TODO: Add the name to the canvas instead so that I have total control over the thing. */
+            $ci.ep[0].name
+            <canvas class="initBar" id="enemyA" width="2048" height="384"></canvas>
+        </griditem>
+
+        <<script>>
+            setup.fns.displayToInfoscreenOnMouseover('combatZoneGrid griditem#gitemA', State.variables.ci.ep[0]);
+        <</script>>
     <</if>>
 
     <<if $ci.ep[1]>>
-    <griditem id="gitemB">
-        $ci.ep[1].name
-        <canvas class="initBar" id="enemyB" width="2048" height="384"></canvas>
-    </griditem>
+        <griditem id="gitemB">
+            $ci.ep[1].name
+            <canvas class="initBar" id="enemyB" width="2048" height="384"></canvas>
+        </griditem>
+
+        <<script>>
+            setup.fns.displayToInfoscreenOnMouseover('combatZoneGrid griditem#gitemB', State.variables.ci.ep[1]);
+        <</script>>
     <</if>>
 
     <<if $ci.ep[2]>>
-    <griditem id="gitemC">
-        $ci.ep[2].name
-        <canvas class="initBar" id="enemyC" width="2048" height="384"></canvas>
-    </griditem>
+        <griditem id="gitemC">
+            $ci.ep[2].name
+            <canvas class="initBar" id="enemyC" width="2048" height="384"></canvas>
+        </griditem>
+
+        <<script>>
+            setup.fns.displayToInfoscreenOnMouseover('combatZoneGrid griditem#gitemC', State.variables.ci.ep[2]);
+        <</script>>
     <</if>>
 
     <<if $ci.ep[3]>>
-    <griditem id="gitemD">
-        $ci.ep[3].name
-        <canvas class="initBar" id="enemyD" width="2048" height="384"></canvas>
-    </griditem>
+        <griditem id="gitemD">
+            $ci.ep[3].name
+            <canvas class="initBar" id="enemyD" width="2048" height="384"></canvas>
+        </griditem>
+
+        <<script>>
+            setup.fns.displayToInfoscreenOnMouseover('combatZoneGrid griditem#gitemD', State.variables.ci.ep[3]);
+        <</script>>
     <</if>>
 
     <<if $ci.ep[4]>>
-    <griditem id="gitemE">
-        $ci.ep[4].name
-        <canvas class="initBar" id="enemyE" width="2048" height="384"></canvas>
-    </griditem>
+        <griditem id="gitemE">
+            $ci.ep[4].name
+            <canvas class="initBar" id="enemyE" width="2048" height="384"></canvas>
+        </griditem>
+
+        <<script>>
+            setup.fns.displayToInfoscreenOnMouseover('combatZoneGrid griditem#gitemE', State.variables.ci.ep[4]);
+        <</script>>
     <</if>>
 </combatZoneGrid>
 
@@ -255,38 +275,47 @@ if (ppdead) {
     <playerZoneGrid>
         /* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. */
         <<if $ci.pp[0]>>
-        <griditem id="gitemA">
-            $ci.pp[0].name
-            <canvas class="initBar" id="playerA" width="2048" height="384"></canvas>
-        </griditem>
+            <griditem id="gitemA">
+                $ci.pp[0].name
+                <canvas class="initBar" id="playerA" width="2048" height="384"></canvas>
+            </griditem>
+
+            <<script>>
+                setup.fns.displayToInfoscreenOnMouseover('playerZoneGrid griditem#gitemA', State.variables.ci.pp[0]);
+            <</script>>
         <</if>>
 
         <<if $ci.pp[1]>>
-        <griditem id="gitemB">
-            $ci.pp[1].name
-            <canvas class="initBar" id="playerB" width="2048" height="384"></canvas>
-        </griditem>
+            <griditem id="gitemB">
+                $ci.pp[1].name
+                <canvas class="initBar" id="playerB" width="2048" height="384"></canvas>
+            </griditem>
+
+            <<script>>
+                setup.fns.displayToInfoscreenOnMouseover('playerZoneGrid griditem#gitemB', State.variables.ci.pp[1]);
+            <</script>>
         <</if>>
 
         <<if $ci.pp[2]>>
-        <griditem id="gitemC">
-            $ci.pp[2].name
-            <canvas class="initBar" id="playerC" width="2048" height="384"></canvas>
-        </griditem>
+            <griditem id="gitemC">
+                $ci.pp[2].name
+                <canvas class="initBar" id="playerC" width="2048" height="384"></canvas>
+            </griditem>
+
+            <<script>>
+                setup.fns.displayToInfoscreenOnMouseover('playerZoneGrid griditem#gitemC', State.variables.ci.pp[2]);
+            <</script>>
         <</if>>
 
         <<if $ci.pp[3]>>
-        <griditem id="gitemD">
-            $ci.pp[3].name
-            <canvas class="initBar" id="playerD" width="2048" height="384"></canvas>
-        </griditem>
-        <</if>>
+            <griditem id="gitemD">
+                $ci.pp[3].name
+                <canvas class="initBar" id="playerD" width="2048" height="384"></canvas>
+            </griditem>
 
-        <<if $ci.pp[4]>>
-        <griditem id="gitemE">
-            $ci.pp[4].name
-            <canvas class="initBar" id="playerE" width="2048" height="384"></canvas>
-        </griditem>
+            <<script>>
+                setup.fns.displayToInfoscreenOnMouseover('playerZoneGrid griditem#gitemD', State.variables.ci.pp[3]);
+            <</script>>
         <</if>>
     </playerZoneGrid>
     <playerOptionsGrid>
@@ -368,6 +397,8 @@ if (ppdead) {
                             <</but>>
                         <</disable>>
                     `);
+
+                    setup.fns.displayToInfoscreenOnMouseover(`playerOptionsGrid #gitem${State.temporary.int + 1}`, State.temporary.attack);
                 <</script>>
             <<else>>
                 <<script>>
@@ -376,6 +407,8 @@ if (ppdead) {
                             <<run $("#playerAttacks").empty().wiki(Story.get("Player_Attack_Targets").processText());>>
                         <</but>>
                     `);
+
+                    setup.fns.displayToInfoscreenOnMouseover(`playerOptionsGrid #gitem${State.temporary.int + 1}`, State.temporary.attack);
                 <</script>>
             <</if>>
         <</capture>>

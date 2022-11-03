@@ -128,7 +128,7 @@ function updateCanvas(char, canvasElement) {
         y: 78,
     });
 
-    // Outline 
+    // Outline
     canvasElement.drawLine({
         strokeStyle: "#000000",
         strokeWidth: 80,
@@ -138,7 +138,7 @@ function updateCanvas(char, canvasElement) {
         x2: 2000,
         y2: 78,
     });
-    // Background 
+    // Background
     canvasElement.drawLine({
         strokeStyle: "#8C99A6",
         strokeWidth: 60,
@@ -233,11 +233,29 @@ function updateCanvas(char, canvasElement) {
  * proposed handler.
  */
 
+/**
+ * Displays information about the obj when the selector element is 
+ * mouseover'd.
+ * 
+ * The `obj` must have a `.getInfo()` method.
+ */
+function displayToInfoscreenOnMouseover(selector, obj) {
+    waitForElm(selector).then((elm) => {
+        $(elm).mouseover(function () {
+            $("#infoScreenDescription").html(obj.getInfo());
+        });
+    });
+}
+
 // Add the notification functions to setup.
 (function (S) {
     if (!S.fns) {
         S.fns = {};
     }
+
+    S.fns.displayToInfoscreenOnMouseover = function(selector, obj) {
+        displayToInfoscreenOnMouseover(selector, obj);
+    };
 
     // S.fns.combatMessage = function (text, type, charLoc) {
     //     combatMessage(text, type, charLoc);

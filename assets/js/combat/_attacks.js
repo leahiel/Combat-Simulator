@@ -19,6 +19,11 @@ class Attack {
             this.description = "Description missing.";
         }
     }
+
+    /** Convert the data into a string so that the player can understand the data within. */
+    getInfo() {
+        return `${this.name}'s attack information screen.`
+    }
 }
 
 const attacks = {

@@ -237,6 +237,39 @@ function cloneDeep(obj, ...args) {
     return jQuery.extend(true, {}, obj, args);
 }
 
+/**
+ * Waits for an element to exist before doing thing.
+ * 
+ * ```
+ * const elm = await waitForElm('.some-class');
+ * // or
+ * waitForElm('.some-class').then((elm) => {
+ *  console.log('Element is ready');
+ *  console.log(elm.textContent);
+ * });
+ * ```
+ * See https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
+ */
+function waitForElm(selector) {
+    return new Promise((resolve) => {
+        if (document.querySelector(selector)) {
+            return resolve(document.querySelector(selector));
+        }
+
+        const observer = new MutationObserver((mutations) => {
+            if (document.querySelector(selector)) {
+                resolve(document.querySelector(selector));
+                observer.disconnect();
+            }
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+        });
+    });
+}
+
 // Add the required utility functions to setup.
 (function (S) {
     if (!S.fns) {
@@ -273,5 +306,9 @@ function cloneDeep(obj, ...args) {
 
     // S.fns.cloneDeep = function (obj) {
     //   return cloneDeep(obj);
+    // };
+
+    // S.fns.waitForElm = function(selector) {
+    //     return waitForElm(selector);
     // };
 })(setup);
