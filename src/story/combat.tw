@@ -211,7 +211,7 @@ if (ppdead) {
         </griditem>
 
         <<script>>
-            setup.fns.displayToInfoscreenOnMouseover('combatZoneGrid griditem#gitemA', State.variables.ci.ep[0]);
+            setup.fns.displayToInfoScreenOnMouseover('combatZoneGrid griditem#gitemA', State.variables.ci.ep[0]);
         <</script>>
     <</if>>
 
@@ -222,7 +222,7 @@ if (ppdead) {
         </griditem>
 
         <<script>>
-            setup.fns.displayToInfoscreenOnMouseover('combatZoneGrid griditem#gitemB', State.variables.ci.ep[1]);
+            setup.fns.displayToInfoScreenOnMouseover('combatZoneGrid griditem#gitemB', State.variables.ci.ep[1]);
         <</script>>
     <</if>>
 
@@ -233,7 +233,7 @@ if (ppdead) {
         </griditem>
 
         <<script>>
-            setup.fns.displayToInfoscreenOnMouseover('combatZoneGrid griditem#gitemC', State.variables.ci.ep[2]);
+            setup.fns.displayToInfoScreenOnMouseover('combatZoneGrid griditem#gitemC', State.variables.ci.ep[2]);
         <</script>>
     <</if>>
 
@@ -244,7 +244,7 @@ if (ppdead) {
         </griditem>
 
         <<script>>
-            setup.fns.displayToInfoscreenOnMouseover('combatZoneGrid griditem#gitemD', State.variables.ci.ep[3]);
+            setup.fns.displayToInfoScreenOnMouseover('combatZoneGrid griditem#gitemD', State.variables.ci.ep[3]);
         <</script>>
     <</if>>
 
@@ -255,7 +255,7 @@ if (ppdead) {
         </griditem>
 
         <<script>>
-            setup.fns.displayToInfoscreenOnMouseover('combatZoneGrid griditem#gitemE', State.variables.ci.ep[4]);
+            setup.fns.displayToInfoScreenOnMouseover('combatZoneGrid griditem#gitemE', State.variables.ci.ep[4]);
         <</script>>
     <</if>>
 </combatZoneGrid>
@@ -281,7 +281,7 @@ if (ppdead) {
             </griditem>
 
             <<script>>
-                setup.fns.displayToInfoscreenOnMouseover('playerZoneGrid griditem#gitemA', State.variables.ci.pp[0]);
+                setup.fns.displayToInfoScreenOnMouseover('playerZoneGrid griditem#gitemA', State.variables.ci.pp[0]);
             <</script>>
         <</if>>
 
@@ -292,7 +292,7 @@ if (ppdead) {
             </griditem>
 
             <<script>>
-                setup.fns.displayToInfoscreenOnMouseover('playerZoneGrid griditem#gitemB', State.variables.ci.pp[1]);
+                setup.fns.displayToInfoScreenOnMouseover('playerZoneGrid griditem#gitemB', State.variables.ci.pp[1]);
             <</script>>
         <</if>>
 
@@ -303,7 +303,7 @@ if (ppdead) {
             </griditem>
 
             <<script>>
-                setup.fns.displayToInfoscreenOnMouseover('playerZoneGrid griditem#gitemC', State.variables.ci.pp[2]);
+                setup.fns.displayToInfoScreenOnMouseover('playerZoneGrid griditem#gitemC', State.variables.ci.pp[2]);
             <</script>>
         <</if>>
 
@@ -314,7 +314,7 @@ if (ppdead) {
             </griditem>
 
             <<script>>
-                setup.fns.displayToInfoscreenOnMouseover('playerZoneGrid griditem#gitemD', State.variables.ci.pp[3]);
+                setup.fns.displayToInfoScreenOnMouseover('playerZoneGrid griditem#gitemD', State.variables.ci.pp[3]);
             <</script>>
         <</if>>
     </playerZoneGrid>
@@ -377,12 +377,7 @@ if (ppdead) {
  * Determines the logic and HTML elements behind the player attacks.
  */
 
-/* Clear the Player Options Grid */
-<<script>>
-    for (let i = 1; i <= 15; i++) {
-        $(`playerOptionsGrid #gitem${i}`).empty();
-    }
-<</script>>
+<<run setup.COM.clearPlayerOptionsGrid()>>
 
 <<if $ci.pp.includes($ci.activeCharacter)>>
     <<for _int, _attack range $ci.activeCharacter.attacks>>
@@ -398,7 +393,7 @@ if (ppdead) {
                         <</disable>>
                     `);
 
-                    setup.fns.displayToInfoscreenOnMouseover(`playerOptionsGrid #gitem${State.temporary.int + 1}`, State.temporary.attack);
+                    setup.fns.displayToInfoScreenOnMouseover(`playerOptionsGrid #gitem${State.temporary.int + 1}`, State.temporary.attack);
                 <</script>>
             <<else>>
                 <<script>>
@@ -408,7 +403,7 @@ if (ppdead) {
                         <</but>>
                     `);
 
-                    setup.fns.displayToInfoscreenOnMouseover(`playerOptionsGrid #gitem${State.temporary.int + 1}`, State.temporary.attack);
+                    setup.fns.displayToInfoScreenOnMouseover(`playerOptionsGrid #gitem${State.temporary.int + 1}`, State.temporary.attack);
                 <</script>>
             <</if>>
         <</capture>>
@@ -421,7 +416,7 @@ if (ppdead) {
 
 
 :: Player_Attack_Targets [.combat .helper nostats]
-<<run setup.COM.clearPlayerOptions()>>
+<<run setup.COM.clearPlayerOptionsGrid()>>
 
 <<if _attack.targetType === "area">>
     /* Handle all. */

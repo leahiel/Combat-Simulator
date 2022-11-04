@@ -11,6 +11,10 @@ class Enemy {
         if (this.family === null) {
             console.error(`${this.name}'s family is null.`);
         }
+
+        if (this.flavortext === null) {
+            console.error(`${this.name}'s flavor text is null.`);
+        }
     }
 }
 

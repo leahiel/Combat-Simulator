@@ -55,9 +55,17 @@ class Combatant {
         this.buffs = oldCombatant.buffs;
     }
 
-    /** Convert the data into a string so that the player can understand the data within. */
+    /** 
+     * Convert the data into a string so that the player can understand the data within. 
+     * 
+     * This can be HTML text.
+     */
     getInfo() {
-        return `${this.name}'s Combatant information screen.`;
+        let solstr = "";
+        solstr += this.name;
+        solstr += "'s Combatant information screen.";
+
+        return solstr;
     }
 };
 

@@ -264,6 +264,7 @@ const DEFAULTENEMY = {
 
     initVariance: 0.1,
     family: null,
+    flavortext: null,
 };
 
 const DEFAULTPLAYER = {

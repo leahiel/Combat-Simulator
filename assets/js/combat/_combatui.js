@@ -96,7 +96,7 @@ function combatMessage(text, type, charLoc) {
 }
 
 /** Clears the Player Options Grid. */
-function clearPlayerOptions() {
+function clearPlayerOptionsGrid() {
     for (let i = 1; i <= 15; i++) {
         $(`playerOptionsGrid #gitem${i}`).empty();
     }
@@ -239,7 +239,7 @@ function updateCanvas(char, canvasElement) {
  * 
  * The `obj` must have a `.getInfo()` method.
  */
-function displayToInfoscreenOnMouseover(selector, obj) {
+function displayToInfoScreenOnMouseover(selector, obj) {
     waitForElm(selector).then((elm) => {
         $(elm).mouseover(function () {
             $("#infoScreenDescription").html(obj.getInfo());
@@ -253,8 +253,8 @@ function displayToInfoscreenOnMouseover(selector, obj) {
         S.fns = {};
     }
 
-    S.fns.displayToInfoscreenOnMouseover = function(selector, obj) {
-        displayToInfoscreenOnMouseover(selector, obj);
+    S.fns.displayToInfoScreenOnMouseover = function(selector, obj) {
+        displayToInfoScreenOnMouseover(selector, obj);
     };
 
     // S.fns.combatMessage = function (text, type, charLoc) {
@@ -273,7 +273,7 @@ function displayToInfoscreenOnMouseover(selector, obj) {
         drawCombat();
     };
 
-    S.COM.clearPlayerOptions = function () {
-        clearPlayerOptions();
+    S.COM.clearPlayerOptionsGrid = function () {
+        clearPlayerOptionsGrid();
     };
 })(setup);
