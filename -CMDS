@@ -7,6 +7,9 @@ tweegoc -o index.html src -l -w -t
 hot-server
 
 
+<!-- WASM with --target no-modules -->
+https://rustwasm.github.io/docs/wasm-bindgen/examples/without-a-bundler.html
+
 
 # Sugarcube Documentation: 
 https://www.motoslave.net/sugarcube/2/docs/
