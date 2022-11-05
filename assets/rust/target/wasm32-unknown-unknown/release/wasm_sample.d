@@ -1,0 +1,1 @@
+C:\Users\Samuel\Documents\Twine\Stories\CombatSimulator\assets\rust\target\wasm32-unknown-unknown\release\wasm_sample.wasm: C:\Users\Samuel\Documents\Twine\Stories\CombatSimulator\assets\rust\src\lib.rs
