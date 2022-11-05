@@ -20,9 +20,83 @@ class Attack {
         }
     }
 
-    /** Convert the data into a string so that the player can understand the data within. */
+    /**
+     * Convert the data into a string so that the player can understand the data within.
+     *
+     * This can be HTML text.
+     */
     getInfo() {
-        return `${this.name}'s attack information screen.`
+        let solstr = "";
+
+        // misc info
+        solstr += `<span id='infoName'>${this.name}</span>`;
+        solstr += `<span class='divider'></span>`;
+
+        // special info
+
+        // For uncommon stat thingies. "Absorbs Elemental."  We could also put the rarity affix info here?
+
+        // metrics info
+        solstr += `<span id='infoMetrics'><span class='infoSectionHeader'>METRICS</span>`;
+        solstr += `<grid id='infoMetricsAttacksGrid'>`;
+        solstr += `<span>WDM:${this.wdm}</span>`;
+        solstr += `<span>initRecovery:${this.initRecovery}</span>`;
+        solstr += `</grid></span>`;
+
+
+        solstr += `<span id='infoTargeting'><span class='infoSectionHeader'>TARGETING</span>`;
+        solstr += `<grid id="infoTargetingGrid"><span>Hits ${this.targetType}.</span>`;
+        if (this.allyTargetable && this.opponentTargetable) {
+            if (this.frontlineTargetable && this.backlineTargetable) {
+                solstr += `<span> Targets frontline and backline.</span>`;
+            } else if (this.frontlineTargetable) {
+                solstr += `<span> Targets frontline.</span>`;
+            } else if (this.backlineTargetable) {
+                solstr += `<span> Targets backline.</span>`;
+            }
+        } else if (this.opponentTargetable) {
+            if (this.frontlineTargetable && this.backlineTargetable) {
+                solstr += `<span> Targets frontline and backline enemies.</span>`;
+            } else if (this.frontlineTargetable) {
+                solstr += `<span> Targets frontline enemies.</span>`;
+            } else if (this.backlineTargetable) {
+                solstr += `<span> Targets backline enemies.</span>`;
+            }
+        } else if (this.allyTargetable) {
+            if (this.frontlineTargetable && this.backlineTargetable) {
+                solstr += `<span> Targets frontline and backline allies.</span>`;
+            } else if (this.frontlineTargetable) {
+                solstr += `<span> Targets frontline allies.</span>`;
+            } else if (this.backlineTargetable) {
+                solstr += `<span> Targets backline allies.</span>`;
+            }
+        } else {
+            solstr += `<span> Targets nothing.</span>`;
+        }
+
+        solstr += `</grid></span>`;
+
+        // damage info
+        // NYI: damage += activeCharacter stats
+        solstr += `<span id='infoDamage'><span class='infoSectionHeader'>ADDED DAMAGE</span>`;
+        solstr += `<grid id='infoDamageGrid'>`;
+        solstr += `<span style="font-weight:bold">Material</span>`;
+        solstr += `<span>Blunt:<br>${this.damage.blunt.min} - ${this.damage.blunt.max}</span>`;
+        solstr += `<span>Pierce:<br>${this.damage.pierce.min} - ${this.damage.pierce.max}</span>`;
+        solstr += `<span>Acid:<br>${this.damage.acid.min} - ${this.damage.acid.max}</span>`;
+
+        solstr += `<span style="font-weight:bold">Elemental</span>`;
+        solstr += `<span>Fire:<br>${this.damage.fire.min} - ${this.damage.fire.max}</span>`;
+        solstr += `<span>Frost:<br>${this.damage.frost.min} - ${this.damage.frost.max}</span>`;
+        solstr += `<span>Lightning:<br>${this.damage.lightning.min} - ${this.damage.lightning.max}</span>`;
+
+        solstr += `<span style="font-weight:bold">Occult</span>`;
+        solstr += `<span>Sacred:<br>${this.damage.sacred.min} - ${this.damage.sacred.max}</span>`;
+        solstr += `<span>Shadow:<br>${this.damage.shadow.min} - ${this.damage.shadow.max}</span>`;
+        solstr += `<span>Aether:<br>${this.damage.aether.min} - ${this.damage.aether.max}</span>`;
+        solstr += `</grid></span>`;
+
+        return solstr;
     }
 }
 
@@ -194,8 +268,8 @@ const attacks = {
 };
 
 /**
- * Group up attacks of the same family so we can easily add them to 
- * enemies and players. 
+ * Group up attacks of the same family so we can easily add them to
+ * enemies and players.
  */
 const familyAttacks = {};
 for (let key in attacks) {

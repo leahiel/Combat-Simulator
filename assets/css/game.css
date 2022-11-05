@@ -266,6 +266,99 @@ tpi {
     background-color: hsl(0, 0%, 40%);
 }
 
+#infoName {
+    display: inline; 
+
+    /* font-weight: 600; */
+    font-weight: bold;
+    overflow: auto;
+    word-break: break-all;
+    text-overflow: unset;
+    white-space: normal;
+    vertical-align: top;
+}
+
+#infoVariant {
+    display: block; 
+
+    /* font-weight: 600; */
+    font-weight: bold;
+    color: grey;
+
+    padding-top: 2px;
+
+    outline: 0;
+}
+
+#infoMetrics,
+#infoResistances,
+#infoTargeting,
+#infoDamage {
+    padding-top: 8px;
+}
+
+#infoScreenDescription grid {
+    display: grid;
+    margin-left: -8px;
+
+    column-gap: 0.5rem;
+    row-gap: 0.05rem;
+    font-size: 0.95rem;
+
+    padding-bottom: 8px;
+}
+
+#infoMetricsGrid {
+    grid-auto-flow: column;
+
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr;
+}
+
+#infoResistanceGrid,
+#infoDamageGrid {
+    grid-auto-flow: column;
+
+    grid-template-rows: auto 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#infoMetricsAttacksGrid {
+    grid-auto-flow: column;
+
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr;
+}
+
+#infoTargetingGrid {
+    /* */
+}
+
+.divider {
+    display: block;
+    position: sticky;
+
+    top: 0;
+    height: 1px;
+
+    margin-top: 8px;
+    
+    background-color: rgba(25, 25, 25, 0.5);
+}
+
+.infoSectionHeader {
+    display: block;
+
+    /* font-weight: 700; */
+    font-weight: bold;
+
+    margin-bottom: 6px;
+    font-size: 12px;
+    line-height: 16px;
+
+    text-transform: uppercase;
+}
+
 /**
  *    ###     ######   ######   #######  ########  ########  ####  #######  ##    ## 
  *   ## ##   ##    ## ##    ## ##     ## ##     ## ##     ##  ##  ##     ## ###   ## 

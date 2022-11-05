@@ -238,6 +238,9 @@ function updateCanvas(char, canvasElement) {
  * mouseover'd.
  * 
  * The `obj` must have a `.getInfo()` method.
+ * 
+ * TODO: This should be called while hovering, not on mouseover.
+ * That is, 100% of the time this function is called, I want it to call while object is hovering, so it is called repeatedly at a decent interval.
  */
 function displayToInfoScreenOnMouseover(selector, obj) {
     waitForElm(selector).then((elm) => {
