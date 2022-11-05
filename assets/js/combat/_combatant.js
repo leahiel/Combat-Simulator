@@ -20,6 +20,16 @@ class Combatant {
         this.init = Math.floor(Math.random() * (max - min + 1)) + Math.floor(min);
 
         /**
+         * NYI: equippables
+         */
+        if (this.equippables) {
+            // The base obj has an equippable object, but that does not mean that anything is equipped.
+            if (this.equippables.mainhand) {
+                // I need a function that adds stats from equippables to combatant stats.
+            }
+        } 
+
+        /**
          * NYI: These should be calculated with a function here, but
          * that ability is NYI.
          */

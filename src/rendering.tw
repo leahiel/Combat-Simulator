@@ -71,6 +71,14 @@ It's intended for actual rendering stuff. */
             });
         <</script>>
     <</button>>
+    <<button "Gen. Leather Chest Armor">>
+        <<script>>
+            State.temporary.inv = {};
+            State.temporary.inv.armor = setup.fns.cloneDeep(setup.COM.equippables.leatherarmor);
+            State.temporary.inv.armor.mods.push(setup.fns.cloneDeep(setup.COM.affixes.increasedFireResistance));
+            console.log(State.temporary.inv.armor);
+        <</script>>
+    <</button>>
 /* <</if>> */
 
 

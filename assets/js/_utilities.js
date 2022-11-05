@@ -304,9 +304,9 @@ function waitForElm(selector) {
         return allValuesTrue(arr, cond);
     };
 
-    // S.fns.cloneDeep = function (obj) {
-    //   return cloneDeep(obj);
-    // };
+    S.fns.cloneDeep = function (obj) {
+      return cloneDeep(obj);
+    };
 
     // S.fns.waitForElm = function(selector) {
     //     return waitForElm(selector);

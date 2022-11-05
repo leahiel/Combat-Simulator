@@ -424,4 +424,8 @@ const DEFAULTPLAYER = {
     blockRecovery: 15,
     initVariance: 0.1,
     family: "player",
+
+    equippables: {
+        mainhand: null,
+    },
 };

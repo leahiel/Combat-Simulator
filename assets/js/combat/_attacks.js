@@ -1,5 +1,5 @@
 /**
- * There are currently no Attack methods, it is just used as a constructor to easily make new attacks.
+ *
  */
 class Attack {
     constructor(obj) {
@@ -42,7 +42,6 @@ class Attack {
         solstr += `<span>WDM:${this.wdm}</span>`;
         solstr += `<span>initRecovery:${this.initRecovery}</span>`;
         solstr += `</grid></span>`;
-
 
         solstr += `<span id='infoTargeting'><span class='infoSectionHeader'>TARGETING</span>`;
         solstr += `<grid id="infoTargetingGrid"><span>Hits ${this.targetType}.</span>`;
