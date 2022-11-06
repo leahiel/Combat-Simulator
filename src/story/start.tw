@@ -5,7 +5,7 @@
 	<griditem class="row2">
 		<gridtitle>Basic Settings</gridtitle>
 		<griddescript>
-		<h4><label>Name thyself:   <<textbox "$pc_name" "PCName_TBD">></label></h4>
+		<h4><label>Name thyself:   <<textbox "$pc.name" "PCName_TBD">></label></h4>
 		<br>
 		<br> 
 		<label>Which set of pronouns do you prefer? 

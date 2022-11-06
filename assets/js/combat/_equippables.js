@@ -17,11 +17,6 @@ class Equippable {
  * Proficiency should be a player stat. Player and their Main Pawn can gain it, while other pawns cannot.
  */
 
-/**
- *
- * phasesword = new Equippable(...)
- *
- */
 
 const equippables = {
     leatherarmor: new Equippable({

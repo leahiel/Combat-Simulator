@@ -6,6 +6,12 @@
     <span id="infoScreenDescription">
         Info Screen Description.
     </span>
+    <span id="infoScreenMiddleMenuButtons">
+        Info Screen Middle Buttons
+    </span>
+    <span id="infoScreenBottomMenuButtons">
+        Info Screen Bottom Buttons
+    </span>
 
     <!-- I'm gonna steal discord's small bio widget style for enemy/attack information in the item screen -->
 </div>

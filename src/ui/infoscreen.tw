@@ -1,0 +1,145 @@
+:: Info_Description [.infoscreen .helper nostats]
+<<if $info.current === null>>
+    Info Screen Description.
+<<else>>
+    <span>
+        /* Weapon name if we have one equipped, else "Unequipped Weapon" */
+        <<but "Weapon">>
+            <<script>>
+                Dialog.setup("Weapons");
+                Dialog.wiki(Story.get("Weapon_Menu_Info").processText());
+                Dialog.open();
+            <</script>>
+        <</but>>
+    </span>
+
+    <span>
+        /* Armor */
+        <<but "Armor">>
+            <<script>>
+                Dialog.setup("Armor");
+                Dialog.wiki(Story.get("Armor_Menu_Info").processText());
+                Dialog.open();
+            <</script>>
+        <</but>>
+    </span>
+
+    
+    <span>
+        /* Accessory*/
+        <<but "Accessory">>
+            <<script>>
+                Dialog.setup("Accessories");
+                Dialog.wiki(Story.get("Accessory_Menu_Info").processText());
+                Dialog.open();
+            <</script>>
+        <</but>>
+    </span>
+
+    <<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Info_Button_Back").processText());>>
+<</if>>
+
+
+:: Weapon_Menu_Info [.infoscreen .helper nostats]
+Here be weapons.
+
+
+
+:: Armor_Menu_Info [.infoscreen .helper nostats]
+Here be armors.
+
+
+
+:: Accessory_Menu_Info [.infoscreen .helper nostats]
+Here be accessories.
+
+
+
+:: Players_Info [.infoscreen .helper nostats]
+<<script>>
+    $('#infoScreenBottomMenuButtons').empty();
+    let solstr = "";
+    solstr += Story.get("PC_Info").processText();
+    solstr += Story.get("PP_Info").processText();
+    solstr += Story.get("TP1_Info").processText();
+    solstr += Story.get("TP2_Info").processText();
+
+    /* solstr += Story.get("Info_Button_Back").processText();  */
+
+    $('#infoScreenBottomMenuButtons').wiki(solstr);
+<</script>>
+
+
+
+:: Info_Button_Back [.infoscreen .helper nostats]
+<<but "Back" id "infoBack" class "bottomInfoButton">>
+    <<set $info.current = null>>
+    <<run $('#infoScreenMiddleMenuButtons').empty()>>
+    <<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText())>>
+<</but>>
+
+
+
+:: PC_Info [.infoscreen .helper nostats]
+<<if $pc>>
+    <<but $pc.name class "bottomInfoButton">>
+        <<set $info.current = $pc>>
+        <<run $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());>>
+    <</but>>
+<<else>>
+    <<disable>>
+        <<but "Player Char" class "bottomInfoButton">>
+        <</but>>
+    <</disable>>
+<</if>>
+
+
+
+:: PP_Info [.infoscreen .helper nostats]
+<<if $pp>>
+    <<but $pp.name class "bottomInfoButton">>
+        <<set $info.current = $pp>>
+        <<run $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());>>
+    <</but>>
+<<else>>
+    <<disable>>
+        <<but "Main Pawn" class "bottomInfoButton">>
+        <</but>>
+    <</disable>>
+<</if>>
+
+
+
+:: TP1_Info [.infoscreen .helper nostats]
+<<if $tp1>>
+    <<but $tp1.name class "bottomInfoButton">>
+        <<set $info.current = $tp1>>
+        <<run $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());>>
+    <</but>>
+<<else>>
+    <<disable>>
+        <<but "First Pawn" class "bottomInfoButton">>
+        <</but>>
+    <</disable>>
+<</if>>
+
+
+
+:: TP2_Info [.infoscreen .helper nostats]
+<<if $tp2>>
+    <<but $tp2.name class "bottomInfoButton">>
+        <<set $info.current = $tp2>>
+        <<run $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());>>
+    <</but>>
+<<else>>
+    <<disable>>
+        <<but "Second Pawn" class "bottomInfoButton">>
+        <</but>>
+    <</disable>>
+<</if>>
+
+
+
+:: Char_Equipment_Select_Info [.infoscreen .helper nostats]
+<<run $('#infoScreenMiddleMenuButtons').empty().wiki(Story.get("Info_Description").processText());>>
+<<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Info_Button_Back").processText());>>

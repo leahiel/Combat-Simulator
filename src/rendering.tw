@@ -39,6 +39,11 @@ It's intended for actual rendering stuff. */
 <span id="passagetitleheader">Passage Header Text</span>
 
 
+<<run $('#infoScreenDescription').empty().wiki(Story.get("Info_Description").processText())>>
+<<run $('#infoScreenMiddleMenuButtons').empty()>>
+<<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText())>>
+
+
 
 :: PassageFooter [.rendering] {"position":"250,525"}
 /* Everything here is rendered at the end of every passage rendering.

@@ -11,6 +11,8 @@ class Player {
         // Merge our obj onto default, then merge those onto this.
         jQuery.extend(true, this, DEFAULTPLAYER, obj);
     }
+
+    // TODO: Add a profiency item for each key in equippables. Also maybe for each equippable tag (leather, armor, metal, helmet, etc) as well.
 }
 
 // Add the Player class to setup.

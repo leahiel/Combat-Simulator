@@ -139,13 +139,18 @@ State.variables.ft_warning = [];
 /*
     "pc" == Playable Character
     "pp" == Permanent Partner
-    "tp" == Temporary Partner
+    "tp1" == Temporary Partner 1
+    "tp2" == Temporary Partner 2
 */
 State.variables.pc_nude = false;
 State.variables.pc_topless = false;
 State.variables.pc_panties = false;
 /* The body parts the playable character has. */
 State.variables.pc = {};
+
+/* INFO MENU */
+State.variables.info = {};
+State.variables.info.current = null;
 
 
 /* KNOWLEDGE */
