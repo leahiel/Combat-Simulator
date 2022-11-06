@@ -10,6 +10,7 @@
     Combat Initialization:
     ☐ Setting (Music, Background, ETC) 
     ☐ Reward/Defeat Screen 
+        ☐  Drops
     ☐ Combatant Equipment Applies Stats to Combatant [Req: Equipables!]
         ☐  Available Attacks based on Equipped Weapon [Req: Equipables!]
     ☐ Monster Rarity and Affix System
@@ -21,12 +22,12 @@
     ☐ Useable as a Guide/Help system.
 
     Character Equipment and Itemization System:
-    ☐  A Functional Primitive Equipment System
-        ☐  Equipables
-            ☐  Item Affixes [Reg: Equipables!]
+    →   An inventory system for equippables.
+    ☑  A Functional Primitive Equipment System
+        ☑  Equipables
+            ☑  Item Affixes [Reg: Equipables!]
+                ☐  Item Affix hot-swappable
+                ☐  Item Affix tiers 
 
     Character Customization:
-    ☐ Experience, Leveling, and Growth
-
-    Misc:
-    ☐ No Realistic/Intended Difficulty Setting Change
+    ☐ Profiency with Gear

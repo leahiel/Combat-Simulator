@@ -16,7 +16,7 @@ const DEFAULTBUFF = {
 const DEFAULTATTACK = {
     family: null,
 
-    /** Must be "damage", "buff", or "debuff". The last two are NYI. */
+    /** Must be "damage", "buff", or "debuff". */
     effect: "damage",
     /** The amount of init after using this Attack that the character who used it should take to recover. */
     initRecovery: 45,

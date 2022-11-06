@@ -239,7 +239,7 @@ function cloneDeep(obj, ...args) {
 
 /**
  * Waits for an element to exist before doing thing.
- * 
+ *
  * ```
  * const elm = await waitForElm('.some-class');
  * // or
@@ -268,6 +268,45 @@ function waitForElm(selector) {
             subtree: true,
         });
     });
+}
+
+/**
+ * Sets nested object property by defining the path with a string.
+ *
+ * https://www.webtips.dev/webtips/javascript/update-nested-property-by-string
+ */
+function setProperty(obj, path, value) {
+    const [head, ...rest] = path.split(".");
+
+    return {
+        ...obj,
+        [head]: rest.length ? setProperty(obj[head], rest.join("."), value) : value,
+    };
+}
+
+/**
+ * Updates nested object property by defining the path with a string.
+ *
+ * Modified from:
+ * https://www.webtips.dev/webtips/javascript/update-nested-property-by-string
+ */
+function updateProperty(obj, path, value, updateWith) {
+    const [head, ...rest] = path.split(".");
+
+    let result;
+    if (rest.length) {
+        result = updateProperty(obj[head], rest.join("."), value, updateWith);
+    } else {
+        if (updateWith === "+") {
+            result = obj[head] + value;
+        } else if (updateWith === "*") {
+            result = obj[head] * (1 + value);
+        } else {
+            result = value;
+        }
+    }
+
+    return { ...obj, [head]: result };
 }
 
 // Add the required utility functions to setup.
@@ -305,10 +344,18 @@ function waitForElm(selector) {
     };
 
     S.fns.cloneDeep = function (obj) {
-      return cloneDeep(obj);
+        return cloneDeep(obj);
     };
 
     // S.fns.waitForElm = function(selector) {
     //     return waitForElm(selector);
+    // };
+
+    // S.fns.setProperty = function(obj, path, value) {
+    //     return setProperty(obj, path, value);
+    // };
+
+    // S.fns.updateProperty = function(obj, path, value, updateWith) {
+    //     return updateProperty(obj, path, value, updateWith);
     // };
 })(setup);
