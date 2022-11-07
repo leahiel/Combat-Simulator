@@ -2,38 +2,127 @@
 <<if $info.current === null>>
     Info Screen Description.
 <<else>>
-    <span>
-        /* Weapon name if we have one equipped, else "Unequipped Weapon" */
-        <<but "Weapon">>
+
+    /* WEAPON */
+    <span class="equippableInfoScreen">
+        <span id="weaponHere"></span>
+        <<if $info.current.equippables.weapon === null || $info.current.equippables.weapon.type === "unequipped">>
+            <<run setup.COM.equippables.unequippedweapon.itemplate("#weaponHere");>>
+        <<else>>
+            <<run $info.current.equippables.weapon.itemplate("#weaponHere");>>
+        <</if>>
+        <span id="weaponInfoScreenButtons">
+        <<but "Swap">>
             <<script>>
-                Dialog.setup("Weapons");
+                Dialog.setup("Weapons", "dialogEquipmentSwap");
                 Dialog.wiki(Story.get("Weapon_Menu_Info").processText());
                 Dialog.open();
             <</script>>
         <</but>>
+        <<if $info.current.equippables.weapon === null || $info.current.equippables.weapon.type === "unequipped">>
+            <<disable>>
+                <<but "Mod">>
+                <</but>>
+            <</disable>>
+        <<else>>
+            <<but "Mod">>
+                <<script>>
+                    Dialog.setup("Weapon Mods", "dialogEquipmentMod");
+                    Dialog.wiki(Story.get("Weapon_ModMenu_Info").processText());
+                    Dialog.open();
+                <</script>>
+            <</but>>
+        <</if>>
+        </span>
+        <<script>>
+            setup.fns.waitForElm('span.itemPlate.weapon').then(() => {
+                setup.fns.waitForElm('#weaponInfoScreenButtons').then(() => {
+                    $('span.itemPlate.weapon').append($('#weaponInfoScreenButtons'));
+                });
+            });
+        <</script>>
     </span>
 
-    <span>
-        /* Armor */
-        <<but "Armor">>
+    /* ARMOR */
+    <span class="equippableInfoScreen">
+        <span id="armorHere"></span>
+        /* TODO Update settings so that we just start with unequipped item instead of checking for null */
+        <<if $info.current.equippables.armor === null || $info.current.equippables.armor.type === "unequipped">>
+            <<run setup.COM.equippables.unequippedarmor.itemplate("#armorHere");>>
+        <<else>>
+            <<run $info.current.equippables.armor.itemplate("#armorHere");>>
+        <</if>>
+        <span id="armorInfoScreenButtons">
+        <<but "Swap">>
             <<script>>
-                Dialog.setup("Armor");
+                Dialog.setup("Armors", "dialogEquipmentSwap");
                 Dialog.wiki(Story.get("Armor_Menu_Info").processText());
                 Dialog.open();
             <</script>>
         <</but>>
+        <<if $info.current.equippables.armor === null || $info.current.equippables.armor.type === "unequipped">>
+            <<disable>>
+                <<but "Mod">>
+                <</but>>
+            <</disable>>
+        <<else>>
+            <<but "Mod">>
+                <<script>>
+                    Dialog.setup("Armor Mods", "dialogEquipmentMod");
+                    Dialog.wiki(Story.get("Armor_ModMenu_Info").processText());
+                    Dialog.open();
+                <</script>>
+            <</but>>
+        <</if>>
+        </span>
+        <<script>>
+            setup.fns.waitForElm('span.itemPlate.armor').then(() => {
+                setup.fns.waitForElm('#armorInfoScreenButtons').then(() => {
+                    $('span.itemPlate.armor').append($('#armorInfoScreenButtons'));
+                });
+            });
+        <</script>>
     </span>
 
     
-    <span>
-        /* Accessory*/
-        <<but "Accessory">>
+    /* ACCESSORY */
+    <span class="equippableInfoScreen">
+        <span id="accessoryHere"></span>
+        <<if $info.current.equippables.accessory === null || $info.current.equippables.accessory.type === "unequipped">>
+            <<run setup.COM.equippables.unequippedaccessory.itemplate("#accessoryHere");>>
+        <<else>>
+            <<run $info.current.equippables.accessory.itemplate("#accessoryHere");>>
+        <</if>>
+        <span id="accessoryInfoScreenButtons">
+        <<but "Swap">>
             <<script>>
-                Dialog.setup("Accessories");
+                Dialog.setup("Accessories", "dialogEquipmentSwap");
                 Dialog.wiki(Story.get("Accessory_Menu_Info").processText());
                 Dialog.open();
             <</script>>
         <</but>>
+        <<if $info.current.equippables.accessory === null || $info.current.equippables.accessory.type === "unequipped">>
+            <<disable>>
+                <<but "Mod">>
+                <</but>>
+            <</disable>>
+        <<else>>
+            <<but "Mod">>
+                <<script>>
+                    Dialog.setup("Accessory Mods", "dialogEquipmentMod");
+                    Dialog.wiki(Story.get("Accessory_ModMenu_Info").processText());
+                    Dialog.open();
+                <</script>>
+            <</but>>
+        <</if>>
+        </span>
+        <<script>>
+            setup.fns.waitForElm('span.itemPlate.accessory').then(() => {
+                setup.fns.waitForElm('#accessoryInfoScreenButtons').then(() => {
+                    $('span.itemPlate.accessory').append($('#accessoryInfoScreenButtons'));
+                });
+            });
+        <</script>>
     </span>
 
     <<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Info_Button_Back").processText());>>
@@ -41,17 +130,190 @@
 
 
 :: Weapon_Menu_Info [.infoscreen .helper nostats]
-Here be weapons.
+/* REVIEW: Do I want to add a button to this dialogue to switch to the appropriate mod menu dialogue? */
+<select id="listbox-weapon" class="macro-listbox" name="listbox-weapon" tabindex="0"> 
+    <<for _i, _equippable range $account.inventory.weapons>>
+        /* TODO: Default option should be the currently equipped weapon. */
+        /* NYI: add the `disabled` attribute if we don't own the accessory: https://www.w3schools.com/TAGS/att_option_disabled.asp */
+        /* TODO: $account.inventory.weapons should probably be: [[weapon, bool], [weapon, bool]], where weapon os obj and bool is "obtained". */
+        <option @value=_i>_equippable.name</option>
+    <</for>>
+</select>
+<<script>>
+    setup.fns.waitForElm("#listbox-weapon").then(() => {
+        $("#listbox-weapon").change( function () {
+            State.variables.info.current.equippables.weapon = State.variables.account.inventory.weapons[$("#listbox-weapon").val()];
+
+            $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());
+        });
+    });
+<</script>>
+
+
+
+:: Weapon_ModMenu_Info [.infoscreen .helper nostats]
+<<script>>
+/* Temp array with all the mods that have the `weapon` type. */
+State.temporary.viableModList = [];
+for (let mod in State.variables.account.inventory.mods) {
+    if (State.variables.account.inventory.mods[mod].type === "weapon") {
+        State.temporary.viableModList.push(State.variables.account.inventory.mods[mod]);
+    }
+}
+
+/* TODO: If mod is already on equipment, remove it. */
+
+<</script>>
+
+<<for _i = 0; _i < $info.current.equippables.weapon.modslots; _i++>>
+    Slot _i:
+    <select id="listbox-weaponMods" class="macro-listbox listbox-weaponMods" name="listbox-weaponMods" tabindex="0" @value=_i> 
+        <<for _j, _mod range _viableModList>>
+            /* TODO: Default option should show the currently equipped mod. */
+            /* TODO: Default option should also be able to be chosen. */
+            <option @value=_j>_mod.name t._mod.tier</option>
+        <</for>>
+    </select>
+    <br>
+<</for>>
+
+<<script>>
+    /* Wait for all .listbox-weaponMods to be done */
+    setup.fns.waitForNumberOfElm(".listbox-weaponMods", State.variables.info.current.equippables.weapon.modslots).then(() => {
+        $(".listbox-weaponMods").change( function () {
+            State.variables.info.current.equippables.weapon.mods[$(this).attr("value")] = State.temporary.viableModList[$(this).val()];
+
+            /* Reload this dialogue so that viableModList is updated. */
+            Dialog.setup("Weapon Mods", "dialogEquipmentMod");
+            Dialog.wiki(Story.get("Weapon_ModMenu_Info").processText());
+            Dialog.open();
+        });
+    });
+<</script>>
 
 
 
 :: Armor_Menu_Info [.infoscreen .helper nostats]
-Here be armors.
+<select id="listbox-armor" class="macro-listbox" name="listbox-armor" tabindex="0"> 
+    <<for _i, _equippable range $account.inventory.armors>>
+        /* TODO: Default option should be the currently equipped armor. */
+        /* NYI: add the `disabled` attribute if we don't own the accessory: https://www.w3schools.com/TAGS/att_option_disabled.asp */
+        <option @value=_i>_equippable.name</option>
+    <</for>>
+</select>
+<<script>>
+    setup.fns.waitForElm("#listbox-armor").then(() => {
+        $("#listbox-armor").change( function () {
+            State.variables.info.current.equippables.armor = State.variables.account.inventory.armors[$("#listbox-armor").val()];
+
+            $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());
+        });
+    });
+<</script>>
+
+
+
+:: Armor_ModMenu_Info [.infoscreen .helper nostats]
+<<script>>
+/* Temp array with all the mods that have the `armor` type. */
+State.temporary.viableModList = [];
+for (let mod in State.variables.account.inventory.mods) {
+    if (State.variables.account.inventory.mods[mod].type === "armor") {
+        State.temporary.viableModList.push(State.variables.account.inventory.mods[mod]);
+    }
+}
+
+/* TODO: If mod is already on equipment, remove it. */
+
+<</script>>
+
+<<for _i = 0; _i < $info.current.equippables.armor.modslots; _i++>>
+    Slot _i:
+    <select id="listbox-armorMods" class="macro-listbox listbox-armorMods" name="listbox-armorMods" tabindex="0" @value=_i> 
+        <<for _j, _mod range _viableModList>>
+            /* TODO: Default option should show the currently equipped mod. */
+            /* TODO: Default option should also be able to be chosen. */
+            <option @value=_j>_mod.name t._mod.tier</option>
+        <</for>>
+    </select>
+    <br>
+<</for>>
+
+<<script>>
+    /* Wait for all .listbox-armorMods to be done */
+    setup.fns.waitForNumberOfElm(".listbox-armorMods", State.variables.info.current.equippables.armor.modslots).then(() => {
+        $(".listbox-armorMods").change( function () {
+            State.variables.info.current.equippables.armor.mods[$(this).attr("value")] = State.temporary.viableModList[$(this).val()];
+
+            /* Reload this dialogue so that viableModList is updated. */
+            Dialog.setup("Armor Mods", "dialogEquipmentMod");
+            Dialog.wiki(Story.get("Armor_ModMenu_Info").processText());
+            Dialog.open();
+        });
+    });
+<</script>>
 
 
 
 :: Accessory_Menu_Info [.infoscreen .helper nostats]
-Here be accessories.
+<select id="listbox-accessory" class="macro-listbox" name="listbox-accessory" tabindex="0"> 
+    <<for _i, _equippable range $account.inventory.accessories>>
+        /* TODO: Default option should be the currently equipped accessory. */
+        /* NYI: add the `disabled` attribute if we don't own the accessory: https://www.w3schools.com/TAGS/att_option_disabled.asp */
+        <option @value=_i>_equippable.name</option>
+    <</for>>
+</select>
+<<script>>
+    setup.fns.waitForElm("#listbox-accessory").then(() => {
+        $("#listbox-accessory").change( function () {
+            State.variables.info.current.equippables.accessory = State.variables.account.inventory.accessories[$("#listbox-accessory").val()];
+
+            $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());
+        });
+    });
+<</script>>
+
+
+
+:: Accessory_ModMenu_Info [.infoscreen .helper nostats]
+<<script>>
+/* Temp array with all the mods that have the `accessory` type. */
+State.temporary.viableModList = [];
+for (let mod in State.variables.account.inventory.mods) {
+    if (State.variables.account.inventory.mods[mod].type === "accessory") {
+        State.temporary.viableModList.push(State.variables.account.inventory.mods[mod]);
+    }
+}
+
+/* TODO: If mod is already on equipment, remove it. */
+
+<</script>>
+
+<<for _i = 0; _i < $info.current.equippables.accessory.modslots; _i++>>
+    Slot _i:
+    <select id="listbox-accessoryMods" class="macro-listbox listbox-accessoryMods" name="listbox-accessoryMods" tabindex="0" @value=_i> 
+        <<for _j, _mod range _viableModList>>
+            /* TODO: Default option should show the currently equipped mod. */
+            /* TODO: Default option should also be able to be chosen. */
+            <option @value=_j>_mod.name t._mod.tier</option>
+        <</for>>
+    </select>
+    <br>
+<</for>>
+
+<<script>>
+    /* Wait for all .listbox-accessoryMods to be done */
+    setup.fns.waitForNumberOfElm(".listbox-accessoryMods", State.variables.info.current.equippables.accessory.modslots).then(() => {
+        $(".listbox-accessoryMods").change( function () {
+            State.variables.info.current.equippables.accessory.mods[$(this).attr("value")] = State.temporary.viableModList[$(this).val()];
+
+            /* Reload this dialogue so that viableModList is updated. */
+            Dialog.setup("Accessory Mods", "dialogEquipmentMod");
+            Dialog.wiki(Story.get("Accessory_ModMenu_Info").processText());
+            Dialog.open();
+        });
+    });
+<</script>>
 
 
 

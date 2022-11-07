@@ -1,11 +1,16 @@
 /**
- *
+ * TODO: Rename Affix to Mods
  */
 class Affix {
     constructor(obj) {
         // Merge our obj onto default, then merge those onto this.
         jQuery.extend(true, this, /* DEFAULTAFFIX, */ obj);
+
     }
+
+    static new(Affix) {
+        return cloneDeep(Affix);
+    };
 }
 
 const affixes = {
@@ -20,9 +25,28 @@ const affixes = {
             ["resistance.elemental", "+"],
         ],
 
-        // so I'd like turn the above two into
-        // combatant.resistance.fire += affix.value[0]
-        // combatant.resistance.elemental += affix.value[1]
+        tier: 1,
+        profiency: 0,
+        profiencyNext: 100,
+
+        get value() {
+            return [this.tier * 0.1, this.tier * 0.02];
+        },
+        get description() {
+            return "${this.value[0] * 100}% increased Fire Resistance \n ${this.value[1] * 100}% increased Elemental Resistance";
+        },
+
+        type: "armor",
+        tags: ["leather"],
+    }),
+
+    increasedFrostResistance: new Affix({
+        name: "Increased Frost Resistance",
+        type: "increasedFrostResistanceArmorMod",
+        affixes: [
+            ["resistance.frost", "+"],
+            ["resistance.elemental", "+"],
+        ],
 
         tier: 1,
         profiency: 0,
@@ -32,10 +56,11 @@ const affixes = {
             return [this.tier * 0.1, this.tier * 0.02];
         },
         get description() {
-            return "${this.value[0] * 100}% increased Fire Resistance \n ${this.value[1] * 100}% increased Fire Resistance";
+            return "${this.value[0] * 100}% increased Frost Resistance \n ${this.value[1] * 100}% increased Elemental Resistance";
         },
 
-        tags: ["armor", "leather"],
+        type: "armor",
+        tags: ["leather"],
     }),
 };
 

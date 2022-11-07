@@ -1,3 +1,8 @@
+const DEFAULTEQUIPPABLE = {
+    mods: [],
+    modslots: 0,
+};
+
 /** The default attack object. Name must be specified itself when creating a new Attack. Values not specified will use these default values instead. */
 const DEFAULTBUFF = {
     duration: 0,
@@ -426,6 +431,8 @@ const DEFAULTPLAYER = {
     family: "player",
 
     equippables: {
-        mainhand: null,
+        weapon: null,
+        armor: null,
+        accessory: null,
     },
 };

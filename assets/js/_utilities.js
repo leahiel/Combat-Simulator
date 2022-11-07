@@ -270,6 +270,31 @@ function waitForElm(selector) {
     });
 }
 
+function waitForNumberOfElm(selector, number) {
+    return new Promise((resolve) => {
+        if (document.querySelector(selector)) {
+            if ($(selector).length >= number) {
+                console.log($(selector).length);
+                return resolve(document.querySelector(selector));
+            }
+        }
+
+        const observer = new MutationObserver((mutations) => {
+            if (document.querySelector(selector)) {
+                if ($(selector).length >= number) {
+                    resolve(document.querySelector(selector));
+                    observer.disconnect();
+                }
+            }
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+        });
+    });
+}
+
 /**
  * Sets nested object property by defining the path with a string.
  *
@@ -343,13 +368,17 @@ function updateProperty(obj, path, value, updateWith) {
         return allValuesTrue(arr, cond);
     };
 
-    S.fns.cloneDeep = function (obj) {
-        return cloneDeep(obj);
+    S.fns.cloneDeep = function (obj, ...args) {
+        return cloneDeep(obj, ...args);
     };
 
-    // S.fns.waitForElm = function(selector) {
-    //     return waitForElm(selector);
-    // };
+    S.fns.waitForElm = function (selector) {
+        return waitForElm(selector);
+    };
+
+    S.fns.waitForNumberOfElm = function (selector, number) {
+        return waitForNumberOfElm(selector, number);
+    };
 
     // S.fns.setProperty = function(obj, path, value) {
     //     return setProperty(obj, path, value);

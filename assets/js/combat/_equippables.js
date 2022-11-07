@@ -1,7 +1,26 @@
 class Equippable {
     constructor(obj) {
         // Merge our obj onto default, then merge those onto this.
-        jQuery.extend(true, this, /* DEFAULTEQUIPPABLE, */ obj);
+        jQuery.extend(true, this, DEFAULTEQUIPPABLE, obj);
+
+        if (!this.type) {
+            console.error(`${this.name} equippable has no type.`)
+        }
+    }
+
+    // TODO: Every item should have this function which creates an HTML "plate" of the item with stats and whatnot, which can be used in various places for various things.
+    itemplate(selector) {
+        let solHTML = `<span class="itemPlate ${this.slot}">`;
+        solHTML += this.name;
+        solHTML += "</span>";
+
+        if (selector) {
+            waitForElm(selector).then(() => {
+                $(selector).replaceWith(solHTML);
+            });
+        } else {
+            return solHTML;
+        }
     }
 }
 
@@ -17,11 +36,39 @@ class Equippable {
  * Proficiency should be a player stat. Player and their Main Pawn can gain it, while other pawns cannot.
  */
 
-
 const equippables = {
+    // UNEQUIPPED
+    unequippedweapon: new Equippable({
+        name: "No Weapon Equipped",
+        slot: "weapon",
+        type: "unequipped",
+    }),
+
+    unequippedarmor: new Equippable({
+        name: "No Armor Equipped",
+        slot: "armor",
+        type: "unequipped",
+    }),
+
+    unequippedaccessory: new Equippable({
+        name: "No Accessory Equipped",
+        slot: "accessory",
+        type: "unequipped",
+    }),
+
+    // ARMORS
     leatherarmor: new Equippable({
         name: "Leather Chest Armor",
-        mods: [],
+        slot: "armor",
+        modslots: 2,
+        mods: [null, null],
+    }),
+
+    metalarmor: new Equippable({
+        name: "Metal Chest Armor",
+        slot: "armor",
+        modslots: 2,
+        mods: [null, null],
     }),
 };
 

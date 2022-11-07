@@ -142,11 +142,36 @@ State.variables.ft_warning = [];
     "tp1" == Temporary Partner 1
     "tp2" == Temporary Partner 2
 */
-State.variables.pc_nude = false;
-State.variables.pc_topless = false;
-State.variables.pc_panties = false;
-/* The body parts the playable character has. */
-State.variables.pc = {};
+State.variables.pc = new setup.COM.Player();
+State.variables.pc.nude = false;
+State.variables.pc.topless = false;
+State.variables.pc.panties = false;
+
+/* ACCOUNT */
+State.variables.account = {};
+State.variables.account.inventory = {};
+State.variables.account.inventory.weapons = [];
+State.variables.account.inventory.armors = [];
+State.variables.account.inventory.accessories = [];
+for (let equippable in setup.COM.equippables) {
+    switch (setup.COM.equippables[equippable].slot) {
+        case "weapon":
+            State.variables.account.inventory.weapons.push(setup.COM.equippables[equippable]);
+            break;
+        case "armor":
+            State.variables.account.inventory.armors.push(setup.COM.equippables[equippable]);
+            break;
+        case "accessory":
+            State.variables.account.inventory.accessories.push(setup.COM.equippables[equippable]);
+            break;
+    }
+}
+
+State.variables.account.inventory.mods = [];
+for (let mod in setup.COM.affixes) {
+    State.variables.account.inventory.mods.push(setup.COM.Affix.new(setup.COM.affixes[mod]));
+}
+
 
 /* INFO MENU */
 State.variables.info = {};
