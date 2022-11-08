@@ -64,3 +64,8 @@ sugarcube-2:
     SlotMenuInfo:
       name: SlotMenuInfo
       container: false
+
+    # A custom widget to DRY
+    SlotModMenuInfo:
+      name: SlotModMenuInfo
+      container: false

@@ -106,6 +106,7 @@
 <</if>>
 
 
+
 :: Slot_Menu_Info_Widget [widget .infoscreen .helper nostats]
 <<widget SlotMenuInfo>>
     /** Normally I would write error the following error, but since this widget won't ever be used again, who cares:
@@ -113,6 +114,7 @@
      */
     /* REVIEW: Do I want to add a button to this dialogue to switch to the appropriate mod menu dialogue? */
 
+    /* Set tempvars. */
     <<set _listboxstr to "listbox-" + _args[0]>>
     <<script>>
         switch (State.temporary.args[0]) {
@@ -128,6 +130,7 @@
         }
     <</script>>
 
+    /* Create listbox. */
     <select @id="_listboxstr" class="macro-listbox" @name="_listboxstr" tabindex="0"> 
         <<for _i, _equippable range $account.inventory[_strplural]>>
             /* TODO: Default option should be the currently equipped weapon. */
@@ -137,7 +140,7 @@
         <</for>>
     </select>
 
-
+    /* Make listbox selection change related vars. */
     <<script>>
         setup.fns.waitForElm(`#${State.temporary.listboxstr}`).then(() => {
             $(`#${State.temporary.listboxstr}`).change( function () {
@@ -147,8 +150,73 @@
             });
         });
     <</script>>
+<</widget>>
 
 
+
+:: Slot_ModMenu_Info_Widget [widget .infoscreen .helper nostats]
+<<widget SlotModMenuInfo>>
+    /** Normally I would write error the following error, but since this widget won't ever be used again, who cares:
+     *  WriteError: _args[0] should be "weapon" || "armor" || "accessory" 
+     */
+    /* REVIEW: Do I want to add a button to this dialogue to switch to the appropriate swap menu dialogue? */
+
+    /* Set tempvars. */
+    <<set _listboxstr to "listbox-" + _args[0] + "Mods">>
+    <<script>>
+        switch (State.temporary.args[0]) {
+            case "weapon":
+                State.temporary.strcap = "Weapon";
+                break;
+            case "armor":
+                State.temporary.strcap = "Armor";
+                break;
+            case "accessory":
+                State.temporary.strcap = "Accessory";
+                break;
+        }
+    <</script>>
+
+
+    <<script>>
+        /* Temp array with all the mods that have the slot type. */
+        State.temporary.viableModList = [];
+        for (let mod in State.variables.account.inventory.mods) {
+            if (State.variables.account.inventory.mods[mod].type === State.temporary.args[0]) {
+                State.temporary.viableModList.push(State.variables.account.inventory.mods[mod]);
+            }
+        }
+
+        /* TODO: If mod is already on equipment, remove it. */
+    <</script>>
+
+    /* Create a listbox element for every modslot, populate it with viable mods array. */
+    <<for _i = 0; _i < $info.current.equippables[_args[0]].modslots; _i++>>
+        Slot _i:
+        <select @id="_listboxstr" @class="_listboxstr" @name="_listboxstr" tabindex="0" @value=_i> 
+            <<for _j, _mod range _viableModList>>
+                /* TODO: Default option should show the currently equipped mod. */
+                /* TODO: Default option should also be able to be chosen. */
+                <option @value=_j>_mod.name t._mod.tier</option>
+            <</for>>
+        </select>
+        <br>
+    <</for>>
+
+    /* Make listbox selection change related vars. */
+    <<script>>
+        /* Wait for all .listbox-slotMods to be done */
+        setup.fns.waitForNumberOfElm(`.${State.temporary.listboxstr}`, State.variables.info.current.equippables[State.temporary.args[0]].modslots).then(() => {
+            $(`.${State.temporary.listboxstr}`).change( function () {
+                State.variables.info.current.equippables[State.temporary.args[0]].mods[$(this).attr("value")] = State.temporary.viableModList[$(this).val()];
+
+                /* Reload this dialogue so that viableModList is updated. */
+                Dialog.setup(`${State.temporary.strcap} Mods`, "dialogEquipmentMod");
+                Dialog.wiki(Story.get(`${State.temporary.strcap}_ModMenu_Info`).processText());
+                Dialog.open();
+            });
+        });
+    <</script>>
 <</widget>>
 
 
@@ -159,44 +227,8 @@
 
 
 :: Weapon_ModMenu_Info [.infoscreen .helper nostats]
-<<script>>
-/* Temp array with all the mods that have the `weapon` type. */
-State.temporary.viableModList = [];
-for (let mod in State.variables.account.inventory.mods) {
-    if (State.variables.account.inventory.mods[mod].type === "weapon") {
-        State.temporary.viableModList.push(State.variables.account.inventory.mods[mod]);
-    }
-}
+<<SlotModMenuInfo "weapon">>
 
-/* TODO: If mod is already on equipment, remove it. */
-
-<</script>>
-
-<<for _i = 0; _i < $info.current.equippables.weapon.modslots; _i++>>
-    Slot _i:
-    <select id="listbox-weaponMods" class="macro-listbox listbox-weaponMods" name="listbox-weaponMods" tabindex="0" @value=_i> 
-        <<for _j, _mod range _viableModList>>
-            /* TODO: Default option should show the currently equipped mod. */
-            /* TODO: Default option should also be able to be chosen. */
-            <option @value=_j>_mod.name t._mod.tier</option>
-        <</for>>
-    </select>
-    <br>
-<</for>>
-
-<<script>>
-    /* Wait for all .listbox-weaponMods to be done */
-    setup.fns.waitForNumberOfElm(".listbox-weaponMods", State.variables.info.current.equippables.weapon.modslots).then(() => {
-        $(".listbox-weaponMods").change( function () {
-            State.variables.info.current.equippables.weapon.mods[$(this).attr("value")] = State.temporary.viableModList[$(this).val()];
-
-            /* Reload this dialogue so that viableModList is updated. */
-            Dialog.setup("Weapon Mods", "dialogEquipmentMod");
-            Dialog.wiki(Story.get("Weapon_ModMenu_Info").processText());
-            Dialog.open();
-        });
-    });
-<</script>>
 
 
 
@@ -206,44 +238,7 @@ for (let mod in State.variables.account.inventory.mods) {
 
 
 :: Armor_ModMenu_Info [.infoscreen .helper nostats]
-<<script>>
-/* Temp array with all the mods that have the `armor` type. */
-State.temporary.viableModList = [];
-for (let mod in State.variables.account.inventory.mods) {
-    if (State.variables.account.inventory.mods[mod].type === "armor") {
-        State.temporary.viableModList.push(State.variables.account.inventory.mods[mod]);
-    }
-}
-
-/* TODO: If mod is already on equipment, remove it. */
-
-<</script>>
-
-<<for _i = 0; _i < $info.current.equippables.armor.modslots; _i++>>
-    Slot _i:
-    <select id="listbox-armorMods" class="macro-listbox listbox-armorMods" name="listbox-armorMods" tabindex="0" @value=_i> 
-        <<for _j, _mod range _viableModList>>
-            /* TODO: Default option should show the currently equipped mod. */
-            /* TODO: Default option should also be able to be chosen. */
-            <option @value=_j>_mod.name t._mod.tier</option>
-        <</for>>
-    </select>
-    <br>
-<</for>>
-
-<<script>>
-    /* Wait for all .listbox-armorMods to be done */
-    setup.fns.waitForNumberOfElm(".listbox-armorMods", State.variables.info.current.equippables.armor.modslots).then(() => {
-        $(".listbox-armorMods").change( function () {
-            State.variables.info.current.equippables.armor.mods[$(this).attr("value")] = State.temporary.viableModList[$(this).val()];
-
-            /* Reload this dialogue so that viableModList is updated. */
-            Dialog.setup("Armor Mods", "dialogEquipmentMod");
-            Dialog.wiki(Story.get("Armor_ModMenu_Info").processText());
-            Dialog.open();
-        });
-    });
-<</script>>
+<<SlotModMenuInfo "armor">>
 
 
 
@@ -253,44 +248,7 @@ for (let mod in State.variables.account.inventory.mods) {
 
 
 :: Accessory_ModMenu_Info [.infoscreen .helper nostats]
-<<script>>
-/* Temp array with all the mods that have the `accessory` type. */
-State.temporary.viableModList = [];
-for (let mod in State.variables.account.inventory.mods) {
-    if (State.variables.account.inventory.mods[mod].type === "accessory") {
-        State.temporary.viableModList.push(State.variables.account.inventory.mods[mod]);
-    }
-}
-
-/* TODO: If mod is already on equipment, remove it. */
-
-<</script>>
-
-<<for _i = 0; _i < $info.current.equippables.accessory.modslots; _i++>>
-    Slot _i:
-    <select id="listbox-accessoryMods" class="macro-listbox listbox-accessoryMods" name="listbox-accessoryMods" tabindex="0" @value=_i> 
-        <<for _j, _mod range _viableModList>>
-            /* TODO: Default option should show the currently equipped mod. */
-            /* TODO: Default option should also be able to be chosen. */
-            <option @value=_j>_mod.name t._mod.tier</option>
-        <</for>>
-    </select>
-    <br>
-<</for>>
-
-<<script>>
-    /* Wait for all .listbox-accessoryMods to be done */
-    setup.fns.waitForNumberOfElm(".listbox-accessoryMods", State.variables.info.current.equippables.accessory.modslots).then(() => {
-        $(".listbox-accessoryMods").change( function () {
-            State.variables.info.current.equippables.accessory.mods[$(this).attr("value")] = State.temporary.viableModList[$(this).val()];
-
-            /* Reload this dialogue so that viableModList is updated. */
-            Dialog.setup("Accessory Mods", "dialogEquipmentMod");
-            Dialog.wiki(Story.get("Accessory_ModMenu_Info").processText());
-            Dialog.open();
-        });
-    });
-<</script>>
+<<SlotModMenuInfo "accessory">>
 
 
 

@@ -1783,6 +1783,7 @@ function passagesHandler(btnname, tag) {
      */
     /* REVIEW: Do I want to add a button to this dialogue to switch to the appropriate mod menu dialogue? */
 
+    /* Set tempvars. */
     &lt;&lt;set _listboxstr to &quot;listbox-&quot; + _args[0]&gt;&gt;
     &lt;&lt;script&gt;&gt;
         switch (State.temporary.args[0]) {
@@ -1798,6 +1799,7 @@ function passagesHandler(btnname, tag) {
         }
     &lt;&lt;/script&gt;&gt;
 
+    /* Create listbox. */
     &lt;select @id=&quot;_listboxstr&quot; class=&quot;macro-listbox&quot; @name=&quot;_listboxstr&quot; tabindex=&quot;0&quot;&gt; 
         &lt;&lt;for _i, _equippable range $account.inventory[_strplural]&gt;&gt;
             /* TODO: Default option should be the currently equipped weapon. */
@@ -1807,7 +1809,7 @@ function passagesHandler(btnname, tag) {
         &lt;&lt;/for&gt;&gt;
     &lt;/select&gt;
 
-
+    /* Make listbox selection change related vars. */
     &lt;&lt;script&gt;&gt;
         setup.fns.waitForElm(`#${State.temporary.listboxstr}`).then(() =&gt; {
             $(`#${State.temporary.listboxstr}`).change( function () {
@@ -1817,120 +1819,69 @@ function passagesHandler(btnname, tag) {
             });
         });
     &lt;&lt;/script&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="31" name="Slot_ModMenu_Info_Widget" tags="widget .infoscreen .helper nostats" position="100,475" size="100,100">&lt;&lt;widget SlotModMenuInfo&gt;&gt;
+    /** Normally I would write error the following error, but since this widget won&#39;t ever be used again, who cares:
+     *  WriteError: _args[0] should be &quot;weapon&quot; || &quot;armor&quot; || &quot;accessory&quot; 
+     */
+    /* REVIEW: Do I want to add a button to this dialogue to switch to the appropriate swap menu dialogue? */
+
+    /* Set tempvars. */
+    &lt;&lt;set _listboxstr to &quot;listbox-&quot; + _args[0] + &quot;Mods&quot;&gt;&gt;
+    &lt;&lt;script&gt;&gt;
+        switch (State.temporary.args[0]) {
+            case &quot;weapon&quot;:
+                State.temporary.strcap = &quot;Weapon&quot;;
+                break;
+            case &quot;armor&quot;:
+                State.temporary.strcap = &quot;Armor&quot;;
+                break;
+            case &quot;accessory&quot;:
+                State.temporary.strcap = &quot;Accessory&quot;;
+                break;
+        }
+    &lt;&lt;/script&gt;&gt;
 
 
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="31" name="Weapon_Menu_Info" tags=".infoscreen .helper nostats" position="100,475" size="100,100">&lt;&lt;SlotMenuInfo &quot;weapon&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="32" name="Weapon_ModMenu_Info" tags=".infoscreen .helper nostats" position="225,475" size="100,100">&lt;&lt;script&gt;&gt;
-/* Temp array with all the mods that have the `weapon` type. */
-State.temporary.viableModList = [];
-for (let mod in State.variables.account.inventory.mods) {
-    if (State.variables.account.inventory.mods[mod].type === &quot;weapon&quot;) {
-        State.temporary.viableModList.push(State.variables.account.inventory.mods[mod]);
-    }
-}
+    &lt;&lt;script&gt;&gt;
+        /* Temp array with all the mods that have the slot type. */
+        State.temporary.viableModList = [];
+        for (let mod in State.variables.account.inventory.mods) {
+            if (State.variables.account.inventory.mods[mod].type === State.temporary.args[0]) {
+                State.temporary.viableModList.push(State.variables.account.inventory.mods[mod]);
+            }
+        }
 
-/* TODO: If mod is already on equipment, remove it. */
+        /* TODO: If mod is already on equipment, remove it. */
+    &lt;&lt;/script&gt;&gt;
 
-&lt;&lt;/script&gt;&gt;
+    /* Create a listbox element for every modslot, populate it with viable mods array. */
+    &lt;&lt;for _i = 0; _i &lt; $info.current.equippables[_args[0]].modslots; _i++&gt;&gt;
+        Slot _i:
+        &lt;select @id=&quot;_listboxstr&quot; @class=&quot;_listboxstr&quot; @name=&quot;_listboxstr&quot; tabindex=&quot;0&quot; @value=_i&gt; 
+            &lt;&lt;for _j, _mod range _viableModList&gt;&gt;
+                /* TODO: Default option should show the currently equipped mod. */
+                /* TODO: Default option should also be able to be chosen. */
+                &lt;option @value=_j&gt;_mod.name t._mod.tier&lt;/option&gt;
+            &lt;&lt;/for&gt;&gt;
+        &lt;/select&gt;
+        &lt;br&gt;
+    &lt;&lt;/for&gt;&gt;
 
-&lt;&lt;for _i = 0; _i &lt; $info.current.equippables.weapon.modslots; _i++&gt;&gt;
-    Slot _i:
-    &lt;select id=&quot;listbox-weaponMods&quot; class=&quot;macro-listbox listbox-weaponMods&quot; name=&quot;listbox-weaponMods&quot; tabindex=&quot;0&quot; @value=_i&gt; 
-        &lt;&lt;for _j, _mod range _viableModList&gt;&gt;
-            /* TODO: Default option should show the currently equipped mod. */
-            /* TODO: Default option should also be able to be chosen. */
-            &lt;option @value=_j&gt;_mod.name t._mod.tier&lt;/option&gt;
-        &lt;&lt;/for&gt;&gt;
-    &lt;/select&gt;
-    &lt;br&gt;
-&lt;&lt;/for&gt;&gt;
+    /* Make listbox selection change related vars. */
+    &lt;&lt;script&gt;&gt;
+        /* Wait for all .listbox-slotMods to be done */
+        setup.fns.waitForNumberOfElm(`.${State.temporary.listboxstr}`, State.variables.info.current.equippables[State.temporary.args[0]].modslots).then(() =&gt; {
+            $(`.${State.temporary.listboxstr}`).change( function () {
+                State.variables.info.current.equippables[State.temporary.args[0]].mods[$(this).attr(&quot;value&quot;)] = State.temporary.viableModList[$(this).val()];
 
-&lt;&lt;script&gt;&gt;
-    /* Wait for all .listbox-weaponMods to be done */
-    setup.fns.waitForNumberOfElm(&quot;.listbox-weaponMods&quot;, State.variables.info.current.equippables.weapon.modslots).then(() =&gt; {
-        $(&quot;.listbox-weaponMods&quot;).change( function () {
-            State.variables.info.current.equippables.weapon.mods[$(this).attr(&quot;value&quot;)] = State.temporary.viableModList[$(this).val()];
-
-            /* Reload this dialogue so that viableModList is updated. */
-            Dialog.setup(&quot;Weapon Mods&quot;, &quot;dialogEquipmentMod&quot;);
-            Dialog.wiki(Story.get(&quot;Weapon_ModMenu_Info&quot;).processText());
-            Dialog.open();
+                /* Reload this dialogue so that viableModList is updated. */
+                Dialog.setup(`${State.temporary.strcap} Mods`, &quot;dialogEquipmentMod&quot;);
+                Dialog.wiki(Story.get(`${State.temporary.strcap}_ModMenu_Info`).processText());
+                Dialog.open();
+            });
         });
-    });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="Armor_Menu_Info" tags=".infoscreen .helper nostats" position="350,475" size="100,100">&lt;&lt;SlotMenuInfo &quot;armor&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="Armor_ModMenu_Info" tags=".infoscreen .helper nostats" position="475,475" size="100,100">&lt;&lt;script&gt;&gt;
-/* Temp array with all the mods that have the `armor` type. */
-State.temporary.viableModList = [];
-for (let mod in State.variables.account.inventory.mods) {
-    if (State.variables.account.inventory.mods[mod].type === &quot;armor&quot;) {
-        State.temporary.viableModList.push(State.variables.account.inventory.mods[mod]);
-    }
-}
-
-/* TODO: If mod is already on equipment, remove it. */
-
-&lt;&lt;/script&gt;&gt;
-
-&lt;&lt;for _i = 0; _i &lt; $info.current.equippables.armor.modslots; _i++&gt;&gt;
-    Slot _i:
-    &lt;select id=&quot;listbox-armorMods&quot; class=&quot;macro-listbox listbox-armorMods&quot; name=&quot;listbox-armorMods&quot; tabindex=&quot;0&quot; @value=_i&gt; 
-        &lt;&lt;for _j, _mod range _viableModList&gt;&gt;
-            /* TODO: Default option should show the currently equipped mod. */
-            /* TODO: Default option should also be able to be chosen. */
-            &lt;option @value=_j&gt;_mod.name t._mod.tier&lt;/option&gt;
-        &lt;&lt;/for&gt;&gt;
-    &lt;/select&gt;
-    &lt;br&gt;
-&lt;&lt;/for&gt;&gt;
-
-&lt;&lt;script&gt;&gt;
-    /* Wait for all .listbox-armorMods to be done */
-    setup.fns.waitForNumberOfElm(&quot;.listbox-armorMods&quot;, State.variables.info.current.equippables.armor.modslots).then(() =&gt; {
-        $(&quot;.listbox-armorMods&quot;).change( function () {
-            State.variables.info.current.equippables.armor.mods[$(this).attr(&quot;value&quot;)] = State.temporary.viableModList[$(this).val()];
-
-            /* Reload this dialogue so that viableModList is updated. */
-            Dialog.setup(&quot;Armor Mods&quot;, &quot;dialogEquipmentMod&quot;);
-            Dialog.wiki(Story.get(&quot;Armor_ModMenu_Info&quot;).processText());
-            Dialog.open();
-        });
-    });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="Accessory_Menu_Info" tags=".infoscreen .helper nostats" position="600,475" size="100,100">&lt;&lt;SlotMenuInfo &quot;accessory&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="Accessory_ModMenu_Info" tags=".infoscreen .helper nostats" position="725,475" size="100,100">&lt;&lt;script&gt;&gt;
-/* Temp array with all the mods that have the `accessory` type. */
-State.temporary.viableModList = [];
-for (let mod in State.variables.account.inventory.mods) {
-    if (State.variables.account.inventory.mods[mod].type === &quot;accessory&quot;) {
-        State.temporary.viableModList.push(State.variables.account.inventory.mods[mod]);
-    }
-}
-
-/* TODO: If mod is already on equipment, remove it. */
-
-&lt;&lt;/script&gt;&gt;
-
-&lt;&lt;for _i = 0; _i &lt; $info.current.equippables.accessory.modslots; _i++&gt;&gt;
-    Slot _i:
-    &lt;select id=&quot;listbox-accessoryMods&quot; class=&quot;macro-listbox listbox-accessoryMods&quot; name=&quot;listbox-accessoryMods&quot; tabindex=&quot;0&quot; @value=_i&gt; 
-        &lt;&lt;for _j, _mod range _viableModList&gt;&gt;
-            /* TODO: Default option should show the currently equipped mod. */
-            /* TODO: Default option should also be able to be chosen. */
-            &lt;option @value=_j&gt;_mod.name t._mod.tier&lt;/option&gt;
-        &lt;&lt;/for&gt;&gt;
-    &lt;/select&gt;
-    &lt;br&gt;
-&lt;&lt;/for&gt;&gt;
-
-&lt;&lt;script&gt;&gt;
-    /* Wait for all .listbox-accessoryMods to be done */
-    setup.fns.waitForNumberOfElm(&quot;.listbox-accessoryMods&quot;, State.variables.info.current.equippables.accessory.modslots).then(() =&gt; {
-        $(&quot;.listbox-accessoryMods&quot;).change( function () {
-            State.variables.info.current.equippables.accessory.mods[$(this).attr(&quot;value&quot;)] = State.temporary.viableModList[$(this).val()];
-
-            /* Reload this dialogue so that viableModList is updated. */
-            Dialog.setup(&quot;Accessory Mods&quot;, &quot;dialogEquipmentMod&quot;);
-            Dialog.wiki(Story.get(&quot;Accessory_ModMenu_Info&quot;).processText());
-            Dialog.open();
-        });
-    });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="Players_Info" tags=".infoscreen .helper nostats" position="850,475" size="100,100">&lt;&lt;script&gt;&gt;
+    &lt;&lt;/script&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="32" name="Weapon_Menu_Info" tags=".infoscreen .helper nostats" position="225,475" size="100,100">&lt;&lt;SlotMenuInfo &quot;weapon&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="Weapon_ModMenu_Info" tags=".infoscreen .helper nostats" position="350,475" size="100,100">&lt;&lt;SlotModMenuInfo &quot;weapon&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="Armor_Menu_Info" tags=".infoscreen .helper nostats" position="475,475" size="100,100">&lt;&lt;SlotMenuInfo &quot;armor&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="Armor_ModMenu_Info" tags=".infoscreen .helper nostats" position="600,475" size="100,100">&lt;&lt;SlotModMenuInfo &quot;armor&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="Accessory_Menu_Info" tags=".infoscreen .helper nostats" position="725,475" size="100,100">&lt;&lt;SlotMenuInfo &quot;accessory&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="Accessory_ModMenu_Info" tags=".infoscreen .helper nostats" position="850,475" size="100,100">&lt;&lt;SlotModMenuInfo &quot;accessory&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="Players_Info" tags=".infoscreen .helper nostats" position="975,475" size="100,100">&lt;&lt;script&gt;&gt;
     $(&#39;#infoScreenBottomMenuButtons&#39;).empty();
     let solstr = &quot;&quot;;
     solstr += Story.get(&quot;PC_Info&quot;).processText();
@@ -1941,11 +1892,11 @@ for (let mod in State.variables.account.inventory.mods) {
     /* solstr += Story.get(&quot;Info_Button_Back&quot;).processText();  */
 
     $(&#39;#infoScreenBottomMenuButtons&#39;).wiki(solstr);
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="Info_Button_Back" tags=".infoscreen .helper nostats" position="975,475" size="100,100">&lt;&lt;but &quot;Back&quot; id &quot;infoBack&quot; class &quot;bottomInfoButton&quot;&gt;&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="Info_Button_Back" tags=".infoscreen .helper nostats" position="1100,475" size="100,100">&lt;&lt;but &quot;Back&quot; id &quot;infoBack&quot; class &quot;bottomInfoButton&quot;&gt;&gt;
     &lt;&lt;set $info.current = null&gt;&gt;
     &lt;&lt;run $(&#39;#infoScreenMiddleMenuButtons&#39;).empty()&gt;&gt;
     &lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).empty().wiki(Story.get(&quot;Players_Info&quot;).processText())&gt;&gt;
-&lt;&lt;/but&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="PC_Info" tags=".infoscreen .helper nostats" position="1100,475" size="100,100">&lt;&lt;if $pc&gt;&gt;
+&lt;&lt;/but&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="PC_Info" tags=".infoscreen .helper nostats" position="1225,475" size="100,100">&lt;&lt;if $pc&gt;&gt;
     &lt;&lt;but $pc.name class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;set $info.current = $pc&gt;&gt;
         &lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).wiki(Story.get(&quot;Char_Equipment_Select_Info&quot;).processText());&gt;&gt;
@@ -1955,7 +1906,7 @@ for (let mod in State.variables.account.inventory.mods) {
         &lt;&lt;but &quot;Player Char&quot; class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;/but&gt;&gt;
     &lt;&lt;/disable&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="PP_Info" tags=".infoscreen .helper nostats" position="1225,475" size="100,100">&lt;&lt;if $pp&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="PP_Info" tags=".infoscreen .helper nostats" position="100,600" size="100,100">&lt;&lt;if $pp&gt;&gt;
     &lt;&lt;but $pp.name class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;set $info.current = $pp&gt;&gt;
         &lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).wiki(Story.get(&quot;Char_Equipment_Select_Info&quot;).processText());&gt;&gt;
@@ -1965,7 +1916,7 @@ for (let mod in State.variables.account.inventory.mods) {
         &lt;&lt;but &quot;Main Pawn&quot; class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;/but&gt;&gt;
     &lt;&lt;/disable&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="TP1_Info" tags=".infoscreen .helper nostats" position="100,600" size="100,100">&lt;&lt;if $tp1&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="TP1_Info" tags=".infoscreen .helper nostats" position="225,600" size="100,100">&lt;&lt;if $tp1&gt;&gt;
     &lt;&lt;but $tp1.name class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;set $info.current = $tp1&gt;&gt;
         &lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).wiki(Story.get(&quot;Char_Equipment_Select_Info&quot;).processText());&gt;&gt;
@@ -1975,7 +1926,7 @@ for (let mod in State.variables.account.inventory.mods) {
         &lt;&lt;but &quot;First Pawn&quot; class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;/but&gt;&gt;
     &lt;&lt;/disable&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="TP2_Info" tags=".infoscreen .helper nostats" position="225,600" size="100,100">&lt;&lt;if $tp2&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="TP2_Info" tags=".infoscreen .helper nostats" position="350,600" size="100,100">&lt;&lt;if $tp2&gt;&gt;
     &lt;&lt;but $tp2.name class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;set $info.current = $tp2&gt;&gt;
         &lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).wiki(Story.get(&quot;Char_Equipment_Select_Info&quot;).processText());&gt;&gt;
@@ -1985,18 +1936,18 @@ for (let mod in State.variables.account.inventory.mods) {
         &lt;&lt;but &quot;Second Pawn&quot; class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;/but&gt;&gt;
     &lt;&lt;/disable&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="Char_Equipment_Select_Info" tags=".infoscreen .helper nostats" position="350,600" size="100,100">&lt;&lt;run $(&#39;#infoScreenMiddleMenuButtons&#39;).empty().wiki(Story.get(&quot;Info_Description&quot;).processText());&gt;&gt;
-&lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).empty().wiki(Story.get(&quot;Info_Button_Back&quot;).processText());&gt;&gt;</tw-passagedata><tw-passagedata pid="44" name="KnowledgeText" tags=".uibar nostats" position="0,525" size="100,100">&lt;&lt;include K_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="45" name="K_Template" tags=".knowledge" position="0,550" size="100,100">&lt;&lt;if true&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="44" name="Char_Equipment_Select_Info" tags=".infoscreen .helper nostats" position="475,600" size="100,100">&lt;&lt;run $(&#39;#infoScreenMiddleMenuButtons&#39;).empty().wiki(Story.get(&quot;Info_Description&quot;).processText());&gt;&gt;
+&lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).empty().wiki(Story.get(&quot;Info_Button_Back&quot;).processText());&gt;&gt;</tw-passagedata><tw-passagedata pid="45" name="KnowledgeText" tags=".uibar nostats" position="0,525" size="100,100">&lt;&lt;include K_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="46" name="K_Template" tags=".knowledge" position="0,550" size="100,100">&lt;&lt;if true&gt;&gt;
     @@.knowledge;Template Matter:@@&lt;br&gt;
     Lorem Ipsum about template matter.
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="46" name="LocationsText" tags=".uibar nostats" position="250,550" size="100,100">&lt;&lt;include L_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="47" name="L_Template" tags=".location" position="250,575" size="100,100">&lt;&lt;if $loc_tmpl_disc&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="47" name="LocationsText" tags=".uibar nostats" position="250,550" size="100,100">&lt;&lt;include L_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="L_Template" tags=".location" position="250,575" size="100,100">&lt;&lt;if $loc_tmpl_disc&gt;&gt;
     @@.knowledge;Template Matter:@@&lt;br&gt;
     Lorem Ipsum about template matter.
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="PeopleText" tags=".uibar nostats" position="125,550" size="100,100">&lt;&lt;include P_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="49" name="P_Template" tags=".people" position="125,575" size="100,100">&lt;&lt;if $ppl_tmpl_met&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="49" name="PeopleText" tags=".uibar nostats" position="125,550" size="100,100">&lt;&lt;include P_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="50" name="P_Template" tags=".people" position="125,575" size="100,100">&lt;&lt;if $ppl_tmpl_met&gt;&gt;
     @@.knowledge;Template Matter:@@&lt;br&gt;
     Lorem Ipsum about template matter.
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="50" name="TooltipText" tags=".uibar nostats" position="375,550" size="100,100">/* The tool tips found in this file are strictly... tooltips. They&#39;re not meant to be seen with a button in the UI bar. */</tw-passagedata><tw-passagedata pid="51" name="TT_Template" tags="nostats" position="375,575" size="100,100">@@.knowledge;Template Matter:@@&lt;br&gt;
-Lorem Ipsum about template matter.</tw-passagedata><tw-passagedata pid="52" name="StoryInterface" tags=".ui nostats" position="0,475" size="100,100">&lt;div id=&quot;infoScreen&quot;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="51" name="TooltipText" tags=".uibar nostats" position="375,550" size="100,100">/* The tool tips found in this file are strictly... tooltips. They&#39;re not meant to be seen with a button in the UI bar. */</tw-passagedata><tw-passagedata pid="52" name="TT_Template" tags="nostats" position="375,575" size="100,100">@@.knowledge;Template Matter:@@&lt;br&gt;
+Lorem Ipsum about template matter.</tw-passagedata><tw-passagedata pid="53" name="StoryInterface" tags=".ui nostats" position="0,475" size="100,100">&lt;div id=&quot;infoScreen&quot;&gt;
     &lt;span id=&quot;infoScreenTitle&quot;&gt;
         Info Screen Title
     &lt;/span&gt;
@@ -2046,30 +1997,30 @@ Dialogs can change story variables, but they won&#39;t change on the
 current [non-dialog] passage, unless it calls:
   [Go To and Render Passage]  Engine.play(&quot;Passage&quot;) 
   [Re-Render Current Passage] Engine.show()
---&gt;</tw-passagedata><tw-passagedata pid="53" name="uiSettings" tags=".ui nostats" position="0,550" size="100,100">⚙️
+--&gt;</tw-passagedata><tw-passagedata pid="54" name="uiSettings" tags=".ui nostats" position="0,550" size="100,100">⚙️
 &lt;&lt;script&gt;&gt;
     $(&quot;li#settingsTab&quot;).click(() =&gt; UI.settings());
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="54" name="uiDisableContent" tags=".ui nostats" position="0,575" size="100,100">❌
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="55" name="uiDisableContent" tags=".ui nostats" position="0,575" size="100,100">❌
 &lt;&lt;script&gt;&gt;
 $(&quot;li#disableContentsTab&quot;).click(() =&gt; {
     Dialog.setup(&quot;Disable Content&quot;);
     Dialog.wiki(Story.get(&quot;ContentDisabler&quot;).processText());
     Dialog.open();
 });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="55" name="uiSaves" tags=".ui nostats" position="0,600" size="100,100">💾
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="56" name="uiSaves" tags=".ui nostats" position="0,600" size="100,100">💾
 &lt;&lt;script&gt;&gt;
     $(&quot;li#savesTab&quot;).click(() =&gt; UI.saves());
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="56" name="uiRestart" tags=".ui nostats" position="0,625" size="100,100">🔁
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="57" name="uiRestart" tags=".ui nostats" position="0,625" size="100,100">🔁
 &lt;&lt;script&gt;&gt;
     $(&quot;li#restartTab&quot;).click(() =&gt; {UI.restart()});
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="57" name="uiCredits" tags=".ui nostats" position="0,650" size="100,100">📜
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="58" name="uiCredits" tags=".ui nostats" position="0,650" size="100,100">📜
 &lt;&lt;script&gt;&gt;
 $(&quot;li#creditsTab&quot;).click(() =&gt; {
     Dialog.setup(&quot;Credits&quot;);
     Dialog.wiki(Story.get(&quot;CreditsText&quot;).processText());
     Dialog.open();
 });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="58" name="uiDev" tags=".ui nostats" position="0,675" size="100,100">🛠️
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="59" name="uiDev" tags=".ui nostats" position="0,675" size="100,100">🛠️
 &lt;&lt;script&gt;&gt;
 if (Config.debug) {
     $(&quot;li#devTab&quot;).click(() =&gt; {
@@ -2080,21 +2031,21 @@ if (Config.debug) {
 } else {
     $(&quot;li#devTab&quot;).css(&quot;display&quot;, &quot;none&quot;);
 }
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="59" name="uiKnowledge" tags=".ui nostats" position="0,700" size="100,100">📖
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="60" name="uiKnowledge" tags=".ui nostats" position="0,700" size="100,100">📖
 &lt;&lt;script&gt;&gt;
 $(&quot;li#knowledgeTab&quot;).click(() =&gt; {
     Dialog.setup(&quot;Knowledge Base&quot;);
     Dialog.wiki(Story.get(&quot;KnowledgeText&quot;).processText());
     Dialog.open();
 });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="60" name="uiPeople" tags=".ui nostats" position="0,725" size="100,100">🧑🏻‍🤝‍🧑🏻
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="61" name="uiPeople" tags=".ui nostats" position="0,725" size="100,100">🧑🏻‍🤝‍🧑🏻
 &lt;&lt;script&gt;&gt;
 $(&quot;li#peopleTab&quot;).click(() =&gt; {
     Dialog.setup(&quot;Person Base&quot;);
     Dialog.wiki(Story.get(&quot;PeopleText&quot;).processText());
     Dialog.open();
 });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="61" name="uiDatabaseInfo" tags=".ui nostats" position="0,750" size="100,100">&lt;span id=&quot;database-text&quot;&gt;&lt;/span&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="62" name="uiDatabaseInfo" tags=".ui nostats" position="0,750" size="100,100">&lt;span id=&quot;database-text&quot;&gt;&lt;/span&gt;
 &lt;&lt;script&gt;&gt;
 if (State.variables.user.logged_in) {
     $(&quot;#database-text&quot;).text(&quot;Connected to Server&quot;);
@@ -2106,7 +2057,7 @@ if (State.variables.user.logged_in) {
         window.open(`https://itch.io/user/oauth?client_id=9a5a87634b363c3ce3908f94c8767e1b&amp;scope=profile%3Ame&amp;response_type=token&amp;redirect_uri=https%3A%2F%2Fmetadb-a53ef.web.app%2Fitch_oauth.html&amp;state=${recall(&#39;user-uuid&#39;)}&amp;`, &quot;_blank&quot;);
     });  
 }
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="62" name="uiAfterwards" tags=".ui nostats" position="0,775" size="100,100">Afterwards
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="63" name="uiAfterwards" tags=".ui nostats" position="0,775" size="100,100">Afterwards
 &lt;&lt;script&gt;&gt;
 if (State.variables.ft_dev_ending) {
     $(&quot;#afterwardsTab&quot;).css(&quot;cursor&quot;, &quot;pointer&quot;);
@@ -2119,7 +2070,7 @@ if (State.variables.ft_dev_ending) {
 } else {
     $(&quot;#afterwardsTab&quot;).css(&quot;display&quot;, &quot;none&quot;);
 }
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="63" name="uiBottomText" tags=".ui nostats" position="0,800" size="100,100">&lt;&lt;script&gt;&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="64" name="uiBottomText" tags=".ui nostats" position="0,800" size="100,100">&lt;&lt;script&gt;&gt;
     /* TODO: Make this a db call. Have this as a backup.  Oh, have it call a different DB entry if the game is out of date. */
     $(output).wiki(setup.STR.bottomUIStr);
 &lt;&lt;/script&gt;&gt;</tw-passagedata></tw-storydata>
