@@ -5,18 +5,20 @@
      */
      
     /* We capture because the <<but>> macro has its own _args. */
-    <<set _captureArg to _args[0]>>  
-    <<set _tempstr to _args[0] + "Here">>
+    <<set _captureArg to _args[0]>>
+    <<set _tempstr to "equippableInfoScreen" + _args[0]>>
+    
+    <span class="equippableInfoScreen" @id="_tempstr">
+        <<set _tempstr to _args[0] + "Here">>
 
-    <span class="equippableInfoScreen">
-        <span @id="_tempstr"></span>
         /* Create the item plate. */
-        <<run $info.current.equippables[_captureArg].itemplate(`#${_captureArg}Here`);>>
+        <span @id="_tempstr"></span>
+        <<run $info.current.equippables[_captureArg].itemplate(`#${_tempstr}`);>>
 
-        /* Create "Swap" and "Mod" buttons. */
-        <<set _tempstr to _captureArg + "InfoScreenButtons">>
-        <span @id="_tempstr">
-            <<capture _captureArg>>
+        /* Create "Swap" and "Mod" buttons, disabling them if the player object doesn't exist. */
+        <<capture _captureArg>>
+            <<set _tempstr to _captureArg + "InfoScreenButtons">>
+            <span @id="_tempstr">
                 <<but "Swap">>
                     <<script>>
                         let tempstr2;
@@ -42,14 +44,12 @@
                         Dialog.open();
                     <</script>>
                 <</but>>
-            <</capture>>
-            <<if $info.current.equippables[_captureArg] === null || $info.current.equippables[_captureArg].type === "unequipped">>
-                <<disable>>
-                    <<but "Mod">>
-                    <</but>>
-                <</disable>>
-            <<else>>
-                <<capture _captureArg>>
+                <<if $info.current.equippables[_captureArg].type === "unequipped">>
+                    <<disable>>
+                        <<but "Mod">>
+                        <</but>>
+                    <</disable>>
+                <<else>>
                     <<but "Mod">>
                         <<script>>
                             let tempstr2;
@@ -70,14 +70,14 @@
                                     break;
                             }
 
-                            Dialog.setup(tempstr2, "dialogEquipmentSwap");
+                            Dialog.setup(`${tempstr2} Mods`, "dialogEquipmentMod");
                             Dialog.wiki(`<<SlotModMenuInfo ${State.temporary.captureArg}>>`);
                             Dialog.open();
                         <</script>>
                     <</but>>
-                <</capture>>
-            <</if>>
-        </span>
+                <</if>>
+            </span>
+        <</capture>>
         /* Position "Swap" and "Mod" buttons. */
         <<script>>
             /* We do this because by the time the async runs, the State changes. */
@@ -94,19 +94,6 @@
 
 
 
-:: Info_Description [.infoscreen .helper nostats]
-<<if $info.current === null>>
-    Info Screen Description.
-<<else>>
-    <<EquipmentButtonInInfoScreen "weapon">>
-    <<EquipmentButtonInInfoScreen "armor">>
-    <<EquipmentButtonInInfoScreen "accessory">>
-
-    <<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Info_Button_Back").processText());>>
-<</if>>
-
-
-
 :: Slot_Menu_Info_Widget [widget .infoscreen .helper nostats]
 <<widget SlotMenuInfo>>
     /** Normally I would write error the following error, but since this widget won't ever be used again, who cares:
@@ -115,6 +102,7 @@
     /* REVIEW: Do I want to add a button to this dialogue to switch to the appropriate mod menu dialogue? */
 
     /* Set tempvars. */
+    <<set _captureArg to _args[0]>>
     <<set _listboxstr to "listbox-" + _args[0]>>
     <<script>>
         switch (State.temporary.args[0]) {
@@ -130,26 +118,39 @@
         }
     <</script>>
 
-    /* Create listbox. */
-    <select @id="_listboxstr" class="macro-listbox" @name="_listboxstr" tabindex="0"> 
-        <<for _i, _equippable range $account.inventory[_strplural]>>
-            /* TODO: Default option should be the currently equipped weapon. */
-            /* NYI: add the `disabled` attribute if we don't own the accessory: https://www.w3schools.com/TAGS/att_option_disabled.asp */
-            /* TODO: $account.inventory.weapons should probably be: [[weapon, bool], [weapon, bool]], where weapon os obj and bool is "obtained". */
-            <option @value=_i>_equippable.name</option>
-        <</for>>
-    </select>
+    <<capture _captureArg _listboxstr>>
+        /* Create listbox. */
+        <select @id="_listboxstr" class="macro-listbox" @name="_listboxstr" tabindex="0" autocomplete="off"> 
+            <<for _i, _equippable range $account.inventory[_strplural]>>
+                /* NYI: add the `disabled` attribute if we don't own the equippable */
+                /* TODO: $account.inventory.weapons should probably be: [[weapon, bool], [weapon, bool]], where weapon as obj and bool is "obtained", which will allow disabled. */
+                <<if $info.current.equippables[_captureArg].name === _equippable.name>>
+                    <<set _selectval to _i>>
+                <</if>>
+                <option @value="_i">_equippable.name</option>
+            <</for>>
+        </select>
 
-    /* Make listbox selection change related vars. */
-    <<script>>
-        setup.fns.waitForElm(`#${State.temporary.listboxstr}`).then(() => {
-            $(`#${State.temporary.listboxstr}`).change( function () {
-                State.variables.info.current.equippables.weapon = State.variables.account.inventory.weapons[$(`#${State.temporary.listboxstr}`).val()];
+        <<script>>
+            let st = State.temporary;
+            let sv = State.variables;
+            /* We do this because by the time the async runs, the State changes. */
+            let tmpstr = st.listboxstr;
+            let captureArg = st.captureArg;
+            
+            setup.fns.waitForElm(`#${tmpstr}`).then(()=> {
+                /* Set the value of the listbox to the equipped item. */
+                $(`#${tmpstr}`).val(st.selectval);
 
-                $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());
+                /* Make listbox selection change related vars. */
+                $(`#${tmpstr}`).change( function () {
+                    sv.info.current.equippables[captureArg] = sv.account.inventory[st.strplural][$(`#${tmpstr}`).val()];
+
+                    $('#infoScreenMiddleMenuButtons').empty().wiki(Story.get("Info_Description").processText());
+                });
             });
-        });
-    <</script>>
+        <</script>>
+    <</capture>>
 <</widget>>
 
 
@@ -162,61 +163,81 @@
     /* REVIEW: Do I want to add a button to this dialogue to switch to the appropriate swap menu dialogue? */
 
     /* Set tempvars. */
-    <<set _listboxstr to "listbox-" + _args[0] + "Mods">>
-    <<script>>
-        switch (State.temporary.args[0]) {
-            case "weapon":
-                State.temporary.strcap = "Weapon";
-                break;
-            case "armor":
-                State.temporary.strcap = "Armor";
-                break;
-            case "accessory":
-                State.temporary.strcap = "Accessory";
-                break;
-        }
-    <</script>>
+    <<set _captureArg to _args[0]>>
+    <<set _listboxstr to "listbox-" + _captureArg + "Mods">>
+    <<capture _captureArg>>
+        <<script>>
+            let st = State.temporary;
+            let svaim = State.variables.account.inventory.mods;
+            /* We do this because by the time the async runs, the State changes. */
+            let captureArg = st.captureArg;
 
-
-    <<script>>
-        /* Temp array with all the mods that have the slot type. */
-        State.temporary.viableModList = [];
-        for (let mod in State.variables.account.inventory.mods) {
-            if (State.variables.account.inventory.mods[mod].type === State.temporary.args[0]) {
-                State.temporary.viableModList.push(State.variables.account.inventory.mods[mod]);
+            switch (captureArg) {
+                case "weapon":
+                    st.strcap = "Weapon";
+                    break;
+                case "armor":
+                    st.strcap = "Armor";
+                    break;
+                case "accessory":
+                    st.strcap = "Accessory";
+                    break;
             }
-        }
 
-        /* TODO: If mod is already on equipment, remove it. */
-    <</script>>
+            /* Temp array with all the mods that have the slot type. */
+            st.viableModList = [setup.COM.affixes.unequippedMod];
+            for (let mod in svaim) {
+                if (svaim[mod].type === captureArg) {
+                    st.viableModList.push(svaim[mod]);
+                }
+            }
 
-    /* Create a listbox element for every modslot, populate it with viable mods array. */
-    <<for _i = 0; _i < $info.current.equippables[_args[0]].modslots; _i++>>
-        Slot _i:
-        <select @id="_listboxstr" @class="_listboxstr" @name="_listboxstr" tabindex="0" @value=_i> 
-            <<for _j, _mod range _viableModList>>
-                /* TODO: Default option should show the currently equipped mod. */
-                /* TODO: Default option should also be able to be chosen. */
-                <option @value=_j>_mod.name t._mod.tier</option>
-            <</for>>
-        </select>
-        <br>
-    <</for>>
+            /* TODO: If mod is already on an equipment, remove it. */
+            /* NYI: So the account mod list should be something like [[mod, bool], [mod, bool]]. Or maybe the bool is in the item itself. */
+        <</script>>
 
-    /* Make listbox selection change related vars. */
-    <<script>>
-        /* Wait for all .listbox-slotMods to be done */
-        setup.fns.waitForNumberOfElm(`.${State.temporary.listboxstr}`, State.variables.info.current.equippables[State.temporary.args[0]].modslots).then(() => {
-            $(`.${State.temporary.listboxstr}`).change( function () {
-                State.variables.info.current.equippables[State.temporary.args[0]].mods[$(this).attr("value")] = State.temporary.viableModList[$(this).val()];
+        /* Create a listbox element for every modslot, populate it with viable mods array. */
+        <<set _selectvalmod to []>>
+        <<for _i = 0; _i < $info.current.equippables[_captureArg].modslots; _i++>>
+            Slot _i:
+            <select @id="_listboxstr" @class="_listboxstr" @name="_listboxstr" tabindex="0" @boxnum=_i>
+                <<for _j, _mod range _viableModList>>
+                    <<if _mod.name === $info.current.equippables[_captureArg].mods[_i].name>>
+                        <<set _selectvalmod[_i] to _j>>
+                    <</if>>
+                    <option @value=_j>_mod.name t._mod.tier</option>
+                <</for>>
+            </select>
+            <br>
+        <</for>>
 
-                /* Reload this dialogue so that viableModList is updated. */
-                Dialog.setup(`${State.temporary.strcap} Mods`, "dialogEquipmentMod");
-                Dialog.wiki(`<<SlotModMenuInfo ${State.temporary.strcap}>>`);
-                Dialog.open();
+        /* Make listbox selection change related vars. */
+        <<script>>
+            let st = State.temporary;
+            let svice = State.variables.info.current.equippables;
+            let captureArg = st.captureArg;
+            let selectvalmod = st.selectvalmod;
+            let viableModList = st.viableModList;
+
+            /* Wait for all .listbox-slotMods to be done */
+            setup.fns.waitForNumberOfElm(`.${st.listboxstr}`, svice[captureArg].modslots).then(() => {
+                /* Set the value of the listboxes to the equipped item. */
+                for (i = 0; i < svice[captureArg].modslots; i++) {
+                    $(`#listbox-${captureArg}Mods[boxnum="${i}"]`).val(selectvalmod[i]);
+                }
+
+                $(`.${st.listboxstr}`).change( function (elm) {
+                    /* Change the modslot's mod to the updated mod. */
+                    svice[captureArg].mods[$(this).attr("boxnum")] = viableModList[$(this).val()];
+
+                    /* Reload this dialogue so that viableModList is updated. */
+                    Dialog.setup(`${st.strcap} Mods`, "dialogEquipmentMod");
+                    Dialog.wiki(`<<SlotModMenuInfo ${captureArg}>>`);
+                    Dialog.open();
+                });
             });
-        });
-    <</script>>
+        <</script>>
+    <</capture>>
 <</widget>>
 
 
@@ -245,7 +266,7 @@
     <<if _args[0]>>
         <<but _args[0].name class "bottomInfoButton">>
             <<set $info.current = _args[0]>>
-            <<run $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());>>
+            <<run $('#infoScreenMiddleMenuButtons').empty().wiki(Story.get("Info_Description").processText());>>
         <</but>>
     <<else>>
         <<disable>>
@@ -257,15 +278,22 @@
 
 
 
+:: Info_Description [.infoscreen .helper nostats]
+<<if $info.current === null>>
+    Info Screen Description.
+<<else>>
+    <<EquipmentButtonInInfoScreen "weapon">>
+    <<EquipmentButtonInInfoScreen "armor">>
+    <<EquipmentButtonInInfoScreen "accessory">>
+
+    <<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Info_Button_Back").processText());>>
+<</if>>
+
+
+
 :: Info_Button_Back [.infoscreen .helper nostats]
 <<but "Back" id "infoBack" class "bottomInfoButton">>
     <<set $info.current = null>>
     <<run $('#infoScreenMiddleMenuButtons').empty()>>
     <<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText())>>
 <</but>>
-
-
-
-:: Char_Equipment_Select_Info [.infoscreen .helper nostats]
-<<run $('#infoScreenMiddleMenuButtons').empty().wiki(Story.get("Info_Description").processText());>>
-<<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Info_Button_Back").processText());>>

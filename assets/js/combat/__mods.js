@@ -14,12 +14,14 @@ class Affix {
 }
 
 const affixes = {
-    /**
-     *  NOTE: Strictly speaking, we're not making affixes here, we're making the objects that become affixes. This is because each affix can be hotswapped, and have stats that can grow. That is, they track stats on these objects, not on the player.
-     */
+    unequippedMod: new Affix({
+        name: "Unequipped Mod",
+        type: "UnequippedMod",
+        tier: 1,
+    }),
+
     increasedFireResistance: new Affix({
         name: "Increased Fire Resistance",
-        type: "increasedFireResistanceArmorMod",
         affixes: [
             ["resistance.fire", "+"],
             ["resistance.elemental", "+"],
@@ -42,7 +44,6 @@ const affixes = {
 
     increasedFrostResistance: new Affix({
         name: "Increased Frost Resistance",
-        type: "increasedFrostResistanceArmorMod",
         affixes: [
             ["resistance.frost", "+"],
             ["resistance.elemental", "+"],

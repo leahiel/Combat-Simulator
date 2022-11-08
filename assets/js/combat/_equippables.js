@@ -6,6 +6,11 @@ class Equippable {
         if (!this.type) {
             console.error(`${this.name} equippable has no type.`)
         }
+
+        this.mods = [];
+        for (let i = 0; i < this.modslots; i++) {
+            this.mods.push(affixes.unequippedMod);
+        }
     }
 
     // TODO: Every item should have this function which creates an HTML "plate" of the item with stats and whatnot, which can be used in various places for various things.
@@ -61,14 +66,12 @@ const equippables = {
         name: "Leather Chest Armor",
         slot: "armor",
         modslots: 2,
-        mods: [null, null],
     }),
 
     metalarmor: new Equippable({
         name: "Metal Chest Armor",
         slot: "armor",
         modslots: 2,
-        mods: [null, null],
     }),
 };
 
