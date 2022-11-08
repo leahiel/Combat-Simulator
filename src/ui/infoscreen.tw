@@ -1,5 +1,5 @@
 :: Info_Description_Widget [widget .infoscreen .helper nostats]
-<<widget EquipmentButtonInInfoScreen container>>
+<<widget EquipmentButtonInInfoScreen>>
     /** Normally I would write error the following error, but since this widget won't ever be used again, who cares:
      *  WriteError: _args[0] should be "weapon" || "armor" || "accessory" 
      */
@@ -98,39 +98,63 @@
 <<if $info.current === null>>
     Info Screen Description.
 <<else>>
-
     <<EquipmentButtonInInfoScreen "weapon">>
-    <</EquipmentButtonInInfoScreen>>
-
     <<EquipmentButtonInInfoScreen "armor">>
-    <</EquipmentButtonInInfoScreen>>
-
     <<EquipmentButtonInInfoScreen "accessory">>
-    <</EquipmentButtonInInfoScreen>>
 
     <<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Info_Button_Back").processText());>>
 <</if>>
 
 
-:: Weapon_Menu_Info [.infoscreen .helper nostats]
-/* REVIEW: Do I want to add a button to this dialogue to switch to the appropriate mod menu dialogue? */
-<select id="listbox-weapon" class="macro-listbox" name="listbox-weapon" tabindex="0"> 
-    <<for _i, _equippable range $account.inventory.weapons>>
-        /* TODO: Default option should be the currently equipped weapon. */
-        /* NYI: add the `disabled` attribute if we don't own the accessory: https://www.w3schools.com/TAGS/att_option_disabled.asp */
-        /* TODO: $account.inventory.weapons should probably be: [[weapon, bool], [weapon, bool]], where weapon os obj and bool is "obtained". */
-        <option @value=_i>_equippable.name</option>
-    <</for>>
-</select>
-<<script>>
-    setup.fns.waitForElm("#listbox-weapon").then(() => {
-        $("#listbox-weapon").change( function () {
-            State.variables.info.current.equippables.weapon = State.variables.account.inventory.weapons[$("#listbox-weapon").val()];
+:: Slot_Menu_Info_Widget [widget .infoscreen .helper nostats]
+<<widget SlotMenuInfo>>
+    /** Normally I would write error the following error, but since this widget won't ever be used again, who cares:
+     *  WriteError: _args[0] should be "weapon" || "armor" || "accessory" 
+     */
+    /* REVIEW: Do I want to add a button to this dialogue to switch to the appropriate mod menu dialogue? */
 
-            $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());
+    <<set _listboxstr to "listbox-" + _args[0]>>
+    <<script>>
+        switch (State.temporary.args[0]) {
+            case "weapon":
+                State.temporary.strplural = "weapons";
+                break;
+            case "armor":
+                State.temporary.strplural = "armors";
+                break;
+            case "accessory":
+                State.temporary.strplural = "accessories";
+                break;
+        }
+    <</script>>
+
+    <select @id="_listboxstr" class="macro-listbox" @name="_listboxstr" tabindex="0"> 
+        <<for _i, _equippable range $account.inventory[_strplural]>>
+            /* TODO: Default option should be the currently equipped weapon. */
+            /* NYI: add the `disabled` attribute if we don't own the accessory: https://www.w3schools.com/TAGS/att_option_disabled.asp */
+            /* TODO: $account.inventory.weapons should probably be: [[weapon, bool], [weapon, bool]], where weapon os obj and bool is "obtained". */
+            <option @value=_i>_equippable.name</option>
+        <</for>>
+    </select>
+
+
+    <<script>>
+        setup.fns.waitForElm(`#${State.temporary.listboxstr}`).then(() => {
+            $(`#${State.temporary.listboxstr}`).change( function () {
+                State.variables.info.current.equippables.weapon = State.variables.account.inventory.weapons[$(`#${State.temporary.listboxstr}`).val()];
+
+                $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());
+            });
         });
-    });
-<</script>>
+    <</script>>
+
+
+<</widget>>
+
+
+
+:: Weapon_Menu_Info [.infoscreen .helper nostats]
+<<SlotMenuInfo "weapon">>
 
 
 
@@ -177,22 +201,7 @@ for (let mod in State.variables.account.inventory.mods) {
 
 
 :: Armor_Menu_Info [.infoscreen .helper nostats]
-<select id="listbox-armor" class="macro-listbox" name="listbox-armor" tabindex="0"> 
-    <<for _i, _equippable range $account.inventory.armors>>
-        /* TODO: Default option should be the currently equipped armor. */
-        /* NYI: add the `disabled` attribute if we don't own the accessory: https://www.w3schools.com/TAGS/att_option_disabled.asp */
-        <option @value=_i>_equippable.name</option>
-    <</for>>
-</select>
-<<script>>
-    setup.fns.waitForElm("#listbox-armor").then(() => {
-        $("#listbox-armor").change( function () {
-            State.variables.info.current.equippables.armor = State.variables.account.inventory.armors[$("#listbox-armor").val()];
-
-            $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());
-        });
-    });
-<</script>>
+<<SlotMenuInfo "armor">>
 
 
 
@@ -239,22 +248,7 @@ for (let mod in State.variables.account.inventory.mods) {
 
 
 :: Accessory_Menu_Info [.infoscreen .helper nostats]
-<select id="listbox-accessory" class="macro-listbox" name="listbox-accessory" tabindex="0"> 
-    <<for _i, _equippable range $account.inventory.accessories>>
-        /* TODO: Default option should be the currently equipped accessory. */
-        /* NYI: add the `disabled` attribute if we don't own the accessory: https://www.w3schools.com/TAGS/att_option_disabled.asp */
-        <option @value=_i>_equippable.name</option>
-    <</for>>
-</select>
-<<script>>
-    setup.fns.waitForElm("#listbox-accessory").then(() => {
-        $("#listbox-accessory").change( function () {
-            State.variables.info.current.equippables.accessory = State.variables.account.inventory.accessories[$("#listbox-accessory").val()];
-
-            $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());
-        });
-    });
-<</script>>
+<<SlotMenuInfo "accessory">>
 
 
 

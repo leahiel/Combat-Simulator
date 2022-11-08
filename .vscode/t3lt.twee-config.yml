@@ -58,4 +58,9 @@ sugarcube-2:
     # A custom widget to DRY
     EquipmentButtonInInfoScreen:
       name: EquipmentButtonInInfoScreen
-      container: true
+      container: false
+
+    # A custom widget to DRY
+    SlotMenuInfo:
+      name: SlotMenuInfo
+      container: false
