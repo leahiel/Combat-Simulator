@@ -47,6 +47,7 @@ const equippables = {
         name: "No Weapon Equipped",
         slot: "weapon",
         type: "unequipped",
+        attacks: [attacks.stab, attacks.sweep],
     }),
 
     unequippedarmor: new Equippable({

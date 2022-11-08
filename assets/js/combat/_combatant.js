@@ -20,19 +20,26 @@ class Combatant {
         this.init = Math.floor(Math.random() * (max - min + 1)) + Math.floor(min);
 
         /**
-         * NYI: equippables
+         * equippables
          */
         if (this.equippables) {
-            // The base obj has an equippable object, but that does not mean that anything is equipped.
-
             for (let equippable in this.equippables) {
-                // Don't try to add affixes for un-equipped slots.
-                if (this.equippables[equippable] === null) {
+                if (this.equippables[equippable].attacks) {
+                    this.attacks = this.equippables[equippable].attacks;
+                }
+
+                // Don't try to add affixes for unequipped slots.
+                if (this.equippables[equippable].type === "unequipped") {
                     continue;
                 }
 
                 // Update affixes.
                 for (let mod of this.equippables[equippable].mods) {
+                    // Don't mess with unequipped mods.
+                    if (mod.type === "UnequippedMod") {
+                        continue;
+                    }
+
                     for (let i = 0; i < mod.affixes.length; i++) {
                         jQuery.extend(
                             true,

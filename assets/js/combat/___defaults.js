@@ -273,6 +273,14 @@ const DEFAULTENEMY = {
 };
 
 const DEFAULTPLAYER = {
+    healthMax: 125,
+    initStart: 43,
+    initVariance: 0.1,
+
+    equippables: {
+
+    },
+
     stats: {
         appearance: {
             mean: 50,
@@ -429,10 +437,4 @@ const DEFAULTPLAYER = {
     blockRecovery: 15,
     initVariance: 0.1,
     family: "player",
-
-    equippables: {
-        weapon: null,
-        armor: null,
-        accessory: null,
-    },
 };

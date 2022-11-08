@@ -168,7 +168,7 @@ for (let equippable in setup.COM.equippables) {
 }
 
 State.variables.pc.equippables.weapon = State.variables.account.inventory.weapons[0];
-State.variables.pc.equippables.armor = State.variables.account.inventory.armors[1];
+State.variables.pc.equippables.armor = State.variables.account.inventory.armors[0];
 State.variables.pc.equippables.accessory = State.variables.account.inventory.accessories[0];
 
 State.variables.account.inventory.mods = [];

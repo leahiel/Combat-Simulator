@@ -58,10 +58,7 @@ It's intended for actual rendering stuff. */
         /* NYI: Players should be drawn from an already existing Player Object. */
         /* I haven't really figured out how to store the Player Objects yet though. */
         <<set _pp to []>>
-        <<set _pp[0] to new setup.COM.Player({healthMax: 125,initStart: 43,initVariance: 0.10,attacks: [setup.COM.attacks.stab, setup.COM.attacks.sweep],name: "Player 1", resistance: {fire: .05, frost: 0.2}, equippables: {armor: setup.fns.cloneDeep(setup.COM.equippables.leatherarmor)}})>>
-        <<run _pp[0].equippables.armor.mods.push(setup.fns.cloneDeep(setup.COM.affixes.increasedFireResistance))>>
-        <<run console.log(_pp[0].equippables)>>
-
+        <<set _pp[0] to $pc>>
 
         /* Random Int between 1 and 5 */
         <<set _int to Math.ceil(Math.random() * (5))>>

@@ -243,6 +243,7 @@
 
 
 :: Players_Info [.infoscreen .helper nostats]
+/* TODO: Don't show, or at least disable, these buttons during combat. */
 <<script>>
     $('#infoScreenBottomMenuButtons').empty();
     let solstr = "";
