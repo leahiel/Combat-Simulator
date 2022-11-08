@@ -561,6 +561,10 @@ for (let equippable in setup.COM.equippables) {
     }
 }
 
+State.variables.pc.equippables.weapon = State.variables.account.inventory.weapons[0];
+State.variables.pc.equippables.armor = State.variables.account.inventory.armors[1];
+State.variables.pc.equippables.accessory = State.variables.account.inventory.accessories[0];
+
 State.variables.account.inventory.mods = [];
 for (let mod in setup.COM.affixes) {
     State.variables.account.inventory.mods.push(setup.COM.Affix.new(setup.COM.affixes[mod]));
@@ -1674,134 +1678,112 @@ function passagesHandler(btnname, tag) {
 
 }
 &lt;&lt;/script&gt;&gt;
-&lt;&lt;/done&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="Info_Description" tags=".infoscreen .helper nostats" position="975,350" size="100,100">&lt;&lt;if $info.current === null&gt;&gt;
+&lt;&lt;/done&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="Info_Description_Widget" tags="widget .infoscreen .helper nostats" position="975,350" size="100,100">&lt;&lt;widget EquipmentButtonInInfoScreen container&gt;&gt;
+    /** Normally I would write error the following error, but since this widget won&#39;t ever be used again, who cares:
+     *  WriteError: _args[0] should be &quot;weapon&quot; || &quot;armor&quot; || &quot;accessory&quot; 
+     */
+     
+    /* We capture because the &lt;&lt;but&gt;&gt; macro has its own _args. */
+    &lt;&lt;set _captureArg to _args[0]&gt;&gt;  
+    &lt;&lt;set _tempstr to _args[0] + &quot;Here&quot;&gt;&gt;
+
+    &lt;span class=&quot;equippableInfoScreen&quot;&gt;
+        &lt;span @id=&quot;_tempstr&quot;&gt;&lt;/span&gt;
+        /* Create the item plate. */
+        &lt;&lt;run $info.current.equippables[_captureArg].itemplate(`#${_captureArg}Here`);&gt;&gt;
+
+        /* Create &quot;Swap&quot; and &quot;Mod&quot; buttons. */
+        &lt;&lt;set _tempstr to _captureArg + &quot;InfoScreenButtons&quot;&gt;&gt;
+        &lt;span @id=&quot;_tempstr&quot;&gt;
+            &lt;&lt;capture _captureArg&gt;&gt;
+                &lt;&lt;but &quot;Swap&quot;&gt;&gt;
+                    &lt;&lt;script&gt;&gt;
+                        let tempstr2;
+                        let tempstr3;
+
+                        switch (State.temporary.captureArg) {
+                            case &quot;weapon&quot;:
+                                tempstr2 = &quot;Weapons&quot;;
+                                tempstr3 = &quot;Weapon&quot;;
+                                break;
+                            case &quot;armor&quot;:
+                                tempstr2 = &quot;Armors&quot;;
+                                tempstr3 = &quot;Armor&quot;;
+                                break;
+                            case &quot;accessory&quot;:
+                                tempstr2 = &quot;Accessories&quot;;
+                                tempstr3 = &quot;Accessory&quot;;
+                                break;
+                        }
+
+                        Dialog.setup(`${tempstr2}`, &quot;dialogEquipmentSwap&quot;);
+                        Dialog.wiki(Story.get(`${tempstr3}_Menu_Info`).processText());
+                        Dialog.open();
+                    &lt;&lt;/script&gt;&gt;
+                &lt;&lt;/but&gt;&gt;
+            &lt;&lt;/capture&gt;&gt;
+            &lt;&lt;if $info.current.equippables[_captureArg] === null || $info.current.equippables[_captureArg].type === &quot;unequipped&quot;&gt;&gt;
+                &lt;&lt;disable&gt;&gt;
+                    &lt;&lt;but &quot;Mod&quot;&gt;&gt;
+                    &lt;&lt;/but&gt;&gt;
+                &lt;&lt;/disable&gt;&gt;
+            &lt;&lt;else&gt;&gt;
+                &lt;&lt;capture _captureArg&gt;&gt;
+                    &lt;&lt;but &quot;Mod&quot;&gt;&gt;
+                        &lt;&lt;script&gt;&gt;
+                            let tempstr2;
+                            let tempstr3;
+
+                            switch (State.temporary.captureArg) {
+                                case &quot;weapon&quot;:
+                                    tempstr2 = &quot;Weapons&quot;;
+                                    tempstr3 = &quot;Weapon&quot;;
+                                    break;
+                                case &quot;armor&quot;:
+                                    tempstr2 = &quot;Armors&quot;;
+                                    tempstr3 = &quot;Armor&quot;;
+                                    break;
+                                case &quot;accessory&quot;:
+                                    tempstr2 = &quot;Accessories&quot;;
+                                    tempstr3 = &quot;Accessory&quot;;
+                                    break;
+                            }
+
+                            Dialog.setup(tempstr2, &quot;dialogEquipmentSwap&quot;);
+                            Dialog.wiki(Story.get(`${tempstr3}_ModMenu_Info`).processText());
+                            Dialog.open();
+                        &lt;&lt;/script&gt;&gt;
+                    &lt;&lt;/but&gt;&gt;
+                &lt;&lt;/capture&gt;&gt;
+            &lt;&lt;/if&gt;&gt;
+        &lt;/span&gt;
+        /* Position &quot;Swap&quot; and &quot;Mod&quot; buttons. */
+        &lt;&lt;script&gt;&gt;
+            /* We do this because by the time the async runs, the State changes. */
+            let tmpstr = State.temporary.captureArg;
+
+            setup.fns.waitForElm(`span.itemPlate.${tmpstr}`).then(() =&gt; {
+                setup.fns.waitForElm(`#${tmpstr}InfoScreenButtons`).then(() =&gt; {
+                    $(`span.itemPlate.${tmpstr}`).append($(`#${tmpstr}InfoScreenButtons`));
+                });
+            });
+        &lt;&lt;/script&gt;&gt;
+    &lt;/span&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="29" name="Info_Description" tags=".infoscreen .helper nostats" position="1100,350" size="100,100">&lt;&lt;if $info.current === null&gt;&gt;
     Info Screen Description.
 &lt;&lt;else&gt;&gt;
 
-    /* WEAPON */
-    &lt;span class=&quot;equippableInfoScreen&quot;&gt;
-        &lt;span id=&quot;weaponHere&quot;&gt;&lt;/span&gt;
-        &lt;&lt;if $info.current.equippables.weapon === null || $info.current.equippables.weapon.type === &quot;unequipped&quot;&gt;&gt;
-            &lt;&lt;run setup.COM.equippables.unequippedweapon.itemplate(&quot;#weaponHere&quot;);&gt;&gt;
-        &lt;&lt;else&gt;&gt;
-            &lt;&lt;run $info.current.equippables.weapon.itemplate(&quot;#weaponHere&quot;);&gt;&gt;
-        &lt;&lt;/if&gt;&gt;
-        &lt;span id=&quot;weaponInfoScreenButtons&quot;&gt;
-        &lt;&lt;but &quot;Swap&quot;&gt;&gt;
-            &lt;&lt;script&gt;&gt;
-                Dialog.setup(&quot;Weapons&quot;, &quot;dialogEquipmentSwap&quot;);
-                Dialog.wiki(Story.get(&quot;Weapon_Menu_Info&quot;).processText());
-                Dialog.open();
-            &lt;&lt;/script&gt;&gt;
-        &lt;&lt;/but&gt;&gt;
-        &lt;&lt;if $info.current.equippables.weapon === null || $info.current.equippables.weapon.type === &quot;unequipped&quot;&gt;&gt;
-            &lt;&lt;disable&gt;&gt;
-                &lt;&lt;but &quot;Mod&quot;&gt;&gt;
-                &lt;&lt;/but&gt;&gt;
-            &lt;&lt;/disable&gt;&gt;
-        &lt;&lt;else&gt;&gt;
-            &lt;&lt;but &quot;Mod&quot;&gt;&gt;
-                &lt;&lt;script&gt;&gt;
-                    Dialog.setup(&quot;Weapon Mods&quot;, &quot;dialogEquipmentMod&quot;);
-                    Dialog.wiki(Story.get(&quot;Weapon_ModMenu_Info&quot;).processText());
-                    Dialog.open();
-                &lt;&lt;/script&gt;&gt;
-            &lt;&lt;/but&gt;&gt;
-        &lt;&lt;/if&gt;&gt;
-        &lt;/span&gt;
-        &lt;&lt;script&gt;&gt;
-            setup.fns.waitForElm(&#39;span.itemPlate.weapon&#39;).then(() =&gt; {
-                setup.fns.waitForElm(&#39;#weaponInfoScreenButtons&#39;).then(() =&gt; {
-                    $(&#39;span.itemPlate.weapon&#39;).append($(&#39;#weaponInfoScreenButtons&#39;));
-                });
-            });
-        &lt;&lt;/script&gt;&gt;
-    &lt;/span&gt;
+    &lt;&lt;EquipmentButtonInInfoScreen &quot;weapon&quot;&gt;&gt;
+    &lt;&lt;/EquipmentButtonInInfoScreen&gt;&gt;
 
-    /* ARMOR */
-    &lt;span class=&quot;equippableInfoScreen&quot;&gt;
-        &lt;span id=&quot;armorHere&quot;&gt;&lt;/span&gt;
-        /* TODO Update settings so that we just start with unequipped item instead of checking for null */
-        &lt;&lt;if $info.current.equippables.armor === null || $info.current.equippables.armor.type === &quot;unequipped&quot;&gt;&gt;
-            &lt;&lt;run setup.COM.equippables.unequippedarmor.itemplate(&quot;#armorHere&quot;);&gt;&gt;
-        &lt;&lt;else&gt;&gt;
-            &lt;&lt;run $info.current.equippables.armor.itemplate(&quot;#armorHere&quot;);&gt;&gt;
-        &lt;&lt;/if&gt;&gt;
-        &lt;span id=&quot;armorInfoScreenButtons&quot;&gt;
-        &lt;&lt;but &quot;Swap&quot;&gt;&gt;
-            &lt;&lt;script&gt;&gt;
-                Dialog.setup(&quot;Armors&quot;, &quot;dialogEquipmentSwap&quot;);
-                Dialog.wiki(Story.get(&quot;Armor_Menu_Info&quot;).processText());
-                Dialog.open();
-            &lt;&lt;/script&gt;&gt;
-        &lt;&lt;/but&gt;&gt;
-        &lt;&lt;if $info.current.equippables.armor === null || $info.current.equippables.armor.type === &quot;unequipped&quot;&gt;&gt;
-            &lt;&lt;disable&gt;&gt;
-                &lt;&lt;but &quot;Mod&quot;&gt;&gt;
-                &lt;&lt;/but&gt;&gt;
-            &lt;&lt;/disable&gt;&gt;
-        &lt;&lt;else&gt;&gt;
-            &lt;&lt;but &quot;Mod&quot;&gt;&gt;
-                &lt;&lt;script&gt;&gt;
-                    Dialog.setup(&quot;Armor Mods&quot;, &quot;dialogEquipmentMod&quot;);
-                    Dialog.wiki(Story.get(&quot;Armor_ModMenu_Info&quot;).processText());
-                    Dialog.open();
-                &lt;&lt;/script&gt;&gt;
-            &lt;&lt;/but&gt;&gt;
-        &lt;&lt;/if&gt;&gt;
-        &lt;/span&gt;
-        &lt;&lt;script&gt;&gt;
-            setup.fns.waitForElm(&#39;span.itemPlate.armor&#39;).then(() =&gt; {
-                setup.fns.waitForElm(&#39;#armorInfoScreenButtons&#39;).then(() =&gt; {
-                    $(&#39;span.itemPlate.armor&#39;).append($(&#39;#armorInfoScreenButtons&#39;));
-                });
-            });
-        &lt;&lt;/script&gt;&gt;
-    &lt;/span&gt;
+    &lt;&lt;EquipmentButtonInInfoScreen &quot;armor&quot;&gt;&gt;
+    &lt;&lt;/EquipmentButtonInInfoScreen&gt;&gt;
 
-    
-    /* ACCESSORY */
-    &lt;span class=&quot;equippableInfoScreen&quot;&gt;
-        &lt;span id=&quot;accessoryHere&quot;&gt;&lt;/span&gt;
-        &lt;&lt;if $info.current.equippables.accessory === null || $info.current.equippables.accessory.type === &quot;unequipped&quot;&gt;&gt;
-            &lt;&lt;run setup.COM.equippables.unequippedaccessory.itemplate(&quot;#accessoryHere&quot;);&gt;&gt;
-        &lt;&lt;else&gt;&gt;
-            &lt;&lt;run $info.current.equippables.accessory.itemplate(&quot;#accessoryHere&quot;);&gt;&gt;
-        &lt;&lt;/if&gt;&gt;
-        &lt;span id=&quot;accessoryInfoScreenButtons&quot;&gt;
-        &lt;&lt;but &quot;Swap&quot;&gt;&gt;
-            &lt;&lt;script&gt;&gt;
-                Dialog.setup(&quot;Accessories&quot;, &quot;dialogEquipmentSwap&quot;);
-                Dialog.wiki(Story.get(&quot;Accessory_Menu_Info&quot;).processText());
-                Dialog.open();
-            &lt;&lt;/script&gt;&gt;
-        &lt;&lt;/but&gt;&gt;
-        &lt;&lt;if $info.current.equippables.accessory === null || $info.current.equippables.accessory.type === &quot;unequipped&quot;&gt;&gt;
-            &lt;&lt;disable&gt;&gt;
-                &lt;&lt;but &quot;Mod&quot;&gt;&gt;
-                &lt;&lt;/but&gt;&gt;
-            &lt;&lt;/disable&gt;&gt;
-        &lt;&lt;else&gt;&gt;
-            &lt;&lt;but &quot;Mod&quot;&gt;&gt;
-                &lt;&lt;script&gt;&gt;
-                    Dialog.setup(&quot;Accessory Mods&quot;, &quot;dialogEquipmentMod&quot;);
-                    Dialog.wiki(Story.get(&quot;Accessory_ModMenu_Info&quot;).processText());
-                    Dialog.open();
-                &lt;&lt;/script&gt;&gt;
-            &lt;&lt;/but&gt;&gt;
-        &lt;&lt;/if&gt;&gt;
-        &lt;/span&gt;
-        &lt;&lt;script&gt;&gt;
-            setup.fns.waitForElm(&#39;span.itemPlate.accessory&#39;).then(() =&gt; {
-                setup.fns.waitForElm(&#39;#accessoryInfoScreenButtons&#39;).then(() =&gt; {
-                    $(&#39;span.itemPlate.accessory&#39;).append($(&#39;#accessoryInfoScreenButtons&#39;));
-                });
-            });
-        &lt;&lt;/script&gt;&gt;
-    &lt;/span&gt;
+    &lt;&lt;EquipmentButtonInInfoScreen &quot;accessory&quot;&gt;&gt;
+    &lt;&lt;/EquipmentButtonInInfoScreen&gt;&gt;
 
     &lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).empty().wiki(Story.get(&quot;Info_Button_Back&quot;).processText());&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="29" name="Weapon_Menu_Info" tags=".infoscreen .helper nostats" position="1100,350" size="100,100">/* REVIEW: Do I want to add a button to this dialogue to switch to the appropriate mod menu dialogue? */
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="Weapon_Menu_Info" tags=".infoscreen .helper nostats" position="1225,350" size="100,100">/* REVIEW: Do I want to add a button to this dialogue to switch to the appropriate mod menu dialogue? */
 &lt;select id=&quot;listbox-weapon&quot; class=&quot;macro-listbox&quot; name=&quot;listbox-weapon&quot; tabindex=&quot;0&quot;&gt; 
     &lt;&lt;for _i, _equippable range $account.inventory.weapons&gt;&gt;
         /* TODO: Default option should be the currently equipped weapon. */
@@ -1818,7 +1800,7 @@ function passagesHandler(btnname, tag) {
             $(&#39;#infoScreenBottomMenuButtons&#39;).wiki(Story.get(&quot;Char_Equipment_Select_Info&quot;).processText());
         });
     });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="Weapon_ModMenu_Info" tags=".infoscreen .helper nostats" position="1225,350" size="100,100">&lt;&lt;script&gt;&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="31" name="Weapon_ModMenu_Info" tags=".infoscreen .helper nostats" position="100,475" size="100,100">&lt;&lt;script&gt;&gt;
 /* Temp array with all the mods that have the `weapon` type. */
 State.temporary.viableModList = [];
 for (let mod in State.variables.account.inventory.mods) {
@@ -1855,7 +1837,7 @@ for (let mod in State.variables.account.inventory.mods) {
             Dialog.open();
         });
     });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="31" name="Armor_Menu_Info" tags=".infoscreen .helper nostats" position="100,475" size="100,100">&lt;select id=&quot;listbox-armor&quot; class=&quot;macro-listbox&quot; name=&quot;listbox-armor&quot; tabindex=&quot;0&quot;&gt; 
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="32" name="Armor_Menu_Info" tags=".infoscreen .helper nostats" position="225,475" size="100,100">&lt;select id=&quot;listbox-armor&quot; class=&quot;macro-listbox&quot; name=&quot;listbox-armor&quot; tabindex=&quot;0&quot;&gt; 
     &lt;&lt;for _i, _equippable range $account.inventory.armors&gt;&gt;
         /* TODO: Default option should be the currently equipped armor. */
         /* NYI: add the `disabled` attribute if we don&#39;t own the accessory: https://www.w3schools.com/TAGS/att_option_disabled.asp */
@@ -1870,7 +1852,7 @@ for (let mod in State.variables.account.inventory.mods) {
             $(&#39;#infoScreenBottomMenuButtons&#39;).wiki(Story.get(&quot;Char_Equipment_Select_Info&quot;).processText());
         });
     });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="32" name="Armor_ModMenu_Info" tags=".infoscreen .helper nostats" position="225,475" size="100,100">&lt;&lt;script&gt;&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="Armor_ModMenu_Info" tags=".infoscreen .helper nostats" position="350,475" size="100,100">&lt;&lt;script&gt;&gt;
 /* Temp array with all the mods that have the `armor` type. */
 State.temporary.viableModList = [];
 for (let mod in State.variables.account.inventory.mods) {
@@ -1907,7 +1889,7 @@ for (let mod in State.variables.account.inventory.mods) {
             Dialog.open();
         });
     });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="Accessory_Menu_Info" tags=".infoscreen .helper nostats" position="350,475" size="100,100">&lt;select id=&quot;listbox-accessory&quot; class=&quot;macro-listbox&quot; name=&quot;listbox-accessory&quot; tabindex=&quot;0&quot;&gt; 
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="Accessory_Menu_Info" tags=".infoscreen .helper nostats" position="475,475" size="100,100">&lt;select id=&quot;listbox-accessory&quot; class=&quot;macro-listbox&quot; name=&quot;listbox-accessory&quot; tabindex=&quot;0&quot;&gt; 
     &lt;&lt;for _i, _equippable range $account.inventory.accessories&gt;&gt;
         /* TODO: Default option should be the currently equipped accessory. */
         /* NYI: add the `disabled` attribute if we don&#39;t own the accessory: https://www.w3schools.com/TAGS/att_option_disabled.asp */
@@ -1922,7 +1904,7 @@ for (let mod in State.variables.account.inventory.mods) {
             $(&#39;#infoScreenBottomMenuButtons&#39;).wiki(Story.get(&quot;Char_Equipment_Select_Info&quot;).processText());
         });
     });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="Accessory_ModMenu_Info" tags=".infoscreen .helper nostats" position="475,475" size="100,100">&lt;&lt;script&gt;&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="Accessory_ModMenu_Info" tags=".infoscreen .helper nostats" position="600,475" size="100,100">&lt;&lt;script&gt;&gt;
 /* Temp array with all the mods that have the `accessory` type. */
 State.temporary.viableModList = [];
 for (let mod in State.variables.account.inventory.mods) {
@@ -1959,7 +1941,7 @@ for (let mod in State.variables.account.inventory.mods) {
             Dialog.open();
         });
     });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="Players_Info" tags=".infoscreen .helper nostats" position="600,475" size="100,100">&lt;&lt;script&gt;&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="Players_Info" tags=".infoscreen .helper nostats" position="725,475" size="100,100">&lt;&lt;script&gt;&gt;
     $(&#39;#infoScreenBottomMenuButtons&#39;).empty();
     let solstr = &quot;&quot;;
     solstr += Story.get(&quot;PC_Info&quot;).processText();
@@ -1970,11 +1952,11 @@ for (let mod in State.variables.account.inventory.mods) {
     /* solstr += Story.get(&quot;Info_Button_Back&quot;).processText();  */
 
     $(&#39;#infoScreenBottomMenuButtons&#39;).wiki(solstr);
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="Info_Button_Back" tags=".infoscreen .helper nostats" position="725,475" size="100,100">&lt;&lt;but &quot;Back&quot; id &quot;infoBack&quot; class &quot;bottomInfoButton&quot;&gt;&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="Info_Button_Back" tags=".infoscreen .helper nostats" position="850,475" size="100,100">&lt;&lt;but &quot;Back&quot; id &quot;infoBack&quot; class &quot;bottomInfoButton&quot;&gt;&gt;
     &lt;&lt;set $info.current = null&gt;&gt;
     &lt;&lt;run $(&#39;#infoScreenMiddleMenuButtons&#39;).empty()&gt;&gt;
     &lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).empty().wiki(Story.get(&quot;Players_Info&quot;).processText())&gt;&gt;
-&lt;&lt;/but&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="PC_Info" tags=".infoscreen .helper nostats" position="850,475" size="100,100">&lt;&lt;if $pc&gt;&gt;
+&lt;&lt;/but&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="PC_Info" tags=".infoscreen .helper nostats" position="975,475" size="100,100">&lt;&lt;if $pc&gt;&gt;
     &lt;&lt;but $pc.name class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;set $info.current = $pc&gt;&gt;
         &lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).wiki(Story.get(&quot;Char_Equipment_Select_Info&quot;).processText());&gt;&gt;
@@ -1984,7 +1966,7 @@ for (let mod in State.variables.account.inventory.mods) {
         &lt;&lt;but &quot;Player Char&quot; class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;/but&gt;&gt;
     &lt;&lt;/disable&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="PP_Info" tags=".infoscreen .helper nostats" position="975,475" size="100,100">&lt;&lt;if $pp&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="PP_Info" tags=".infoscreen .helper nostats" position="1100,475" size="100,100">&lt;&lt;if $pp&gt;&gt;
     &lt;&lt;but $pp.name class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;set $info.current = $pp&gt;&gt;
         &lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).wiki(Story.get(&quot;Char_Equipment_Select_Info&quot;).processText());&gt;&gt;
@@ -1994,7 +1976,7 @@ for (let mod in State.variables.account.inventory.mods) {
         &lt;&lt;but &quot;Main Pawn&quot; class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;/but&gt;&gt;
     &lt;&lt;/disable&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="TP1_Info" tags=".infoscreen .helper nostats" position="1100,475" size="100,100">&lt;&lt;if $tp1&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="TP1_Info" tags=".infoscreen .helper nostats" position="1225,475" size="100,100">&lt;&lt;if $tp1&gt;&gt;
     &lt;&lt;but $tp1.name class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;set $info.current = $tp1&gt;&gt;
         &lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).wiki(Story.get(&quot;Char_Equipment_Select_Info&quot;).processText());&gt;&gt;
@@ -2004,7 +1986,7 @@ for (let mod in State.variables.account.inventory.mods) {
         &lt;&lt;but &quot;First Pawn&quot; class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;/but&gt;&gt;
     &lt;&lt;/disable&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="TP2_Info" tags=".infoscreen .helper nostats" position="1225,475" size="100,100">&lt;&lt;if $tp2&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="TP2_Info" tags=".infoscreen .helper nostats" position="100,600" size="100,100">&lt;&lt;if $tp2&gt;&gt;
     &lt;&lt;but $tp2.name class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;set $info.current = $tp2&gt;&gt;
         &lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).wiki(Story.get(&quot;Char_Equipment_Select_Info&quot;).processText());&gt;&gt;
@@ -2014,18 +1996,18 @@ for (let mod in State.variables.account.inventory.mods) {
         &lt;&lt;but &quot;Second Pawn&quot; class &quot;bottomInfoButton&quot;&gt;&gt;
         &lt;&lt;/but&gt;&gt;
     &lt;&lt;/disable&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="Char_Equipment_Select_Info" tags=".infoscreen .helper nostats" position="100,600" size="100,100">&lt;&lt;run $(&#39;#infoScreenMiddleMenuButtons&#39;).empty().wiki(Story.get(&quot;Info_Description&quot;).processText());&gt;&gt;
-&lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).empty().wiki(Story.get(&quot;Info_Button_Back&quot;).processText());&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="KnowledgeText" tags=".uibar nostats" position="0,525" size="100,100">&lt;&lt;include K_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="K_Template" tags=".knowledge" position="0,550" size="100,100">&lt;&lt;if true&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="Char_Equipment_Select_Info" tags=".infoscreen .helper nostats" position="225,600" size="100,100">&lt;&lt;run $(&#39;#infoScreenMiddleMenuButtons&#39;).empty().wiki(Story.get(&quot;Info_Description&quot;).processText());&gt;&gt;
+&lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).empty().wiki(Story.get(&quot;Info_Button_Back&quot;).processText());&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="KnowledgeText" tags=".uibar nostats" position="0,525" size="100,100">&lt;&lt;include K_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="44" name="K_Template" tags=".knowledge" position="0,550" size="100,100">&lt;&lt;if true&gt;&gt;
     @@.knowledge;Template Matter:@@&lt;br&gt;
     Lorem Ipsum about template matter.
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="44" name="LocationsText" tags=".uibar nostats" position="250,550" size="100,100">&lt;&lt;include L_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="45" name="L_Template" tags=".location" position="250,575" size="100,100">&lt;&lt;if $loc_tmpl_disc&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="45" name="LocationsText" tags=".uibar nostats" position="250,550" size="100,100">&lt;&lt;include L_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="46" name="L_Template" tags=".location" position="250,575" size="100,100">&lt;&lt;if $loc_tmpl_disc&gt;&gt;
     @@.knowledge;Template Matter:@@&lt;br&gt;
     Lorem Ipsum about template matter.
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="46" name="PeopleText" tags=".uibar nostats" position="125,550" size="100,100">&lt;&lt;include P_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="47" name="P_Template" tags=".people" position="125,575" size="100,100">&lt;&lt;if $ppl_tmpl_met&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="47" name="PeopleText" tags=".uibar nostats" position="125,550" size="100,100">&lt;&lt;include P_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="P_Template" tags=".people" position="125,575" size="100,100">&lt;&lt;if $ppl_tmpl_met&gt;&gt;
     @@.knowledge;Template Matter:@@&lt;br&gt;
     Lorem Ipsum about template matter.
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="TooltipText" tags=".uibar nostats" position="375,550" size="100,100">/* The tool tips found in this file are strictly... tooltips. They&#39;re not meant to be seen with a button in the UI bar. */</tw-passagedata><tw-passagedata pid="49" name="TT_Template" tags="nostats" position="375,575" size="100,100">@@.knowledge;Template Matter:@@&lt;br&gt;
-Lorem Ipsum about template matter.</tw-passagedata><tw-passagedata pid="50" name="StoryInterface" tags=".ui nostats" position="0,475" size="100,100">&lt;div id=&quot;infoScreen&quot;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="49" name="TooltipText" tags=".uibar nostats" position="375,550" size="100,100">/* The tool tips found in this file are strictly... tooltips. They&#39;re not meant to be seen with a button in the UI bar. */</tw-passagedata><tw-passagedata pid="50" name="TT_Template" tags="nostats" position="375,575" size="100,100">@@.knowledge;Template Matter:@@&lt;br&gt;
+Lorem Ipsum about template matter.</tw-passagedata><tw-passagedata pid="51" name="StoryInterface" tags=".ui nostats" position="0,475" size="100,100">&lt;div id=&quot;infoScreen&quot;&gt;
     &lt;span id=&quot;infoScreenTitle&quot;&gt;
         Info Screen Title
     &lt;/span&gt;
@@ -2075,30 +2057,30 @@ Dialogs can change story variables, but they won&#39;t change on the
 current [non-dialog] passage, unless it calls:
   [Go To and Render Passage]  Engine.play(&quot;Passage&quot;) 
   [Re-Render Current Passage] Engine.show()
---&gt;</tw-passagedata><tw-passagedata pid="51" name="uiSettings" tags=".ui nostats" position="0,550" size="100,100">⚙️
+--&gt;</tw-passagedata><tw-passagedata pid="52" name="uiSettings" tags=".ui nostats" position="0,550" size="100,100">⚙️
 &lt;&lt;script&gt;&gt;
     $(&quot;li#settingsTab&quot;).click(() =&gt; UI.settings());
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="52" name="uiDisableContent" tags=".ui nostats" position="0,575" size="100,100">❌
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="53" name="uiDisableContent" tags=".ui nostats" position="0,575" size="100,100">❌
 &lt;&lt;script&gt;&gt;
 $(&quot;li#disableContentsTab&quot;).click(() =&gt; {
     Dialog.setup(&quot;Disable Content&quot;);
     Dialog.wiki(Story.get(&quot;ContentDisabler&quot;).processText());
     Dialog.open();
 });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="53" name="uiSaves" tags=".ui nostats" position="0,600" size="100,100">💾
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="54" name="uiSaves" tags=".ui nostats" position="0,600" size="100,100">💾
 &lt;&lt;script&gt;&gt;
     $(&quot;li#savesTab&quot;).click(() =&gt; UI.saves());
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="54" name="uiRestart" tags=".ui nostats" position="0,625" size="100,100">🔁
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="55" name="uiRestart" tags=".ui nostats" position="0,625" size="100,100">🔁
 &lt;&lt;script&gt;&gt;
     $(&quot;li#restartTab&quot;).click(() =&gt; {UI.restart()});
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="55" name="uiCredits" tags=".ui nostats" position="0,650" size="100,100">📜
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="56" name="uiCredits" tags=".ui nostats" position="0,650" size="100,100">📜
 &lt;&lt;script&gt;&gt;
 $(&quot;li#creditsTab&quot;).click(() =&gt; {
     Dialog.setup(&quot;Credits&quot;);
     Dialog.wiki(Story.get(&quot;CreditsText&quot;).processText());
     Dialog.open();
 });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="56" name="uiDev" tags=".ui nostats" position="0,675" size="100,100">🛠️
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="57" name="uiDev" tags=".ui nostats" position="0,675" size="100,100">🛠️
 &lt;&lt;script&gt;&gt;
 if (Config.debug) {
     $(&quot;li#devTab&quot;).click(() =&gt; {
@@ -2109,21 +2091,21 @@ if (Config.debug) {
 } else {
     $(&quot;li#devTab&quot;).css(&quot;display&quot;, &quot;none&quot;);
 }
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="57" name="uiKnowledge" tags=".ui nostats" position="0,700" size="100,100">📖
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="58" name="uiKnowledge" tags=".ui nostats" position="0,700" size="100,100">📖
 &lt;&lt;script&gt;&gt;
 $(&quot;li#knowledgeTab&quot;).click(() =&gt; {
     Dialog.setup(&quot;Knowledge Base&quot;);
     Dialog.wiki(Story.get(&quot;KnowledgeText&quot;).processText());
     Dialog.open();
 });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="58" name="uiPeople" tags=".ui nostats" position="0,725" size="100,100">🧑🏻‍🤝‍🧑🏻
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="59" name="uiPeople" tags=".ui nostats" position="0,725" size="100,100">🧑🏻‍🤝‍🧑🏻
 &lt;&lt;script&gt;&gt;
 $(&quot;li#peopleTab&quot;).click(() =&gt; {
     Dialog.setup(&quot;Person Base&quot;);
     Dialog.wiki(Story.get(&quot;PeopleText&quot;).processText());
     Dialog.open();
 });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="59" name="uiDatabaseInfo" tags=".ui nostats" position="0,750" size="100,100">&lt;span id=&quot;database-text&quot;&gt;&lt;/span&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="60" name="uiDatabaseInfo" tags=".ui nostats" position="0,750" size="100,100">&lt;span id=&quot;database-text&quot;&gt;&lt;/span&gt;
 &lt;&lt;script&gt;&gt;
 if (State.variables.user.logged_in) {
     $(&quot;#database-text&quot;).text(&quot;Connected to Server&quot;);
@@ -2135,7 +2117,7 @@ if (State.variables.user.logged_in) {
         window.open(`https://itch.io/user/oauth?client_id=9a5a87634b363c3ce3908f94c8767e1b&amp;scope=profile%3Ame&amp;response_type=token&amp;redirect_uri=https%3A%2F%2Fmetadb-a53ef.web.app%2Fitch_oauth.html&amp;state=${recall(&#39;user-uuid&#39;)}&amp;`, &quot;_blank&quot;);
     });  
 }
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="60" name="uiAfterwards" tags=".ui nostats" position="0,775" size="100,100">Afterwards
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="61" name="uiAfterwards" tags=".ui nostats" position="0,775" size="100,100">Afterwards
 &lt;&lt;script&gt;&gt;
 if (State.variables.ft_dev_ending) {
     $(&quot;#afterwardsTab&quot;).css(&quot;cursor&quot;, &quot;pointer&quot;);
@@ -2148,7 +2130,7 @@ if (State.variables.ft_dev_ending) {
 } else {
     $(&quot;#afterwardsTab&quot;).css(&quot;display&quot;, &quot;none&quot;);
 }
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="61" name="uiBottomText" tags=".ui nostats" position="0,800" size="100,100">&lt;&lt;script&gt;&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="62" name="uiBottomText" tags=".ui nostats" position="0,800" size="100,100">&lt;&lt;script&gt;&gt;
     /* TODO: Make this a db call. Have this as a backup.  Oh, have it call a different DB entry if the game is out of date. */
     $(output).wiki(setup.STR.bottomUIStr);
 &lt;&lt;/script&gt;&gt;</tw-passagedata></tw-storydata>

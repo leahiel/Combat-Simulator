@@ -1,129 +1,112 @@
+:: Info_Description_Widget [widget .infoscreen .helper nostats]
+<<widget EquipmentButtonInInfoScreen container>>
+    /** Normally I would write error the following error, but since this widget won't ever be used again, who cares:
+     *  WriteError: _args[0] should be "weapon" || "armor" || "accessory" 
+     */
+     
+    /* We capture because the <<but>> macro has its own _args. */
+    <<set _captureArg to _args[0]>>  
+    <<set _tempstr to _args[0] + "Here">>
+
+    <span class="equippableInfoScreen">
+        <span @id="_tempstr"></span>
+        /* Create the item plate. */
+        <<run $info.current.equippables[_captureArg].itemplate(`#${_captureArg}Here`);>>
+
+        /* Create "Swap" and "Mod" buttons. */
+        <<set _tempstr to _captureArg + "InfoScreenButtons">>
+        <span @id="_tempstr">
+            <<capture _captureArg>>
+                <<but "Swap">>
+                    <<script>>
+                        let tempstr2;
+                        let tempstr3;
+
+                        switch (State.temporary.captureArg) {
+                            case "weapon":
+                                tempstr2 = "Weapons";
+                                tempstr3 = "Weapon";
+                                break;
+                            case "armor":
+                                tempstr2 = "Armors";
+                                tempstr3 = "Armor";
+                                break;
+                            case "accessory":
+                                tempstr2 = "Accessories";
+                                tempstr3 = "Accessory";
+                                break;
+                        }
+
+                        Dialog.setup(`${tempstr2}`, "dialogEquipmentSwap");
+                        Dialog.wiki(Story.get(`${tempstr3}_Menu_Info`).processText());
+                        Dialog.open();
+                    <</script>>
+                <</but>>
+            <</capture>>
+            <<if $info.current.equippables[_captureArg] === null || $info.current.equippables[_captureArg].type === "unequipped">>
+                <<disable>>
+                    <<but "Mod">>
+                    <</but>>
+                <</disable>>
+            <<else>>
+                <<capture _captureArg>>
+                    <<but "Mod">>
+                        <<script>>
+                            let tempstr2;
+                            let tempstr3;
+
+                            switch (State.temporary.captureArg) {
+                                case "weapon":
+                                    tempstr2 = "Weapons";
+                                    tempstr3 = "Weapon";
+                                    break;
+                                case "armor":
+                                    tempstr2 = "Armors";
+                                    tempstr3 = "Armor";
+                                    break;
+                                case "accessory":
+                                    tempstr2 = "Accessories";
+                                    tempstr3 = "Accessory";
+                                    break;
+                            }
+
+                            Dialog.setup(tempstr2, "dialogEquipmentSwap");
+                            Dialog.wiki(Story.get(`${tempstr3}_ModMenu_Info`).processText());
+                            Dialog.open();
+                        <</script>>
+                    <</but>>
+                <</capture>>
+            <</if>>
+        </span>
+        /* Position "Swap" and "Mod" buttons. */
+        <<script>>
+            /* We do this because by the time the async runs, the State changes. */
+            let tmpstr = State.temporary.captureArg;
+
+            setup.fns.waitForElm(`span.itemPlate.${tmpstr}`).then(() => {
+                setup.fns.waitForElm(`#${tmpstr}InfoScreenButtons`).then(() => {
+                    $(`span.itemPlate.${tmpstr}`).append($(`#${tmpstr}InfoScreenButtons`));
+                });
+            });
+        <</script>>
+    </span>
+<</widget>>
+
+
+
 :: Info_Description [.infoscreen .helper nostats]
 <<if $info.current === null>>
     Info Screen Description.
 <<else>>
 
-    /* WEAPON */
-    <span class="equippableInfoScreen">
-        <span id="weaponHere"></span>
-        <<if $info.current.equippables.weapon === null || $info.current.equippables.weapon.type === "unequipped">>
-            <<run setup.COM.equippables.unequippedweapon.itemplate("#weaponHere");>>
-        <<else>>
-            <<run $info.current.equippables.weapon.itemplate("#weaponHere");>>
-        <</if>>
-        <span id="weaponInfoScreenButtons">
-        <<but "Swap">>
-            <<script>>
-                Dialog.setup("Weapons", "dialogEquipmentSwap");
-                Dialog.wiki(Story.get("Weapon_Menu_Info").processText());
-                Dialog.open();
-            <</script>>
-        <</but>>
-        <<if $info.current.equippables.weapon === null || $info.current.equippables.weapon.type === "unequipped">>
-            <<disable>>
-                <<but "Mod">>
-                <</but>>
-            <</disable>>
-        <<else>>
-            <<but "Mod">>
-                <<script>>
-                    Dialog.setup("Weapon Mods", "dialogEquipmentMod");
-                    Dialog.wiki(Story.get("Weapon_ModMenu_Info").processText());
-                    Dialog.open();
-                <</script>>
-            <</but>>
-        <</if>>
-        </span>
-        <<script>>
-            setup.fns.waitForElm('span.itemPlate.weapon').then(() => {
-                setup.fns.waitForElm('#weaponInfoScreenButtons').then(() => {
-                    $('span.itemPlate.weapon').append($('#weaponInfoScreenButtons'));
-                });
-            });
-        <</script>>
-    </span>
+    <<EquipmentButtonInInfoScreen "weapon">>
+    <</EquipmentButtonInInfoScreen>>
 
-    /* ARMOR */
-    <span class="equippableInfoScreen">
-        <span id="armorHere"></span>
-        /* TODO Update settings so that we just start with unequipped item instead of checking for null */
-        <<if $info.current.equippables.armor === null || $info.current.equippables.armor.type === "unequipped">>
-            <<run setup.COM.equippables.unequippedarmor.itemplate("#armorHere");>>
-        <<else>>
-            <<run $info.current.equippables.armor.itemplate("#armorHere");>>
-        <</if>>
-        <span id="armorInfoScreenButtons">
-        <<but "Swap">>
-            <<script>>
-                Dialog.setup("Armors", "dialogEquipmentSwap");
-                Dialog.wiki(Story.get("Armor_Menu_Info").processText());
-                Dialog.open();
-            <</script>>
-        <</but>>
-        <<if $info.current.equippables.armor === null || $info.current.equippables.armor.type === "unequipped">>
-            <<disable>>
-                <<but "Mod">>
-                <</but>>
-            <</disable>>
-        <<else>>
-            <<but "Mod">>
-                <<script>>
-                    Dialog.setup("Armor Mods", "dialogEquipmentMod");
-                    Dialog.wiki(Story.get("Armor_ModMenu_Info").processText());
-                    Dialog.open();
-                <</script>>
-            <</but>>
-        <</if>>
-        </span>
-        <<script>>
-            setup.fns.waitForElm('span.itemPlate.armor').then(() => {
-                setup.fns.waitForElm('#armorInfoScreenButtons').then(() => {
-                    $('span.itemPlate.armor').append($('#armorInfoScreenButtons'));
-                });
-            });
-        <</script>>
-    </span>
+    <<EquipmentButtonInInfoScreen "armor">>
+    <</EquipmentButtonInInfoScreen>>
 
-    
-    /* ACCESSORY */
-    <span class="equippableInfoScreen">
-        <span id="accessoryHere"></span>
-        <<if $info.current.equippables.accessory === null || $info.current.equippables.accessory.type === "unequipped">>
-            <<run setup.COM.equippables.unequippedaccessory.itemplate("#accessoryHere");>>
-        <<else>>
-            <<run $info.current.equippables.accessory.itemplate("#accessoryHere");>>
-        <</if>>
-        <span id="accessoryInfoScreenButtons">
-        <<but "Swap">>
-            <<script>>
-                Dialog.setup("Accessories", "dialogEquipmentSwap");
-                Dialog.wiki(Story.get("Accessory_Menu_Info").processText());
-                Dialog.open();
-            <</script>>
-        <</but>>
-        <<if $info.current.equippables.accessory === null || $info.current.equippables.accessory.type === "unequipped">>
-            <<disable>>
-                <<but "Mod">>
-                <</but>>
-            <</disable>>
-        <<else>>
-            <<but "Mod">>
-                <<script>>
-                    Dialog.setup("Accessory Mods", "dialogEquipmentMod");
-                    Dialog.wiki(Story.get("Accessory_ModMenu_Info").processText());
-                    Dialog.open();
-                <</script>>
-            <</but>>
-        <</if>>
-        </span>
-        <<script>>
-            setup.fns.waitForElm('span.itemPlate.accessory').then(() => {
-                setup.fns.waitForElm('#accessoryInfoScreenButtons').then(() => {
-                    $('span.itemPlate.accessory').append($('#accessoryInfoScreenButtons'));
-                });
-            });
-        <</script>>
-    </span>
+    <<EquipmentButtonInInfoScreen "accessory">>
+    <</EquipmentButtonInInfoScreen>>
 
     <<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Info_Button_Back").processText());>>
 <</if>>

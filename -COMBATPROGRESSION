@@ -1,3 +1,9 @@
+TODO: 
+☐ Clean up infoscreen.tw and fix bugs.
+    ☐ Ensure that equipment is disabled during combat.
+☐ Add content.
+☐ Add Reward/Defeat Screen
+
 ☐  = Planned for Implementation
 ☑  = Currently Implemented
 →  = Currently Working On.
@@ -6,6 +12,10 @@
     ☑  Primitive Combat System functional.
         ☐  Weapon Damage Modifier on Attacks. [Req: Weapons!]
         ☐  Weapon Expertise Modifier [Req: Player Stats!]
+    ☐  Attack Animations
+    ☐  Defense (deflected/blocked) Animations
+    ☐  Spells
+    ☐  Miracles
 
     Combat Initialization:
     ☐ Setting (Music, Background, ETC) 
@@ -22,12 +32,12 @@
     ☐ Useable as a Guide/Help system.
 
     Character Equipment and Itemization System:
-    →   An inventory system for equippables.
-    ☑  A Functional Primitive Equipment System
+    ☑   An inventory system for equippables.
+    ☑   A Functional Primitive Equipment System
         ☑  Equipables
-            ☑  Item Affixes [Reg: Equipables!]
-                ☐  Item Affix hot-swappable
-                ☐  Item Affix tiers 
+            ☑  Mods [Reg: Equipables!]
+                ☑  Mods hot-swappable
+                ☑  Mods tiers 
 
     Character Customization:
     ☐ Profiency with Gear

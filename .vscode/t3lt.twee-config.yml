@@ -53,3 +53,9 @@ sugarcube-2:
     flash:
       name: flash
       container: true
+
+
+    # A custom widget to DRY
+    EquipmentButtonInInfoScreen:
+      name: EquipmentButtonInInfoScreen
+      container: true
