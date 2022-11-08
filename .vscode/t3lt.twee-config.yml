@@ -69,3 +69,8 @@ sugarcube-2:
     SlotModMenuInfo:
       name: SlotModMenuInfo
       container: false
+
+    # A custom widget to DRY
+    PlayerInfo:
+      name: PlayerInfo
+      container: false

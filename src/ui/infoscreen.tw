@@ -38,7 +38,7 @@
                         }
 
                         Dialog.setup(`${tempstr2}`, "dialogEquipmentSwap");
-                        Dialog.wiki(Story.get(`${tempstr3}_Menu_Info`).processText());
+                        Dialog.wiki(`<<SlotMenuInfo ${State.temporary.captureArg}>>`);
                         Dialog.open();
                     <</script>>
                 <</but>>
@@ -71,7 +71,7 @@
                             }
 
                             Dialog.setup(tempstr2, "dialogEquipmentSwap");
-                            Dialog.wiki(Story.get(`${tempstr3}_ModMenu_Info`).processText());
+                            Dialog.wiki(`<<SlotModMenuInfo ${State.temporary.captureArg}>>`);
                             Dialog.open();
                         <</script>>
                     <</but>>
@@ -212,7 +212,7 @@
 
                 /* Reload this dialogue so that viableModList is updated. */
                 Dialog.setup(`${State.temporary.strcap} Mods`, "dialogEquipmentMod");
-                Dialog.wiki(Story.get(`${State.temporary.strcap}_ModMenu_Info`).processText());
+                Dialog.wiki(`<<SlotModMenuInfo ${State.temporary.strcap}>>`);
                 Dialog.open();
             });
         });
@@ -221,50 +221,39 @@
 
 
 
-:: Weapon_Menu_Info [.infoscreen .helper nostats]
-<<SlotMenuInfo "weapon">>
-
-
-
-:: Weapon_ModMenu_Info [.infoscreen .helper nostats]
-<<SlotModMenuInfo "weapon">>
-
-
-
-
-:: Armor_Menu_Info [.infoscreen .helper nostats]
-<<SlotMenuInfo "armor">>
-
-
-
-:: Armor_ModMenu_Info [.infoscreen .helper nostats]
-<<SlotModMenuInfo "armor">>
-
-
-
-:: Accessory_Menu_Info [.infoscreen .helper nostats]
-<<SlotMenuInfo "accessory">>
-
-
-
-:: Accessory_ModMenu_Info [.infoscreen .helper nostats]
-<<SlotModMenuInfo "accessory">>
-
-
-
 :: Players_Info [.infoscreen .helper nostats]
 <<script>>
     $('#infoScreenBottomMenuButtons').empty();
     let solstr = "";
-    solstr += Story.get("PC_Info").processText();
-    solstr += Story.get("PP_Info").processText();
-    solstr += Story.get("TP1_Info").processText();
-    solstr += Story.get("TP2_Info").processText();
-
-    /* solstr += Story.get("Info_Button_Back").processText();  */
+    solstr += `<<PlayerInfo $pc>>`;           
+    solstr += `<<PlayerInfo $pp>>`;           
+    solstr += `<<PlayerInfo $tp1>>`;           
+    solstr += `<<PlayerInfo $tp2>>`;           
 
     $('#infoScreenBottomMenuButtons').wiki(solstr);
 <</script>>
+
+
+
+:: Player_Info_Widget [widget .infoscreen .helper nostats]
+<<widget PlayerInfo>>
+    /** Normally I would write error the following error, but since this widget won't ever be used again, who cares:
+     *  WriteError: _args[0] should be $pc || $pp || $tp1 || $tp2 
+     */
+
+    /* Create the character button that brings up that character's equipment. */
+    <<if _args[0]>>
+        <<but _args[0].name class "bottomInfoButton">>
+            <<set $info.current = _args[0]>>
+            <<run $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());>>
+        <</but>>
+    <<else>>
+        <<disable>>
+            <<but "Char Not Present" class "bottomInfoButton">>
+            <</but>>
+        <</disable>>
+    <</if>>
+<</widget>>
 
 
 
@@ -274,66 +263,6 @@
     <<run $('#infoScreenMiddleMenuButtons').empty()>>
     <<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText())>>
 <</but>>
-
-
-
-:: PC_Info [.infoscreen .helper nostats]
-<<if $pc>>
-    <<but $pc.name class "bottomInfoButton">>
-        <<set $info.current = $pc>>
-        <<run $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());>>
-    <</but>>
-<<else>>
-    <<disable>>
-        <<but "Player Char" class "bottomInfoButton">>
-        <</but>>
-    <</disable>>
-<</if>>
-
-
-
-:: PP_Info [.infoscreen .helper nostats]
-<<if $pp>>
-    <<but $pp.name class "bottomInfoButton">>
-        <<set $info.current = $pp>>
-        <<run $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());>>
-    <</but>>
-<<else>>
-    <<disable>>
-        <<but "Main Pawn" class "bottomInfoButton">>
-        <</but>>
-    <</disable>>
-<</if>>
-
-
-
-:: TP1_Info [.infoscreen .helper nostats]
-<<if $tp1>>
-    <<but $tp1.name class "bottomInfoButton">>
-        <<set $info.current = $tp1>>
-        <<run $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());>>
-    <</but>>
-<<else>>
-    <<disable>>
-        <<but "First Pawn" class "bottomInfoButton">>
-        <</but>>
-    <</disable>>
-<</if>>
-
-
-
-:: TP2_Info [.infoscreen .helper nostats]
-<<if $tp2>>
-    <<but $tp2.name class "bottomInfoButton">>
-        <<set $info.current = $tp2>>
-        <<run $('#infoScreenBottomMenuButtons').wiki(Story.get("Char_Equipment_Select_Info").processText());>>
-    <</but>>
-<<else>>
-    <<disable>>
-        <<but "Second Pawn" class "bottomInfoButton">>
-        <</but>>
-    <</disable>>
-<</if>>
 
 
 
