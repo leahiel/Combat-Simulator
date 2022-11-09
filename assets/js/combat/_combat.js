@@ -266,6 +266,10 @@ function attackCalculations(attack, attacker, targets) {
             );
         }
 
+        if (attack.type === "attack" || damageResult !== 0) {
+            damageResult *= attack.wdm;
+        }
+
         // Apply Blocked Damage
         if (statusobj.blocked) {
             switch (mainDamageType) {
@@ -405,6 +409,11 @@ function attackCalculations(attack, attacker, targets) {
         // Apply the attacker's stats to a copy of the attack.
         let thisAttack = applyStats(attack, attacker);
 
+        solobj[idx].type = thisAttack.type;
+        if (thisAttack.type === "buff" || thisAttack.type === "buff") {
+            return;
+        }
+
         // Order of Operations
         // Determine Modifiers (Direct, Critical, Glancing, Blocking)
         // Use Modifiers to get initial Damage Value.
@@ -456,10 +465,12 @@ function attackCalculations(attack, attacker, targets) {
 
     /** Apply solobj to party */
     for (let idx in solobj) {
-        // Apply Damage
-        targets[idx].health -= solobj[idx].damage;
-        if (targets[idx].health < 0) {
-            targets[idx].health = 0;
+        if (solobj[idx].type === "damage") {
+            // Apply Damage
+            targets[idx].health -= solobj[idx].damage;
+            if (targets[idx].health < 0) {
+                targets[idx].health = 0;
+            }
         }
 
         // Apply Block Recovery

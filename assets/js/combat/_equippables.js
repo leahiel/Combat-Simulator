@@ -3,8 +3,8 @@ class Equippable {
         // Merge our obj onto default, then merge those onto this.
         jQuery.extend(true, this, DEFAULTEQUIPPABLE, obj);
 
-        if (!this.type) {
-            console.error(`${this.name} equippable has no type.`);
+        if (!this.slot) {
+            console.error(`${this.name} equippable has no slot.`);
         }
 
         this.mods = [];
@@ -34,8 +34,6 @@ class Equippable {
                 jQuery.extend(true, this, updateProperty(this, mod.affixes[i][0], mod.value[i], mod.affixes[i][1]));
             }
         }
-
-        console.log(this);
     }
 
     // NYI: Every item should have this function which creates an HTML "plate" of the item with stats and whatnot, which can be used in various places for various things.
@@ -71,8 +69,13 @@ const equippables = {
         name: "No Weapon Equipped",
         slot: "weapon",
         type: "unequipped",
-        attacks: mergeArray(setup.COM.familyAttacks.spearWeaponAttacks),
-        
+        attacks: mergeArray(setup.COM.familyAttacks.unarmedAttacks),
+        damage: {
+            blunt: {
+                min: 2,
+                max: 3,
+            }
+        }
     }),
 
     unequippedarmor: new Equippable({

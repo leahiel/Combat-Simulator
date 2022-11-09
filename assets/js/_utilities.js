@@ -288,7 +288,6 @@ function waitForNumberOfElm(selector, number) {
     return new Promise((resolve) => {
         if (document.querySelector(selector)) {
             if ($(selector).length >= number) {
-                console.log($(selector).length);
                 return resolve(document.querySelector(selector));
             }
         }

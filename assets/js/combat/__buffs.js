@@ -6,10 +6,6 @@ class Buff {
         // Merge our obj onto default, then merge those onto this.
         jQuery.extend(true, this, DEFAULTBUFF, obj);
 
-        if (this.custom === undefined) {
-            console.error(`Buff: ${this.name} lacks custom functionality.`);
-        }
-
         if (this.description === undefined) {
             console.error(`Buff: ${this.name} lacks a description.`);
             this.description = "Description missing.";
@@ -33,6 +29,17 @@ const buffs = {
         },
         perInit: function (target) {
             // console.log(`${this.name} perInit'd!`);
+            return;
+        },
+    }),
+
+    buffAmp: new Buff({
+        type: "buff",
+        duration: 250,
+        name: "Amped",
+        description: "Your inits tick twice as fast.",
+        onApply: function (target) {
+            target.initDecrementModifier *= 2;
             return;
         },
     }),

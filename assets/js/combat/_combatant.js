@@ -32,7 +32,6 @@ class Combatant {
                 if (this.equippables[equippable].attacks) {
                     this.attacks = mergeArray(this.attacks, this.equippables[equippable].attacks);
                 }
-                console.log(this.attacks)
 
                 // Don't try to add affixes for unequipped slots.
                 if (this.equippables[equippable].type === "unequipped") {
@@ -40,19 +39,29 @@ class Combatant {
                 }
 
                 // Update Combatant Properties with Equippable Properties
-                function updateProperties(combatant, propobjname) {
+                function updateProperties(combatant, equip, propobjname) {
                     Object.keys(combatant[propobjname]).forEach(function(prop){
-                        combatant[propobjname][prop] += combatant.equippables[equippable][propobjname][prop];
+                        combatant[propobjname][prop] += equip[propobjname][prop];
                     })
                 }
 
-                updateProperties(this, "absorbPercent");
-                updateProperties(this, "absorbPercentMax");
-                updateProperties(this, "absorbFlat");
+                updateProperties(this, this.equippables[equippable], "absorbPercent");
+                updateProperties(this, this.equippables[equippable], "absorbPercentMax");
+                updateProperties(this, this.equippables[equippable], "absorbFlat");
 
-                updateProperties(this, "resistance");
-                updateProperties(this, "resistanceMax");
-                updateProperties(this, "reduct");
+                updateProperties(this, this.equippables[equippable], "resistance");
+                updateProperties(this, this.equippables[equippable], "resistanceMax");
+                updateProperties(this, this.equippables[equippable], "reduct");
+
+                updateProperties(this.damage, this.equippables[equippable].damage, "blunt");
+                updateProperties(this.damage, this.equippables[equippable].damage, "pierce");
+                updateProperties(this.damage, this.equippables[equippable].damage, "acid");
+                updateProperties(this.damage, this.equippables[equippable].damage, "fire");
+                updateProperties(this.damage, this.equippables[equippable].damage, "frost");
+                updateProperties(this.damage, this.equippables[equippable].damage, "lightning");
+                updateProperties(this.damage, this.equippables[equippable].damage, "sacred");
+                updateProperties(this.damage, this.equippables[equippable].damage, "shadow");
+                updateProperties(this.damage, this.equippables[equippable].damage, "aether");
 
                 // // Apply equippable affix stats to Combatant.
                 // // NTS: This is very outdated code, and shouldn't be used, but I left it in as I may utilize affixes on equippables.
@@ -181,7 +190,7 @@ class Combatant {
         // flavor text
         if (!(this.family === "player")) {
             solstr += `<span class='infoSectionHeader'>FLAVOR</span>`;
-            solstr += `<grid><span>${this.flavortext}</span></grid>`;
+            solstr += `<grid><span>${this.description}</span></grid>`;
         }
 
         return solstr;

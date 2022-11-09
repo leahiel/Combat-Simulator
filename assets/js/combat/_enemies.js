@@ -12,7 +12,7 @@ class Enemy {
             console.error(`${this.name}'s family is null.`);
         }
 
-        if (this.flavortext === null) {
+        if (this.description === null) {
             console.error(`${this.name}'s flavor text is null.`);
         }
     }
@@ -25,6 +25,7 @@ const monsters = {
         healthMax: 4,
         initStart: 67,
         attacks: setup.COM.familyAttacks.Spider,
+        description: "A filthy abomination in a larger than acceptable size.",
     }),
 
     ENhog: new Enemy({
@@ -33,6 +34,7 @@ const monsters = {
         healthMax: 8,
         initStart: 47,
         attacks: setup.COM.familyAttacks.Hog,
+        description: "A boar, a hog, a whore, they're all the same, and they're all vicious.",
     }),
 
     //Carbuncles
@@ -42,6 +44,7 @@ const monsters = {
         healthMax: 5,
         initStart: 34,
         attacks: setup.COM.familyAttacks.Carbuncle,
+        description: "An adorable little rabbit with crystals growing on it.",
     }),
 
     ENAquamarineCarbuncle: new Enemy({
@@ -50,6 +53,7 @@ const monsters = {
         healthMax: 13,
         initStart: 24,
         attacks: setup.COM.familyAttacks.Carbuncle,
+        description: "An adorable little rabbit with crystals growing on it.",
     }),
 
     ENEmeraldCarbuncle: new Enemy({
@@ -58,6 +62,7 @@ const monsters = {
         healthMax: 14,
         initStart: 27,
         attacks: setup.COM.familyAttacks.Carbuncle,
+        description: "An adorable little rabbit with crystals growing on it.",
     }),
 
     ENOynxCarbuncle: new Enemy({
@@ -66,6 +71,7 @@ const monsters = {
         healthMax: 12,
         initStart: 25,
         attacks: setup.COM.familyAttacks.Carbuncle,
+        description: "An adorable little rabbit with crystals growing on it.",
     }),
 
     ENRubyCarbuncle: new Enemy({
@@ -74,6 +80,7 @@ const monsters = {
         healthMax: 14,
         initStart: 27,
         attacks: setup.COM.familyAttacks.Carbuncle,
+        description: "An adorable little rabbit with crystals growing on it.",
     }),
 
     ENSapphireCarbuncle: new Enemy({
@@ -82,6 +89,7 @@ const monsters = {
         healthMax: 14,
         initStart: 27,
         attacks: setup.COM.familyAttacks.Carbuncle,
+        description: "An adorable little rabbit with crystals growing on it.",
     }),
 
     ENTopazCarbuncle: new Enemy({
@@ -90,6 +98,7 @@ const monsters = {
         healthMax: 14,
         initStart: 27,
         attacks: setup.COM.familyAttacks.Carbuncle,
+        description: "An adorable little rabbit with crystals growing on it.",
     }),
 };
 

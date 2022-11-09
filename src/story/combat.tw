@@ -58,7 +58,7 @@ async function processTurns(pp, ep) {
     /** Decrement init of the character, and apply buffs if applicable. */
     function decrementInits(char) {
         let initDecrementAmount = .25;
-        char.init -= initDecrementAmount;
+        char.init -= (initDecrementAmount * char.initDecrementModifier);
 
         for (let buff of char.buffs) {
             /* Decrement buff. If buff duration goes down a whole number, apply its effects. */
@@ -381,9 +381,9 @@ if (ppdead) {
 
 <<if $ci.pp.includes($ci.activeCharacter)>>
     <<for _int, _attack range $ci.activeCharacter.attacks>>
+    <<set _attack.viableTargets to setup.COM.assignViableTargets(_attack, $ci.activeCharacter)>>
         <<capture _attack>>
-            <<set _viableTargets = setup.COM.assignViableTargets(_attack, $ci.activeCharacter)>>
-            <<if _viableTargets.length === 0>>
+            <<if _attack["viableTargets"].length === 0>>
                 /* There are no viable targets, so disable the button. */
                 <<script>>
                     $(`playerOptionsGrid #gitem${State.temporary.int + 1}`).wiki(`
@@ -558,7 +558,7 @@ if (ppdead) {
 <<else>>/* _attack.targetType = "single" */
     <<for _int, _target range $ci.ep>>
         <<capture _target>>
-            <<if _viableTargets.includes(_target) && _target.health > 0>>
+            <<if _attack["viableTargets"].includes(_target) && _target.health > 0>>
                 <<script>>
                     $(`playerOptionsGrid #gitem${State.temporary.int + 1}`).wiki(`
                         <<but _target.name id "#AttackTarget">>
@@ -587,12 +587,12 @@ if (ppdead) {
     /* Handle Players */
     <<for _int, _target range $ci.pp>>
         <<capture _target>>
-            <<if _viableTargets.includes(_target)>>
+            <<if _attack["viableTargets"].includes(_target)>>
                 <<script>>
                     $(`playerOptionsGrid #gitem${State.temporary.int + 7}`).wiki(`
                         <<but _target.name id "#AttackTarget">>
                             <<script>>
-                                setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, State.temporary.target);
+                                setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, [State.temporary.target]);
                                 State.variables.ci.activeCharacter = null;
                                 $("#combatZone").wiki(Story.get("Combat_Zone").processText());
                             <</script>>

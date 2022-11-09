@@ -100,6 +100,58 @@ class Attack {
 }
 
 const attacks = {
+    // UNARMED ATTACKS
+    flick: new Attack({
+        name: "Flick",
+        family: "unarmedAttacks",
+        initRecovery: 18,
+        wdm: 0.5,
+        targetType: "single",
+        frontlineTargetable: true,
+        backlineTargetable: false,
+        damage: {
+            pierce: {
+                min: 1,
+                max: 1
+            }
+        },
+        stun: 5,
+        description: "You flick your opponent, causing them to blink in surpise.",
+    }),
+
+    gutpunch: new Attack({
+        name: "Gut Punch",
+        family: "unarmedAttacks",
+        initRecovery: 23,
+        wdm: 2,
+        targetType: "single",
+        frontlineTargetable: true,
+        backlineTargetable: false,
+        damage: {
+            blunt: {
+                min: 3,
+                max: 3
+            }
+        },
+        stun: 18,
+        description: "Slam your fist into the enemy's gut, causing them to crunch over.",
+    }),
+
+    amp: new Attack({
+        name: "Amped Up",
+        wdm: 0,
+        family: "unarmedAttacks",
+        initRecovery: 20,
+        type: "buff",
+        targetType: "single", // TOOD: Add "self"
+        allyTargetable: true,
+        opponentTargetable: false,
+        frontlineTargetable: true,
+        backlineTargetable: true,
+        description: "You amp yourself up, increasing the rate of your init.",
+        buffs: [buffs.buffAmp],
+    }),
+
     // SPEAR ATTACKS
     stab: new Attack({
         name: "Stab",
@@ -115,6 +167,7 @@ const attacks = {
                 max: 13,
             },
         },
+        description: "Stab at your foe, doing extra pierce damage.",
     }),
 
     sweep: new Attack({
@@ -134,6 +187,7 @@ const attacks = {
                 max: 13,
             },
         },
+        description: "Sweep at the foes in front of you.",
     }),
 
     // ENEMY ATTACKS
@@ -156,10 +210,12 @@ const attacks = {
                 max: 12,
             },
         },
+        description: "A vile bite, inflicting pierce and acid damage.",
     }),
 
     webshot: new Attack({
         name: "Web Shot",
+        type: "spell",
         family: "Spider",
         targetType: "area",
         allyTargetable: false,
@@ -176,6 +232,8 @@ const attacks = {
                 max: 4,
             },
         },
+        description: "A gooey web that slows down the opponent.",
+        // TODO: Add debuff
     }),
 
     eightleggedrush: new Attack({
@@ -193,6 +251,7 @@ const attacks = {
                 max: 19,
             },
         },
+        description: "A spider's tackle.",
     }),
 
     // Hog
@@ -211,6 +270,7 @@ const attacks = {
                 max: 13,
             },
         },
+        description: "A hog's tackle.",
     }),
 
     hoggore: new Attack({
@@ -228,6 +288,7 @@ const attacks = {
                 max: 14,
             },
         },
+        description: "The hog impales it's enemy with it's tusks.",
     }),
 
     // Carbuncle
@@ -246,10 +307,12 @@ const attacks = {
                 max: 5,
             },
         },
+        description: "An adorable little attack that inspires awh in its enemies.",
     }),
 
     crystalshot: new Attack({
         name: "Crystal Shot",
+        type: "spell",
         family: "Carbuncle",
         initRecovery: "36",
         targetType: "single",
@@ -263,7 +326,9 @@ const attacks = {
                 max: 10,
             },
         },
+        description: "A piercing candle stick's worth of crystal is summoned and shot through the air.",
     }),
+    
 };
 
 /**

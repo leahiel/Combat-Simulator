@@ -1,4 +1,6 @@
 const DEFAULTEQUIPPABLE = {
+    /** A multiplier for your init decrements. */
+    initDecrementModifier: 1,
     mods: [],
     modslots: 0,
     affixes: [], // REVIEW: Unused, but maybe I'll need it for special mods that do special things?
@@ -64,7 +66,62 @@ const DEFAULTEQUIPPABLE = {
             max: 100,
         },
     },
-    
+    criticalChanceCalculated: 0,
+    criticalChanceBase: 0,
+    criticalChanceIncreased: 0,
+    criticalChanceMore: 1,
+    criticalDamageCalculated: 0,
+    criticalDamageBase: 0,
+    criticalDamageIncreased: 0,
+    criticalDamageMore: 1,
+
+    directChanceCalculated: 0,
+    directChanceBase: 0,
+    directChanceIncreased: 0,
+    directChanceMore: 1,
+    damage: {
+        // Material Damage Types
+        blunt: {
+            min: 0,
+            max: 0,
+        },
+        pierce: {
+            min: 0,
+            max: 0,
+        },
+        acid: {
+            min: 0,
+            max: 0,
+        },
+
+        // Elemental Damage Types
+        fire: {
+            min: 0,
+            max: 0,
+        },
+        frost: {
+            min: 0,
+            max: 0,
+        },
+        lightning: {
+            min: 0,
+            max: 0,
+        },
+
+        // Occult Damage Types
+        sacred: {
+            min: 0,
+            max: 0,
+        },
+        shadow: {
+            min: 0,
+            max: 0,
+        },
+        aether: {
+            min: 0,
+            max: 0,
+        },
+    },
     absorbPercent: {
         material: 0,
         blunt: 0,
@@ -161,7 +218,6 @@ const DEFAULTEQUIPPABLE = {
         shadow: 0,
         aether: 0,
     },
-    
 };
 
 /** The default attack object. Name must be specified itself when creating a new Attack. Values not specified will use these default values instead. */
@@ -181,7 +237,8 @@ const DEFAULTBUFF = {
 // NYI: initVariancePercent to vary the recovery Init a little.
 const DEFAULTATTACK = {
     family: null,
-
+    /** Must be "attack", "spell", or "miracle". */
+    type: "attack",
     /** Must be "damage", "buff", or "debuff". */
     effect: "damage",
     /** The amount of init after using this Attack that the character who used it should take to recover. */
@@ -260,6 +317,8 @@ const DEFAULTATTACK = {
 };
 
 const DEFAULTENEMY = {
+    /** A multiplier for your init decrements. */
+    initDecrementModifier: 1,
     stats: {
         appearance: {
             mean: 50,
@@ -430,10 +489,12 @@ const DEFAULTENEMY = {
 
     initVariance: 0.1,
     family: null,
-    flavortext: null,
+    description: null,
 };
 
 const DEFAULTPLAYER = {
+    /** A multiplier for your init decrements. */
+    initDecrementModifier: 1,
     healthMax: 125,
     initStart: 43,
     initVariance: 0.1,
@@ -496,7 +557,49 @@ const DEFAULTPLAYER = {
             max: 100,
         },
     },
+    damage: {
+        // Material Damage Types
+        blunt: {
+            min: 0,
+            max: 0,
+        },
+        pierce: {
+            min: 0,
+            max: 0,
+        },
+        acid: {
+            min: 0,
+            max: 0,
+        },
 
+        // Elemental Damage Types
+        fire: {
+            min: 0,
+            max: 0,
+        },
+        frost: {
+            min: 0,
+            max: 0,
+        },
+        lightning: {
+            min: 0,
+            max: 0,
+        },
+
+        // Occult Damage Types
+        sacred: {
+            min: 0,
+            max: 0,
+        },
+        shadow: {
+            min: 0,
+            max: 0,
+        },
+        aether: {
+            min: 0,
+            max: 0,
+        },
+    },
     absorbPercent: {
         material: 0,
         blunt: 0,
