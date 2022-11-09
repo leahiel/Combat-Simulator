@@ -36,17 +36,27 @@ class CombatInstance {
         this.ppbacklineTargetable = false;
 
         /* Initialize Player Party */
-        let temp_ppo = this.pp;
         this.pp = [];
-        for (let uninitPlayer of temp_ppo) {
-            this.pp.push(new setup.COM.Combatant(uninitPlayer));
+        if (State.variables.pc) {
+            this.pp[0] = State.variables.pc;
+        }
+        if (State.variables.pp) {
+            this.pp[1] = State.variables.pp;
+        }
+        if (State.variables.tp1) {
+            this.pp[2] = State.variables.tp1;
+        }
+        if (State.variables.tp2) {
+            this.pp[3] = State.variables.tp2;
+        }
+
+        for (let uninitPlayer in this.pp) {
+            this.pp[uninitPlayer] = new setup.COM.Combatant(this.pp[uninitPlayer]);
         }
 
         /* Initialize Enemy Party */
-        let temp_epo = this.ep;
-        this.ep = [];
-        for (let uninitEnemy of temp_epo) {
-            this.ep.push(new setup.COM.Combatant(setup.COM.monsters[uninitEnemy]));
+        for (let uninitEnemy in this.ep) {
+            this.ep[uninitEnemy] = new setup.COM.Combatant(monsters[this.ep[uninitEnemy]]);
         }
 
         /* Add the locations of each character to their obj. */

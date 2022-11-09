@@ -1,6 +1,167 @@
 const DEFAULTEQUIPPABLE = {
     mods: [],
     modslots: 0,
+    affixes: [], // REVIEW: Unused, but maybe I'll need it for special mods that do special things?
+
+    health: 0,
+    blockRecovery: 0,
+    initStart: 0,
+    initVariance: 0,
+
+    stats: {
+        appearance: {
+            mean: 50,
+            std: 2.5,
+            min: 0,
+            max: 100,
+        },
+        constitution: {
+            mean: 50,
+            std: 2.5,
+            min: 0,
+            max: 100,
+        },
+        dexterity: {
+            mean: 50,
+            std: 2.5,
+            min: 0,
+            max: 100,
+        },
+        education: {
+            mean: 50,
+            std: 2.5,
+            min: 0,
+            max: 100,
+        },
+        intelligence: {
+            mean: 50,
+            std: 2.5,
+            min: 0,
+            max: 100,
+        },
+        size: {
+            mean: 50,
+            std: 2.5,
+            min: 0,
+            max: 100,
+        },
+        strength: {
+            mean: 50,
+            std: 2.5,
+            min: 0,
+            max: 100,
+        },
+        telekinesis: {
+            mean: 50,
+            std: 2.5,
+            min: 0,
+            max: 100,
+        },
+        willpower: {
+            mean: 50,
+            std: 2.5,
+            min: 0,
+            max: 100,
+        },
+    },
+    
+    absorbPercent: {
+        material: 0,
+        blunt: 0,
+        pierce: 0,
+        acid: 0,
+
+        elemental: 0,
+        fire: 0,
+        frost: 0,
+        lightning: 0,
+
+        occult: 0,
+        sacred: 0,
+        shadow: 0,
+        aether: 0,
+    },
+    absorbPercentMax: {
+        material: 0,
+        blunt: 0,
+        pierce: 0,
+        acid: 0,
+
+        elemental: 0,
+        fire: 0,
+        frost: 0,
+        lightning: 0,
+
+        occult: 0,
+        sacred: 0,
+        shadow: 0,
+        aether: 0,
+    },
+    absorbFlat: {
+        material: 0,
+        blunt: 0,
+        pierce: 0,
+        acid: 0,
+
+        elemental: 0,
+        fire: 0,
+        frost: 0,
+        lightning: 0,
+
+        occult: 0,
+        sacred: 0,
+        shadow: 0,
+        aether: 0,
+    },
+    resistance: {
+        material: 0,
+        blunt: 0,
+        pierce: 0,
+        acid: 0,
+
+        elemental: 0,
+        fire: 0,
+        frost: 0,
+        lightning: 0,
+
+        occult: 0,
+        sacred: 0,
+        shadow: 0,
+        aether: 0,
+    },
+    resistanceMax: {
+        material: 0,
+        blunt: 0,
+        pierce: 0,
+        acid: 0,
+
+        elemental: 0,
+        fire: 0,
+        frost: 0,
+        lightning: 0,
+
+        occult: 0,
+        sacred: 0,
+        shadow: 0,
+        aether: 0,
+    },
+    reduct: {
+        material: 0,
+        blunt: 0,
+        pierce: 0,
+        acid: 0,
+
+        elemental: 0,
+        fire: 0,
+        frost: 0,
+        lightning: 0,
+
+        occult: 0,
+        sacred: 0,
+        shadow: 0,
+        aether: 0,
+    },
+    
 };
 
 /** The default attack object. Name must be specified itself when creating a new Attack. Values not specified will use these default values instead. */
@@ -277,9 +438,7 @@ const DEFAULTPLAYER = {
     initStart: 43,
     initVariance: 0.1,
 
-    equippables: {
-
-    },
+    equippables: {},
 
     stats: {
         appearance: {
@@ -337,6 +496,7 @@ const DEFAULTPLAYER = {
             max: 100,
         },
     },
+
     absorbPercent: {
         material: 0,
         blunt: 0,

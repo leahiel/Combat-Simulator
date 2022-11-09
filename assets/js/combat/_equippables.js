@@ -4,16 +4,41 @@ class Equippable {
         jQuery.extend(true, this, DEFAULTEQUIPPABLE, obj);
 
         if (!this.type) {
-            console.error(`${this.name} equippable has no type.`)
+            console.error(`${this.name} equippable has no type.`);
         }
 
         this.mods = [];
         for (let i = 0; i < this.modslots; i++) {
             this.mods.push(affixes.unequippedMod);
         }
+
+        this.original = cloneDeep(this);
     }
 
-    // TODO: Every item should have this function which creates an HTML "plate" of the item with stats and whatnot, which can be used in various places for various things.
+    applyMods() {
+        // Reset the equippable back to how it was without mod affixes being added.
+        let mods = this.mods;
+        let newBaseObj = cloneDeep(this.original);
+        Object.assign(this, newBaseObj);
+        this.mods = mods;
+
+        // Apply Mods
+        for (let mod of this.mods) {
+            // Don't mess with unequipped mods.
+            if (mod.type === "UnequippedMod") {
+                continue;
+            }
+
+            // Apply mod affix stats to Equippable.
+            for (let i = 0; i < mod.affixes.length; i++) {
+                jQuery.extend(true, this, updateProperty(this, mod.affixes[i][0], mod.value[i], mod.affixes[i][1]));
+            }
+        }
+
+        console.log(this);
+    }
+
+    // NYI: Every item should have this function which creates an HTML "plate" of the item with stats and whatnot, which can be used in various places for various things.
     itemplate(selector) {
         let solHTML = `<span class="itemPlate ${this.slot}">`;
         solHTML += this.name;
@@ -40,14 +65,14 @@ class Equippable {
  *
  * Proficiency should be a player stat. Player and their Main Pawn can gain it, while other pawns cannot.
  */
-
 const equippables = {
     // UNEQUIPPED
     unequippedweapon: new Equippable({
         name: "No Weapon Equipped",
         slot: "weapon",
         type: "unequipped",
-        attacks: [attacks.stab, attacks.sweep],
+        attacks: mergeArray(setup.COM.familyAttacks.spearWeaponAttacks),
+        
     }),
 
     unequippedarmor: new Equippable({

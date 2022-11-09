@@ -229,6 +229,8 @@
                 $(`.${st.listboxstr}`).change( function (elm) {
                     /* Change the modslot's mod to the updated mod. */
                     svice[captureArg].mods[$(this).attr("boxnum")] = viableModList[$(this).val()];
+                    /* Update the Equippable */
+                    svice[captureArg].applyMods();
 
                     /* Reload this dialogue so that viableModList is updated. */
                     Dialog.setup(`${st.strcap} Mods`, "dialogEquipmentMod");
@@ -243,8 +245,11 @@
 
 
 :: Players_Info [.infoscreen .helper nostats]
-/* TODO: Don't show, or at least disable, these buttons during combat. */
+/** Show these buttons during combat. 
+ * REVIEW: Disable instead? 
+ */
 <<script>>
+if (!tags().includes(".combat")) {
     $('#infoScreenBottomMenuButtons').empty();
     let solstr = "";
     solstr += `<<PlayerInfo $pc>>`;           
@@ -253,6 +258,9 @@
     solstr += `<<PlayerInfo $tp2>>`;           
 
     $('#infoScreenBottomMenuButtons').wiki(solstr);
+} else {
+    $('#infoScreenMiddleMenuButtons').empty()
+}
 <</script>>
 
 

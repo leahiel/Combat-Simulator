@@ -51,31 +51,6 @@ It's intended for actual rendering stuff. */
 
 <span id='flash-notifs-here'></span>
 
-/* <<if Config.debug>> */
-    <br>
-    <br>
-    <<button [[Gen. Random Combat Instance|Combat_Overlord]]>>
-        /* NYI: Players should be drawn from an already existing Player Object. */
-        /* I haven't really figured out how to store the Player Objects yet though. */
-        <<set _pp to []>>
-        <<set _pp[0] to $pc>>
-
-        /* Random Int between 1 and 5 */
-        <<set _int to Math.ceil(Math.random() * (5))>>
-        <<set _ep to setup.fns.ranItems(_int, Object.keys(setup.COM.monsters), true)>>
-
-        /* Generate CombatInstance */
-        <<script>>
-            State.variables.ci = new setup.COM.CombatInstance({
-                win: "victoryCodeToBeWiki'd",
-                lose: "lossCodeToBeWiki'd",
-                pp: State.temporary.pp,  /* Array of Player Objects. */
-                ep: State.temporary.ep,  /* Array of monster names. */
-            });
-        <</script>>
-    <</button>>
-/* <</if>> */
-
 
 
 :: PassageDone [.rendering] {"position":"250,550"}

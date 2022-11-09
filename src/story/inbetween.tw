@@ -1,0 +1,15 @@
+:: Inbetween [@rest]
+This is a passage for you to change character characteristics between combat instances.
+<br>
+<<button [[Gen. Random Combat Instance|Combat_Overlord]]>>
+	<<script>>
+		/* Random Int between 1 and 5 */
+		let int = Math.ceil(Math.random() * (5));
+
+		State.variables.ci = new setup.COM.CombatInstance({
+			win: "<<link [[You won!|Inbetween]]>><</link>>",
+			lose: "<<link [[You lost!|Inbetween]]>><</link>>",
+			ep: setup.fns.ranItems(int, Object.keys(setup.COM.monsters), true),  /* Array of monster names. */
+		});
+	<</script>>
+<</button>>

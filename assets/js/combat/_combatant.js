@@ -19,40 +19,55 @@ class Combatant {
         let min = this.initStart * (1 - this.initVariance);
         this.init = Math.floor(Math.random() * (max - min + 1)) + Math.floor(min);
 
+        if (!this.attacks) {
+            this.attacks = [];
+        }
+
         /**
          * equippables
          */
         if (this.equippables) {
             for (let equippable in this.equippables) {
+                // Add attacks to Combatant.
                 if (this.equippables[equippable].attacks) {
-                    this.attacks = this.equippables[equippable].attacks;
+                    this.attacks = mergeArray(this.attacks, this.equippables[equippable].attacks);
                 }
+                console.log(this.attacks)
 
                 // Don't try to add affixes for unequipped slots.
                 if (this.equippables[equippable].type === "unequipped") {
                     continue;
                 }
 
-                // Update affixes.
-                for (let mod of this.equippables[equippable].mods) {
-                    // Don't mess with unequipped mods.
-                    if (mod.type === "UnequippedMod") {
-                        continue;
-                    }
-
-                    for (let i = 0; i < mod.affixes.length; i++) {
-                        jQuery.extend(
-                            true,
-                            this,
-                            updateProperty(this, mod.affixes[i][0], mod.value[i], mod.affixes[i][1])
-                        );
-                    }
+                // Update Combatant Properties with Equippable Properties
+                function updateProperties(combatant, propobjname) {
+                    Object.keys(combatant[propobjname]).forEach(function(prop){
+                        combatant[propobjname][prop] += combatant.equippables[equippable][propobjname][prop];
+                    })
                 }
+
+                updateProperties(this, "absorbPercent");
+                updateProperties(this, "absorbPercentMax");
+                updateProperties(this, "absorbFlat");
+
+                updateProperties(this, "resistance");
+                updateProperties(this, "resistanceMax");
+                updateProperties(this, "reduct");
+
+                // // Apply equippable affix stats to Combatant.
+                // // NTS: This is very outdated code, and shouldn't be used, but I left it in as I may utilize affixes on equippables.
+                // for (let i = 0; i < mod.affixes.length; i++) {
+                //     jQuery.extend(
+                //         true,
+                //         this,
+                //         updateProperty(this, mod.affixes[i][0], mod.value[i], mod.affixes[i][1])
+                //     );
+                // }
             }
         }
 
         /**
-         * NYI: These should be calculated with a function here, but
+         * NYI: Everything should be calculated with a function here, but
          * that ability is NYI.
          */
         this.deflectedCalculated = 0.05;

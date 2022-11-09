@@ -25,8 +25,6 @@
     <ul>
         <li id="knowledgeTab" data-passage="uiKnowledge"></li>
         <li id="peopleTab" data-passage="uiPeople"></li>
-        <!-- <li id="afterwardsTab" data-passage="uiAfterwards"></li> -->
-
         <li id="settingsTab" data-passage="uiSettings"></li>
         <li id="disableContentsTab" data-passage="uiDisableContent"></li>
         <li id="savesTab" data-passage="uiSaves"></li>

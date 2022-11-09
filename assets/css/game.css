@@ -580,7 +580,7 @@ input:checked ~ accordionContent {
 
 #storyTabs ul {
     position: fixed;
-    width: 0;
+    width: 1px;
 
     right: -1rem;
     top: 3rem;

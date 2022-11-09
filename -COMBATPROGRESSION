@@ -1,8 +1,8 @@
 TODO: 
-☐ Clean up infoscreen.tw and fix bugs.
-    ☐ Ensure that equipment is disabled during combat.
-☐ Add content.
-☐ Add Reward/Defeat Screen
+☐  Gear Base Stats apply to Character
+☐  Add content.
+☐  Add descriptions to player attacks.
+☐  Add Reward/Defeat Screen.
 
 ☐  = Planned for Implementation
 ☑  = Currently Implemented
@@ -12,32 +12,60 @@ TODO:
     ☑  Primitive Combat System functional.
         ☐  Weapon Damage Modifier on Attacks. [Req: Weapons!]
         ☐  Weapon Expertise Modifier [Req: Player Stats!]
-    ☐  Attack Animations
-    ☐  Defense (deflected/blocked) Animations
+    ☑  Buffs
+        ☑  On Apply
+        ☑  On Reapply
+        ☑  Per Init
+        ☐  When Targetted
+            ☐  Counter-Attacks
+        ☐  When Take Damage
+        ☐  On Attack
+        ☐  On Spell
+        ☐  On Miracle
+        ☐  On Ally Attack
+        ☐  When Ally Hit
+    ☐  Animations
+        ☐  Attack
+        ☐  Defense
+            ☐  Hit
+            ☐  Deflected
+            ☐  Blocked
     ☐  Spells
     ☐  Miracles
-
+    ☐  Energy Shield (or do I want divine shield?)
+    
     Combat Initialization:
-    ☐ Setting (Music, Background, ETC) 
-    ☐ Reward/Defeat Screen 
+    ☐  Setting (Music, Background, ETC) 
+    ☐  Reward/Defeat Screen 
         ☐  Drops
-    ☐ Combatant Equipment Applies Stats to Combatant [Req: Equipables!]
+            ☐   Predetermined
+            ☐   From Weighted Array
+            ☐   From Enemy Drop Table
+    ☐  Combatant Equipment Applies Stats to Combatant [Req: Equipables!]
         ☐  Available Attacks based on Equipped Weapon [Req: Equipables!]
-    ☐ Monster Rarity and Affix System
+    ☐  Monster Rarity and Affix System
 
     Information Screen:
     →  Combat Instance Statistics Visible
     →  Attack Statistics Visible
     →  Monster Statistics Visible
-    ☐ Useable as a Guide/Help system.
-
-    Character Equipment and Itemization System:
-    ☑   An inventory system for equippables.
-    ☑   A Functional Primitive Equipment System
-        ☑  Equipables
-            ☑  Mods [Reg: Equipables!]
-                ☑  Mods hot-swappable
-                ☑  Mods tiers 
+    ☐  Useable as a Guide/Help system.
+    ☐  Bestiary system that teaches you more about enemies the more you fight them.
 
     Character Customization:
-    ☐ Profiency with Gear
+    ☐  Passive Skill Tree
+    ☐  Guild Rank
+        ☐  E-Rank:
+            ☐  Quests
+            ☐  Encounters
+            ☐  Mid-Bosses
+            ☐  Boss
+            ☑  Guild Test [E Rank promotes automatically]
+    ☐  Able to Learn Spells
+        ☐   By watching allies cast spell
+        ☐   By watching enemies cast spell
+        ☐   By reading scrolls (P2P Premium Trading)
+        ☐   By studying (G2P Resource Trading)
+        
+    ☐  Profiency with Gear
+    ☐  Profiency with Attacks

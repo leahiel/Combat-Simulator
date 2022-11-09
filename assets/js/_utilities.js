@@ -238,6 +238,20 @@ function cloneDeep(obj, ...args) {
 }
 
 /**
+ * Non-destructively merges arrays.
+ *
+ * https://www.geeksforgeeks.org/javascript-array-concat-method/
+ */
+function mergeArray() {
+    let solarr = [];
+    for (let i = 0; i < arguments.length; i++) {
+        solarr = solarr.concat(arguments[i]);
+    }
+
+    return solarr;
+}
+
+/**
  * Waits for an element to exist before doing thing.
  *
  * ```
