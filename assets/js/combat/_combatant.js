@@ -40,31 +40,52 @@ class Combatant {
 
                 // Update Combatant Properties with Equippable Properties
                 function updateProperties(combatant, equip, propobjname) {
-                    Object.keys(combatant[propobjname]).forEach(function(prop){
+                    Object.keys(combatant[propobjname]).forEach(function (prop) {
                         combatant[propobjname][prop] += equip[propobjname][prop];
-                    })
+                    });
                 }
 
-                updateProperties(this, this.equippables[equippable], "absorbPercent");
-                updateProperties(this, this.equippables[equippable], "absorbPercentMax");
-                updateProperties(this, this.equippables[equippable], "absorbFlat");
+                let item = this.equippables[equippable];
 
-                updateProperties(this, this.equippables[equippable], "resistance");
-                updateProperties(this, this.equippables[equippable], "resistanceMax");
-                updateProperties(this, this.equippables[equippable], "reduct");
+                updateProperties(this, item, "absorbPercent");
+                updateProperties(this, item, "absorbPercentMax");
+                updateProperties(this, item, "absorbFlat");
 
-                updateProperties(this.damage, this.equippables[equippable].damage, "blunt");
-                updateProperties(this.damage, this.equippables[equippable].damage, "pierce");
-                updateProperties(this.damage, this.equippables[equippable].damage, "acid");
-                updateProperties(this.damage, this.equippables[equippable].damage, "fire");
-                updateProperties(this.damage, this.equippables[equippable].damage, "frost");
-                updateProperties(this.damage, this.equippables[equippable].damage, "lightning");
-                updateProperties(this.damage, this.equippables[equippable].damage, "sacred");
-                updateProperties(this.damage, this.equippables[equippable].damage, "shadow");
-                updateProperties(this.damage, this.equippables[equippable].damage, "aether");
+                updateProperties(this, item, "resistance");
+                updateProperties(this, item, "resistanceMax");
+                updateProperties(this, item, "reduct");
+
+                updateProperties(this.damage, item.damage, "blunt");
+                updateProperties(this.damage, item.damage, "pierce");
+                updateProperties(this.damage, item.damage, "acid");
+                updateProperties(this.damage, item.damage, "fire");
+                updateProperties(this.damage, item.damage, "frost");
+                updateProperties(this.damage, item.damage, "lightning");
+                updateProperties(this.damage, item.damage, "sacred");
+                updateProperties(this.damage, item.damage, "shadow");
+                updateProperties(this.damage, item.damage, "aether");
+
+                this.criticalChanceBase += item.criticalChanceBase;
+                this.criticalChanceIncreased += item.criticalChanceIncreased;
+                this.criticalChanceMore *= item.criticalChanceMore;
+                this.criticalDamageBase += item.criticalDamageBase;
+                this.criticalDamageIncreased += item.criticalDamageIncreased;
+                this.criticalDamageMore *= item.criticalDamageMore;
+
+                this.directChanceBase += item.directChanceBase;
+                this.directChanceIncreased += item.directChanceIncreased;
+                this.directChanceMore *= item.directChanceMore;
+
+                this.blockChanceBase += item.blockChanceBase;
+                this.blockChanceIncreased += item.blockChanceIncreased;
+                this.blockChanceMore *= item.blockChanceMore;
+
+                this.deflectChanceBase += item.deflectChanceBase;
+                this.deflectChanceIncreased += item.deflectChanceIncreased;
+                this.deflectChanceMore *= item.deflectChanceMore;
 
                 // // Apply equippable affix stats to Combatant.
-                // // NTS: This is very outdated code, and shouldn't be used, but I left it in as I may utilize affixes on equippables.
+                // // NTS: This is very outdated code, and shouldn't be used, but I left it in as I may leave in affixes on equippables to be applied directly to combatant instead of the equipable. For instance, "n% increased global critical strike chance".
                 // for (let i = 0; i < mod.affixes.length; i++) {
                 //     jQuery.extend(
                 //         true,
@@ -76,11 +97,10 @@ class Combatant {
         }
 
         /**
-         * NYI: Everything should be calculated with a function here, but
-         * that ability is NYI.
+         * Calculate aggregate defensive properties here.
          */
-        this.deflectedCalculated = 0.05;
-        this.blockCalculated = 0.05;
+        this.deflectCalculated = this.deflectChanceBase * this.deflectChanceIncreased * this.deflectChanceMore;
+        this.blockCalculated = this.blockChanceBase * this.blockChanceIncreased * this.blockChanceMore;
 
         /**
          * NYI: Monster Rarities.
@@ -144,6 +164,9 @@ class Combatant {
             solstr += `<grid id='infoMetricsGrid'>`;
             solstr += `<span id='infoHealth'>Health: ${Math.floor(this.health)} / ${Math.floor(this.healthMax)}</span>`;
             solstr += `<span id='init'>Init: ${Math.floor(this.init)}</span>`;
+            solstr += `<span id='blockDeflect'>Block: ${Math.floor(this.blockCalculated * 100)}% Deflect: ${Math.floor(
+                this.deflectCalculated * 100
+            )}%</span>`;
             solstr += `</grid></span>`;
         }
 

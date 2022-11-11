@@ -66,19 +66,26 @@ const DEFAULTEQUIPPABLE = {
             max: 100,
         },
     },
-    criticalChanceCalculated: 0,
     criticalChanceBase: 0,
     criticalChanceIncreased: 0,
     criticalChanceMore: 1,
-    criticalDamageCalculated: 0,
+
     criticalDamageBase: 0,
     criticalDamageIncreased: 0,
     criticalDamageMore: 1,
 
-    directChanceCalculated: 0,
     directChanceBase: 0,
     directChanceIncreased: 0,
     directChanceMore: 1,
+
+    deflectChanceBase: 0,
+    deflectChanceIncreased: 0,
+    deflectChanceMore: 1,
+
+    blockChanceBase: 0,
+    blockChanceIncreased: 0,
+    blockChanceMore: 1,
+
     damage: {
         // Material Damage Types
         blunt: {
@@ -486,6 +493,12 @@ const DEFAULTENEMY = {
     directChanceMore: 1,
 
     deflectChanceBase: 0.05,
+    deflectChanceIncreased: 1,
+    deflectChanceMore: 1,
+
+    blockChanceBase: 0,
+    blockChanceIncreased: 1,
+    blockChanceMore: 1,
 
     initVariance: 0.1,
     family: null,
@@ -700,4 +713,23 @@ const DEFAULTPLAYER = {
     blockRecovery: 15,
     initVariance: 0.1,
     family: "player",
+
+    criticalChanceBase: 0.05,
+    criticalChanceIncreased: 1,
+    criticalChanceMore: 1,
+    criticalDamageBase: 1.5,
+    criticalDamageIncreased: 1,
+    criticalDamageMore: 1,
+
+    directChanceBase: 0.05,
+    directChanceIncreased: 1,
+    directChanceMore: 1,
+
+    deflectChanceBase: 0.05,
+    deflectChanceIncreased: 1,
+    deflectChanceMore: 1,
+
+    blockChanceBase: 0,
+    blockChanceIncreased: 1,
+    blockChanceMore: 1,
 };

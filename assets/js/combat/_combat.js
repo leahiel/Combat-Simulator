@@ -435,7 +435,7 @@ function attackCalculations(attack, attacker, targets) {
             Math.random() < thisAttack.criticalChanceCalculated && !solobj[idx].blocked ? true : false;
 
         // Calculate if Deflected.
-        solobj[idx].deflected = Math.random() < target.deflectedCalculated ? true : false;
+        solobj[idx].deflected = Math.random() < target.deflectCalculated ? true : false;
 
         let damageobj = {
             blunt: calculateDamage(solobj[idx], thisAttack, target, "blunt"),
