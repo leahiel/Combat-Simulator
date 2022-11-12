@@ -30,9 +30,9 @@ class CombatInstance {
 
         /* Default Values */
 
-        this.epfrontlineTargetable = true; // FIXME: This value never toggles.
+        this.epfrontlineTargetable = false;
         this.epbacklineTargetable = false;
-        this.ppfrontlineTargetable = true; // FIXME: This value never toggles.
+        this.ppfrontlineTargetable = false;
         this.ppbacklineTargetable = false;
 
         /* Initialize Player Party */
@@ -359,6 +359,9 @@ function attackCalculations(attack, attacker, targets) {
      * characteristics, should be this be done elsewhere to account
      * for that?
      *
+     * ANSWER: This has to be globally available so that we can use
+     * this in Attack.itemPlate().
+     *
      * If so, then applyStats wouldn't be able to applyOpponentStats
      * as well, so the idea of the function would need to be split in
      * two.
@@ -383,6 +386,23 @@ function attackCalculations(attack, attacker, targets) {
         solAttack.directChanceCalculated =
             solAttack.directChanceBase * solAttack.directChanceIncreased * solAttack.directChanceMore;
 
+        // Update Attack Properties with Character Properties
+        function updateProperties(attack, attacker, propobjname) {
+            Object.keys(attack[propobjname]).forEach(function (prop) {
+                attack[propobjname][prop] += attacker[propobjname][prop];
+            });
+        }
+
+        updateProperties(solAttack.damage, char.damage, "blunt");
+        updateProperties(solAttack.damage, char.damage, "pierce");
+        updateProperties(solAttack.damage, char.damage, "acid");
+        updateProperties(solAttack.damage, char.damage, "fire");
+        updateProperties(solAttack.damage, char.damage, "frost");
+        updateProperties(solAttack.damage, char.damage, "lightning");
+        updateProperties(solAttack.damage, char.damage, "sacred");
+        updateProperties(solAttack.damage, char.damage, "shadow");
+        updateProperties(solAttack.damage, char.damage, "aether");
+
         return solAttack;
     }
 
@@ -404,122 +424,140 @@ function attackCalculations(attack, attacker, targets) {
      */
     let solobj = {};
     targets.forEach((target, idx) => {
-        solobj[idx] = {};
+        for (let i = 0; i < attack.hitnumber; i++) {
+            if (!solobj[i]) {
+                solobj[i] = {};
+            }
+            solobj[i][idx] = {};
 
-        // Apply the attacker's stats to a copy of the attack.
-        let thisAttack = applyStats(attack, attacker);
+            // Apply the attacker's stats to a copy of the attack.
+            let thisAttack = applyStats(attack, attacker);
 
-        solobj[idx].type = thisAttack.type;
-        if (thisAttack.type === "buff" || thisAttack.type === "buff") {
-            return;
+            if (thisAttack.effect === "buff" || thisAttack.effect === "buff") {
+                return;
+            }
+
+            // Order of Operations
+            // Determine Modifiers (Direct, Critical, Glancing, Blocking)
+            // Use Modifiers to get initial Damage Value.
+            // Resistance
+            // Remove Percentage Absorb
+            // Flat Reduct
+            // Remove Flat Absorb
+            // Add Healing from Absorb
+
+            // Determine if Direct Hit.
+            if (thisAttack.isDirectable) {
+                solobj[i][idx].direct = Math.random() < thisAttack.directChanceCalculated ? true : false;
+            }
+
+            // Calculate if Blocked.
+            if (thisAttack.isBlockable) {
+                solobj[i][idx].blocked = Math.random() < target.blockCalculated ? true : false;
+            }
+
+            // Determine if Critical Strike.
+            // NOTE: Critical Strikes do not occur if the attack was blocked.
+            if (thisAttack.isCritable) {
+                solobj[i][idx].critical =
+                    Math.random() < thisAttack.criticalChanceCalculated && !solobj[i][idx].blocked ? true : false;
+            }
+
+            // Calculate if Deflected.
+            if (thisAttack.isDeflectable) {
+                solobj[i][idx].deflected = Math.random() < target.deflectCalculated ? true : false;
+            }
+
+            let damageobj = {
+                blunt: calculateDamage(solobj[i][idx], thisAttack, target, "blunt"),
+                pierce: calculateDamage(solobj[i][idx], thisAttack, target, "pierce"),
+                acid: calculateDamage(solobj[i][idx], thisAttack, target, "acid"),
+                fire: calculateDamage(solobj[i][idx], thisAttack, target, "fire"),
+                frost: calculateDamage(solobj[i][idx], thisAttack, target, "frost"),
+                lightning: calculateDamage(solobj[i][idx], thisAttack, target, "lightning"),
+                sacred: calculateDamage(solobj[i][idx], thisAttack, target, "sacred"),
+                shadow: calculateDamage(solobj[i][idx], thisAttack, target, "shadow"),
+                aether: calculateDamage(solobj[i][idx], thisAttack, target, "aether"),
+                total: 0,
+            };
+
+            for (let amount in damageobj) {
+                if (damageobj[amount] === damageobj.total) continue;
+                damageobj.total += damageobj[amount];
+            }
+
+            // if (Config.debug) {
+            //   console.table(solobj);
+            //   console.table(damageobj);
+            // }
+
+            solobj[i][idx].damage = damageobj.total;
         }
-
-        // Order of Operations
-        // Determine Modifiers (Direct, Critical, Glancing, Blocking)
-        // Use Modifiers to get initial Damage Value.
-        // Resistance
-        // Remove Percentage Absorb
-        // Flat Reduct
-        // Remove Flat Absorb
-        // Add Healing from Absorb
-
-        // Determine if Direct Hit.
-        solobj[idx].direct = Math.random() < thisAttack.directChanceCalculated ? true : false;
-
-        // Calculate if Blocked.
-        solobj[idx].blocked = Math.random() < target.blockCalculated ? true : false;
-
-        // Determine if Critical Strike.
-        // NOTE: Critical Strikes do not occur if the attack was blocked.
-        solobj[idx].critical =
-            Math.random() < thisAttack.criticalChanceCalculated && !solobj[idx].blocked ? true : false;
-
-        // Calculate if Deflected.
-        solobj[idx].deflected = Math.random() < target.deflectCalculated ? true : false;
-
-        let damageobj = {
-            blunt: calculateDamage(solobj[idx], thisAttack, target, "blunt"),
-            pierce: calculateDamage(solobj[idx], thisAttack, target, "pierce"),
-            acid: calculateDamage(solobj[idx], thisAttack, target, "acid"),
-            fire: calculateDamage(solobj[idx], thisAttack, target, "fire"),
-            frost: calculateDamage(solobj[idx], thisAttack, target, "frost"),
-            lightning: calculateDamage(solobj[idx], thisAttack, target, "lightning"),
-            sacred: calculateDamage(solobj[idx], thisAttack, target, "sacred"),
-            shadow: calculateDamage(solobj[idx], thisAttack, target, "shadow"),
-            aether: calculateDamage(solobj[idx], thisAttack, target, "aether"),
-            total: 0,
-        };
-
-        for (let amount in damageobj) {
-            if (damageobj[amount] === damageobj.total) continue;
-            damageobj.total += damageobj[amount];
-        }
-
-        // if (Config.debug) {
-        //   console.table(solobj);
-        //   console.table(damageobj);
-        // }
-
-        solobj[idx].damage = damageobj.total;
     });
 
     /** Apply solobj to party */
-    for (let idx in solobj) {
-        if (solobj[idx].type === "damage") {
-            // Apply Damage
-            targets[idx].health -= solobj[idx].damage;
-            if (targets[idx].health < 0) {
-                targets[idx].health = 0;
-            }
-        }
-
-        // Apply Block Recovery
-        if (solobj[idx].blocked) {
-            targets[idx].init += targets[idx].blockRecovery;
-        }
-
-        // Apply Stun
-        // REVIEW: Should stunning always be applied, or have a percentage chance to apply?
-        // Probably have a percentage chance.
-        targets[idx].init += attack.stun;
-
-        // Apply Buffs and Debuffs
-        if (attack.buffs.length > 0) {
-            for (let buff of attack.buffs) {
-                // Get an array of buff names from targets[idx].
-                let buffNames = assignFieldOfObjectsToArray(targets[idx].buffs, "name");
-
-                // Do not apply buff if target already has the buff.
-                if (!buffNames.includes(buff.name)) {
-                    targets[idx].buffs.push(cloneDeep(buff));
-                    buff.onApply(targets[idx]);
-
-                    // Reapply buff if target already has the buff.
-                } else if (buffNames.includes(buff.name)) {
-                    // The index of the buff in buffNames should be the same as the index of the buff in targets[idx].buffs.
-                    let buffidx = buffNames.indexOf(buff.name);
-                    // Reset the duration of the buff.
-                    targets[idx].buffs[buffidx].duration = buff.duration;
-
-                    // Reapply the buff.
-                    buff.onReapply(targets[idx]);
+    for (let i in solobj) {
+        for (let idx in solobj[i]) {
+            if (solobj[i][idx].damage >= 1) {
+                // Apply Damage
+                targets[idx].health -= solobj[i][idx].damage;
+                if (targets[idx].health < 0) {
+                    targets[idx].health = 0;
                 }
             }
+
+            // Apply Block Recovery
+            if (solobj[i][idx].blocked) {
+                targets[idx].init += targets[idx].blockRecovery;
+            }
+
+            // Apply Stun
+            // REVIEW: Should stunning always be applied, or have a percentage chance to apply?
+            // Probably have a percentage chance.
+            // Regardless, don't apply if deflected.
+            if (!solobj[i][idx].deflected) {
+                targets[idx].init += attack.stun;
+            }
+
+            // Apply Buffs and Debuffs
+            if (attack.buffs.length > 0) {
+                for (let buff of attack.buffs) {
+                    // Get an array of buff names from targets[idx].
+                    let buffNames = assignFieldOfObjectsToArray(targets[idx].buffs, "name");
+
+                    // Do not apply buff if target already has the buff.
+                    if (!buffNames.includes(buff.name)) {
+                        targets[idx].buffs.push(cloneDeep(buff));
+                        buff.onApply(targets[idx]);
+
+                        // Reapply buff if target already has the buff.
+                    } else if (buffNames.includes(buff.name)) {
+                        // The index of the buff in buffNames should be the same as the index of the buff in targets[idx].buffs.
+                        let buffidx = buffNames.indexOf(buff.name);
+                        // Reset the duration of the buff.
+                        targets[idx].buffs[buffidx].duration = buff.duration;
+
+                        // Reapply the buff.
+                        buff.onReapply(targets[idx]);
+                    }
+                }
+            }
+
+            // Prepare Combat Notification Message
+            let blockMsg = solobj[i][idx].blocked ? "✓" : "";
+            let critMsg = solobj[i][idx].critical ? "✓" : "";
+            let directMsg = solobj[i][idx].direct ? "✓" : "";
+            let deflectMsg = solobj[i][idx].deflected ? "✓" : "";
+
+            // TODO: Have a delay between messages if there are 2+ strikes at a time.
+            combatMessage(
+                `C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Took ${Math.floor(
+                    solobj[i][idx].damage
+                )} damage.`,
+                "default",
+                targets[idx].location
+            );
         }
-
-        // Prepare Combat Notification Message
-        let blockMsg = solobj[idx].blocked ? "✓" : "";
-        let critMsg = solobj[idx].critical ? "✓" : "";
-        let directMsg = solobj[idx].direct ? "✓" : "";
-        let deflectMsg = solobj[idx].deflected ? "✓" : "";
-
-        combatMessage(
-            `C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Took ${Math.floor(
-                solobj[idx].damage
-            )} damage.`,
-            "default",
-            targets[idx].location
-        );
     }
 
     attacker.init += attack.initRecovery;

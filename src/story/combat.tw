@@ -84,17 +84,32 @@ async function processTurns(pp, ep) {
     /* If all of the frontline of a side are dead, allow frontline
     attacks to hit backline. */
     if (
-        State.variables.ci.ep[0].health <= 0 && 
-        State.variables.ci.ep[1].health <= 0 &&
-        State.variables.ci.ep[2].health <= 0
+        (!State.variables.ci.ep[0] || State.variables.ci.ep[0].health <= 0) && 
+        (!State.variables.ci.ep[1] || State.variables.ci.ep[1].health <= 0) && 
+        (!State.variables.ci.ep[2] || State.variables.ci.ep[2].health <= 0)
     ) {
         State.variables.ci.epbacklineTargetable = true
     }
     if (
-        State.variables.ci.pp[0].health <= 0 && 
-        State.variables.ci.pp[1].health <= 0
+        (!State.variables.ci.pp[0] || State.variables.ci.pp[0].health <= 0) && 
+        (!State.variables.ci.pp[1] || State.variables.ci.pp[1].health <= 0)
     ) {
         State.variables.ci.ppbacklineTargetable = true
+    }
+
+    /* If all of the backline of a side are dead, allow backline
+    attacks to hit frontline. */
+    if (
+        (!State.variables.ci.ep[3] || State.variables.ci.ep[3].health <= 0) && 
+        (!State.variables.ci.ep[4] || State.variables.ci.ep[4].health <= 0)
+    ) {
+        State.variables.ci.epfrontlineTargetable = true
+    }
+    if (
+        (!State.variables.ci.pp[2] || State.variables.ci.pp[2].health <= 0) && 
+        (!State.variables.ci.pp[3] || State.variables.ci.pp[3].health <= 0)
+    ) {
+        State.variables.ci.ppfrontlineTargetable = true
     }
 
 

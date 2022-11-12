@@ -1,6 +1,23 @@
-TODO: 
+TODO for indev release: 
 ☐  Add content.
+    ☐ 6 Enemy Families
+        ☐  At least 5 enemies each.
+    ☐ Attacks
+        ☐  7 attack families for 7 weapon types, with 4 attacks each.
+            ☑ Unarmed (Fast and stunning attacks)
+            ☑ Spear
+            ☑ Chaotic Spear
+        ☐  Unarmed attack family.
+    ☐ Equippables
+        ☐  14 weapons, 2 for each weapon type.
+        ☐  8 Accessories
+        ☐  8 Armors
+    ☐  10 mods for each slot.
 ☐  Add Reward/Defeat Screen.
+☐  Disable equipment swapping in combat.
+☐  Limit certain mods to certain tags of Equippables
+    = e.g. "leather" tag on mod only works with armors tagged "leather"
+
 
 ☐  = Planned for Implementation
 ☑  = Currently Implemented
@@ -39,8 +56,6 @@ TODO:
             ☐   Predetermined
             ☐   From Weighted Array
             ☐   From Enemy Drop Table
-    ☐  Combatant Equipment Applies Stats to Combatant [Req: Equipables!]
-        ☐  Available Attacks based on Equipped Weapon [Req: Equipables!]
     ☐  Monster Rarity and Affix System
 
     Information Screen:

@@ -37,6 +37,7 @@ class Equippable {
     }
 
     // NYI: Every item should have this function which creates an HTML "plate" of the item with stats and whatnot, which can be used in various places for various things.
+    // The item plate will show like the very basic features of the item at the top, which can then be hovered over to get more information, kinda like cards in MTG
     itemplate(selector) {
         let solHTML = `<span class="itemPlate ${this.slot}">`;
         solHTML += this.name;
@@ -89,6 +90,42 @@ const equippables = {
         slot: "accessory",
         type: "unequipped",
     }),
+
+    // WEAPONS
+    woodenspear: new Equippable({
+        name: "Wooden Spear",
+        slot: "weapon",
+        modslots: 2,
+        attacks: mergeArray(setup.COM.familyAttacks.spearWeaponAttacks),
+        damage: {
+            pierce: {
+                min: 4,
+                max: 7
+            },
+        },
+    }),
+
+    chaoticspear: new Equippable({
+        name: "Chaotic Spear",
+        slot: "weapon",
+        modslots: 2,
+        attacks: mergeArray(setup.COM.familyAttacks.chaoticspearWeaponAttacks),
+        damage: {
+            aether: {
+                min: 1,
+                max: 3,
+            },
+            sacred: {
+                min: 1,
+                max: 3,
+            },
+            shadow: {
+                min: 1,
+                max: 3,
+            },
+        },
+    }),
+
 
     // ARMORS
     leatherarmor: new Equippable({

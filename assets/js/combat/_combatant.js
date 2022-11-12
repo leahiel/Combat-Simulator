@@ -139,7 +139,26 @@ class Combatant {
         // No code needed.
 
         // Keep buffs and debuffs the same.
+        // REVIEW: Do I need to reapply buffs with onApply effects?
         this.buffs = oldCombatant.buffs;
+        
+
+        /**
+         * Recalculate aggregate defensive properties here.
+         */
+        console.log(this.deflectChanceBase);
+        this.deflectCalculated = this.deflectChanceBase * this.deflectChanceIncreased * this.deflectChanceMore;
+        this.blockCalculated = this.blockChanceBase * this.blockChanceIncreased * this.blockChanceMore;
+
+        /**
+         * NYI: Monster Rarities.
+         * REVIEW: Should this be added to this.original?
+         */
+        if (this.family === "player") {
+            this.rarity = "Player";
+        } else {
+            this.rarity = "Normal";
+        }
     }
 
     /**

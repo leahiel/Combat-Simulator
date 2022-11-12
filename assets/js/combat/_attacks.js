@@ -24,6 +24,8 @@ class Attack {
      * Convert the data into a string so that the player can understand the data within.
      *
      * This can be HTML text.
+     * 
+     * This will eventually show up left or above of the attack menu, so that players can know what their attacks do
      */
     getInfo() {
         let solstr = "";
@@ -100,7 +102,15 @@ class Attack {
 }
 
 const attacks = {
-    // UNARMED ATTACKS
+    // ##      ## ########    ###    ########   #######  ##    ##  ######  
+    // ##  ##  ## ##         ## ##   ##     ## ##     ## ###   ## ##    ## 
+    // ##  ##  ## ##        ##   ##  ##     ## ##     ## ####  ## ##       
+    // ##  ##  ## ######   ##     ## ########  ##     ## ## ## ##  ######  
+    // ##  ##  ## ##       ######### ##        ##     ## ##  ####       ## 
+    // ##  ##  ## ##       ##     ## ##        ##     ## ##   ### ##    ## 
+    //  ###  ###  ######## ##     ## ##         #######  ##    ##  ######  
+
+    // UNARMED
     flick: new Attack({
         name: "Flick",
         family: "unarmedAttacks",
@@ -123,7 +133,7 @@ const attacks = {
         name: "Gut Punch",
         family: "unarmedAttacks",
         initRecovery: 23,
-        wdm: 2,
+        wdm: 1.75,
         targetType: "single",
         frontlineTargetable: true,
         backlineTargetable: false,
@@ -137,19 +147,55 @@ const attacks = {
         description: "Slam your fist into the enemy's gut, causing them to crunch over.",
     }),
 
-    amp: new Attack({
-        name: "Amped Up",
-        wdm: 0,
+    doublestrike: new Attack({
+        name: "Double Strike",
+        wdm: 0.75,
         family: "unarmedAttacks",
         initRecovery: 20,
+        targetType: "single",
+        frontlineTargetable: true,
+        backlineTargetable: false,
+        description: "You hit your enemy for damage twice.",
+        hitnumber: 2,
+        damage: {
+            blunt: {
+                min: 3,
+                max: 3
+            }
+        },
+    }),
+
+    amp: new Attack({
+        name: "Amped Up",
+        family: "unarmedAttacks",
+        initRecovery: 24,
         type: "buff",
-        targetType: "single", // TOOD: Add "self"
+        targetType: "single",  // TOOD: Add "self"
         allyTargetable: true,
         opponentTargetable: false,
         frontlineTargetable: true,
         backlineTargetable: true,
-        description: "You amp yourself up, increasing the rate of your init.",
+        description: "You hit your enemy for damage twice.",
         buffs: [buffs.buffAmp],
+    }),
+
+    doublelegsweep: new Attack({
+        name: "Double Leg Sweep",
+        wdm: 0.25,
+        family: "unarmedAttacks",
+        initRecovery: 20,
+        targetType: "area",
+        frontlineTargetable: true,
+        backlineTargetable: false,
+        description: "You sweep the legs of your foes twice.",
+        hitnumber: 2,
+        damage: {
+            blunt: {
+                min: 4,
+                max: 4
+            }
+        },
+        stun: 4
     }),
 
     // SPEAR ATTACKS
@@ -170,10 +216,28 @@ const attacks = {
         description: "Stab at your foe, doing extra pierce damage.",
     }),
 
+    // SPEAR ATTACKS
+    rapidjab: new Attack({
+        name: "Rapid Jab",
+        family: "spearWeaponAttacks",
+        initRecovery: 50,
+        wdm: 0.75,
+        targetType: "single",
+        frontlineTargetable: true,
+        backlineTargetable: false,
+        hitnumber: 3,
+        damage: {
+            pierce: {
+                min: 4,
+                max: 7,
+            },
+        },
+        description: "Rapidly jab at your foe three times.",
+    }),
+
     sweep: new Attack({
         name: "Sweep",
         family: "spearWeaponAttacks",
-        buffs: [buffs.buffTESTING],
         initRecovery: 50,
         wdm: 1.25,
         targetType: "area",
@@ -190,7 +254,89 @@ const attacks = {
         description: "Sweep at the foes in front of you.",
     }),
 
-    // ENEMY ATTACKS
+    // TODO: Buff this and apply it to the unmade short spear class.
+    // TODO: Made new Attack that counter attacks when allies (but not self) is hit.
+    posture: new Attack({
+        name: "Posture",
+        family: "spearWeaponAttacks",
+        initRecovery: 24,
+        type: "buff",
+        targetType: "single",  // TOOD: Add "self"
+        allyTargetable: true,
+        opponentTargetable: false,
+        frontlineTargetable: true,
+        backlineTargetable: true,
+        description: "You posture yourself, making it harder to hit you.",
+        buffs: [buffs.buffSpearPosture],
+    }),
+
+    // CHAOTIC SPEAR ATTACKS
+    chaoschuck: new Attack({
+        name: "Chaos Chuck",
+        family: "chaoticspearWeaponAttacks",
+        initRecovery: 50,
+        wdm: 2,
+        targetType: "single",
+        frontlineTargetable: true,
+        backlineTargetable: true,
+        description: "Chuck your chaos spear at an enemy.",
+    }),
+
+    chaoticsacrifice: new Attack({
+        name: "Chaotic Sacrifice",
+        family: "chaoticspearWeaponAttacks",
+        initRecovery: 50,
+        type: "buff",
+        targetType: "single",  // TOOD: Add "self"
+        allyTargetable: true,
+        opponentTargetable: false,
+        frontlineTargetable: true,
+        backlineTargetable: true,
+        description: "Sacrifice 10% of your current life to buff your occult damage.",
+        buffs: [buffs.buffSacrificeToChaos],
+    }),
+
+    unerringbolt: new Attack({
+        name: "Unerring Bolt",
+        family: "chaoticspearWeaponAttacks",
+        wdm: 1.25,
+        initRecovery: 50,
+        targetType: "single", 
+        frontlineTargetable: true,
+        backlineTargetable: true,
+        description: "Turns your spear into a chaotic bolt, which your opponent cannot deflect.",
+        isDeflectable: false,
+    }),
+
+    backlinebolts: new Attack({
+        name: "Backline Bolts",
+        family: "chaoticspearWeaponAttacks",
+        wdm: 0.25,
+        initRecovery: 56,
+        targetType: "area", 
+        frontlineTargetable: false,
+        backlineTargetable: true,
+        description: "Hits the enemy backline with a dose of lightning and aether.",
+        damage: {
+            aether: {
+                min: 4,
+                max: 6,
+            },
+            lightning: {
+                min: 4,
+                max: 6,
+            }
+        }
+    }),
+
+    // ######## ##    ## ######## ##     ## ##    ##       ###    ######## ########    ###     ######  ##    ##  ######  
+    // ##       ###   ## ##       ###   ###  ##  ##       ## ##      ##       ##      ## ##   ##    ## ##   ##  ##    ## 
+    // ##       ####  ## ##       #### ####   ####       ##   ##     ##       ##     ##   ##  ##       ##  ##   ##       
+    // ######   ## ## ## ######   ## ### ##    ##       ##     ##    ##       ##    ##     ## ##       #####     ######  
+    // ##       ##  #### ##       ##     ##    ##       #########    ##       ##    ######### ##       ##  ##         ## 
+    // ##       ##   ### ##       ##     ##    ##       ##     ##    ##       ##    ##     ## ##    ## ##   ##  ##    ## 
+    // ######## ##    ## ######## ##     ##    ##       ##     ##    ##       ##    ##     ##  ######  ##    ##  ######  
+
     // Spider
     vilebite: new Attack({
         name: "Vile Bite",

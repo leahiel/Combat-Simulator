@@ -254,6 +254,13 @@ const DEFAULTATTACK = {
     wdm: 1,
     /** The amount of init added to the defender after an attack. */
     stun: 0,
+    /** The number of times an attack hits. */
+    hitnumber: 1,
+
+    isBlockable: true,
+    isDeflectable: true,
+    isDirectable: true,
+    isCritical: true,
 
     /** The buffs or debuffs the attack performs. */
     buffs: [],
@@ -380,6 +387,49 @@ const DEFAULTENEMY = {
             std: 2.5,
             min: 0,
             max: 100,
+        },
+    },
+    damage: {
+        // Material Damage Types
+        blunt: {
+            min: 0,
+            max: 0,
+        },
+        pierce: {
+            min: 0,
+            max: 0,
+        },
+        acid: {
+            min: 0,
+            max: 0,
+        },
+
+        // Elemental Damage Types
+        fire: {
+            min: 0,
+            max: 0,
+        },
+        frost: {
+            min: 0,
+            max: 0,
+        },
+        lightning: {
+            min: 0,
+            max: 0,
+        },
+
+        // Occult Damage Types
+        sacred: {
+            min: 0,
+            max: 0,
+        },
+        shadow: {
+            min: 0,
+            max: 0,
+        },
+        aether: {
+            min: 0,
+            max: 0,
         },
     },
     absorbPercent: {

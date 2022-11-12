@@ -14,25 +14,6 @@ class Buff {
 }
 
 const buffs = {
-    buffTESTING: new Buff({
-        type: "debuff", // "buff", "debuff"
-        duration: 1000,
-        name: "Buff Name",
-        description: "Buff Description",
-        onApply: function (target) {
-            console.log(`${this.name} applied!`);
-            return;
-        },
-        onReapply: function (target) {
-            console.log(`${this.name} reapplied!`);
-            return;
-        },
-        perInit: function (target) {
-            // console.log(`${this.name} perInit'd!`);
-            return;
-        },
-    }),
-
     buffAmp: new Buff({
         type: "buff",
         duration: 250,
@@ -40,6 +21,40 @@ const buffs = {
         description: "Your inits tick twice as fast.",
         onApply: function (target) {
             target.initDecrementModifier *= 2;
+            return;
+        },
+    }),
+
+    buffSpearPosture: new Buff({
+        type: "buff",
+        duration: 250,
+        name: "Spear Posture",
+        description: "You have increased deflect chance.",
+        onApply: function (target) {
+            target.deflectChanceBase += 0.05;
+            target.deflectChanceIncreased += 1;
+
+            target.deflectCalculated = target.deflectChanceBase * target.deflectChanceIncreased * target.deflectChanceMore;
+            return;
+        },
+    }),
+
+    buffSacrificeToChaos: new Buff({
+        type: "buff",
+        duration: 250,
+        name: "Sacrifice To Chaos",
+        description: "You deal +(1-3) Occult damage.",
+        onApply: function (target) {
+            target.health *= .9;
+
+            target.damage.aether.min += 1;
+            target.damage.aether.max += 3;
+
+            target.damage.sacred.min += 1;
+            target.damage.sacred.max += 3;
+
+            target.damage.shadow.min += 1;
+            target.damage.shadow.max += 3;
             return;
         },
     }),
