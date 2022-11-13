@@ -42,6 +42,11 @@
 <br>
 /* <br><<link [[Time to move on.|prologue]]>><</link>> */
 
+<span class='sw'>exterminating the son!</span><br>
+<span class='lf'>Exterminating the Son!</span><br>
+<span class='sw'><span class="glitch lfg" data-text="exterminating">exterminating the son!</span></span><br><br><br><br><br>
+
+
 <<button [[Gen. Random Combat Instance|Combat_Overlord]]>>
 	<<script>>
 		/* Random Int between 1 and 5 */
