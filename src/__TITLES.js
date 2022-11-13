@@ -8,7 +8,7 @@ let TITLES = {
     "@rest": "Rest for a Bit, Weary Fighter",
 };
 
-let bottomUIStr = `<span style="color:brown">This game is currently in InDev development.</span>
+let bottomUIStr = `<span style="color:brown">This game is currently in InDev development. Currently, saving and loading is unavailable.</span>
 <br>
 You're playing <span style="text-decoration:underline">${Story.title}</span>, Version <span style="color:lightblue">${version}</span>, by <a href="https://leahiel.itch.io/" target="_blank" rel="noreferrer noopener">LeahPeach↗</a>
 <br>

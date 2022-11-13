@@ -3,11 +3,14 @@ TODO for indev release:
     ☐ 6 Enemy Families
         ☐  At least 5 enemies each.
     ☐ Attacks
-        ☐  7 attack families for 7 weapon types, with 4 attacks each.
+        ☑  6 attack families for 6 weapon types, with 4 attacks each.
             ☑ Unarmed (Fast and stunning attacks)
-            ☑ Spear
-            ☑ Chaotic Spear
-        ☐  Unarmed attack family.
+            ☑ Spear (Standard Spear)
+            ☑ Chaotic Spear (Weird Damage Type)
+            ☑ Sword & Shield (Higher Chance to Critical Attack, and Block)
+            ☑ Mace & Shield (Higher Chance to Direct Attack, Stun, and Block)
+            ☑ Two Handed Axe (Chance to cause Bleed on Hit)
+            ☐ Elemental Staves (No real point to implement these yet.)
     ☐ Equippables
         ☐  14 weapons, 2 for each weapon type.
         ☐  8 Accessories
@@ -19,14 +22,26 @@ TODO for indev release:
     = e.g. "leather" tag on mod only works with armors tagged "leather"
 
 
+Implicit Weapon Balancing:
+    Two Handed Weapons hit Area and Single, less defense.
+    X and Shield hit Single, more block.
+    Unarmed super fast.
+    Dual Weild attacks faster and has deflect.
+    Pierce type weapons crit more.
+    Blunt type weapons stun and direct more.
+    Elemental and Occult damage types have less implicit attacks, but pierce through more damage.
+        Lightning has higher damage ranges, crits for more, and has a less direct modifier
+    Staves/Occult Tools are useful for their builds due to basic affixes and special mods.
+        While they have attacks, attacks are not the central focus of them.
+
 ☐  = Planned for Implementation
 ☑  = Currently Implemented
 →  = Currently Working On.
 
     Combat:
-    ☑  Primitive Combat System functional.
-        ☐  Weapon Damage Modifier on Attacks. [Req: Weapons!]
+    ☑  Primitive Combat System
         ☐  Weapon Expertise Modifier [Req: Player Stats!]
+        ☐  Completely Rewrite targeting to be sane and more flexible
     ☑  Buffs
         ☑  On Apply
         ☑  On Reapply
@@ -39,6 +54,8 @@ TODO for indev release:
         ☐  On Miracle
         ☐  On Ally Attack
         ☐  When Ally Hit
+    ☐  Triggers
+        I need a system whereby when an event buffs, buffs can be applied. For instance, if I have a chance to bleed modifier on an axe, then bleeding should be able to be applied on every attack.
     ☐  Animations
         ☐  Attack
         ☐  Defense
@@ -47,7 +64,7 @@ TODO for indev release:
             ☐  Blocked
     ☐  Spells
     ☐  Miracles
-    ☐  Energy Shield (or do I want divine shield?)
+    ☐  Energy Shield (or do I want divine shield? Having both would be illogical and/or confusing.)
     
     Combat Initialization:
     ☐  Setting (Music, Background, ETC) 
@@ -57,6 +74,7 @@ TODO for indev release:
             ☐   From Weighted Array
             ☐   From Enemy Drop Table
     ☐  Monster Rarity and Affix System
+    ☐  Enemies use a "prefer backline/frontline" bool
 
     Information Screen:
     →  Combat Instance Statistics Visible

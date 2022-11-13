@@ -5,12 +5,23 @@ class Affix {
     constructor(obj) {
         // Merge our obj onto default, then merge those onto this.
         jQuery.extend(true, this, /* DEFAULTAFFIX, */ obj);
-
     }
 
     static new(Affix) {
         return cloneDeep(Affix);
-    };
+    }
+
+    clone() {
+        return new this.constructor(this);
+    }
+
+    toJSON() {
+        const ownData = {};
+        Object.keys(this).forEach(function (pn) {
+            ownData[pn] = clone(this[pn]);
+        }, this);
+        return JSON.reviveWrapper(`new ${this.constructor.name}($ReviveData$)`, ownData);
+    }
 }
 
 const affixes = {

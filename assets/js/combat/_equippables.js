@@ -75,8 +75,8 @@ const equippables = {
             blunt: {
                 min: 2,
                 max: 3,
-            }
-        }
+            },
+        },
     }),
 
     unequippedarmor: new Equippable({
@@ -100,9 +100,11 @@ const equippables = {
         damage: {
             pierce: {
                 min: 4,
-                max: 7
+                max: 7,
             },
         },
+        deflectChanceBase: 0.03,
+        deflectChanceIncreased: 0.75,
     }),
 
     chaoticspear: new Equippable({
@@ -126,6 +128,57 @@ const equippables = {
         },
     }),
 
+    swordandshield: new Equippable({
+        name: "Sword and Shield",
+        slot: "weapon",
+        modslots: 2,
+        attacks: mergeArray(setup.COM.familyAttacks.swordandshieldWeaponAttacks),
+        damage: {
+            pierce: {
+                min: 3,
+                max: 8,
+            },
+        },
+        criticalChanceBase: 0.03,
+        criticalChanceIncreased: 1,
+        blockChanceBase: 0.08,
+        blockChanceIncreasedx: 1,
+        blockRecovery: 4,
+    }),
+
+    maceandshield: new Equippable({
+        name: "Mace and Shield",
+        slot: "weapon",
+        modslots: 2,
+        attacks: mergeArray(setup.COM.familyAttacks.maceandshieldWeaponAttacks),
+        damage: {
+            blunt: {
+                min: 3,
+                max: 8,
+            },
+        },
+        directChanceBase: 0.03,
+        directChanceIncreased: 1,
+        blockChanceBase: 0.08,
+        blockChanceIncreasedx: 1,
+        blockRecovery: 4,
+        stun: 3,
+    }),
+
+    lumbermanaxe: new Equippable({
+        name: "Lumberman's Axe",
+        slot: "weapon",
+        modslots: 2,
+        attacks: mergeArray(setup.COM.familyAttacks.twohandedaxeWeaponAttacks),
+        damage: {
+            pierce: {
+                min: 5,
+                max: 11,
+            },
+        },
+        criticalChanceBase: 0.02,
+        criticalChanceIncreased: 0.5,
+    }),
 
     // ARMORS
     leatherarmor: new Equippable({

@@ -27,8 +27,7 @@
         <li id="peopleTab" data-passage="uiPeople"></li>
         <li id="settingsTab" data-passage="uiSettings"></li>
         <li id="disableContentsTab" data-passage="uiDisableContent"></li>
-        <li id="savesTab" data-passage="uiSaves"></li>
-        <li id="restartTab" data-passage="uiRestart"></li>
+        <!-- <li id="savesTab" data-passage="uiSaves"></li> -->
         <li id="creditsTab" data-passage="uiCredits"></li>
         <li id="devTab" data-passage="uiDev"></li>
     </ul>
@@ -72,12 +71,6 @@ $("li#disableContentsTab").click(() => {
     $("li#savesTab").click(() => UI.saves());
 <</script>> 
 
-
-:: uiRestart [.ui nostats] {"position":"0,625"}
-🔁
-<<script>>
-    $("li#restartTab").click(() => {UI.restart()});
-<</script>>
 
 :: uiCredits [.ui nostats] {"position":"0,650"}
 📜

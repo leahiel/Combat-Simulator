@@ -10,6 +10,8 @@ const DEFAULTEQUIPPABLE = {
     initStart: 0,
     initVariance: 0,
 
+    triggers: [],
+
     stats: {
         appearance: {
             mean: 50,
@@ -256,6 +258,9 @@ const DEFAULTATTACK = {
     stun: 0,
     /** The number of times an attack hits. */
     hitnumber: 1,
+
+    deflectCalculated: 0,
+    blockCalculated: 0,
 
     isBlockable: true,
     isDeflectable: true,
@@ -529,7 +534,7 @@ const DEFAULTENEMY = {
         aether: 0,
     },
     /** The amount of init after blocking. */
-    blockRecovery: 15,
+    blockRecovery: 6,
 
     criticalChanceBase: 0.05,
     criticalChanceIncreased: 1,
@@ -553,6 +558,8 @@ const DEFAULTENEMY = {
     initVariance: 0.1,
     family: null,
     description: null,
+
+    buffs: [],
 };
 
 const DEFAULTPLAYER = {
@@ -563,6 +570,7 @@ const DEFAULTPLAYER = {
     initVariance: 0.1,
 
     equippables: {},
+    buffs: [],
 
     stats: {
         appearance: {
@@ -760,7 +768,7 @@ const DEFAULTPLAYER = {
         aether: 0,
     },
     /** The amount of init after blocking. */
-    blockRecovery: 15,
+    blockRecovery: 6,
     initVariance: 0.1,
     family: "player",
 

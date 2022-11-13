@@ -13,6 +13,18 @@ class Player {
     }
 
     // TODO: Add a profiency item for each key in equippables. Also maybe for each equippable tag (leather, armor, metal, helmet, etc) as well.
+
+    clone() {
+        return new this.constructor(this);
+    }
+
+    toJSON() {
+        const ownData = {};
+        Object.keys(this).forEach(function (pn) {
+            ownData[pn] = clone(this[pn]);
+        }, this);
+        return JSON.reviveWrapper(`new ${this.constructor.name}($ReviveData$)`, ownData);
+    }
 }
 
 // Add the Player class to setup.

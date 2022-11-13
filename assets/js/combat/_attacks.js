@@ -24,7 +24,7 @@ class Attack {
      * Convert the data into a string so that the player can understand the data within.
      *
      * This can be HTML text.
-     * 
+     *
      * This will eventually show up left or above of the attack menu, so that players can know what their attacks do
      */
     getInfo() {
@@ -43,6 +43,8 @@ class Attack {
         solstr += `<grid id='infoMetricsAttacksGrid'>`;
         solstr += `<span>WDM:${this.wdm}</span>`;
         solstr += `<span>initRecovery:${this.initRecovery}</span>`;
+        // solstr += `<span>Direct:${this.directCalculated}</span>`; // NYI I need to pull the attacker's stats for this
+        // solstr += `<span>Critical:${this.criticalCalculated}</span>`; // NYI I need to pull the attacker's stats for this
         solstr += `</grid></span>`;
 
         solstr += `<span id='infoTargeting'><span class='infoSectionHeader'>TARGETING</span>`;
@@ -102,18 +104,18 @@ class Attack {
 }
 
 const attacks = {
-    // ##      ## ########    ###    ########   #######  ##    ##  ######  
-    // ##  ##  ## ##         ## ##   ##     ## ##     ## ###   ## ##    ## 
-    // ##  ##  ## ##        ##   ##  ##     ## ##     ## ####  ## ##       
-    // ##  ##  ## ######   ##     ## ########  ##     ## ## ## ##  ######  
-    // ##  ##  ## ##       ######### ##        ##     ## ##  ####       ## 
-    // ##  ##  ## ##       ##     ## ##        ##     ## ##   ### ##    ## 
-    //  ###  ###  ######## ##     ## ##         #######  ##    ##  ######  
+    // ##      ## ########    ###    ########   #######  ##    ##  ######
+    // ##  ##  ## ##         ## ##   ##     ## ##     ## ###   ## ##    ##
+    // ##  ##  ## ##        ##   ##  ##     ## ##     ## ####  ## ##
+    // ##  ##  ## ######   ##     ## ########  ##     ## ## ## ##  ######
+    // ##  ##  ## ##       ######### ##        ##     ## ##  ####       ##
+    // ##  ##  ## ##       ##     ## ##        ##     ## ##   ### ##    ##
+    //  ###  ###  ######## ##     ## ##         #######  ##    ##  ######
 
     // UNARMED
     flick: new Attack({
         name: "Flick",
-        family: "unarmedAttacks",
+        family: ["unarmedAttacks"],
         initRecovery: 18,
         wdm: 0.5,
         targetType: "single",
@@ -122,8 +124,8 @@ const attacks = {
         damage: {
             pierce: {
                 min: 1,
-                max: 1
-            }
+                max: 1,
+            },
         },
         stun: 5,
         description: "You flick your opponent, causing them to blink in surpise.",
@@ -131,7 +133,7 @@ const attacks = {
 
     gutpunch: new Attack({
         name: "Gut Punch",
-        family: "unarmedAttacks",
+        family: ["unarmedAttacks"],
         initRecovery: 23,
         wdm: 1.75,
         targetType: "single",
@@ -140,8 +142,8 @@ const attacks = {
         damage: {
             blunt: {
                 min: 3,
-                max: 3
-            }
+                max: 3,
+            },
         },
         stun: 18,
         description: "Slam your fist into the enemy's gut, causing them to crunch over.",
@@ -150,7 +152,7 @@ const attacks = {
     doublestrike: new Attack({
         name: "Double Strike",
         wdm: 0.75,
-        family: "unarmedAttacks",
+        family: ["unarmedAttacks"],
         initRecovery: 20,
         targetType: "single",
         frontlineTargetable: true,
@@ -160,17 +162,17 @@ const attacks = {
         damage: {
             blunt: {
                 min: 3,
-                max: 3
-            }
+                max: 3,
+            },
         },
     }),
 
     amp: new Attack({
         name: "Amped Up",
-        family: "unarmedAttacks",
+        family: ["unarmedAttacks"],
         initRecovery: 24,
         type: "buff",
-        targetType: "single",  // TOOD: Add "self"
+        targetType: "single", // TOOD: Add "self"
         allyTargetable: true,
         opponentTargetable: false,
         frontlineTargetable: true,
@@ -182,7 +184,7 @@ const attacks = {
     doublelegsweep: new Attack({
         name: "Double Leg Sweep",
         wdm: 0.25,
-        family: "unarmedAttacks",
+        family: ["unarmedAttacks"],
         initRecovery: 20,
         targetType: "area",
         frontlineTargetable: true,
@@ -192,16 +194,16 @@ const attacks = {
         damage: {
             blunt: {
                 min: 4,
-                max: 4
-            }
+                max: 4,
+            },
         },
-        stun: 4
+        stun: 4,
     }),
 
     // SPEAR ATTACKS
     stab: new Attack({
         name: "Stab",
-        family: "spearWeaponAttacks",
+        family: ["spearWeaponAttacks"],
         initRecovery: 50,
         wdm: 1.25,
         targetType: "single",
@@ -219,7 +221,7 @@ const attacks = {
     // SPEAR ATTACKS
     rapidjab: new Attack({
         name: "Rapid Jab",
-        family: "spearWeaponAttacks",
+        family: ["spearWeaponAttacks"],
         initRecovery: 50,
         wdm: 0.75,
         targetType: "single",
@@ -237,7 +239,7 @@ const attacks = {
 
     sweep: new Attack({
         name: "Sweep",
-        family: "spearWeaponAttacks",
+        family: ["spearWeaponAttacks"],
         initRecovery: 50,
         wdm: 1.25,
         targetType: "area",
@@ -256,12 +258,12 @@ const attacks = {
 
     // TODO: Buff this and apply it to the unmade short spear class.
     // TODO: Made new Attack that counter attacks when allies (but not self) is hit.
-    posture: new Attack({
+    spearposture: new Attack({
         name: "Posture",
-        family: "spearWeaponAttacks",
+        family: ["spearWeaponAttacks"],
         initRecovery: 24,
         type: "buff",
-        targetType: "single",  // TOOD: Add "self"
+        targetType: "single", // TOOD: Add "self"
         allyTargetable: true,
         opponentTargetable: false,
         frontlineTargetable: true,
@@ -273,7 +275,7 @@ const attacks = {
     // CHAOTIC SPEAR ATTACKS
     chaoschuck: new Attack({
         name: "Chaos Chuck",
-        family: "chaoticspearWeaponAttacks",
+        family: ["chaoticspearWeaponAttacks"],
         initRecovery: 50,
         wdm: 2,
         targetType: "single",
@@ -284,10 +286,10 @@ const attacks = {
 
     chaoticsacrifice: new Attack({
         name: "Chaotic Sacrifice",
-        family: "chaoticspearWeaponAttacks",
+        family: ["chaoticspearWeaponAttacks"],
         initRecovery: 50,
         type: "buff",
-        targetType: "single",  // TOOD: Add "self"
+        targetType: "single", // TOOD: Add "self"
         allyTargetable: true,
         opponentTargetable: false,
         frontlineTargetable: true,
@@ -298,10 +300,10 @@ const attacks = {
 
     unerringbolt: new Attack({
         name: "Unerring Bolt",
-        family: "chaoticspearWeaponAttacks",
+        family: ["chaoticspearWeaponAttacks"],
         wdm: 1.25,
         initRecovery: 50,
-        targetType: "single", 
+        targetType: "single",
         frontlineTargetable: true,
         backlineTargetable: true,
         description: "Turns your spear into a chaotic bolt, which your opponent cannot deflect.",
@@ -310,10 +312,10 @@ const attacks = {
 
     backlinebolts: new Attack({
         name: "Backline Bolts",
-        family: "chaoticspearWeaponAttacks",
+        family: ["chaoticspearWeaponAttacks"],
         wdm: 0.25,
         initRecovery: 56,
-        targetType: "area", 
+        targetType: "area",
         frontlineTargetable: false,
         backlineTargetable: true,
         description: "Hits the enemy backline with a dose of lightning and aether.",
@@ -325,22 +327,202 @@ const attacks = {
             lightning: {
                 min: 4,
                 max: 6,
-            }
-        }
+            },
+        },
     }),
 
-    // ######## ##    ## ######## ##     ## ##    ##       ###    ######## ########    ###     ######  ##    ##  ######  
-    // ##       ###   ## ##       ###   ###  ##  ##       ## ##      ##       ##      ## ##   ##    ## ##   ##  ##    ## 
-    // ##       ####  ## ##       #### ####   ####       ##   ##     ##       ##     ##   ##  ##       ##  ##   ##       
-    // ######   ## ## ## ######   ## ### ##    ##       ##     ##    ##       ##    ##     ## ##       #####     ######  
-    // ##       ##  #### ##       ##     ##    ##       #########    ##       ##    ######### ##       ##  ##         ## 
-    // ##       ##   ### ##       ##     ##    ##       ##     ##    ##       ##    ##     ## ##    ## ##   ##  ##    ## 
-    // ######## ##    ## ######## ##     ##    ##       ##     ##    ##       ##    ##     ##  ######  ##    ##  ######  
+    // SHIELD PORTION OF X AND SHIELDS
+    shieldposture: new Attack({
+        name: "Posture",
+        family: ["swordandshieldWeaponAttacks", "maceandshieldWeaponAttacks"],
+        initRecovery: 24,
+        type: "buff",
+        targetType: "single", // TOOD: Add "self"
+        allyTargetable: true,
+        opponentTargetable: false,
+        frontlineTargetable: true,
+        backlineTargetable: true,
+        description: "You posture yourself, increasing your block.",
+        buffs: [buffs.buffShieldPosture],
+    }),
+
+    shieldbash: new Attack({
+        name: "Shield Bash",
+        family: ["swordandshieldWeaponAttacks", "maceandshieldWeaponAttacks"],
+        initRecovery: 29,
+        wdm: 1,
+        targetType: "single",
+        frontlineTargetable: true,
+        backlineTargetable: false,
+        description: "Bash your shield at the enemy with an increased chance to direct hit.",
+        damage: {
+            blunt: {
+                min: 3,
+                max: 6,
+            },
+        },
+        directChanceBase: 0.6,
+        directChanceMore: 1.3,
+    }),
+
+    // SWORD PORTION OF SWORD AND SHIELD
+    swipe: new Attack({
+        name: "Swipe",
+        family: ["swordandshieldWeaponAttacks"],
+        initRecovery: 29,
+        wdm: 1,
+        targetType: "single",
+        frontlineTargetable: true,
+        backlineTargetable: false,
+        description: "Slash your sword at a target.",
+        damage: {
+            pierce: {
+                min: 3,
+                max: 6,
+            },
+        },
+    }),
+
+    thrust: new Attack({
+        name: "Thrust",
+        family: ["swordandshieldWeaponAttacks"],
+        initRecovery: 29,
+        wdm: 1,
+        targetType: "single",
+        frontlineTargetable: true,
+        backlineTargetable: false,
+        description:
+            "Thrust your sword at the enemy with an increased chance to critically hit, but also easier to deflect.",
+        damage: {
+            pierce: {
+                min: 3,
+                max: 6,
+            },
+        },
+        criticalChanceBase: 0.6,
+        criticalChanceMore: 1.3,
+        deflectCalculated: -0.25,
+        blockCalculated: 0,
+    }),
+
+    // MACE PORTION OF MACE AND SHIELD
+    bash: new Attack({
+        name: "Bash",
+        family: ["maceandshieldWeaponAttacks"],
+        initRecovery: 29,
+        wdm: 1,
+        targetType: "single",
+        frontlineTargetable: true,
+        backlineTargetable: false,
+        description: "Bash your mace at a target, with an increased chance of direct hit.",
+        damage: {
+            blunt: {
+                min: 3,
+                max: 6,
+            },
+        },
+        stun: 5,
+        directChanceBase: 0.6,
+        directChanceMore: 1.3,
+    }),
+
+    doublesmash: new Attack({
+        name: "Double Smash",
+        family: ["maceandshieldWeaponAttacks"],
+        initRecovery: 35,
+        wdm: 0.75,
+        targetType: "single",
+        frontlineTargetable: true,
+        backlineTargetable: false,
+        description: "Smash your target twice.",
+        damage: {
+            blunt: {
+                min: 2,
+                max: 4,
+            },
+        },
+        hitnumber: 2,
+    }),
+
+    // TWO HANDED AXE
+    whirlwind: new Attack({
+        name: "Whirlwind",
+        family: ["twohandedaxeWeaponAttacks"],
+        initRecovery: 55,
+        wdm: 0.25,
+        targetType: "area",
+        frontlineTargetable: true,
+        backlineTargetable: false,
+        description: "Spin yourself around twice and hit foes multiple times.",
+        hitnumber: 2,
+        buffs: [buffs.debuffBleed],
+    }),
+
+    wideslash: new Attack({
+        name: "Wide Slash",
+        family: ["twohandedaxeWeaponAttacks"],
+        initRecovery: 34,
+        wdm: 0.75,
+        targetType: "area",
+        frontlineTargetable: true,
+        backlineTargetable: false,
+        description: "Slash at all the enemies in front of you.",
+        damage: {
+            pierce: {
+                min: 2,
+                max: 4,
+            },
+        },
+        buffs: [buffs.debuffBleed],
+    }),
+
+    overheadchop: new Attack({
+        name: "Overhead Chop",
+        family: ["twohandedaxeWeaponAttacks"],
+        initRecovery: 50,
+        wdm: 2,
+        targetType: "single",
+        frontlineTargetable: true,
+        backlineTargetable: false,
+        description: "Deliver a critical overhead chop to the enemy.",
+        damage: {
+            pierce: {
+                min: 2,
+                max: 4,
+            },
+        },
+        buffs: [buffs.debuffBleed],
+        criticalChanceBase: 0.6,
+        criticalChanceMore: 1.3,
+        deflectCalculated: -0.25,
+    }),
+
+    lumberjackstance: new Attack({
+        name: "Lumberjack Stance",
+        family: ["twohandedaxeWeaponAttacks"],
+        initRecovery: 24,
+        type: "buff",
+        targetType: "single", // TOOD: Add "self"
+        allyTargetable: true,
+        opponentTargetable: false,
+        frontlineTargetable: true,
+        backlineTargetable: true,
+        description: "Buff yourself to deal more pierce damage.",
+        buffs: [buffs.buffLumberjackStance],
+    }),
+
+    // ######## ##    ## ######## ##     ##  ####  ########  ######
+    // ##       ###   ## ##       ###   ###   ##   ##       ##    ##
+    // ##       ####  ## ##       #### ####   ##   ##       ##
+    // ######   ## ## ## ######   ## ### ##   ##   ######    ######
+    // ##       ##  #### ##       ##     ##   ##   ##             ##
+    // ##       ##   ### ##       ##     ##   ##   ##       ##    ##
+    // ######## ##    ## ######## ##     ##  ####  ########  ######
 
     // Spider
     vilebite: new Attack({
         name: "Vile Bite",
-        family: "Spider",
+        family: ["Spider"],
         targetType: "single",
         allyTargetable: false,
         opponentTargetable: true,
@@ -362,7 +544,7 @@ const attacks = {
     webshot: new Attack({
         name: "Web Shot",
         type: "spell",
-        family: "Spider",
+        family: ["Spider"],
         targetType: "area",
         allyTargetable: false,
         opponentTargetable: true,
@@ -384,7 +566,7 @@ const attacks = {
 
     eightleggedrush: new Attack({
         name: "Eight Legged Rush",
-        family: "Spider",
+        family: ["Spider"],
         initRecovery: 80,
         targetType: "single",
         allyTargetable: false,
@@ -403,7 +585,7 @@ const attacks = {
     // Hog
     hogrush: new Attack({
         name: "Hog Rush",
-        family: "Hog",
+        family: ["Hog"],
         initRecovery: "80",
         targetType: "single",
         allyTargetable: false,
@@ -421,7 +603,7 @@ const attacks = {
 
     hoggore: new Attack({
         name: "Hog Gore",
-        family: "Hog",
+        family: ["Hog"],
         initRecovery: "72",
         targetType: "single",
         allyTargetable: false,
@@ -440,7 +622,7 @@ const attacks = {
     // Carbuncle
     cuddlebutt: new Attack({
         name: "Cuddle Butt",
-        family: "Carbuncle",
+        family: ["Carbuncle"],
         initRecovery: "16",
         targetType: "single",
         allyTargetable: false,
@@ -459,7 +641,7 @@ const attacks = {
     crystalshot: new Attack({
         name: "Crystal Shot",
         type: "spell",
-        family: "Carbuncle",
+        family: ["Carbuncle"],
         initRecovery: "36",
         targetType: "single",
         allyTargetable: false,
@@ -474,7 +656,6 @@ const attacks = {
         },
         description: "A piercing candle stick's worth of crystal is summoned and shot through the air.",
     }),
-    
 };
 
 /**
@@ -484,11 +665,13 @@ const attacks = {
 const familyAttacks = {};
 for (let key in attacks) {
     if (attacks[key].family) {
-        if (!familyAttacks[attacks[key].family]) {
-            familyAttacks[attacks[key].family] = [];
-        }
+        for (let idx in attacks[key].family) {
+            if (!familyAttacks[attacks[key].family[idx]]) {
+                familyAttacks[attacks[key].family[idx]] = [];
+            }
 
-        familyAttacks[attacks[key].family].push(attacks[key]);
+            familyAttacks[attacks[key].family[idx]].push(attacks[key]);
+        }
     }
 }
 

@@ -11,7 +11,6 @@ class Combatant {
         jQuery.extend(true, this, /* DEFAULTCOMBATANT, */ obj);
 
         this.original = cloneDeep(obj);
-        this.buffs = [];
 
         this.health = this.healthMax;
 
@@ -23,19 +22,18 @@ class Combatant {
             this.attacks = [];
         }
 
+        this.triggers = [];
+
         /**
          * equippables
          */
         if (this.equippables) {
             for (let equippable in this.equippables) {
+                let item = this.equippables[equippable];
+
                 // Add attacks to Combatant.
                 if (this.equippables[equippable].attacks) {
-                    this.attacks = mergeArray(this.attacks, this.equippables[equippable].attacks);
-                }
-
-                // Don't try to add affixes for unequipped slots.
-                if (this.equippables[equippable].type === "unequipped") {
-                    continue;
+                    this.attacks = mergeArray(this.attacks, item.attacks);
                 }
 
                 // Update Combatant Properties with Equippable Properties
@@ -44,8 +42,6 @@ class Combatant {
                         combatant[propobjname][prop] += equip[propobjname][prop];
                     });
                 }
-
-                let item = this.equippables[equippable];
 
                 updateProperties(this, item, "absorbPercent");
                 updateProperties(this, item, "absorbPercentMax");
@@ -141,7 +137,6 @@ class Combatant {
         // Keep buffs and debuffs the same.
         // REVIEW: Do I need to reapply buffs with onApply effects?
         this.buffs = oldCombatant.buffs;
-        
 
         /**
          * Recalculate aggregate defensive properties here.

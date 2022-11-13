@@ -4,7 +4,6 @@
  * passage until combat is over. This will allow us to keep _vars 
  * until we are done with the combat. 
  */
-
 <<script>>
     $(document).one(":passagedisplay", function() {
         /* On passage completion, initialize. */
@@ -81,6 +80,38 @@ async function processTurns(pp, ep) {
 
     let activeCharacter = null;
 
+    /* Determine if all characters in pp are dead. */
+    let ppdead = true;
+    for (let char of State.variables.ci.pp) {
+        if (char.health > 0) {
+            ppdead = false;
+            break;
+        }
+    }
+
+    /* Determine if all characters in ep are dead. */
+    let epdead = true;
+    for (let char of State.variables.ci.ep) {
+        if (char.health > 0) {
+            epdead = false;
+            break;
+        }
+    }
+
+    if (ppdead) {
+        setup.COM.drawCombat();
+        /* Update notice area with wikified lose message. */
+        $("#notifArea").empty().wiki(State.variables.ci.lose);
+        State.variables.ci = undefined;
+        return;
+    } else if (epdead) {
+        setup.COM.drawCombat();
+        /* Update notice area with wikified win message. */
+        $("#notifArea").empty().wiki(State.variables.ci.win);
+        State.variables.ci = undefined;
+        return;
+    }
+
     /* If all of the frontline of a side are dead, allow frontline
     attacks to hit backline. */
     if (
@@ -111,7 +142,6 @@ async function processTurns(pp, ep) {
     ) {
         State.variables.ci.ppfrontlineTargetable = true
     }
-
 
     /* Check if anyone has a turn available. */
     pp.forEach((char) => {
@@ -179,35 +209,7 @@ async function processTurns(pp, ep) {
 $("#combatZone").empty().wiki(Story.get("Combat_Zone_Main").processText());
 $("#playerZone").empty().wiki(Story.get("Player_Zone").processText());
 
-/* Determine if all characters in pp are dead. */
-let ppdead = true;
-for (let char of State.variables.ci.pp) {
-    if (char.health > 0) {
-        ppdead = false;
-        break;
-    }
-}
-
-/* Determine if all characters in ep are dead. */
-let epdead = true;
-for (let char of State.variables.ci.ep) {
-    if (char.health > 0) {
-        epdead = false;
-        break;
-    }
-}
-
-if (ppdead) {
-    setup.COM.drawCombat();
-    /* Update notice area with wikified lose message. */
-    $("#notifArea").empty().wiki(State.variables.ci.lose);
-} else if (epdead) {
-    setup.COM.drawCombat();
-    /* Update notice area with wikified win message. */
-    $("#notifArea").empty().wiki(State.variables.ci.win);
-} else {
-    processTurns(State.variables.ci.pp, State.variables.ci.ep);
-}
+processTurns(State.variables.ci.pp, State.variables.ci.ep);
 <</script>>
 
 

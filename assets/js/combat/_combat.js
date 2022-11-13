@@ -446,26 +446,34 @@ function attackCalculations(attack, attacker, targets) {
             // Remove Flat Absorb
             // Add Healing from Absorb
 
-            // Determine if Direct Hit.
-            if (thisAttack.isDirectable) {
-                solobj[i][idx].direct = Math.random() < thisAttack.directChanceCalculated ? true : false;
-            }
-
             // Calculate if Blocked.
             if (thisAttack.isBlockable) {
-                solobj[i][idx].blocked = Math.random() < target.blockCalculated ? true : false;
-            }
-
-            // Determine if Critical Strike.
-            // NOTE: Critical Strikes do not occur if the attack was blocked.
-            if (thisAttack.isCritable) {
-                solobj[i][idx].critical =
-                    Math.random() < thisAttack.criticalChanceCalculated && !solobj[i][idx].blocked ? true : false;
+                // NYI: target's blockCalculated should apply the attacks block manipulation stats properly.
+                solobj[i][idx].blocked = Math.random() < target.blockCalculated - attack.blockCalculated ? true : false;
             }
 
             // Calculate if Deflected.
             if (thisAttack.isDeflectable) {
-                solobj[i][idx].deflected = Math.random() < target.deflectCalculated ? true : false;
+                // NYI: target's blockCalculated should apply the attacks deflect manipulation stats properly.
+                solobj[i][idx].deflected =
+                    Math.random() < target.deflectCalculated - attack.deflectCalculated ? true : false;
+            }
+
+            // Determine if Direct Hit.
+            // NOTE: Direct Hits do not occur if the attack was deflected.
+            if (thisAttack.isDirectable) {
+                solobj[i][idx].direct =
+                    Math.random() < thisAttack.directChanceCalculated && !solobj[i][idx].deflected ? true : false;
+            }
+
+            // Determine if Critical Strike.
+            // NOTE: Critical Strikes do not occur if the attack was blocked or deflected.
+            if (thisAttack.isCritable) {
+                solobj[i][idx].critical =
+                    Math.random() < thisAttack.criticalChanceCalculated &&
+                    (!solobj[i][idx].blocked || !solobj[i][idx].deflected)
+                        ? true
+                        : false;
             }
 
             let damageobj = {
