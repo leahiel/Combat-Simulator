@@ -1,7 +1,0 @@
-# Ignore Generated Files
-node_modules/
-pkg/
-dist/
-target/
-package-lock.json
-cargo.lock
