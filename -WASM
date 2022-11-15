@@ -1,0 +1,11 @@
+-= WASM GOALS:
+☑ Compile the WASM and use it without further modifications.
+    ☐ use it without having to mode fef7cd8b53f527ed6164.module.wasm to rppt
+
+☐ From Rust, print to console from a function written in Rust called with Javascript:
+    "Hello from Rust!"
+
+☐ Using Rust, run this function written in JavaScript:
+    console.log("Hello from JavaScript!");
+
+☐ Using Rust, manipulate any one story variable in SugarCube.

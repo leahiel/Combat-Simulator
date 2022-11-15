@@ -112,11 +112,12 @@ setup.promises = {}
 setup.promises.importInit = importScripts(
     "src/assets/js/uuid.min.js",
     "src/assets/js/jcanvas.min.js",
-)/* .then(
+).then(
     () => {
-        setup.fns.importGameSSR();
+        importScripts("src/assets/wasm/wasm.js", "src/assets/wasm/0.wasm.js")
+        /* setup.fns.importGameSSR(); */
     }
-);  */
+); 
 
 /* 
 ##     ##    ###    ########  ####    ###    ########  ##       ########  ######  
