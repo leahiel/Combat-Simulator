@@ -44,11 +44,11 @@ function drawCombat() {
  */
 function combatMessage(text, type, charLoc) {
     /* Get bounding box of character element. */
-    let eleName = "combatzonegrid #gitemA";
+    let eleName = "#enemyZone #gitemA";
     if (charLoc.includes("enemy")) {
-        eleName = `combatzonegrid #gitem${charLoc.charAt(charLoc.length - 1)}`;
+        eleName = `#enemyZone #gitem${charLoc.charAt(charLoc.length - 1)}`;
     } else if (charLoc.includes("player")) {
-        eleName = `playerZoneGrid #gitem${charLoc.charAt(charLoc.length - 1)}`;
+        eleName = `#playerZone #gitem${charLoc.charAt(charLoc.length - 1)}`;
     }
 
     let charPos = {
@@ -98,7 +98,7 @@ function combatMessage(text, type, charLoc) {
 /** Clears the Player Options Grid. */
 function clearPlayerOptionsGrid() {
     for (let i = 1; i <= 15; i++) {
-        $(`playerOptionsGrid #gitem${i}`).empty();
+        $(`#targetsZone #playerAttacks`).empty();
     }
 }
 
@@ -245,7 +245,13 @@ function updateCanvas(char, canvasElement) {
 function displayToInfoScreenOnMouseover(selector, obj) {
     waitForElm(selector).then((elm) => {
         $(elm).mouseover(function () {
-            $("#infoScreenDescription").html(obj.getInfo());
+            // If state is combat
+            if (Story.get(passage()).tags.includes(".combat")) {
+                $("#MainCombatGrid #combatNotifications").html(obj.getInfo());
+            } else {
+                $("#infoScreenDescription").html(obj.getInfo());
+            }
+            
         });
     });
 }

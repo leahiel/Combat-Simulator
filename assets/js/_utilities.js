@@ -114,8 +114,8 @@ function assignFieldOfObjectsToArray(objarr, field) {
  * @example
  * let arr = [1, 3, 4]
  * someValuesTrue(arr, function(v) {
- *  return v <= 3
- * }
+ *  return v <= 3;
+ * });
  * // => true
  */
 function someValuesTrue(arr, cond) {
@@ -139,8 +139,8 @@ function someValuesTrue(arr, cond) {
  * @example
  * let arr = [1, 3, 4]
  * allValuesTrue(arr, function(v) {
- *  return v <= 5
- * }
+ *  return v <= 5;
+ * });
  * // => true
  */
 function allValuesTrue(arr, cond) {
@@ -162,7 +162,7 @@ function allValuesTrue(arr, cond) {
  * duplicate items.
  *
  * @example
- * arr = ["A", "B", "C"]
+ * let arr = ["A", "B", "C"]
  * ranItems(1, arr)  // => ["B"]
  * ranItems(2, arr)  // => ["A", "C"]
  * ranItems(5, arr, true)  // => ["A", "C", "A", "A", "B"]
@@ -189,7 +189,7 @@ function ranItems(amount, arr, isDuplicatable = false) {
         amount = arr.length;
     }
 
-    // REVIEW: Optimize this.
+    // DESIRED: Optimize this.
     // To start with, if amount === arr.length, we can just return a shufflized array.
     for (amount; amount > 0; amount--) {
         let randItem = arr[Math.floor(Math.random() * arr.length)];
@@ -284,6 +284,11 @@ function waitForElm(selector) {
     });
 }
 
+/**
+ * Waits for an element to exist before doing thing.
+ *
+ * Modified from https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
+ */
 function waitForNumberOfElm(selector, number) {
     return new Promise((resolve) => {
         if (document.querySelector(selector)) {

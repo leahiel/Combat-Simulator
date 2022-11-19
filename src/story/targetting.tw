@@ -1,0 +1,319 @@
+:: Player_Zone [.combat .helper nostats]
+/* HTML elements of the player characters. */
+
+/**
+ * DESIRED: I wanted to dynamically make these elements, but they  
+ * aren't created fast enough to render properly. Further research 
+ * shows that it is because I would have to constantly recreate the  
+ * canvas element, so if we fix that problem, we can dynamically make 
+ * these elements. I don't think the efficiency gain is worth the 
+ * effort. 
+ */
+<<if $ci.pp[0]>>
+    <griditem id="gitemA">
+        $ci.pp[0].name
+        <canvas class="initBar" id="playerA" width="2048" height="384"></canvas>
+    </griditem>
+
+    <<script>>
+        setup.fns.displayToInfoScreenOnMouseover('#playerZone griditem#gitemA', State.variables.ci.pp[0]);
+    <</script>>
+<</if>>
+
+<<if $ci.pp[1]>>
+    <griditem id="gitemB">
+        $ci.pp[1].name
+        <canvas class="initBar" id="playerB" width="2048" height="384"></canvas>
+    </griditem>
+
+    <<script>>
+        setup.fns.displayToInfoScreenOnMouseover('#playerZone griditem#gitemB', State.variables.ci.pp[1]);
+    <</script>>
+<</if>>
+
+<<if $ci.pp[2]>>
+    <griditem id="gitemC">
+        $ci.pp[2].name
+        <canvas class="initBar" id="playerC" width="2048" height="384"></canvas>
+    </griditem>
+
+    <<script>>
+        setup.fns.displayToInfoScreenOnMouseover('#playerZone griditem#gitemC', State.variables.ci.pp[2]);
+    <</script>>
+<</if>>
+
+<<if $ci.pp[3]>>
+    <griditem id="gitemD">
+        $ci.pp[3].name
+        <canvas class="initBar" id="playerD" width="2048" height="384"></canvas>
+    </griditem>
+
+    <<script>>
+        setup.fns.displayToInfoScreenOnMouseover('#playerZone griditem#gitemD', State.variables.ci.pp[3]);
+    <</script>>
+<</if>>
+
+
+
+
+
+:: Player_Attacks [.combat .helper nostats]
+/**
+ * Determines and shows which attacks are enabled or disabled.
+ *
+ * Disabled attacks are currently only possible if that attack has
+ * no viable targets.
+ */
+
+<<run setup.COM.clearPlayerOptionsGrid()>>
+/* TODO: playerAttacks should have a class that has the CSS for these thingies. Then I can swap out the class for attacks/different targeting options. */
+
+<<if $ci.pp.includes($ci.activeCharacter)>>
+    <<for _int, _attack range $ci.activeCharacter.attacks>>
+    <<set _attack.viableTargets to setup.COM.assignViableTargets(_attack, $ci.activeCharacter)>>
+        <<capture _attack>>
+            <<if _attack["viableTargets"].length > 0>>
+                <<run $(`#targetsZone #playerAttacks`).wiki(Story.get("Player_Attack_Enabled").processText());>>
+            <<else>>
+                /* There are no viable targets, so disable the button. */
+                <<run $(`#targetsZone #playerAttacks`).wiki(Story.get("Player_Attack_Disabled").processText());>>
+            <</if>>
+        <</capture>>
+    <</for>>
+    /* TODO: Logic here should be done if there are more than n attacks, in which case we need a second grid. If none is needed then arrows should be greyed out. */
+<</if>>
+
+
+
+
+:: Player_Attack_Enabled [.combat .helper nostats]
+/**
+ * The button for ensabled attacks on the #targetsZone grid.
+ */
+<<set _id to "PlayerAttack" + (_int + 1)>>
+<<but _attack.name id _id class "playerAttack">>
+    <<run $("#targetsZone #playerAttacks").empty().wiki(Story.get("Player_Attack_Targets").processText());>>
+<</but>>
+<<run setup.fns.displayToInfoScreenOnMouseover(`#targetsZone #playerAttacks #${State.temporary.id}`, State.temporary.attack);>>
+
+
+:: Player_Attack_Disabled [.combat .helper nostats]
+/**
+ * The button for disabled attacks on the #targetsZone grid.
+ */
+<<set _id to "PlayerAttack" + (_int + 1)>>
+<<but _attack.name id _id class "playerAttack disabled">>
+<</but>>
+
+
+<<run setup.fns.displayToInfoScreenOnMouseover(`#targetsZone #playerAttacks #${State.temporary.id}`, State.temporary.attack);>>
+
+
+
+
+
+:: Player_Attack_Targets [.combat .helper nostats]
+<<run setup.COM.clearPlayerOptionsGrid()>>
+
+<<switch _attack.targets.style>>
+    <<case "all">>
+        <<run $("#targetsZone #playerAttacks").empty().wiki(Story.get("Player_Attack_Targets_All").processText());>>
+    <<case "side">>
+        <<run $("#targetsZone #playerAttacks").empty().wiki(Story.get("Player_Attack_Targets_Side").processText());>>
+    <<case "row">>
+        <<run $("#targetsZone #playerAttacks").empty().wiki(Story.get("Player_Attack_Targets_Row").processText());>>
+    <<case "single">>
+        <<run $("#targetsZone #playerAttacks").empty().wiki(Story.get("Player_Attack_Targets_Single").processText());>>
+    <<case "self">>
+        <<run $("#targetsZone #playerAttacks").empty().wiki(Story.get("Player_Attack_Targets_Self").processText());>>
+<</switch>>
+
+/* TODO: Below should be a function, cause it'll be applied a lot, I think. */
+/* Provide a back button if the player wants to chose a different attack. */
+<<script>>
+    $(`#targetsZone #backForward #back`).empty().wiki(`
+        <<but "Back" id "#BackAttack">>
+            <<run $("#playerAttacks").empty().wiki(Story.get("Player_Attacks").processText());>>
+        <</but>>
+    `);
+<</script>>
+
+
+
+
+
+
+:: Player_Attack_Targets_All [.combat .helper nostats]
+/* _attack.targets.style === "all" */
+/** 
+ * NOTE: Because this attack either hits everyone or no one, we don't 
+ * need to be concerned about disabling this option. The attack itself 
+ * will be disabled, and this targeting menu will never be reached. 
+ */
+<<but "Hit Everyone" id "AttackTarget" class "playerAttack">>
+    <<script>>
+        let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
+        setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
+        State.variables.ci.activeCharacter = null;
+        $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
+    <</script>>
+<</but>>
+
+
+
+:: Player_Attack_Targets_Side [.combat .helper nostats]
+/* _attack.targets.style === "side" */
+
+/* Check Enemy Combatants */
+<<if _attack["viableTargets"].some(r=> [$ci.ep[0], $ci.ep[1], $ci.ep[2], $ci.ep[3], $ci.ep[4]].includes(r))>>
+    <<but "Hit All Enemies" id "AttackTarget" class "playerAttack">>
+        <<script>>
+            let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
+            setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
+            State.variables.ci.activeCharacter = null;
+            $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
+        <</script>>
+    <</but>>
+<<else>>
+    <<but "Hit All Enemies" id "AttackTarget" class "playerAttack disabled">>
+    <</but>>
+<</if>>
+
+/* Check Player Combatants */
+<<if _attack["viableTargets"].some(r=> [$ci.pp[0], $ci.pp[1], $ci.pp[2], $ci.pp[3]].includes(r))>>
+    <<but "Hit All Allies" id "AttackTarget" class "playerAttack">>
+        <<script>>
+            let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
+            setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
+            State.variables.ci.activeCharacter = null;
+            $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
+        <</script>>
+    <</but>>
+<<else>>
+    <<but "Hit All Allies" id "AttackTarget" class "playerAttack disabled">>
+    <</but>>
+<</if>>
+
+
+
+:: Player_Attack_Targets_Row [.combat .helper nostats]
+/* _attack.targets.style === "row" */
+<<run console.log(_attack["viableTargets"])>>
+
+/* Check enemy backline Combatants */
+<<if _attack["viableTargets"].some(r=> [$ci.ep[3], $ci.ep[4]].includes(r)) && ((_attack.targets.row === "back" || _attack.targets.row === "both") || $ci.epbacklineTargetable)>>
+    <<but "Hit Backrow Enemies" id "AttackTarget" class "playerAttack">>
+        <<script>>
+            let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
+            setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
+            State.variables.ci.activeCharacter = null;
+            $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
+        <</script>>
+    <</but>>
+<<else>>
+    <<but "Hit Backtrow Enemies" id "AttackTarget" class "playerAttack disabled">>
+    <</but>>
+<</if>>
+
+/* Check enemy frontline Combatants */
+<<if _attack["viableTargets"].some(r=> [$ci.ep[0], $ci.ep[1], $ci.ep[2]].includes(r)) && ((_attack.targets.row === "front" || _attack.targets.row === "both") || $ci.epfrontlineTargetable)>>
+    <<but "Hit Frontrow Enemies" id "AttackTarget" class "playerAttack">>
+        <<script>>
+            let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
+            setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
+            State.variables.ci.activeCharacter = null;
+            $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
+        <</script>>
+    <</but>>
+<<else>>
+    <<but "Hit Frontrow Enemies" id "AttackTarget" class "playerAttack disabled">>
+    <</but>>
+<</if>>
+
+/* Check player frontline Combatants */
+<<if _attack["viableTargets"].some(r=> [$ci.pp[0], $ci.pp[1]].includes(r))>>
+    <<but "Hit Frontrow Allies" id "AttackTarget" class "playerAttack">>
+        <<script>>
+            let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
+            setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
+            State.variables.ci.activeCharacter = null;
+            $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
+        <</script>>
+    <</but>>
+<<else>>
+    <<but "Hit Frontrow Allies" id "AttackTarget" class "playerAttack disabled">>
+    <</but>>
+<</if>>
+
+/* Check player backline Combatants */
+<<if _attack["viableTargets"].some(r=> [$ci.pp[2], $ci.pp[3]].includes(r))>>
+    <<but "Hit Backrow Allies" id "AttackTarget" class "playerAttack">>
+        <<script>>
+            let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
+            setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
+            State.variables.ci.activeCharacter = null;
+            $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
+        <</script>>
+    <</but>>
+<<else>>
+    <<but "Hit Backtrow Allies" id "AttackTarget" class "playerAttack disabled">>
+    <</but>>
+<</if>>
+
+
+:: Player_Attack_Targets_Single [.combat .helper nostats]
+/* _attack.targets.style === "single" */
+
+/* Check enemy Combatants */
+<<for _target range $ci.ep>>
+    <<capture _target>>
+        <<if _attack["viableTargets"].includes(_target)>>
+            <<but _target.name id "AttackTarget" class "playerAttack">>
+                <<script>>
+                    setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, [State.temporary.target]);
+                    State.variables.ci.activeCharacter = null;
+                    $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
+                <</script>>
+            <</but>>
+        <<else>>
+            <<but _target.name id "AttackTarget" class "playerAttack disabled">>
+            <</but>>
+        <</if>>
+    <</capture>>
+<</for>>
+
+/* Check player Combatants */
+<<for _target range $ci.pp>>
+    <<capture _target>>
+        <<if _attack["viableTargets"].includes(_target)>>
+            <<but _target.name id "AttackTarget" class "playerAttack">>
+                <<script>>
+                    setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, [State.temporary.target]);
+                    State.variables.ci.activeCharacter = null;
+                    $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
+                <</script>>
+            <</but>>
+        <<else>>
+            <<but _target.name id "AttackTarget" class "playerAttack disabled">>
+            <</but>>
+        <</if>>
+    <</capture>>
+<</for>>
+
+
+
+:: Player_Attack_Targets_Self [.combat .helper nostats]
+/* _attack.targets.style === "self" */
+/** 
+ * NOTE: Because this attack hits the attacker, we don't need to be
+ * concerned about disabling this option. The attack itself will be
+ * disabled, and this targeting menu will never be reached. 
+ */
+<<but "Hit Self" id "AttackTarget" class "playerAttack">>
+    <<script>>
+        let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
+        setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
+        State.variables.ci.activeCharacter = null;
+        $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
+    <</script>>
+<</but>>

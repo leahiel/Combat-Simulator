@@ -44,13 +44,14 @@
 
 I GOTTA SEE BETTER<span class='sw'> exterminating the son!</span> i just want to see <span class="sw"> how it compares,</span><br>
 <span class='lf'>Exterminating the Son!</span><br>
-<span class="glitch" data-text="quiet!"><span class='sw'>quiet!</span></span><span class="glitch" data-text=" the future is dotless!"><span class='sw'> the future is dotless!</span></span><br><br><br><br><br>
+<span class="glitch" data-text="quiet!"><span class='sw'>quiet!</span></span><span class="glitch" data-text=" the future is dotless!"><span class='sw'> the future is dotless!</span></span><br><br><br>
 
 
 <<button [[Gen. Random Combat Instance|Combat_Overlord]]>>
 	<<script>>
 		/* Random Int between 1 and 5 */
-		let int = Math.ceil(Math.random() * (5));
+		/* let int = Math.ceil(Math.random() * (5)); */
+		let int = 5;
 
 		State.variables.ci = new setup.COM.CombatInstance({
 			win: "<<link [[You won!|Inbetween]]>><</link>>",

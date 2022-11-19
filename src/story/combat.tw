@@ -7,9 +7,9 @@
 <<script>>
     $(document).one(":passagedisplay", function() {
         /* On passage completion, initialize. */
-        $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+        $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
         /* And scroll into view. */
-        document.getElementById("chapterheader").scrollIntoView();
+        document.getElementById("passagetitleheader").scrollIntoView();
     });
 <</script>>
 
@@ -17,16 +17,31 @@
 /* NYI: Show the statisitical details of all Player Attacks. */
 /* <span id="combatInfoZone"></span> */
 
-/* This is effectively the enemies' side of the "field". */
-<span id="combatZone"></span>
+<grid id="MainCombatGrid">
+    /* This is effectively the enemies' side of the "field". */
+    <span id="enemyZone"></span>
 
-<br>
+    /* The "center field", if you will. */
+    <span id="combatNotifications">DO I JUST NEED SOMETHING HERE</span>
 
-/**
- * This is effectively the player's side of the "field". 
- * It lets the player pick attacks, use items, etc, etc.
- */
-<span id="playerZone"></span>
+    /**
+    * This is effectively the player's side of the "field". 
+    * It lets the player pick attacks, use items, etc, etc.
+    */
+    <span id="playerZone"></span>
+
+    /* The options for the player. */
+    <span id="targetsZone">
+        <span id="notifArea"></span>
+
+        <span id="playerAttacks"></span>
+
+        <span id="backForward">
+            <span id="back">Back</span>
+            <span id="forward">Forward</span>
+        </span>
+    </span>
+</grid>
 
 
 
@@ -186,7 +201,7 @@ async function processTurns(pp, ep) {
         $("#notifArea").empty().wiki("Player Turn");
 
         setup.COM.drawCombat();
-        /* setup.COM.drawCombat() updates playerZoneGrid, so the player can make a choice there. */
+        /* setup.COM.drawCombat() updates #playerZone, so the player can make a choice there. */
 
         /* The player will processTurns() after clicking a button. No need to do it here. */
         return;
@@ -201,12 +216,12 @@ async function processTurns(pp, ep) {
         /* Not yet fully implemented, but this should call activeCharacter.ai() when complete.  */
         setup.COM.attackRandomWithRandom(activeCharacter);
 
-        $("#combatZone").wiki(Story.get("Combat_Zone").processText());
+        $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
         return;
     }
 };
 
-$("#combatZone").empty().wiki(Story.get("Combat_Zone_Main").processText());
+$("#enemyZone").empty().wiki(Story.get("Combat_Zone_Main").processText());
 $("#playerZone").empty().wiki(Story.get("Player_Zone").processText());
 
 processTurns(State.variables.ci.pp, State.variables.ci.ep);
@@ -218,426 +233,60 @@ processTurns(State.variables.ci.pp, State.variables.ci.ep);
 /**
  * The HTML elements of the enemies.
  */
-<combatZoneGrid>
-    /* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. It might now be possible though, since we only update Canvas element (as opposed to the Canvas itself) rarely. */
-    <<if $ci.ep[0]>>
-        <griditem id="gitemA">
-            /* TODO: Add the name to the canvas instead so that I have total control over the thing. */
-            $ci.ep[0].name
-            <canvas class="initBar" id="enemyA" width="2048" height="384"></canvas>
-        </griditem>
 
-        <<script>>
-            setup.fns.displayToInfoScreenOnMouseover('combatZoneGrid griditem#gitemA', State.variables.ci.ep[0]);
-        <</script>>
-    <</if>>
+/* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. It might now be possible though, since we only update Canvas element (as opposed to the Canvas itself) rarely. */
+<<if $ci.ep[0]>>
+    <griditem id="gitemA">
+        /* TODO: Add the name to the canvas instead so that I have total control over the thing. */
+        $ci.ep[0].name
+        <canvas class="initBar" id="enemyA" width="2048" height="384"></canvas>
+    </griditem>
 
-    <<if $ci.ep[1]>>
-        <griditem id="gitemB">
-            $ci.ep[1].name
-            <canvas class="initBar" id="enemyB" width="2048" height="384"></canvas>
-        </griditem>
-
-        <<script>>
-            setup.fns.displayToInfoScreenOnMouseover('combatZoneGrid griditem#gitemB', State.variables.ci.ep[1]);
-        <</script>>
-    <</if>>
-
-    <<if $ci.ep[2]>>
-        <griditem id="gitemC">
-            $ci.ep[2].name
-            <canvas class="initBar" id="enemyC" width="2048" height="384"></canvas>
-        </griditem>
-
-        <<script>>
-            setup.fns.displayToInfoScreenOnMouseover('combatZoneGrid griditem#gitemC', State.variables.ci.ep[2]);
-        <</script>>
-    <</if>>
-
-    <<if $ci.ep[3]>>
-        <griditem id="gitemD">
-            $ci.ep[3].name
-            <canvas class="initBar" id="enemyD" width="2048" height="384"></canvas>
-        </griditem>
-
-        <<script>>
-            setup.fns.displayToInfoScreenOnMouseover('combatZoneGrid griditem#gitemD', State.variables.ci.ep[3]);
-        <</script>>
-    <</if>>
-
-    <<if $ci.ep[4]>>
-        <griditem id="gitemE">
-            $ci.ep[4].name
-            <canvas class="initBar" id="enemyE" width="2048" height="384"></canvas>
-        </griditem>
-
-        <<script>>
-            setup.fns.displayToInfoScreenOnMouseover('combatZoneGrid griditem#gitemE', State.variables.ci.ep[4]);
-        <</script>>
-    <</if>>
-</combatZoneGrid>
-
-
-
-:: Player_Zone [.combat .helper nostats]
-/**
- * The HTML elements of the player characters.
- */
-
-/* Where the player attack elements currently show up. */
-<span id="playerAttacks"></span>
-
-<playerCombatGrid>
-/* HTML elements of the player characters. */
-    <playerZoneGrid>
-        /* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. */
-        <<if $ci.pp[0]>>
-            <griditem id="gitemA">
-                $ci.pp[0].name
-                <canvas class="initBar" id="playerA" width="2048" height="384"></canvas>
-            </griditem>
-
-            <<script>>
-                setup.fns.displayToInfoScreenOnMouseover('playerZoneGrid griditem#gitemA', State.variables.ci.pp[0]);
-            <</script>>
-        <</if>>
-
-        <<if $ci.pp[1]>>
-            <griditem id="gitemB">
-                $ci.pp[1].name
-                <canvas class="initBar" id="playerB" width="2048" height="384"></canvas>
-            </griditem>
-
-            <<script>>
-                setup.fns.displayToInfoScreenOnMouseover('playerZoneGrid griditem#gitemB', State.variables.ci.pp[1]);
-            <</script>>
-        <</if>>
-
-        <<if $ci.pp[2]>>
-            <griditem id="gitemC">
-                $ci.pp[2].name
-                <canvas class="initBar" id="playerC" width="2048" height="384"></canvas>
-            </griditem>
-
-            <<script>>
-                setup.fns.displayToInfoScreenOnMouseover('playerZoneGrid griditem#gitemC', State.variables.ci.pp[2]);
-            <</script>>
-        <</if>>
-
-        <<if $ci.pp[3]>>
-            <griditem id="gitemD">
-                $ci.pp[3].name
-                <canvas class="initBar" id="playerD" width="2048" height="384"></canvas>
-            </griditem>
-
-            <<script>>
-                setup.fns.displayToInfoScreenOnMouseover('playerZoneGrid griditem#gitemD', State.variables.ci.pp[3]);
-            <</script>>
-        <</if>>
-    </playerZoneGrid>
-    <playerOptionsGrid>
-        /* This is the dividing bar between the enemies and the player. */
-        <span id="notifArea"></span>
-
-        /** TODO: Have 1 column in player options grid, and have a row item with three items in it. This will let us manipulate the number of items in rows and what not. Example:
-
-        <griditem id="row1">
-            <item id="item1">
-            </item>
-            <item id="item2">
-            </item>
-            <item id="item3">
-            </item>
-        </griditem>
-         */
-
-        <griditem id="gitem1">
-        </griditem>
-        <griditem id="gitem2">
-        </griditem>
-        <griditem id="gitem3">
-        </griditem>
-
-        <griditem id="gitem4">
-        </griditem>
-        <griditem id="gitem5">
-        </griditem>
-        <griditem id="gitem6">
-        </griditem>
-
-        <griditem id="gitem7">
-        </griditem>
-        <griditem id="gitem8">
-        </griditem>
-        <griditem id="gitem9">
-        </griditem>
-
-        <griditem id="gitem10">
-        </griditem>
-        <griditem id="gitem11">
-        </griditem>
-        <griditem id="gitem12">
-        </griditem>
-
-        <griditem id="gitem13">
-        </griditem>
-        <griditem id="gitem14">
-        </griditem>
-        <griditem id="gitem15">
-        </griditem>
-    </playerOptionsGrid>
-</playerCombatgrid>
-
-
-:: Player_Attacks [.combat .helper nostats]
-/**
- * Determines the logic and HTML elements behind the player attacks.
- */
-
-<<run setup.COM.clearPlayerOptionsGrid()>>
-
-<<if $ci.pp.includes($ci.activeCharacter)>>
-    <<for _int, _attack range $ci.activeCharacter.attacks>>
-    <<set _attack.viableTargets to setup.COM.assignViableTargets(_attack, $ci.activeCharacter)>>
-        <<capture _attack>>
-            <<if _attack["viableTargets"].length === 0>>
-                /* There are no viable targets, so disable the button. */
-                <<script>>
-                    $(`playerOptionsGrid #gitem${State.temporary.int + 1}`).wiki(`
-                        <<disable>>
-                            <<but _attack.name id "PlayerAttack">>
-                            <</but>>
-                        <</disable>>
-                    `);
-
-                    setup.fns.displayToInfoScreenOnMouseover(`playerOptionsGrid #gitem${State.temporary.int + 1}`, State.temporary.attack);
-                <</script>>
-            <<else>>
-                <<script>>
-                    $(`playerOptionsGrid #gitem${State.temporary.int + 1}`).wiki(`
-                        <<but _attack.name id "PlayerAttack">>
-                            <<run $("#playerAttacks").empty().wiki(Story.get("Player_Attack_Targets").processText());>>
-                        <</but>>
-                    `);
-
-                    setup.fns.displayToInfoScreenOnMouseover(`playerOptionsGrid #gitem${State.temporary.int + 1}`, State.temporary.attack);
-                <</script>>
-            <</if>>
-        <</capture>>
-    <</for>>
-    <br>
-<<else>>
-    <br>
+    <<script>>
+        setup.fns.displayToInfoScreenOnMouseover('#enemyZone griditem#gitemA', State.variables.ci.ep[0]);
+    <</script>>
 <</if>>
 
+<<if $ci.ep[1]>>
+    <griditem id="gitemB">
+        $ci.ep[1].name
+        <canvas class="initBar" id="enemyB" width="2048" height="384"></canvas>
+    </griditem>
 
-
-:: Player_Attack_Targets [.combat .helper nostats]
-<<run setup.COM.clearPlayerOptionsGrid()>>
-
-<<if _attack.targetType === "area">>
-    /* Handle all. */
-    <<if _attack.opponentTargetable && _attack.allyTargetable>>
-        <<if _attack.frontlineTargetable && _attack.backlineTargetable>>
-            <<script>>
-                $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<but "Hit Everyone" id "#AttackTarget">>
-                        <<script>>
-                            let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
-                            setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
-                            State.variables.ci.activeCharacter = null;
-                            $("#combatZone").wiki(Story.get("Combat_Zone").processText());
-                        <</script>>
-                    <</but>>
-                `);
-            <</script>>
-
-        <<elseif _attack.frontlineTargetable>>
-            <<script>>
-                $(`playerOptionsGrid #gitem1`).wiki(`
-                     <<but "Hit Both Frontlines" id "#AttackTarget">>
-                        <<script>>
-                            let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
-                            setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
-                            State.variables.ci.activeCharacter = null;
-                            $("#combatZone").wiki(Story.get("Combat_Zone").processText());
-                        <</script>>
-                    <</but>>
-                `);
-            <</script>>
-
-        <<elseif _attack.backlineTargetable>>
-            <<script>>
-                $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<but "Hit Both Backlines" id "#AttackTarget">>  
-                        <<script>>
-                            let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
-                            setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
-                            State.variables.ci.activeCharacter = null;
-                            $("#combatZone").wiki(Story.get("Combat_Zone").processText());
-                        <</script>>
-                    <</but>>
-                `);
-            <</script>>
-        <</if>>
-
-    /* Handle enemies. */
-    <<elseif _attack.opponentTargetable>>
-        <<if _attack.frontlineTargetable && _attack.backlineTargetable>>
-            <<script>>
-                $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<but "Hit All Enemies" id "#AttackTarget">>  
-                        <<script>>
-                            let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
-                            setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
-                            State.variables.ci.activeCharacter = null;
-                            $("#combatZone").wiki(Story.get("Combat_Zone").processText());
-                        <</script>>
-                    <</but>>
-                `);
-            <</script>>
-
-        <<elseif _attack.frontlineTargetable>>
-            <<script>>
-                $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<but "Hit Frontline" id "#AttackTarget">>
-                        <<script>>
-                            let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
-                            setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
-                            State.variables.ci.activeCharacter = null;
-                            $("#combatZone").wiki(Story.get("Combat_Zone").processText());
-                        <</script>>
-                    <</but>>
-                `);
-            <</script>>
-
-        <<elseif _attack.backlineTargetable>>
-            <<script>>
-                $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<but "Hit Backline" id "#AttackTarget">>
-                        <<script>>
-                            let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
-                            setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
-                            State.variables.ci.activeCharacter = null;
-                            $("#combatZone").wiki(Story.get("Combat_Zone").processText());
-                        <</script>>
-                    <</but>>
-                `);
-            <</script>>
-        <</if>>
-
-    /* Handle allies. */
-    <<elseif _attack.allyTargetable>>
-        <<if _attack.frontlineTargetable && _attack.backlineTargetable>>
-            <<script>>
-                $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<but "Hit All Allies" id "#AttackTarget">>
-                        <<script>>
-                            let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
-                            setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
-                            State.variables.ci.activeCharacter = null;
-                            $("#combatZone").wiki(Story.get("Combat_Zone").processText());
-                        <</script>>
-                    <</but>>
-                `);
-            <</script>>
-
-        <<elseif _attack.frontlineTargetable>>
-            <<script>>
-                $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<but "Hit Frontline Allies" id "#AttackTarget">>
-                        <<script>>
-                            let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
-                            setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
-                            State.variables.ci.activeCharacter = null;
-                            $("#combatZone").wiki(Story.get("Combat_Zone").processText());
-                        <</script>>
-                    <</but>>
-                `);
-            <</script>>
-            
-        <<elseif _attack.backlineTargetable>>
-            <<script>>
-                $(`playerOptionsGrid #gitem1`).wiki(`
-                    <<but "Hit Backline Allies" id "#AttackTarget">>
-                        <<script>>
-                            let targets = setup.COM.assignViableTargets(State.temporary.attack, State.variables.ci.activeCharacter);
-                            setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, targets);
-                            State.variables.ci.activeCharacter = null;
-                            $("#combatZone").wiki(Story.get("Combat_Zone").processText());
-                        <</script>>
-                    <</but>>
-                `);
-            <</script>>
-            
-        <</if>>
-    <</if>>
-<<else>>/* _attack.targetType = "single" */
-    <<for _int, _target range $ci.ep>>
-        <<capture _target>>
-            <<if _attack["viableTargets"].includes(_target) && _target.health > 0>>
-                <<script>>
-                    $(`playerOptionsGrid #gitem${State.temporary.int + 1}`).wiki(`
-                        <<but _target.name id "#AttackTarget">>
-                            <<script>>
-                                setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, [State.temporary.target]);
-                                State.variables.ci.activeCharacter = null;
-                                $("#combatZone").wiki(Story.get("Combat_Zone").processText());
-                            <</script>>
-                        <</but>>
-                    `);
-                <</script>>
-            <<else>>
-                /* The target is not a viable target. */
-                <<script>>
-                    $(`playerOptionsGrid #gitem${State.temporary.int + 1}`).wiki(`
-                        <<disable>>
-                            <<but _target.name id "#AttackTarget">>
-                            <</but>>
-                        <</disable>>
-                    `);
-                <</script>>
-                
-            <</if>>
-        <</capture>>
-    <</for>>
-    /* Handle Players */
-    <<for _int, _target range $ci.pp>>
-        <<capture _target>>
-            <<if _attack["viableTargets"].includes(_target)>>
-                <<script>>
-                    $(`playerOptionsGrid #gitem${State.temporary.int + 7}`).wiki(`
-                        <<but _target.name id "#AttackTarget">>
-                            <<script>>
-                                setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, [State.temporary.target]);
-                                State.variables.ci.activeCharacter = null;
-                                $("#combatZone").wiki(Story.get("Combat_Zone").processText());
-                            <</script>>
-                        <</but>>
-                    `);
-                <</script>>
-                
-            <<else>>
-                /* The target is not a viable target. */
-                <<script>>
-                    $(`playerOptionsGrid #gitem${State.temporary.int + 7}`).wiki(`
-                        <<disable>>
-                            <<but _target.name id "#AttackTarget">>
-                            <</but>>
-                        <</disable>>
-                    `);
-                <</script>>
-            <</if>>
-        <</capture>>
-    <</for>>
+    <<script>>
+        setup.fns.displayToInfoScreenOnMouseover('#enemyZone griditem#gitemB', State.variables.ci.ep[1]);
+    <</script>>
 <</if>>
 
-/* Provide an option if the player wants to chose a different attack. */
-<<script>>
-    $(`playerOptionsGrid #gitem13`).wiki(`
-        <<but "Back" id "#BackAttack">>
-            <<run $("#playerAttacks").empty().wiki(Story.get("Player_Attacks").processText());>>
-        <</but>>
-    `);
-<</script>>
-    
+<<if $ci.ep[2]>>
+    <griditem id="gitemC">
+        $ci.ep[2].name
+        <canvas class="initBar" id="enemyC" width="2048" height="384"></canvas>
+    </griditem>
+
+    <<script>>
+        setup.fns.displayToInfoScreenOnMouseover('#enemyZone griditem#gitemC', State.variables.ci.ep[2]);
+    <</script>>
+<</if>>
+
+<<if $ci.ep[3]>>
+    <griditem id="gitemD">
+        $ci.ep[3].name
+        <canvas class="initBar" id="enemyD" width="2048" height="384"></canvas>
+    </griditem>
+
+    <<script>>
+        setup.fns.displayToInfoScreenOnMouseover('#enemyZone griditem#gitemD', State.variables.ci.ep[3]);
+    <</script>>
+<</if>>
+
+<<if $ci.ep[4]>>
+    <griditem id="gitemE">
+        $ci.ep[4].name
+        <canvas class="initBar" id="enemyE" width="2048" height="384"></canvas>
+    </griditem>
+
+    <<script>>
+        setup.fns.displayToInfoScreenOnMouseover('#enemyZone griditem#gitemE', State.variables.ci.ep[4]);
+    <</script>>
+<</if>>

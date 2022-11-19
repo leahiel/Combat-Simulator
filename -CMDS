@@ -4,11 +4,7 @@ https://tauri.app/v1/guides/building/cross-platform
 <!-- `-t` enables test mode. Delete if desired. -->
 tweegoc -o index.html src -l -w -t
 <!-- Because I use Canvas, I need to serve the files, so open up a hot server. -->
-serve
-<!-- Build wasm -->
-cd WASM
-npm run build
--> move 123a87123.module.wasm to root
+hot-server
 
 
 # Sugarcube Documentation: 

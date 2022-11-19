@@ -10,8 +10,9 @@ class Attack {
             console.error(`${this.name}'s family is null.`);
         }
 
-        if (!this.frontlineTargetable && !this.backlineTargetable) {
-            console.error(`${this.name} has both frontline and backline untargetable.`);
+        // TODO: Error checking on targets.
+        if (this.targets.style === null) {
+            console.error(`Attack: ${this.name} has no targets.style.`);
         }
 
         if (this.description === undefined) {
@@ -47,35 +48,7 @@ class Attack {
         // solstr += `<span>Critical:${this.criticalCalculated}</span>`; // NYI I need to pull the attacker's stats for this
         solstr += `</grid></span>`;
 
-        solstr += `<span id='infoTargeting'><span class='infoSectionHeader'>TARGETING</span>`;
-        solstr += `<grid id="infoTargetingGrid"><span>Hits ${this.targetType}.</span>`;
-        if (this.allyTargetable && this.opponentTargetable) {
-            if (this.frontlineTargetable && this.backlineTargetable) {
-                solstr += `<span> Targets frontline and backline.</span>`;
-            } else if (this.frontlineTargetable) {
-                solstr += `<span> Targets frontline.</span>`;
-            } else if (this.backlineTargetable) {
-                solstr += `<span> Targets backline.</span>`;
-            }
-        } else if (this.opponentTargetable) {
-            if (this.frontlineTargetable && this.backlineTargetable) {
-                solstr += `<span> Targets frontline and backline enemies.</span>`;
-            } else if (this.frontlineTargetable) {
-                solstr += `<span> Targets frontline enemies.</span>`;
-            } else if (this.backlineTargetable) {
-                solstr += `<span> Targets backline enemies.</span>`;
-            }
-        } else if (this.allyTargetable) {
-            if (this.frontlineTargetable && this.backlineTargetable) {
-                solstr += `<span> Targets frontline and backline allies.</span>`;
-            } else if (this.frontlineTargetable) {
-                solstr += `<span> Targets frontline allies.</span>`;
-            } else if (this.backlineTargetable) {
-                solstr += `<span> Targets backline allies.</span>`;
-            }
-        } else {
-            solstr += `<span> Targets nothing.</span>`;
-        }
+        // TODO: Targets Information
 
         solstr += `</grid></span>`;
 
@@ -112,15 +85,137 @@ const attacks = {
     // ##  ##  ## ##       ##     ## ##        ##     ## ##   ### ##    ##
     //  ###  ###  ######## ##     ## ##         #######  ##    ##  ######
 
+    // DEBUG
+    all: new Attack({
+        name: "Hits All",
+        family: ["debugAttacks"],
+        targets: { 
+            style: "all", 
+            side: null, 
+            row: null, 
+        },
+        damage: {
+            pierce: {
+                min: 1,
+                max: 1,
+            },
+        },
+        description: "DEBUG: You hit everyone.",
+    }),
+
+    enemyside: new Attack({
+        name: "Hit Enemy Side",
+        family: ["debugAttacks"],
+        targets: { 
+            style: "side", 
+            side: "enemy", 
+            row: null, 
+        },
+        damage: {
+            pierce: {
+                min: 1,
+                max: 1,
+            },
+        },
+        description: "DEBUG: You hit every enemy.",
+    }),
+
+    allyside: new Attack({
+        name: "Hit Ally Side",
+        family: ["debugAttacks"],
+        targets: { 
+            style: "side", 
+            side: "ally", 
+            row: null, 
+        },
+        damage: {
+            pierce: {
+                min: 1,
+                max: 1,
+            },
+        },
+        description: "DEBUG: You hit every ally.",
+    }),
+
+    enemyrow: new Attack({
+        name: "Hit Enemy Row",
+        family: ["debugAttacks"],
+        targets: { 
+            style: "row", 
+            side: "enemy", 
+            row: "both", 
+        },
+        damage: {
+            pierce: {
+                min: 1,
+                max: 1,
+            },
+        },
+        description: "DEBUG: You hit every enemy in the specified row.",
+    }),
+
+    allyrow: new Attack({
+        name: "Hit Ally Row",
+        family: ["debugAttacks"],
+        targets: { 
+            style: "row", 
+            side: "ally", 
+            row: "both", 
+        },
+        damage: {
+            pierce: {
+                min: 1,
+                max: 1,
+            },
+        },
+        description: "DEBUG: You hit every ally in the specified row.",
+    }),
+
+    anyattack: new Attack({
+        name: "Hit Any Single",
+        family: ["debugAttacks"],
+        targets: { 
+            style: "single", 
+            side: "both", 
+            row: "both", 
+        },
+        damage: {
+            pierce: {
+                min: 1,
+                max: 1,
+            },
+        },
+        description: "DEBUG: You hit every ally in the specified row.",
+    }),
+
+    selfattack: new Attack({
+        name: "Hit Self",
+        family: ["debugAttacks"],
+        targets: { 
+            style: "self", 
+            side: null, 
+            row: null, 
+        },
+        damage: {
+            pierce: {
+                min: 1,
+                max: 1,
+            },
+        },
+        description: "DEBUG: You hit every ally in the specified row.",
+    }),
+
     // UNARMED
     flick: new Attack({
         name: "Flick",
         family: ["unarmedAttacks"],
         initRecovery: 18,
         wdm: 0.5,
-        targetType: "single",
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         damage: {
             pierce: {
                 min: 1,
@@ -136,9 +231,11 @@ const attacks = {
         family: ["unarmedAttacks"],
         initRecovery: 23,
         wdm: 1.75,
-        targetType: "single",
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         damage: {
             blunt: {
                 min: 3,
@@ -154,9 +251,11 @@ const attacks = {
         wdm: 0.75,
         family: ["unarmedAttacks"],
         initRecovery: 20,
-        targetType: "single",
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         description: "You hit your enemy for damage twice.",
         hitnumber: 2,
         damage: {
@@ -172,11 +271,11 @@ const attacks = {
         family: ["unarmedAttacks"],
         initRecovery: 24,
         type: "buff",
-        targetType: "single", // TOOD: Add "self"
-        allyTargetable: true,
-        opponentTargetable: false,
-        frontlineTargetable: true,
-        backlineTargetable: true,
+        targets: { 
+            style: "self", 
+            side: null, 
+            row: null, 
+        },
         description: "You hit your enemy for damage twice.",
         buffs: [buffs.buffAmp],
     }),
@@ -186,9 +285,11 @@ const attacks = {
         wdm: 0.25,
         family: ["unarmedAttacks"],
         initRecovery: 20,
-        targetType: "area",
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "row", 
+            side: "enemy", 
+            row: "front", 
+        },
         description: "You sweep the legs of your foes twice.",
         hitnumber: 2,
         damage: {
@@ -206,9 +307,11 @@ const attacks = {
         family: ["spearWeaponAttacks"],
         initRecovery: 50,
         wdm: 1.25,
-        targetType: "single",
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         damage: {
             pierce: {
                 min: 7,
@@ -224,9 +327,11 @@ const attacks = {
         family: ["spearWeaponAttacks"],
         initRecovery: 50,
         wdm: 0.75,
-        targetType: "single",
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         hitnumber: 3,
         damage: {
             pierce: {
@@ -242,11 +347,11 @@ const attacks = {
         family: ["spearWeaponAttacks"],
         initRecovery: 50,
         wdm: 1.25,
-        targetType: "area",
-        allyTargetable: false,
-        opponentTargetable: true,
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "row", 
+            side: "enemy", 
+            row: "front", 
+        },
         damage: {
             pierce: {
                 min: 7,
@@ -263,11 +368,11 @@ const attacks = {
         family: ["spearWeaponAttacks"],
         initRecovery: 24,
         type: "buff",
-        targetType: "single", // TOOD: Add "self"
-        allyTargetable: true,
-        opponentTargetable: false,
-        frontlineTargetable: true,
-        backlineTargetable: true,
+        targets: { 
+            style: "self", 
+            side: null, 
+            row: null, 
+        },
         description: "You posture yourself, making it harder to hit you.",
         buffs: [buffs.buffSpearPosture],
     }),
@@ -278,9 +383,11 @@ const attacks = {
         family: ["chaoticspearWeaponAttacks"],
         initRecovery: 50,
         wdm: 2,
-        targetType: "single",
-        frontlineTargetable: true,
-        backlineTargetable: true,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "both", 
+        },
         description: "Chuck your chaos spear at an enemy.",
     }),
 
@@ -289,11 +396,11 @@ const attacks = {
         family: ["chaoticspearWeaponAttacks"],
         initRecovery: 50,
         type: "buff",
-        targetType: "single", // TOOD: Add "self"
-        allyTargetable: true,
-        opponentTargetable: false,
-        frontlineTargetable: true,
-        backlineTargetable: true,
+        targets: { 
+            style: "self", 
+            side: null, 
+            row: null, 
+        },
         description: "Sacrifice 10% of your current life to buff your occult damage.",
         buffs: [buffs.buffSacrificeToChaos],
     }),
@@ -303,9 +410,11 @@ const attacks = {
         family: ["chaoticspearWeaponAttacks"],
         wdm: 1.25,
         initRecovery: 50,
-        targetType: "single",
-        frontlineTargetable: true,
-        backlineTargetable: true,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "both", 
+        },
         description: "Turns your spear into a chaotic bolt, which your opponent cannot deflect.",
         isDeflectable: false,
     }),
@@ -315,9 +424,11 @@ const attacks = {
         family: ["chaoticspearWeaponAttacks"],
         wdm: 0.25,
         initRecovery: 56,
-        targetType: "area",
-        frontlineTargetable: false,
-        backlineTargetable: true,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "back", 
+        },
         description: "Hits the enemy backline with a dose of lightning and aether.",
         damage: {
             aether: {
@@ -337,11 +448,11 @@ const attacks = {
         family: ["swordandshieldWeaponAttacks", "maceandshieldWeaponAttacks"],
         initRecovery: 24,
         type: "buff",
-        targetType: "single", // TOOD: Add "self"
-        allyTargetable: true,
-        opponentTargetable: false,
-        frontlineTargetable: true,
-        backlineTargetable: true,
+        targets: { 
+            style: "self", 
+            side: null, 
+            row: null, 
+        },
         description: "You posture yourself, increasing your block.",
         buffs: [buffs.buffShieldPosture],
     }),
@@ -351,9 +462,11 @@ const attacks = {
         family: ["swordandshieldWeaponAttacks", "maceandshieldWeaponAttacks"],
         initRecovery: 29,
         wdm: 1,
-        targetType: "single",
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         description: "Bash your shield at the enemy with an increased chance to direct hit.",
         damage: {
             blunt: {
@@ -371,9 +484,11 @@ const attacks = {
         family: ["swordandshieldWeaponAttacks"],
         initRecovery: 29,
         wdm: 1,
-        targetType: "single",
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         description: "Slash your sword at a target.",
         damage: {
             pierce: {
@@ -388,9 +503,11 @@ const attacks = {
         family: ["swordandshieldWeaponAttacks"],
         initRecovery: 29,
         wdm: 1,
-        targetType: "single",
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         description:
             "Thrust your sword at the enemy with an increased chance to critically hit, but also easier to deflect.",
         damage: {
@@ -411,9 +528,11 @@ const attacks = {
         family: ["maceandshieldWeaponAttacks"],
         initRecovery: 29,
         wdm: 1,
-        targetType: "single",
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         description: "Bash your mace at a target, with an increased chance of direct hit.",
         damage: {
             blunt: {
@@ -431,9 +550,11 @@ const attacks = {
         family: ["maceandshieldWeaponAttacks"],
         initRecovery: 35,
         wdm: 0.75,
-        targetType: "single",
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         description: "Smash your target twice.",
         damage: {
             blunt: {
@@ -450,9 +571,11 @@ const attacks = {
         family: ["twohandedaxeWeaponAttacks"],
         initRecovery: 55,
         wdm: 0.25,
-        targetType: "area",
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "row", 
+            side: "enemy", 
+            row: "front", 
+        },
         description: "Spin yourself around twice and hit foes multiple times.",
         hitnumber: 2,
         buffs: [buffs.debuffBleed],
@@ -463,9 +586,11 @@ const attacks = {
         family: ["twohandedaxeWeaponAttacks"],
         initRecovery: 34,
         wdm: 0.75,
-        targetType: "area",
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "row", 
+            side: "enemy", 
+            row: "front", 
+        },
         description: "Slash at all the enemies in front of you.",
         damage: {
             pierce: {
@@ -481,9 +606,11 @@ const attacks = {
         family: ["twohandedaxeWeaponAttacks"],
         initRecovery: 50,
         wdm: 2,
-        targetType: "single",
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         description: "Deliver a critical overhead chop to the enemy.",
         damage: {
             pierce: {
@@ -502,11 +629,11 @@ const attacks = {
         family: ["twohandedaxeWeaponAttacks"],
         initRecovery: 24,
         type: "buff",
-        targetType: "single", // TOOD: Add "self"
-        allyTargetable: true,
-        opponentTargetable: false,
-        frontlineTargetable: true,
-        backlineTargetable: true,
+        targets: { 
+            style: "self", 
+            side: null, 
+            row: null, 
+        },
         description: "Buff yourself to deal more pierce damage.",
         buffs: [buffs.buffLumberjackStance],
     }),
@@ -523,11 +650,11 @@ const attacks = {
     vilebite: new Attack({
         name: "Vile Bite",
         family: ["Spider"],
-        targetType: "single",
-        allyTargetable: false,
-        opponentTargetable: true,
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         damage: {
             pierce: {
                 min: 8,
@@ -545,11 +672,11 @@ const attacks = {
         name: "Web Shot",
         type: "spell",
         family: ["Spider"],
-        targetType: "area",
-        allyTargetable: false,
-        opponentTargetable: true,
-        frontlineTargetable: true,
-        backlineTargetable: true,
+        targets: { 
+            style: "side", 
+            side: "enemy", 
+            row: null, 
+        },
         damage: {
             frost: {
                 min: 2,
@@ -568,11 +695,11 @@ const attacks = {
         name: "Eight Legged Rush",
         family: ["Spider"],
         initRecovery: 80,
-        targetType: "single",
-        allyTargetable: false,
-        opponentTargetable: true,
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         damage: {
             blunt: {
                 min: 13,
@@ -587,11 +714,11 @@ const attacks = {
         name: "Hog Rush",
         family: ["Hog"],
         initRecovery: "80",
-        targetType: "single",
-        allyTargetable: false,
-        opponentTargetable: true,
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         damage: {
             blunt: {
                 min: 9,
@@ -605,11 +732,11 @@ const attacks = {
         name: "Hog Gore",
         family: ["Hog"],
         initRecovery: "72",
-        targetType: "single",
-        allyTargetable: false,
-        opponentTargetable: true,
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         damage: {
             pierce: {
                 min: 11,
@@ -624,11 +751,11 @@ const attacks = {
         name: "Cuddle Butt",
         family: ["Carbuncle"],
         initRecovery: "16",
-        targetType: "single",
-        allyTargetable: false,
-        opponentTargetable: true,
-        frontlineTargetable: true,
-        backlineTargetable: false,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "front", 
+        },
         damage: {
             blunt: {
                 min: 3,
@@ -643,11 +770,11 @@ const attacks = {
         type: "spell",
         family: ["Carbuncle"],
         initRecovery: "36",
-        targetType: "single",
-        allyTargetable: false,
-        opponentTargetable: true,
-        frontlineTargetable: true,
-        backlineTargetable: true,
+        targets: { 
+            style: "single", 
+            side: "enemy", 
+            row: "both", 
+        },
         damage: {
             pierce: {
                 min: 7,

@@ -183,6 +183,7 @@ $(document).ready(function() {
 
 
 /* Don't allow scrolling during combat. */
+/*
 if (tags().includes(".combat")) {
     $('body').css({
         "height": "100%",
@@ -194,6 +195,9 @@ if (tags().includes(".combat")) {
         "overflow": "initial",
     })
 }
+ */
+
+/* TODO: Don't allow equipment changing during combat. Equipment changing will be a side tab eventually. */
 
 /**
  *  If we delete the session, then we can't load from it: We'll only 

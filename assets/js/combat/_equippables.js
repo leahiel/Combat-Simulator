@@ -65,6 +65,14 @@ class Equippable {
  * Proficiency should be a player stat. Player and their Main Pawn can gain it, while other pawns cannot.
  */
 const equippables = {
+    // DEBUG
+    debugweapon: new Equippable({
+        name: "Debug Weapon",
+        slot: "weapon",
+        type: "unequipped",
+        attacks: mergeArray(setup.COM.familyAttacks.debugAttacks),
+    }),
+
     // UNEQUIPPED
     unequippedweapon: new Equippable({
         name: "No Weapon Equipped",

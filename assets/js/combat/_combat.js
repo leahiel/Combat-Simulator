@@ -67,6 +67,7 @@ class CombatInstance {
             char.ally = false;
             char.enemy = true;
             char.location = `enemy${alphabet[int]}`;
+            char.name += ` [${alphabet[int]}]`;
             int += 1;
         }
 
@@ -94,6 +95,20 @@ function determineTargetViability(attack, attacker, target) {
         return false;
     }
 
+    // So long as at least one Combatant is alive, the attack will hit it.
+    if (attack.targets.style === "all") {
+        return true;
+    }
+
+    // Naturally, the Combatant that is attacking should be able to target self without an issue.
+    if (attack.targets.style === "self") {
+        if (attacker === target) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * The Combat Instance gives us information on the state of the
      * combat. Relevant information for this function includes:
@@ -108,31 +123,47 @@ function determineTargetViability(attack, attacker, target) {
     let ci = State.variables.ci;
     let attackerStatus = attacker.location.includes("player") ? "player" : "enemy";
 
-    // Determine if/which enemies are targetable.
+    // Determine which Combatants on the enemy side are targetable.
     if (
-        (attack.allyTargetable && attackerStatus === "enemy") ||
-        (attack.opponentTargetable && attackerStatus === "player")
+        ((attack.targets.side === "ally" || attack.targets.side === "both") && attackerStatus === "enemy") ||
+        ((attack.targets.side === "enemy" || attack.targets.side === "both") && attackerStatus === "player")
     ) {
-        if (attack.frontlineTargetable || ci.epfrontlineTargetable) {
-            if ([ci.ep[0], ci.ep[1], ci.ep[2]].includes(target)) return true;
+        // "side"
+        if (attack.targets.style === "side") {
+            if ([ci.ep[0], ci.ep[1], ci.ep[2], ci.ep[3], ci.ep[4]].includes(target)) return true;
         }
 
-        if (attack.backlineTargetable || ci.epbacklineTargetable) {
-            if ([ci.ep[3], ci.ep[4]].includes(target)) return true;
+        // "row" || "single"
+        if (attack.targets.style === "row" || attack.targets.style === "single") {
+            if (attack.targets.row === "front" || attack.targets.row === "both" || ci.epfrontlineTargetable) {
+                if ([ci.ep[0], ci.ep[1], ci.ep[2]].includes(target)) return true;
+            }
+
+            if (attack.targets.row === "back" || attack.targets.row === "both" || ci.epbacklineTargetable) {
+                if ([ci.ep[3], ci.ep[4]].includes(target)) return true;
+            }
         }
     }
 
-    // Determine if/which players are targetable.
+    // Determine which Combatants on the player side are targetable.
     if (
-        (attack.allyTargetable && attackerStatus === "player") ||
-        (attack.opponentTargetable && attackerStatus === "enemy")
+        ((attack.targets.side === "ally" || attack.targets.side === "both") && attackerStatus === "player") ||
+        ((attack.targets.side === "enemy" || attack.targets.side === "both") && attackerStatus === "enemy")
     ) {
-        if (attack.frontlineTargetable || ci.ppfrontlineTargetable) {
-            if ([ci.pp[0], ci.pp[1]].includes(target)) return true;
+        // "side"
+        if (attack.targets.style === "side") {
+            if ([ci.pp[0], ci.pp[1], ci.pp[2], ci.pp[3]].includes(target)) return true;
         }
 
-        if (attack.backlineTargetable || ci.ppbacklineTargetable) {
-            if ([ci.pp[2], ci.pp[3]].includes(target)) return true;
+        // "row" || "single"
+        if (attack.targets.style === "row" || attack.targets.style === "single") {
+            if (attack.targets.row === "front" || attack.targets.row === "both" || ci.ppfrontlineTargetable) {
+                if ([ci.pp[0], ci.pp[1]].includes(target)) return true;
+            }
+
+            if (attack.targets.row === "back" || attack.targets.row === "both" || ci.ppbacklineTargetable) {
+                if ([ci.pp[2], ci.pp[3]].includes(target)) return true;
+            }
         }
     }
 
@@ -208,6 +239,7 @@ function attackRandomWithRandom(attacker) {
 }
 
 /**
+ * Performs all the Attack Calculations.
  *
  * @param {*} attack
  * @param {*} attacker
@@ -362,9 +394,9 @@ function attackCalculations(attack, attacker, targets) {
      * ANSWER: This has to be globally available so that we can use
      * this in Attack.itemPlate().
      *
-     * If so, then applyStats wouldn't be able to applyOpponentStats
-     * as well, so the idea of the function would need to be split in
-     * two.
+     * If so, then applyStats wouldn't be able to applyOpponentStats,
+     * so the idea of the function would need to be split in two as
+     * well.
      */
     function applyStats(attack, char) {
         let solAttack = cloneDeep(attack);

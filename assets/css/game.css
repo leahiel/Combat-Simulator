@@ -701,23 +701,46 @@ input:checked ~ accordionContent {
     border: none;
 }
 
-combatZoneGrid [data-name="/if"] {
-    /* This hides the SugarCube debug information on the combat 
-    screen, which makes it look nice in debug mode. */
-    display: none;
+#MainCombatGrid {
+    display: grid;
+    grid-template-columns: 50fr 31fr; /* approximate φ */
+    grid-template-rows: 1fr 2fr 3fr;
+
+    height: 95vh;
 }
 
-playerCombatGrid {
+#MainCombatGrid #enemyZone {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row: 1;
+
     display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: 1.5fr 1fr;
-    column-gap: 1em;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+
+    row-gap: 1em;
+    column-gap: 2em;
+
+    margin-bottom: 2em;
+    padding: 4px 12px 8px;
+    border: 1px solid hsl(312deg 74% 16% / 0%);
+    border-radius: 8px;
+    /* box-shadow: var(--boxShadow); */
+    background-color: var(--background);
+
+    justify-items: center;
+    grid-auto-flow: dense;
 }
 
-playerZoneGrid,
-playerOptionsGrid,
-combatZoneGrid {
+#MainCombatGrid #playerZone {
+    grid-column: 1;
+    grid-row: 2;
+
     display: grid;
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+
     row-gap: 1rem;
     column-gap: 1rem;
 
@@ -732,56 +755,84 @@ combatZoneGrid {
     grid-auto-flow: dense;
 }
 
-combatZoneGrid {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+#MainCombatGrid #combatNotifications {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row: 3;
+
+    border-radius: 1rem;
+    border: 1px solid white;
+    padding: 1em;
+    margin: 1em;
+
+    box-shadow: var(--boxShadow);
+    background-color: var(--background);
+
+    overflow: scroll;
 }
 
-playerZoneGrid {
-    display: inline-grid;
+#MainCombatGrid #targetsZone {
+    grid-column: 2;
+    grid-row-start: 2;
+    grid-row-end: 4;
 
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: 10% 80%;
 
-    padding: 2em 4px;
-}
+    display: grid;
 
-playerOptionsGrid {
-    display: inline-grid;
-
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr;
-    row-gap: 0.5rem;
-    column-gap: 0.5rem;
-
-    padding: 4px;
-
-    border: 1px solid hsl(312deg 74% 16% / 0%);
+    margin: 1rem;
+    padding: 4px 12px 8px;
+    /* border: 1px solid hsl(312deg 74% 16% / 0%); */
+    border: 1px solid white;
     border-radius: 8px;
     box-shadow: var(--boxShadow);
     background-color: var(--background);
+
+    justify-items: center;
 }
 
-playerZoneGrid span,
-playerZoneGrid griditem,
-playerOptionsGrid span,
-playerOptionsGrid griditem,
-combatZoneGrid span,
-combatZoneGrid griditem {
-    text-align: center;
-
-    padding: 0.25em 0.75em;
-
-    border: 1px solid hsl(312deg 74% 16% / 0%);
-    border-radius: 8px;
-    box-shadow: var(--boxShadow);
-    background-color: var(--background);
-}
-
-playerOptionsGrid span,
-playerOptionsGrid griditem {
+#MainCombatGrid #targetsZone #playerAttacks {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     width: 100%;
-    padding: 0.25em 0;
+
+    justify-items: center;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#MainCombatGrid #targetsZone #playerAttacks .playerAttack {
+    border: none;
+
+    font-size: 1.05rem;
+
+    padding: 0.2em;
+
+    height: 80%;
+    width: 90%;
+}
+
+#MainCombatGrid #targetsZone #backForward {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row: -1;
+
+    display: flex;
+    align-content: center;
+    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+}
+
+#enemyZone [data-name="/if"] {
+    /* This hides the SugarCube debug information on the combat 
+    screen, which makes it look nice in debug mode. */
+    display: none;
 }
 
 #notifArea {
@@ -797,32 +848,45 @@ playerOptionsGrid griditem {
     background-color: var(--backgroundplus1);
 }
 
-combatZoneGrid span[title="<<if _ep[0]>>"],
-combatZoneGrid griditem#gitemA {
+#playerAttacks .disabled {
+    cursor: not-allowed !important;
+    background-color: #444;
+    border: 1px solid #666;
+}
+
+#playerAttacks .disabled:hover {
+    cursor: not-allowed !important;
+    background-color: #444;
+    border: 1px solid #666;
+}
+
+/* TODO: Do this for players too. */
+#enemyZone span[title="<<if _ep[0]>>"],
+#enemyZone griditem#gitemA {
     grid-row: 2;
     grid-column: 1 / span 2;
 }
 
-combatZoneGrid span[title="<<if _ep[1]>>"],
-combatZoneGrid griditem#gitemB {
+#enemyZone span[title="<<if _ep[1]>>"],
+#enemyZone griditem#gitemB {
     grid-row: 2;
     grid-column: 3 / span 2;
 }
 
-combatZoneGrid span[title="<<if _ep[2]>>"],
-combatZoneGrid griditem#gitemC {
+#enemyZone span[title="<<if _ep[2]>>"],
+#enemyZone griditem#gitemC {
     grid-row: 2;
     grid-column: 5 / span 2;
 }
 
-combatZoneGrid span[title="<<if _ep[3]>>"],
-combatZoneGrid griditem#gitemD {
+#enemyZone span[title="<<if _ep[3]>>"],
+#enemyZone griditem#gitemD {
     grid-row: 1;
     grid-column: 2 / span 2;
 }
 
-combatZoneGrid span[title="<<if _ep[4]>>"],
-combatZoneGrid griditem#gitemE {
+#enemyZone span[title="<<if _ep[4]>>"],
+#enemyZone griditem#gitemE {
     grid-row: 1;
     grid-column: 4 / span 2;
 }
@@ -1358,7 +1422,6 @@ tooltip:hover {
 /* Glitchy Text - Start */
 
 /* The "clip" in ".glitch" is depreciated, so technically you should use the "clip-path" that's in ".glitchy" instead, however IE doesn't support "clip-path", and most browsers still support "clip". */
-
 
 .lf {
     font-size: 2rem;

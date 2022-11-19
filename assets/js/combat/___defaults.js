@@ -270,11 +270,11 @@ const DEFAULTATTACK = {
     /** The buffs or debuffs the attack performs. */
     buffs: [],
 
-    targetType: "single", // "area"
-    allyTargetable: false,
-    opponentTargetable: true,
-    frontlineTargetable: false,
-    backlineTargetable: false,
+    targets: { 
+        style: null, // "all", "side", "row", "single", "self"
+        side: null, // "both", "ally", "enemy"
+        row: null, // "both", "front", "back"
+    },
 
     criticalChanceCalculated: 0,
     criticalChanceBase: 0,
@@ -566,7 +566,7 @@ const DEFAULTPLAYER = {
     /** A multiplier for your init decrements. */
     initDecrementModifier: 1,
     healthMax: 125,
-    initStart: 43,
+    initStart: 3,
     initVariance: 0.1,
 
     equippables: {},
