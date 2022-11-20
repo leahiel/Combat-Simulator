@@ -270,7 +270,7 @@ const DEFAULTATTACK = {
     /** The buffs or debuffs the attack performs. */
     buffs: [],
 
-    targets: { 
+    targets: {
         style: null, // "all", "side", "row", "single", "self"
         side: null, // "both", "ally", "enemy"
         row: null, // "both", "front", "back"

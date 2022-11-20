@@ -1,62 +1,3 @@
-:: Player_Zone [.combat .helper nostats]
-/* HTML elements of the player characters. */
-
-/**
- * DESIRED: I wanted to dynamically make these elements, but they  
- * aren't created fast enough to render properly. Further research 
- * shows that it is because I would have to constantly recreate the  
- * canvas element, so if we fix that problem, we can dynamically make 
- * these elements. I don't think the efficiency gain is worth the 
- * effort. 
- */
-<<if $ci.pp[0]>>
-    <griditem id="gitemA">
-        $ci.pp[0].name
-        <canvas class="initBar" id="playerA" width="2048" height="384"></canvas>
-    </griditem>
-
-    <<script>>
-        setup.fns.displayToInfoScreenOnMouseover('#playerZone griditem#gitemA', State.variables.ci.pp[0]);
-    <</script>>
-<</if>>
-
-<<if $ci.pp[1]>>
-    <griditem id="gitemB">
-        $ci.pp[1].name
-        <canvas class="initBar" id="playerB" width="2048" height="384"></canvas>
-    </griditem>
-
-    <<script>>
-        setup.fns.displayToInfoScreenOnMouseover('#playerZone griditem#gitemB', State.variables.ci.pp[1]);
-    <</script>>
-<</if>>
-
-<<if $ci.pp[2]>>
-    <griditem id="gitemC">
-        $ci.pp[2].name
-        <canvas class="initBar" id="playerC" width="2048" height="384"></canvas>
-    </griditem>
-
-    <<script>>
-        setup.fns.displayToInfoScreenOnMouseover('#playerZone griditem#gitemC', State.variables.ci.pp[2]);
-    <</script>>
-<</if>>
-
-<<if $ci.pp[3]>>
-    <griditem id="gitemD">
-        $ci.pp[3].name
-        <canvas class="initBar" id="playerD" width="2048" height="384"></canvas>
-    </griditem>
-
-    <<script>>
-        setup.fns.displayToInfoScreenOnMouseover('#playerZone griditem#gitemD', State.variables.ci.pp[3]);
-    <</script>>
-<</if>>
-
-
-
-
-
 :: Player_Attacks [.combat .helper nostats]
 /**
  * Determines and shows which attacks are enabled or disabled.
@@ -67,6 +8,15 @@
 
 <<run setup.COM.clearPlayerOptionsGrid()>>
 /* TODO: playerAttacks should have a class that has the CSS for these thingies. Then I can swap out the class for attacks/different targeting options. */
+/*
+    Classes:
+    .attacks
+    .target-all
+    .target-side
+    .target-row
+    .target-single
+    .target-self
+ */
 
 <<if $ci.pp.includes($ci.activeCharacter)>>
     <<for _int, _attack range $ci.activeCharacter.attacks>>
@@ -84,16 +34,15 @@
 <</if>>
 
 
-
-
 :: Player_Attack_Enabled [.combat .helper nostats]
 /**
- * The button for ensabled attacks on the #targetsZone grid.
+ * The button for enabled attacks on the #targetsZone grid.
  */
 <<set _id to "PlayerAttack" + (_int + 1)>>
 <<but _attack.name id _id class "playerAttack">>
     <<run $("#targetsZone #playerAttacks").empty().wiki(Story.get("Player_Attack_Targets").processText());>>
 <</but>>
+
 <<run setup.fns.displayToInfoScreenOnMouseover(`#targetsZone #playerAttacks #${State.temporary.id}`, State.temporary.attack);>>
 
 
@@ -105,16 +54,14 @@
 <<but _attack.name id _id class "playerAttack disabled">>
 <</but>>
 
-
 <<run setup.fns.displayToInfoScreenOnMouseover(`#targetsZone #playerAttacks #${State.temporary.id}`, State.temporary.attack);>>
-
-
 
 
 
 :: Player_Attack_Targets [.combat .helper nostats]
 <<run setup.COM.clearPlayerOptionsGrid()>>
 
+/* Show the correct targets given an attack.targets object. */
 <<switch _attack.targets.style>>
     <<case "all">>
         <<run $("#targetsZone #playerAttacks").empty().wiki(Story.get("Player_Attack_Targets_All").processText());>>
@@ -140,13 +87,10 @@
 
 
 
-
-
-
 :: Player_Attack_Targets_All [.combat .helper nostats]
 /* _attack.targets.style === "all" */
 /** 
- * NOTE: Because this attack either hits everyone or no one, we don't 
+ * NTS: Because this attack either hits everyone or no one, we don't 
  * need to be concerned about disabling this option. The attack itself 
  * will be disabled, and this targeting menu will never be reached. 
  */
@@ -158,7 +102,6 @@
         $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
     <</script>>
 <</but>>
-
 
 
 :: Player_Attack_Targets_Side [.combat .helper nostats]
@@ -195,10 +138,8 @@
 <</if>>
 
 
-
 :: Player_Attack_Targets_Row [.combat .helper nostats]
 /* _attack.targets.style === "row" */
-<<run console.log(_attack["viableTargets"])>>
 
 /* Check enemy backline Combatants */
 <<if _attack["viableTargets"].some(r=> [$ci.ep[3], $ci.ep[4]].includes(r)) && ((_attack.targets.row === "back" || _attack.targets.row === "both") || $ci.epbacklineTargetable)>>
@@ -301,11 +242,10 @@
 <</for>>
 
 
-
 :: Player_Attack_Targets_Self [.combat .helper nostats]
 /* _attack.targets.style === "self" */
 /** 
- * NOTE: Because this attack hits the attacker, we don't need to be
+ * NTS: Because this attack hits the attacker, we don't need to be
  * concerned about disabling this option. The attack itself will be
  * disabled, and this targeting menu will never be reached. 
  */

@@ -83,10 +83,12 @@ class CombatInstance {
 }
 
 /**
- * Given an attack, attacker, and the target, return a bool regarding
+ * Given an attack, attacker, and a target, return a bool regarding
  * whether the attack is able to hit the target.
  */
 function determineTargetViability(attack, attacker, target) {
+    let at = attack.targets;
+
     if (target === undefined) {
         return false;
     }
@@ -96,12 +98,12 @@ function determineTargetViability(attack, attacker, target) {
     }
 
     // So long as at least one Combatant is alive, the attack will hit it.
-    if (attack.targets.style === "all") {
+    if (at.style === "all") {
         return true;
     }
 
-    // Naturally, the Combatant that is attacking should be able to target self without an issue.
-    if (attack.targets.style === "self") {
+    // Naturally, the Combatant that is attacking should be able to target itself without an issue.
+    if (at.style === "self") {
         if (attacker === target) {
             return true;
         } else {
@@ -115,31 +117,31 @@ function determineTargetViability(attack, attacker, target) {
      *
      * CombatInstance.ep // Which gives us access to ep/pp.ally,
      * CombatInstance.pp // ep/pp.enemy, ep/pp.location.
-     * CombatInstance.allyTargetable
-     * CombatInstance.opponentTargetable
-     * CombatInstance.frontlineTargetable
-     * CombatInstance.backlineTargetable
+     * CombatInstance.ppfrontlineTargetable
+     * CombatInstance.ppbacklineTargetable
+     * CombatInstance.epfrontlineTargetable
+     * CombatInstance.epbacklineTargetable
      */
     let ci = State.variables.ci;
     let attackerStatus = attacker.location.includes("player") ? "player" : "enemy";
 
     // Determine which Combatants on the enemy side are targetable.
     if (
-        ((attack.targets.side === "ally" || attack.targets.side === "both") && attackerStatus === "enemy") ||
-        ((attack.targets.side === "enemy" || attack.targets.side === "both") && attackerStatus === "player")
+        ((at.side === "ally" || at.side === "both") && attackerStatus === "enemy") ||
+        ((at.side === "enemy" || at.side === "both") && attackerStatus === "player")
     ) {
         // "side"
-        if (attack.targets.style === "side") {
+        if (at.style === "side") {
             if ([ci.ep[0], ci.ep[1], ci.ep[2], ci.ep[3], ci.ep[4]].includes(target)) return true;
         }
 
         // "row" || "single"
-        if (attack.targets.style === "row" || attack.targets.style === "single") {
-            if (attack.targets.row === "front" || attack.targets.row === "both" || ci.epfrontlineTargetable) {
+        if (at.style === "row" || at.style === "single") {
+            if (at.row === "front" || at.row === "both" || ci.epfrontlineTargetable) {
                 if ([ci.ep[0], ci.ep[1], ci.ep[2]].includes(target)) return true;
             }
 
-            if (attack.targets.row === "back" || attack.targets.row === "both" || ci.epbacklineTargetable) {
+            if (at.row === "back" || at.row === "both" || ci.epbacklineTargetable) {
                 if ([ci.ep[3], ci.ep[4]].includes(target)) return true;
             }
         }
@@ -147,26 +149,27 @@ function determineTargetViability(attack, attacker, target) {
 
     // Determine which Combatants on the player side are targetable.
     if (
-        ((attack.targets.side === "ally" || attack.targets.side === "both") && attackerStatus === "player") ||
-        ((attack.targets.side === "enemy" || attack.targets.side === "both") && attackerStatus === "enemy")
+        ((at.side === "ally" || at.side === "both") && attackerStatus === "player") ||
+        ((at.side === "enemy" || at.side === "both") && attackerStatus === "enemy")
     ) {
         // "side"
-        if (attack.targets.style === "side") {
+        if (at.style === "side") {
             if ([ci.pp[0], ci.pp[1], ci.pp[2], ci.pp[3]].includes(target)) return true;
         }
 
         // "row" || "single"
-        if (attack.targets.style === "row" || attack.targets.style === "single") {
-            if (attack.targets.row === "front" || attack.targets.row === "both" || ci.ppfrontlineTargetable) {
+        if (at.style === "row" || at.style === "single") {
+            if (at.row === "front" || at.row === "both" || ci.ppfrontlineTargetable) {
                 if ([ci.pp[0], ci.pp[1]].includes(target)) return true;
             }
 
-            if (attack.targets.row === "back" || attack.targets.row === "both" || ci.ppbacklineTargetable) {
+            if (at.row === "back" || at.row === "both" || ci.ppbacklineTargetable) {
                 if ([ci.pp[2], ci.pp[3]].includes(target)) return true;
             }
         }
     }
 
+    // The target didn't match the condition for any other return.
     return false;
 }
 
@@ -174,10 +177,6 @@ function determineTargetViability(attack, attacker, target) {
  * Returns an array of the objects that are viable targets for an attack.
  */
 function assignViableTargets(attack, attacker) {
-    /**
-     * The Combat Instance gives us information on the state of the
-     * combat.
-     */
     let ci = State.variables.ci;
     let solTargets = [];
 
@@ -603,6 +602,32 @@ function attackCalculations(attack, attacker, targets) {
     attacker.init += attack.initRecovery;
 }
 
+function determineRowViabilities() {
+    let ci = State.variables.ci;
+
+    /* If all of the frontline of a side are dead, allow frontline
+    attacks to hit backline. */
+    if (
+        (!ci.ep[0] || ci.ep[0].health <= 0) &&
+        (!ci.ep[1] || ci.ep[1].health <= 0) &&
+        (!ci.ep[2] || ci.ep[2].health <= 0)
+    ) {
+        ci.epbacklineTargetable = true;
+    }
+    if ((!ci.pp[0] || ci.pp[0].health <= 0) && (!ci.pp[1] || ci.pp[1].health <= 0)) {
+        ci.ppbacklineTargetable = true;
+    }
+
+    /* If all of the backline of a side are dead, allow backline
+    attacks to hit frontline. */
+    if ((!ci.ep[3] || ci.ep[3].health <= 0) && (!ci.ep[4] || ci.ep[4].health <= 0)) {
+        ci.epfrontlineTargetable = true;
+    }
+    if ((!ci.pp[2] || ci.pp[2].health <= 0) && (!ci.pp[3] || ci.pp[3].health <= 0)) {
+        ci.ppfrontlineTargetable = true;
+    }
+}
+
 // Add combat functions to setup.
 (function (S) {
     if (!S.COM) {
@@ -624,5 +649,10 @@ function attackCalculations(attack, attacker, targets) {
     S.COM.attackCalculations = function (attack, attacker, targets) {
         return attackCalculations(attack, attacker, targets);
     };
+
+    S.COM.determineRowViabilities = function () {
+        return determineRowViabilities();
+    };
+
     S.COM.CombatInstance = CombatInstance;
 })(setup);

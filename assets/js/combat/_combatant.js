@@ -79,16 +79,6 @@ class Combatant {
                 this.deflectChanceBase += item.deflectChanceBase;
                 this.deflectChanceIncreased += item.deflectChanceIncreased;
                 this.deflectChanceMore *= item.deflectChanceMore;
-
-                // // Apply equippable affix stats to Combatant.
-                // // NTS: This is very outdated code, and shouldn't be used, but I left it in as I may leave in affixes on equippables to be applied directly to combatant instead of the equipable. For instance, "n% increased global critical strike chance".
-                // for (let i = 0; i < mod.affixes.length; i++) {
-                //     jQuery.extend(
-                //         true,
-                //         this,
-                //         updateProperty(this, mod.affixes[i][0], mod.value[i], mod.affixes[i][1])
-                //     );
-                // }
             }
         }
 
@@ -159,10 +149,12 @@ class Combatant {
     /**
      * Convert the data into a string so that the player can understand the data within.
      *
-     * This can be HTML text.
+     * This should be HTML text.
      */
     getInfo() {
         let solstr = "";
+        let res = this.resistance;
+        let resMax = this.resistanceMax;
 
         // misc info
         solstr += `<span id='infoName'>${this.name}</span>`;
@@ -188,37 +180,21 @@ class Combatant {
         solstr += `<span id='infoResistances'><span class='infoSectionHeader'>RESISTANCES</span>`;
         solstr += `<grid id='infoResistanceGrid'>`;
         solstr += `<span style="font-weight:bold">Material</span>`;
-        solstr += `<span>Blunt: ${Math.floor(
-            Math.min(this.resistance.material + this.resistance.blunt, this.resistanceMax.blunt) * 100
-        )}%</span>`;
-        solstr += `<span>Pierce: ${Math.floor(
-            Math.min(this.resistance.material + this.resistance.pierce, this.resistanceMax.pierce) * 100
-        )}%</span>`;
-        solstr += `<span>Acid: ${Math.floor(
-            Math.min(this.resistance.material + this.resistance.acid, this.resistanceMax.acid) * 100
-        )}%</span>`;
+        solstr += `<span>Blunt: ${Math.floor(Math.min(res.material + res.blunt, resMax.blunt) * 100)}%</span>`;
+        solstr += `<span>Pierce: ${Math.floor(Math.min(res.material + res.pierce, resMax.pierce) * 100)}%</span>`;
+        solstr += `<span>Acid: ${Math.floor(Math.min(res.material + res.acid, resMax.acid) * 100)}%</span>`;
 
         solstr += `<span style="font-weight:bold">Elemental</span>`;
-        solstr += `<span>Fire: ${Math.floor(
-            Math.min(this.resistance.elemental + this.resistance.fire, this.resistanceMax.fire) * 100
-        )}%</span>`;
-        solstr += `<span>Frost: ${Math.floor(
-            Math.min(this.resistance.elemental + this.resistance.frost, this.resistanceMax.frost) * 100
-        )}%</span>`;
+        solstr += `<span>Fire: ${Math.floor(Math.min(res.elemental + res.fire, resMax.fire) * 100)}%</span>`;
+        solstr += `<span>Frost: ${Math.floor(Math.min(res.elemental + res.frost, resMax.frost) * 100)}%</span>`;
         solstr += `<span>Lightning: ${Math.floor(
-            Math.min(this.resistance.elemental + this.resistance.lightning, this.resistanceMax.lightning) * 100
+            Math.min(res.elemental + res.lightning, resMax.lightning) * 100
         )}%</span>`;
 
         solstr += `<span style="font-weight:bold">Occult</span>`;
-        solstr += `<span>Sacred: ${Math.floor(
-            Math.min(this.resistance.occult + this.resistance.sacred, this.resistanceMax.sacred) * 100
-        )}%</span>`;
-        solstr += `<span>Shadow: ${Math.floor(
-            Math.min(this.resistance.occult + this.resistance.shadow, this.resistanceMax.shadow) * 100
-        )}%</span>`;
-        solstr += `<span>Aether: ${Math.floor(
-            Math.min(this.resistance.occult + this.resistance.aether, this.resistanceMax.aether) * 100
-        )}%</span>`;
+        solstr += `<span>Sacred: ${Math.floor(Math.min(res.occult + res.sacred, resMax.sacred) * 100)}%</span>`;
+        solstr += `<span>Shadow: ${Math.floor(Math.min(res.occult + res.shadow, resMax.shadow) * 100)}%</span>`;
+        solstr += `<span>Aether: ${Math.floor(Math.min(res.occult + res.aether, resMax.aether) * 100)}%</span>`;
         solstr += `</grid></span>`;
 
         // buffs & debuffs

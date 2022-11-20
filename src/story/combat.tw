@@ -13,10 +13,6 @@
     });
 <</script>>
 
-/* NYI: Show the statisitical details of all Combatants. */
-/* NYI: Show the statisitical details of all Player Attacks. */
-/* <span id="combatInfoZone"></span> */
-
 <grid id="MainCombatGrid">
     /* This is effectively the enemies' side of the "field". */
     <span id="enemyZone"></span>
@@ -61,6 +57,7 @@
  * inits and determines whose turn it is.
  */
 async function processTurns(pp, ep) {
+    /** Wait for arbitrary amount of time. */
     function waitFor(ms) {
         return new Promise(resolve => {
             setTimeout(() => {
@@ -113,6 +110,8 @@ async function processTurns(pp, ep) {
         }
     }
 
+    /* Show Win/Los if all Combatants on a side are dead. */
+    /* TODO: This should also check for special conditions set in CI. */
     if (ppdead) {
         setup.COM.drawCombat();
         /* Update notice area with wikified lose message. */
@@ -127,37 +126,9 @@ async function processTurns(pp, ep) {
         return;
     }
 
-    /* If all of the frontline of a side are dead, allow frontline
-    attacks to hit backline. */
-    if (
-        (!State.variables.ci.ep[0] || State.variables.ci.ep[0].health <= 0) && 
-        (!State.variables.ci.ep[1] || State.variables.ci.ep[1].health <= 0) && 
-        (!State.variables.ci.ep[2] || State.variables.ci.ep[2].health <= 0)
-    ) {
-        State.variables.ci.epbacklineTargetable = true
-    }
-    if (
-        (!State.variables.ci.pp[0] || State.variables.ci.pp[0].health <= 0) && 
-        (!State.variables.ci.pp[1] || State.variables.ci.pp[1].health <= 0)
-    ) {
-        State.variables.ci.ppbacklineTargetable = true
-    }
-
-    /* If all of the backline of a side are dead, allow backline
-    attacks to hit frontline. */
-    if (
-        (!State.variables.ci.ep[3] || State.variables.ci.ep[3].health <= 0) && 
-        (!State.variables.ci.ep[4] || State.variables.ci.ep[4].health <= 0)
-    ) {
-        State.variables.ci.epfrontlineTargetable = true
-    }
-    if (
-        (!State.variables.ci.pp[2] || State.variables.ci.pp[2].health <= 0) && 
-        (!State.variables.ci.pp[3] || State.variables.ci.pp[3].health <= 0)
-    ) {
-        State.variables.ci.ppfrontlineTargetable = true
-    }
-
+    /* Determine if we can hit backline with frontline attacks. */
+    setup.COM.determineRowViabilities();
+    
     /* Check if anyone has a turn available. */
     pp.forEach((char) => {
         if (char.init <= 0 && char.health > 0) {
@@ -234,7 +205,14 @@ processTurns(State.variables.ci.pp, State.variables.ci.ep);
  * The HTML elements of the enemies.
  */
 
-/* NTS: I wanted to dynamically make these elements, but they aren't created fast enough to render properly. It might now be possible though, since we only update Canvas element (as opposed to the Canvas itself) rarely. */
+/**
+ * DESIRED: I wanted to dynamically make these elements, but they  
+ * aren't created fast enough to render properly. Further research 
+ * shows that it is because I would have to constantly recreate the  
+ * canvas element, so if we fix that problem, we can dynamically make 
+ * these elements. Unfortunately, I don't think the efficiency gain 
+ * is worth the effort. 
+ */
 <<if $ci.ep[0]>>
     <griditem id="gitemA">
         /* TODO: Add the name to the canvas instead so that I have total control over the thing. */
@@ -288,5 +266,62 @@ processTurns(State.variables.ci.pp, State.variables.ci.ep);
 
     <<script>>
         setup.fns.displayToInfoScreenOnMouseover('#enemyZone griditem#gitemE', State.variables.ci.ep[4]);
+    <</script>>
+<</if>>
+
+
+
+:: Player_Zone [.combat .helper nostats]
+/* HTML elements of the player characters. */
+
+/**
+ * DESIRED: I wanted to dynamically make these elements, but they  
+ * aren't created fast enough to render properly. Further research 
+ * shows that it is because I would have to constantly recreate the  
+ * canvas element, so if we fix that problem, we can dynamically make 
+ * these elements. Unfortunately, I don't think the efficiency gain 
+ * is worth the effort. 
+ */
+<<if $ci.pp[0]>>
+    <griditem id="gitemA">
+        $ci.pp[0].name
+        <canvas class="initBar" id="playerA" width="2048" height="384"></canvas>
+    </griditem>
+
+    <<script>>
+        setup.fns.displayToInfoScreenOnMouseover('#playerZone griditem#gitemA', State.variables.ci.pp[0]);
+    <</script>>
+<</if>>
+
+<<if $ci.pp[1]>>
+    <griditem id="gitemB">
+        $ci.pp[1].name
+        <canvas class="initBar" id="playerB" width="2048" height="384"></canvas>
+    </griditem>
+
+    <<script>>
+        setup.fns.displayToInfoScreenOnMouseover('#playerZone griditem#gitemB', State.variables.ci.pp[1]);
+    <</script>>
+<</if>>
+
+<<if $ci.pp[2]>>
+    <griditem id="gitemC">
+        $ci.pp[2].name
+        <canvas class="initBar" id="playerC" width="2048" height="384"></canvas>
+    </griditem>
+
+    <<script>>
+        setup.fns.displayToInfoScreenOnMouseover('#playerZone griditem#gitemC', State.variables.ci.pp[2]);
+    <</script>>
+<</if>>
+
+<<if $ci.pp[3]>>
+    <griditem id="gitemD">
+        $ci.pp[3].name
+        <canvas class="initBar" id="playerD" width="2048" height="384"></canvas>
+    </griditem>
+
+    <<script>>
+        setup.fns.displayToInfoScreenOnMouseover('#playerZone griditem#gitemD', State.variables.ci.pp[3]);
     <</script>>
 <</if>>
