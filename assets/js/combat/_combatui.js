@@ -95,10 +95,12 @@ function combatMessage(text, type, charLoc) {
     });
 }
 
-/** Clears the Player Options Grid. */
-function clearPlayerOptionsGrid() {
-    for (let i = 1; i <= 15; i++) {
-        $(`#targetsZone #playerAttacks`).empty();
+/** Updates the #playerAttacks, which is in #targetsZone. */
+function updatePlayerAttacks(className) {
+    // Empty and remove all classes.
+    $(`#targetsZone #playerAttacks`).empty().removeClass();
+    if (className) {
+        $(`#targetsZone #playerAttacks`).addClass(className);
     }
 }
 
@@ -313,7 +315,7 @@ function displayToInfoScreenOnMouseover(selector, obj) {
         drawCombat();
     };
 
-    S.COM.clearPlayerOptionsGrid = function () {
-        clearPlayerOptionsGrid();
+    S.COM.updatePlayerAttacks = function (className) {
+        updatePlayerAttacks(className);
     };
 })(setup);

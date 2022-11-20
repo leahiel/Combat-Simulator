@@ -703,7 +703,7 @@ input:checked ~ accordionContent {
 
 #MainCombatGrid {
     display: grid;
-    grid-template-columns: 50fr 31fr; /* approximate φ */
+    grid-template-columns: 31fr 50fr; /* approximate φ */
     grid-template-rows: 1fr 2fr 3fr;
 
     height: 95vh;
@@ -733,7 +733,7 @@ input:checked ~ accordionContent {
 }
 
 #MainCombatGrid #playerZone {
-    grid-column: 1;
+    grid-column: 2;
     grid-row: 2;
 
     display: grid;
@@ -756,9 +756,9 @@ input:checked ~ accordionContent {
 }
 
 #MainCombatGrid #combatNotifications {
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row: 3;
+    grid-column: 1;
+    grid-row-start: 2;
+    grid-row-end: 4;
 
     border-radius: 1rem;
     border: 1px solid white;
@@ -773,11 +773,10 @@ input:checked ~ accordionContent {
 
 #MainCombatGrid #targetsZone {
     grid-column: 2;
-    grid-row-start: 2;
-    grid-row-end: 4;
+    grid-row: 3;
 
     grid-template-columns: 1fr;
-    grid-template-rows: 10% 80%;
+    grid-template-rows: 18% 70%;
 
     display: grid;
 
@@ -792,27 +791,116 @@ input:checked ~ accordionContent {
     justify-items: center;
 }
 
-#MainCombatGrid #targetsZone #playerAttacks {
+#targetsZone #playerAttacks {
     display: grid;
-    grid-template-columns: 33% 33% 33%;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    
     width: 100%;
+    margin: 1rem;
+
+    background: var(--background);
+    grid-gap: 1px;
 
     justify-items: center;
     align-items: center;
     justify-content: space-evenly;
 }
 
-#MainCombatGrid #targetsZone #playerAttacks .playerAttack {
+#targetsZone #playerAttacks.target-attacks {
+    grid-template-columns: 24% 24% 24% 24%;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+}
+
+#targetsZone #playerAttacks.target-self,
+#targetsZone #playerAttacks.target-all {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+
+    font-size: 2rem;
+}
+
+#targetsZone #playerAttacks.target-side {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 1rem;
+
+    font-size: 1.5rem;
+}
+
+#targetsZone #playerAttacks.target-row {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    row-gap: 0.5rem;
+
+    font-size: 1.25rem;
+}
+
+#targetsZone #playerAttacks.target-single {
+    grid-template-columns: 16% 16% 16% 16% 16% 16%;
+    grid-template-rows: 1fr 1fr 0.20fr 1fr 1fr;
+}
+
+#targetsZone #playerAttacks.target-single .enemyD {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row: 1;
+}
+
+#targetsZone #playerAttacks.target-single .enemyE {
+    grid-column-start: 4;
+    grid-column-end: 6;
+    grid-row: 1;
+}
+
+#targetsZone #playerAttacks.target-single .enemyA,
+#targetsZone #playerAttacks.target-single .enemyB,
+#targetsZone #playerAttacks.target-single .enemyC {
+    grid-column: span 2;
+    grid-row: 2;
+}
+
+#targetsZone #playerAttacks.target-single .playerA,
+#targetsZone #playerAttacks.target-single .playerB {
+    grid-column: span 3;
+    grid-row: 4;
+}
+
+#targetsZone #playerAttacks.target-single .playerC,
+#targetsZone #playerAttacks.target-single .playerD {
+    grid-column: span 3;
+    grid-row: 5;
+}
+
+#playerAttacks .playerAttack {
     border: none;
+    background-color: var(--background);
+    box-shadow: none;
+    border-radius: 0;
 
     font-size: 1.05rem;
 
     padding: 0.2em;
 
-    height: 80%;
-    width: 90%;
+    width: 100%;
+    height: 100%;
 }
+
+#playerAttacks .playerAttack:hover {
+    border: none;
+    background-color: var(--backgroundplus1);
+}
+
+#playerAttacks .disabled {
+    cursor: not-allowed !important;
+    background-color: #444;
+    border: 1px solid #666;
+}
+
+#playerAttacks .disabled:hover {
+    cursor: not-allowed !important;
+    background-color: #444;
+    border: 1px solid #666;
+}
+
 
 #MainCombatGrid #targetsZone #backForward {
     grid-column-start: 1;
@@ -848,19 +936,6 @@ input:checked ~ accordionContent {
     background-color: var(--backgroundplus1);
 }
 
-#playerAttacks .disabled {
-    cursor: not-allowed !important;
-    background-color: #444;
-    border: 1px solid #666;
-}
-
-#playerAttacks .disabled:hover {
-    cursor: not-allowed !important;
-    background-color: #444;
-    border: 1px solid #666;
-}
-
-/* TODO: Do this for players too. */
 #enemyZone span[title="<<if _ep[0]>>"],
 #enemyZone griditem#gitemA {
     grid-row: 2;

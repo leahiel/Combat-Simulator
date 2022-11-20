@@ -27,7 +27,7 @@
     <span id="enemyZone"></span>
 
     /* The "center field", if you will. */
-    <span id="combatNotifications">DO I JUST NEED SOMETHING HERE</span>
+    <span id="combatNotifications"></span>
 
     /**
     * This is effectively the player's side of the "field". 

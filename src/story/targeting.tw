@@ -5,20 +5,8 @@
  * Disabled attacks are currently only possible if that attack has
  * no viable targets.
  */
-
-<<run setup.COM.clearPlayerOptionsGrid()>>
-/* TODO: playerAttacks should have a class that has the CSS for these thingies. Then I can swap out the class for attacks/different targeting options. */
-/*
-    Classes:
-    .attacks
-    .target-all
-    .target-side
-    .target-row
-    .target-single
-    .target-self
- */
-
 <<if $ci.pp.includes($ci.activeCharacter)>>
+    <<run setup.COM.updatePlayerAttacks("target-attacks")>>
     <<for _int, _attack range $ci.activeCharacter.attacks>>
     <<set _attack.viableTargets to setup.COM.assignViableTargets(_attack, $ci.activeCharacter)>>
         <<capture _attack>>
@@ -31,6 +19,8 @@
         <</capture>>
     <</for>>
     /* TODO: Logic here should be done if there are more than n attacks, in which case we need a second grid. If none is needed then arrows should be greyed out. */
+<<else>>
+    <<run setup.COM.updatePlayerAttacks()>>
 <</if>>
 
 
@@ -59,7 +49,7 @@
 
 
 :: Player_Attack_Targets [.combat .helper nostats]
-<<run setup.COM.clearPlayerOptionsGrid()>>
+<<run setup.COM.updatePlayerAttacks()>>
 
 /* Show the correct targets given an attack.targets object. */
 <<switch _attack.targets.style>>
@@ -89,6 +79,8 @@
 
 :: Player_Attack_Targets_All [.combat .helper nostats]
 /* _attack.targets.style === "all" */
+<<run setup.COM.updatePlayerAttacks("target-all")>>
+
 /** 
  * NTS: Because this attack either hits everyone or no one, we don't 
  * need to be concerned about disabling this option. The attack itself 
@@ -106,6 +98,7 @@
 
 :: Player_Attack_Targets_Side [.combat .helper nostats]
 /* _attack.targets.style === "side" */
+<<run setup.COM.updatePlayerAttacks("target-side")>>
 
 /* Check Enemy Combatants */
 <<if _attack["viableTargets"].some(r=> [$ci.ep[0], $ci.ep[1], $ci.ep[2], $ci.ep[3], $ci.ep[4]].includes(r))>>
@@ -140,6 +133,7 @@
 
 :: Player_Attack_Targets_Row [.combat .helper nostats]
 /* _attack.targets.style === "row" */
+<<run setup.COM.updatePlayerAttacks("target-row")>>
 
 /* Check enemy backline Combatants */
 <<if _attack["viableTargets"].some(r=> [$ci.ep[3], $ci.ep[4]].includes(r)) && ((_attack.targets.row === "back" || _attack.targets.row === "both") || $ci.epbacklineTargetable)>>
@@ -204,12 +198,14 @@
 
 :: Player_Attack_Targets_Single [.combat .helper nostats]
 /* _attack.targets.style === "single" */
+<<run setup.COM.updatePlayerAttacks("target-single")>>
 
 /* Check enemy Combatants */
 <<for _target range $ci.ep>>
     <<capture _target>>
         <<if _attack["viableTargets"].includes(_target)>>
-            <<but _target.name id "AttackTarget" class "playerAttack">>
+            <<set _class to "playerAttack " + _target.location>>
+            <<but _target.name id "AttackTarget" class _class>>
                 <<script>>
                     setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, [State.temporary.target]);
                     State.variables.ci.activeCharacter = null;
@@ -217,7 +213,8 @@
                 <</script>>
             <</but>>
         <<else>>
-            <<but _target.name id "AttackTarget" class "playerAttack disabled">>
+            <<set _class to "playerAttack " + _target.location + " disabled">>
+            <<but _target.name id "AttackTarget" class _class>>
             <</but>>
         <</if>>
     <</capture>>
@@ -227,7 +224,8 @@
 <<for _target range $ci.pp>>
     <<capture _target>>
         <<if _attack["viableTargets"].includes(_target)>>
-            <<but _target.name id "AttackTarget" class "playerAttack">>
+            <<set _class to "playerAttack " + _target.location>>
+            <<but _target.name id "AttackTarget" class _class>>
                 <<script>>
                     setup.COM.attackCalculations(State.temporary.attack, State.variables.ci.activeCharacter, [State.temporary.target]);
                     State.variables.ci.activeCharacter = null;
@@ -235,7 +233,8 @@
                 <</script>>
             <</but>>
         <<else>>
-            <<but _target.name id "AttackTarget" class "playerAttack disabled">>
+            <<set _class to "playerAttack " + _target.location + " disabled">>
+            <<but _target.name id "AttackTarget" class _class>>
             <</but>>
         <</if>>
     <</capture>>
@@ -244,6 +243,8 @@
 
 :: Player_Attack_Targets_Self [.combat .helper nostats]
 /* _attack.targets.style === "self" */
+<<run setup.COM.updatePlayerAttacks("target-self")>>
+
 /** 
  * NTS: Because this attack hits the attacker, we don't need to be
  * concerned about disabling this option. The attack itself will be

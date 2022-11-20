@@ -6,7 +6,7 @@ TODO for indev release:
 ☑  Add Buffs to Canvas
     ☐  When hovering over buff/canvas, it should show buff info.
 ☐  Add content.
-    ☐ 6 Enemy Families
+    ☐  6 Enemy Families
         ☐  At least 5 enemies each.
     ☑ Attacks
     ☐ Equippables
@@ -18,6 +18,12 @@ TODO for indev release:
 ☐  Limit certain mods to certain tags of Equippables
     = e.g. "leather" tag on mod only works with armors tagged "leather"
 ☐  Add Preset characters options to start/inbetween.
+☐  CSS Update
+    ☐  Location and Name embedded into canvases.
+    ☑  Targetting functional.
+        ☐  Targeting CSS.
+    ☐  New Infoscreen is nice looking.
+    
 
 
 Implicit Weapon Balancing:
