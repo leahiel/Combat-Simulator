@@ -178,6 +178,10 @@ for (let mod in setup.COM.affixes) {
     State.variables.account.inventory.mods.push(setup.COM.Affix.new(setup.COM.affixes[mod]));
 }
 
+State.variables.pp = undefined;
+State.variables.tp1 = undefined;
+State.variables.tp2 = undefined;
+
 
 /* INFO MENU */
 State.variables.info = {};

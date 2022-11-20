@@ -148,7 +148,7 @@ Find my other games at <a href="https://leahiel.itch.io/" target="_blank" rel="n
     S.STR.bottomUIStr = bottomUIStr;
 })(setup);
 /* twine-user-script #2: "___defaults.min.js" */
-const DEFAULTEQUIPPABLE={initDecrementModifier:1,mods:[],modslots:0,affixes:[],health:0,blockRecovery:0,initStart:0,initVariance:0,triggers:[],stats:{appearance:{mean:50,std:2.5,min:0,max:100},constitution:{mean:50,std:2.5,min:0,max:100},dexterity:{mean:50,std:2.5,min:0,max:100},education:{mean:50,std:2.5,min:0,max:100},intelligence:{mean:50,std:2.5,min:0,max:100},size:{mean:50,std:2.5,min:0,max:100},strength:{mean:50,std:2.5,min:0,max:100},telekinesis:{mean:50,std:2.5,min:0,max:100},willpower:{mean:50,std:2.5,min:0,max:100}},criticalChanceBase:0,criticalChanceIncreased:0,criticalChanceMore:1,criticalDamageBase:0,criticalDamageIncreased:0,criticalDamageMore:1,directChanceBase:0,directChanceIncreased:0,directChanceMore:1,deflectChanceBase:0,deflectChanceIncreased:0,deflectChanceMore:1,blockChanceBase:0,blockChanceIncreased:0,blockChanceMore:1,damage:{blunt:{min:0,max:0},pierce:{min:0,max:0},acid:{min:0,max:0},fire:{min:0,max:0},frost:{min:0,max:0},lightning:{min:0,max:0},sacred:{min:0,max:0},shadow:{min:0,max:0},aether:{min:0,max:0}},absorbPercent:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},absorbPercentMax:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},absorbFlat:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistance:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistanceMax:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},reduct:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0}},DEFAULTBUFF={duration:0,onApply:function(target){},onReapply:function(target){},perInit:function(target){}},DEFAULTATTACK={family:null,type:"attack",effect:"damage",initRecovery:45,wdm:1,stun:0,hitnumber:1,deflectCalculated:0,blockCalculated:0,isBlockable:!0,isDeflectable:!0,isDirectable:!0,isCritical:!0,buffs:[],targets:{style:null,side:null,row:null},criticalChanceCalculated:0,criticalChanceBase:0,criticalChanceIncreased:0,criticalChanceMore:1,criticalDamageCalculated:0,criticalDamageBase:0,criticalDamageIncreased:0,criticalDamageMore:1,directChanceCalculated:0,directChanceBase:0,directChanceIncreased:0,directChanceMore:1,damage:{blunt:{min:0,max:0},pierce:{min:0,max:0},acid:{min:0,max:0},fire:{min:0,max:0},frost:{min:0,max:0},lightning:{min:0,max:0},sacred:{min:0,max:0},shadow:{min:0,max:0},aether:{min:0,max:0}}},DEFAULTENEMY={initDecrementModifier:1,stats:{appearance:{mean:50,std:2.5,min:0,max:100},constitution:{mean:50,std:2.5,min:0,max:100},dexterity:{mean:50,std:2.5,min:0,max:100},education:{mean:50,std:2.5,min:0,max:100},intelligence:{mean:50,std:2.5,min:0,max:100},size:{mean:50,std:2.5,min:0,max:100},strength:{mean:50,std:2.5,min:0,max:100},telekinesis:{mean:50,std:2.5,min:0,max:100},willpower:{mean:50,std:2.5,min:0,max:100}},damage:{blunt:{min:0,max:0},pierce:{min:0,max:0},acid:{min:0,max:0},fire:{min:0,max:0},frost:{min:0,max:0},lightning:{min:0,max:0},sacred:{min:0,max:0},shadow:{min:0,max:0},aether:{min:0,max:0}},absorbPercent:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},absorbPercentMax:{material:45,blunt:45,pierce:45,acid:45,elemental:45,fire:45,frost:45,lightning:45,occult:45,sacred:45,shadow:45,aether:45},absorbFlat:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistance:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistanceMax:{material:75,blunt:75,pierce:75,acid:75,elemental:75,fire:75,frost:75,lightning:75,occult:75,sacred:75,shadow:75,aether:75},reduct:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},blockRecovery:6,criticalChanceBase:.05,criticalChanceIncreased:1,criticalChanceMore:1,criticalDamageBase:1.5,criticalDamageIncreased:1,criticalDamageMore:1,directChanceBase:.05,directChanceIncreased:1,directChanceMore:1,deflectChanceBase:.05,deflectChanceIncreased:1,deflectChanceMore:1,blockChanceBase:0,blockChanceIncreased:1,blockChanceMore:1,initVariance:.1,family:null,description:null,buffs:[]},DEFAULTPLAYER={initDecrementModifier:1,healthMax:125,initStart:23,initVariance:.1,equippables:{},buffs:[],stats:{appearance:{mean:50,std:2.5,min:0,max:100},constitution:{mean:50,std:2.5,min:0,max:100},dexterity:{mean:50,std:2.5,min:0,max:100},education:{mean:50,std:2.5,min:0,max:100},intelligence:{mean:50,std:2.5,min:0,max:100},size:{mean:50,std:2.5,min:0,max:100},strength:{mean:50,std:2.5,min:0,max:100},telekinesis:{mean:50,std:2.5,min:0,max:100},willpower:{mean:50,std:2.5,min:0,max:100}},damage:{blunt:{min:0,max:0},pierce:{min:0,max:0},acid:{min:0,max:0},fire:{min:0,max:0},frost:{min:0,max:0},lightning:{min:0,max:0},sacred:{min:0,max:0},shadow:{min:0,max:0},aether:{min:0,max:0}},absorbPercent:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},absorbPercentMax:{material:45,blunt:45,pierce:45,acid:45,elemental:45,fire:45,frost:45,lightning:45,occult:45,sacred:45,shadow:45,aether:45},absorbFlat:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistance:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistanceMax:{material:75,blunt:75,pierce:75,acid:75,elemental:75,fire:75,frost:75,lightning:75,occult:75,sacred:75,shadow:75,aether:75},reduct:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},blockRecovery:6,initVariance:.1,family:"player",criticalChanceBase:.05,criticalChanceIncreased:1,criticalChanceMore:1,criticalDamageBase:1.5,criticalDamageIncreased:1,criticalDamageMore:1,directChanceBase:.05,directChanceIncreased:1,directChanceMore:1,deflectChanceBase:.05,deflectChanceIncreased:1,deflectChanceMore:1,blockChanceBase:0,blockChanceIncreased:1,blockChanceMore:1};
+const DEFAULTEQUIPPABLE={initDecrementModifier:1,mods:[],modslots:0,affixes:[],health:0,blockRecovery:0,initStart:0,initVariance:0,triggers:[],stats:{appearance:{mean:50,std:2.5,min:0,max:100},constitution:{mean:50,std:2.5,min:0,max:100},dexterity:{mean:50,std:2.5,min:0,max:100},education:{mean:50,std:2.5,min:0,max:100},intelligence:{mean:50,std:2.5,min:0,max:100},size:{mean:50,std:2.5,min:0,max:100},strength:{mean:50,std:2.5,min:0,max:100},telekinesis:{mean:50,std:2.5,min:0,max:100},willpower:{mean:50,std:2.5,min:0,max:100}},criticalChanceBase:0,criticalChanceIncreased:0,criticalChanceMore:1,criticalDamageBase:0,criticalDamageIncreased:0,criticalDamageMore:1,directChanceBase:0,directChanceIncreased:0,directChanceMore:1,deflectChanceBase:0,deflectChanceIncreased:0,deflectChanceMore:1,blockChanceBase:0,blockChanceIncreased:0,blockChanceMore:1,damage:{blunt:{min:0,max:0},pierce:{min:0,max:0},acid:{min:0,max:0},fire:{min:0,max:0},frost:{min:0,max:0},lightning:{min:0,max:0},sacred:{min:0,max:0},shadow:{min:0,max:0},aether:{min:0,max:0}},absorbPercent:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},absorbPercentMax:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},absorbFlat:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistance:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistanceMax:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},reduct:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0}},DEFAULTBUFF={duration:0,onApply:function(target){},onReapply:function(target){},perInit:function(target){}},DEFAULTATTACK={family:null,type:"attack",effect:"damage",initRecovery:45,wdm:1,stun:0,hitnumber:1,deflectCalculated:0,blockCalculated:0,isBlockable:!0,isDeflectable:!0,isDirectable:!0,isCritical:!0,buffs:[],targets:{style:null,side:null,row:null},criticalChanceCalculated:0,criticalChanceBase:0,criticalChanceIncreased:0,criticalChanceMore:1,criticalDamageCalculated:0,criticalDamageBase:0,criticalDamageIncreased:0,criticalDamageMore:1,directChanceCalculated:0,directChanceBase:0,directChanceIncreased:0,directChanceMore:1,damage:{blunt:{min:0,max:0},pierce:{min:0,max:0},acid:{min:0,max:0},fire:{min:0,max:0},frost:{min:0,max:0},lightning:{min:0,max:0},sacred:{min:0,max:0},shadow:{min:0,max:0},aether:{min:0,max:0}}},DEFAULTENEMY={initDecrementModifier:1,stats:{appearance:{mean:50,std:2.5,min:0,max:100},constitution:{mean:50,std:2.5,min:0,max:100},dexterity:{mean:50,std:2.5,min:0,max:100},education:{mean:50,std:2.5,min:0,max:100},intelligence:{mean:50,std:2.5,min:0,max:100},size:{mean:50,std:2.5,min:0,max:100},strength:{mean:50,std:2.5,min:0,max:100},telekinesis:{mean:50,std:2.5,min:0,max:100},willpower:{mean:50,std:2.5,min:0,max:100}},damage:{blunt:{min:0,max:0},pierce:{min:0,max:0},acid:{min:0,max:0},fire:{min:0,max:0},frost:{min:0,max:0},lightning:{min:0,max:0},sacred:{min:0,max:0},shadow:{min:0,max:0},aether:{min:0,max:0}},absorbPercent:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},absorbPercentMax:{material:45,blunt:45,pierce:45,acid:45,elemental:45,fire:45,frost:45,lightning:45,occult:45,sacred:45,shadow:45,aether:45},absorbFlat:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistance:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistanceMax:{material:75,blunt:75,pierce:75,acid:75,elemental:75,fire:75,frost:75,lightning:75,occult:75,sacred:75,shadow:75,aether:75},reduct:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},blockRecovery:6,criticalChanceBase:.05,criticalChanceIncreased:1,criticalChanceMore:1,criticalDamageBase:1.5,criticalDamageIncreased:1,criticalDamageMore:1,directChanceBase:.05,directChanceIncreased:1,directChanceMore:1,deflectChanceBase:.05,deflectChanceIncreased:1,deflectChanceMore:1,blockChanceBase:0,blockChanceIncreased:1,blockChanceMore:1,initVariance:.1,family:null,description:null,buffs:[]};
 /* twine-user-script #3: "__buffs.min.js" */
 class Buff{constructor(obj){jQuery.extend(!0,this,DEFAULTBUFF,obj),void 0===this.description&&(console.error(`Buff: ${this.name} lacks a description.`),this.description="Description missing.")}}const buffs={buffAmp:new Buff({type:"buff",duration:100,name:"Amped",description:"Your inits tick twice as fast.",onApply:function(target){target.initDecrementModifier*=2}}),buffSpearPosture:new Buff({type:"buff",duration:250,name:"Spear Posture",description:"You have increased deflect chance.",onApply:function(target){target.deflectChanceBase+=.05,target.deflectChanceIncreased+=1,target.deflectCalculated=target.deflectChanceBase*target.deflectChanceIncreased*target.deflectChanceMore}}),buffShieldPosture:new Buff({type:"buff",duration:250,name:"Shield Posture",description:"You have increased block chance.",onApply:function(target){target.blockChanceBase+=.05,target.blockChanceIncreased+=1,target.blockCalculated=target.blockChanceBase*target.blockChanceIncreased*target.blockChanceMore}}),buffSacrificeToChaos:new Buff({type:"buff",duration:250,name:"Sacrifice To Chaos",description:"You deal +(1-3) Occult damage.",onApply:function(target){target.health*=.9,target.damage.aether.min+=1,target.damage.aether.max+=3,target.damage.sacred.min+=1,target.damage.sacred.max+=3,target.damage.shadow.min+=1,target.damage.shadow.max+=3}}),buffLumberjackStance:new Buff({type:"buff",duration:250,name:"Lumberjack Stance",description:"You deal +(2-5) Pierce damage.",onApply:function(target){target.damage.pierce.min+=2,target.damage.pierce.max+=5}}),debuffBleed:new Buff({type:"debuff",duration:250,name:"Bleeding!",description:"10% chance to take 1 damage every init.",perInit:function(target){Math.random()<.1&&(target.health-=1)}})};!function(S){S.COM||(S.COM={}),S.COM.buffs=buffs}(setup);
 /* twine-user-script #4: "__mods.min.js" */
@@ -156,7 +156,7 @@ class Affix{constructor(obj){jQuery.extend(!0,this,obj)}static new(Affix){return
 /* twine-user-script #5: "_attacks.min.js" */
 class Attack{constructor(obj){jQuery.extend(!0,this,DEFAULTATTACK,obj),null===this.family&&console.error(`${this.name}'s family is null.`),null===this.targets.style&&console.error(`Attack: ${this.name} has no targets.style.`),void 0===this.description&&(console.error(`Attack: ${this.name} lacks a description.`),this.description="Description missing.")}getInfo(){let solstr="";return solstr+=`<span id='infoName'>${this.name}</span>`,solstr+="<span class='divider'></span>",solstr+="<span id='infoMetrics'><span class='infoSectionHeader'>METRICS</span>",solstr+="<grid id='infoMetricsAttacksGrid'>",solstr+=`<span>WDM:${this.wdm}</span>`,solstr+=`<span>initRecovery:${this.initRecovery}</span>`,solstr+="</grid></span>",solstr+="</grid></span>",solstr+="<span id='infoDamage'><span class='infoSectionHeader'>ADDED DAMAGE</span>",solstr+="<grid id='infoDamageGrid'>",solstr+='<span style="font-weight:bold">Material</span>',solstr+=`<span>Blunt:<br>${this.damage.blunt.min} - ${this.damage.blunt.max}</span>`,solstr+=`<span>Pierce:<br>${this.damage.pierce.min} - ${this.damage.pierce.max}</span>`,solstr+=`<span>Acid:<br>${this.damage.acid.min} - ${this.damage.acid.max}</span>`,solstr+='<span style="font-weight:bold">Elemental</span>',solstr+=`<span>Fire:<br>${this.damage.fire.min} - ${this.damage.fire.max}</span>`,solstr+=`<span>Frost:<br>${this.damage.frost.min} - ${this.damage.frost.max}</span>`,solstr+=`<span>Lightning:<br>${this.damage.lightning.min} - ${this.damage.lightning.max}</span>`,solstr+='<span style="font-weight:bold">Occult</span>',solstr+=`<span>Sacred:<br>${this.damage.sacred.min} - ${this.damage.sacred.max}</span>`,solstr+=`<span>Shadow:<br>${this.damage.shadow.min} - ${this.damage.shadow.max}</span>`,solstr+=`<span>Aether:<br>${this.damage.aether.min} - ${this.damage.aether.max}</span>`,solstr+="</grid></span>",solstr}}const attacks={all:new Attack({name:"Hits All",family:["debugAttacks"],targets:{style:"all",side:null,row:null},damage:{pierce:{min:1,max:1}},type:"buff",buffs:[buffs.buffAmp],description:"DEBUG: You hit everyone applying a strong buff."}),enemyside:new Attack({name:"Hit Enemy Side",family:["debugAttacks"],targets:{style:"side",side:"enemy",row:null},damage:{pierce:{min:1,max:1}},description:"DEBUG: You hit every enemy."}),allyside:new Attack({name:"Hit Ally Side",family:["debugAttacks"],targets:{style:"side",side:"ally",row:null},damage:{pierce:{min:1,max:1}},description:"DEBUG: You hit every ally."}),enemyrow:new Attack({name:"Hit Enemy Row",family:["debugAttacks"],targets:{style:"row",side:"enemy",row:"both"},damage:{pierce:{min:1,max:1}},description:"DEBUG: You hit every enemy in the specified row."}),allyrow:new Attack({name:"Hit Ally Row",family:["debugAttacks"],targets:{style:"row",side:"ally",row:"both"},damage:{pierce:{min:1,max:1}},description:"DEBUG: You hit every ally in the specified row."}),anyattack:new Attack({name:"Hit Any Single",family:["debugAttacks"],targets:{style:"single",side:"both",row:"both"},damage:{pierce:{min:1,max:1}},description:"DEBUG: You hit every ally in the specified row."}),selfattack:new Attack({name:"Hit Self",family:["debugAttacks"],targets:{style:"self",side:null,row:null},damage:{pierce:{min:1,max:1}},description:"DEBUG: You hit every ally in the specified row."}),flick:new Attack({name:"Flick",family:["unarmedAttacks"],initRecovery:18,wdm:.5,targets:{style:"single",side:"enemy",row:"front"},damage:{pierce:{min:1,max:1}},stun:5,description:"You flick your opponent, causing them to blink in surpise."}),gutpunch:new Attack({name:"Gut Punch",family:["unarmedAttacks"],initRecovery:23,wdm:1.75,targets:{style:"single",side:"enemy",row:"front"},damage:{blunt:{min:3,max:3}},stun:18,description:"Slam your fist into the enemy's gut, causing them to crunch over."}),doublestrike:new Attack({name:"Double Strike",wdm:.75,family:["unarmedAttacks"],initRecovery:20,targets:{style:"single",side:"enemy",row:"front"},description:"You hit your enemy for damage twice.",hitnumber:2,damage:{blunt:{min:3,max:3}}}),amp:new Attack({name:"Amped Up",family:["unarmedAttacks"],initRecovery:24,type:"buff",targets:{style:"self",side:null,row:null},description:"You hit your enemy for damage twice.",buffs:[buffs.buffAmp]}),doublelegsweep:new Attack({name:"Double Leg Sweep",wdm:.25,family:["unarmedAttacks"],initRecovery:20,targets:{style:"row",side:"enemy",row:"front"},description:"You sweep the legs of your foes twice.",hitnumber:2,damage:{blunt:{min:4,max:4}},stun:4}),stab:new Attack({name:"Stab",family:["spearWeaponAttacks"],initRecovery:50,wdm:1.25,targets:{style:"single",side:"enemy",row:"front"},damage:{pierce:{min:7,max:13}},description:"Stab at your foe, doing extra pierce damage."}),rapidjab:new Attack({name:"Rapid Jab",family:["spearWeaponAttacks"],initRecovery:50,wdm:.75,targets:{style:"single",side:"enemy",row:"front"},hitnumber:3,damage:{pierce:{min:4,max:7}},description:"Rapidly jab at your foe three times."}),sweep:new Attack({name:"Sweep",family:["spearWeaponAttacks"],initRecovery:50,wdm:1.25,targets:{style:"row",side:"enemy",row:"front"},damage:{pierce:{min:7,max:13}},description:"Sweep at the foes in front of you."}),spearposture:new Attack({name:"Posture",family:["spearWeaponAttacks"],initRecovery:24,type:"buff",targets:{style:"self",side:null,row:null},description:"You posture yourself, making it harder to hit you.",buffs:[buffs.buffSpearPosture]}),chaoschuck:new Attack({name:"Chaos Chuck",family:["chaoticspearWeaponAttacks"],initRecovery:50,wdm:2,targets:{style:"single",side:"enemy",row:"both"},description:"Chuck your chaos spear at an enemy."}),chaoticsacrifice:new Attack({name:"Chaotic Sacrifice",family:["chaoticspearWeaponAttacks"],initRecovery:50,type:"buff",targets:{style:"self",side:null,row:null},description:"Sacrifice 10% of your current life to buff your occult damage.",buffs:[buffs.buffSacrificeToChaos]}),unerringbolt:new Attack({name:"Unerring Bolt",family:["chaoticspearWeaponAttacks"],wdm:1.25,initRecovery:50,targets:{style:"single",side:"enemy",row:"both"},description:"Turns your spear into a chaotic bolt, which your opponent cannot deflect.",isDeflectable:!1}),backlinebolts:new Attack({name:"Backline Bolts",family:["chaoticspearWeaponAttacks"],wdm:.25,initRecovery:56,targets:{style:"single",side:"enemy",row:"back"},description:"Hits the enemy backline with a dose of lightning and aether.",damage:{aether:{min:4,max:6},lightning:{min:4,max:6}}}),shieldposture:new Attack({name:"Posture",family:["swordandshieldWeaponAttacks","maceandshieldWeaponAttacks"],initRecovery:24,type:"buff",targets:{style:"self",side:null,row:null},description:"You posture yourself, increasing your block.",buffs:[buffs.buffShieldPosture]}),shieldbash:new Attack({name:"Shield Bash",family:["swordandshieldWeaponAttacks","maceandshieldWeaponAttacks"],initRecovery:29,wdm:1,targets:{style:"single",side:"enemy",row:"front"},description:"Bash your shield at the enemy with an increased chance to direct hit.",damage:{blunt:{min:3,max:6}},directChanceBase:.6,directChanceMore:1.3}),swipe:new Attack({name:"Swipe",family:["swordandshieldWeaponAttacks"],initRecovery:29,wdm:1,targets:{style:"single",side:"enemy",row:"front"},description:"Slash your sword at a target.",damage:{pierce:{min:3,max:6}}}),thrust:new Attack({name:"Thrust",family:["swordandshieldWeaponAttacks"],initRecovery:29,wdm:1,targets:{style:"single",side:"enemy",row:"front"},description:"Thrust your sword at the enemy with an increased chance to critically hit, but also easier to deflect.",damage:{pierce:{min:3,max:6}},criticalChanceBase:.6,criticalChanceMore:1.3,deflectCalculated:-.25,blockCalculated:0}),bash:new Attack({name:"Bash",family:["maceandshieldWeaponAttacks"],initRecovery:29,wdm:1,targets:{style:"single",side:"enemy",row:"front"},description:"Bash your mace at a target, with an increased chance of direct hit.",damage:{blunt:{min:3,max:6}},stun:5,directChanceBase:.6,directChanceMore:1.3}),doublesmash:new Attack({name:"Double Smash",family:["maceandshieldWeaponAttacks"],initRecovery:35,wdm:.75,targets:{style:"single",side:"enemy",row:"front"},description:"Smash your target twice.",damage:{blunt:{min:2,max:4}},hitnumber:2}),whirlwind:new Attack({name:"Whirlwind",family:["twohandedaxeWeaponAttacks"],initRecovery:55,wdm:.25,targets:{style:"row",side:"enemy",row:"front"},description:"Spin yourself around twice and hit foes multiple times.",hitnumber:2,buffs:[buffs.debuffBleed]}),wideslash:new Attack({name:"Wide Slash",family:["twohandedaxeWeaponAttacks"],initRecovery:34,wdm:.75,targets:{style:"row",side:"enemy",row:"front"},description:"Slash at all the enemies in front of you.",damage:{pierce:{min:2,max:4}},buffs:[buffs.debuffBleed]}),overheadchop:new Attack({name:"Overhead Chop",family:["twohandedaxeWeaponAttacks"],initRecovery:50,wdm:2,targets:{style:"single",side:"enemy",row:"front"},description:"Deliver a critical overhead chop to the enemy.",damage:{pierce:{min:2,max:4}},buffs:[buffs.debuffBleed],criticalChanceBase:.6,criticalChanceMore:1.3,deflectCalculated:-.25}),lumberjackstance:new Attack({name:"Lumberjack Stance",family:["twohandedaxeWeaponAttacks"],initRecovery:24,type:"buff",targets:{style:"self",side:null,row:null},description:"Buff yourself to deal more pierce damage.",buffs:[buffs.buffLumberjackStance]}),vilebite:new Attack({name:"Vile Bite",family:["Spider"],targets:{style:"single",side:"enemy",row:"front"},damage:{pierce:{min:8,max:12},acid:{min:8,max:12}},description:"A vile bite, inflicting pierce and acid damage."}),webshot:new Attack({name:"Web Shot",type:"spell",family:["Spider"],targets:{style:"side",side:"enemy",row:null},damage:{frost:{min:2,max:4},acid:{min:2,max:4}},description:"A gooey web that slows down the opponent."}),eightleggedrush:new Attack({name:"Eight Legged Rush",family:["Spider"],initRecovery:80,targets:{style:"single",side:"enemy",row:"front"},damage:{blunt:{min:13,max:19}},description:"A spider's tackle."}),hogrush:new Attack({name:"Hog Rush",family:["Hog"],initRecovery:"80",targets:{style:"single",side:"enemy",row:"front"},damage:{blunt:{min:9,max:13}},description:"A hog's tackle."}),hoggore:new Attack({name:"Hog Gore",family:["Hog"],initRecovery:"72",targets:{style:"single",side:"enemy",row:"front"},damage:{pierce:{min:11,max:14}},description:"The hog impales it's enemy with it's tusks."}),cuddlebutt:new Attack({name:"Cuddle Butt",family:["Carbuncle"],initRecovery:"16",targets:{style:"single",side:"enemy",row:"front"},damage:{blunt:{min:3,max:5}},description:"An adorable little attack that inspires awh in its enemies."}),crystalshot:new Attack({name:"Crystal Shot",type:"spell",family:["Carbuncle"],initRecovery:"36",targets:{style:"single",side:"enemy",row:"both"},damage:{pierce:{min:7,max:10}},description:"A piercing candle stick's worth of crystal is summoned and shot through the air."})},familyAttacks={};for(let key in attacks)if(attacks[key].family)for(let idx in attacks[key].family)familyAttacks[attacks[key].family[idx]]||(familyAttacks[attacks[key].family[idx]]=[]),familyAttacks[attacks[key].family[idx]].push(attacks[key]);!function(S){S.COM||(S.COM={}),S.COM.attacks=attacks,S.COM.familyAttacks=familyAttacks}(setup);
 /* twine-user-script #6: "_combat.min.js" */
-class CombatInstance{constructor(obj){jQuery.extend(!0,this,obj),this.epfrontlineTargetable=!1,this.epbacklineTargetable=!1,this.ppfrontlineTargetable=!1,this.ppbacklineTargetable=!1,this.pp=[],State.variables.pc&&(this.pp[0]=State.variables.pc),State.variables.pp&&(this.pp[1]=State.variables.pp),State.variables.tp1&&(this.pp[2]=State.variables.tp1),State.variables.tp2&&(this.pp[3]=State.variables.tp2);for(let uninitPlayer in this.pp)this.pp[uninitPlayer]=new setup.COM.Combatant(this.pp[uninitPlayer]);for(let uninitEnemy in this.ep)this.ep[uninitEnemy]=new setup.COM.Combatant(monsters[this.ep[uninitEnemy]]);let alphabet=["A","B","C","D","E","F"],int=0;for(let char of this.ep)char.ally=!1,char.enemy=!0,char.location=`enemy${alphabet[int]}`,char.name+=` [${alphabet[int]}]`,int+=1;int=0;for(let char of this.pp)char.ally=!0,char.enemy=!1,char.location=`player${alphabet[int]}`,int+=1}}function determineTargetViability(attack,attacker,target){let at=attack.targets;if(void 0===target)return!1;if(target.health<=0)return!1;if("all"===at.style)return!0;if("self"===at.style)return attacker===target;let ci=State.variables.ci,attackerStatus=attacker.location.includes("player")?"player":"enemy";if(("ally"===at.side||"both"===at.side)&&"enemy"===attackerStatus||("enemy"===at.side||"both"===at.side)&&"player"===attackerStatus){if("side"===at.style&&[ci.ep[0],ci.ep[1],ci.ep[2],ci.ep[3],ci.ep[4]].includes(target))return!0;if("row"===at.style||"single"===at.style){if(("front"===at.row||"both"===at.row||ci.epfrontlineTargetable)&&[ci.ep[0],ci.ep[1],ci.ep[2]].includes(target))return!0;if(("back"===at.row||"both"===at.row||ci.epbacklineTargetable)&&[ci.ep[3],ci.ep[4]].includes(target))return!0}}if(("ally"===at.side||"both"===at.side)&&"player"===attackerStatus||("enemy"===at.side||"both"===at.side)&&"enemy"===attackerStatus){if("side"===at.style&&[ci.pp[0],ci.pp[1],ci.pp[2],ci.pp[3]].includes(target))return!0;if("row"===at.style||"single"===at.style){if(("front"===at.row||"both"===at.row||ci.ppfrontlineTargetable)&&[ci.pp[0],ci.pp[1]].includes(target))return!0;if(("back"===at.row||"both"===at.row||ci.ppbacklineTargetable)&&[ci.pp[2],ci.pp[3]].includes(target))return!0}}return!1}function assignViableTargets(attack,attacker){let ci=State.variables.ci,solTargets=[];for(let char of ci.ep)determineTargetViability(attack,attacker,char)&&solTargets.push(char);for(let char of ci.pp)determineTargetViability(attack,attacker,char)&&solTargets.push(char);return solTargets}function attackRandomWithRandom(attacker){let attacksClone=cloneDeep(attacker.attacks),chosenAttack,targets,determiningAttack=!0;for(;determiningAttack;)0===attacksClone.length&&(chosenAttack=null,determiningAttack=!1),chosenAttack=ranItems(1,attacksClone)[0],targets=assignViableTargets(chosenAttack,attacker),0===targets.length?attacksClone=attacksClone.filter(attack=>attack!==chosenAttack):determiningAttack=!1;"single"===chosenAttack.targetType&&(targets=ranItems(1,targets)),attackCalculations(chosenAttack,attacker,targets)}function attackCalculations(attack,attacker,targets){function calculateDamage(statusobj,attack,target,subDamageType){let mainDamageType="";switch(subDamageType){case"blunt":case"pierce":case"acid":mainDamageType="material";break;case"fire":case"frost":case"lightning":mainDamageType="elemental";break;case"sacred":case"shadow":case"aether":mainDamageType="occult"}let absorbPercent=Math.max(target.absorbPercent[mainDamageType],target.absorbPercent[subDamageType]);absorbPercent=Math.min(absorbPercent,target.absorbPercentMax[subDamageType]);let absorb=0,absorbFlat=0,damageResult,blockedDamageModifier=0;if(statusobj.direct&&!statusobj.deflected?(damageResult=attack.damage[subDamageType].max,blockedDamageModifier=.2):damageResult=Math.max(Math.random()*(attack.damage[subDamageType].min-attack.damage[subDamageType].max)+attack.damage[subDamageType].max,0),"attack"!==attack.type&&0===damageResult||(damageResult*=attack.wdm),statusobj.blocked)switch(mainDamageType){case"material":damageResult*=0+blockedDamageModifier;break;case"elemental":damageResult*=.2+blockedDamageModifier;break;case"occult":damageResult*=.35+blockedDamageModifier}if(0===damageResult)return 0;if(statusobj.critical&&!statusobj.deflected&&(damageResult*=attack.criticalDamageCalculated),statusobj.deflected&&!statusobj.critical&&!statusobj.direct)switch(mainDamageType){case"material":damageResult*=.5;break;case"elemental":damageResult*=.65;break;case"occult":damageResult*=.85}return damageResult*=1-Math.max(Math.min(target.resistance[mainDamageType],target.resistanceMax[mainDamageType]),Math.min(target.resistance[subDamageType],target.resistanceMax[subDamageType])),absorb=damageResult*absorbPercent,damageResult-=absorb,damageResult>0&&(damageResult=Math.max(damageResult-target.reduct[mainDamageType]-target.reduct[subDamageType],0)),damageResult>0&&(absorbFlat=Math.max(target.absorbFlat[subDamageType]+target.absorbFlat[mainDamageType],-1*damageResult),damageResult-=absorbFlat),Math.floor(1e4*damageResult)/1e4}function applyStats(attack,char){let solAttack=cloneDeep(attack);function updateProperties(attack,attacker,propobjname){Object.keys(attack[propobjname]).forEach((function(prop){attack[propobjname][prop]+=attacker[propobjname][prop]}))}return solAttack.criticalChanceBase+=char.criticalChanceBase,solAttack.criticalChanceIncreased+=char.criticalChanceIncreased,solAttack.criticalChanceMore*=char.criticalChanceMore,solAttack.criticalChanceCalculated=solAttack.criticalChanceBase*solAttack.criticalChanceIncreased*solAttack.criticalChanceMore,solAttack.criticalDamageBase+=char.criticalDamageBase,solAttack.criticalDamageIncreased+=char.criticalDamageIncreased,solAttack.criticalDamageMore*=char.criticalDamageMore,solAttack.criticalDamageCalculated=solAttack.criticalDamageBase*solAttack.criticalDamageIncreased*solAttack.criticalDamageMore,solAttack.directChanceBase+=char.directChanceBase,solAttack.directChanceIncreased+=char.directChanceIncreased,solAttack.directChanceMore*=char.directChanceMore,solAttack.directChanceCalculated=solAttack.directChanceBase*solAttack.directChanceIncreased*solAttack.directChanceMore,updateProperties(solAttack.damage,char.damage,"blunt"),updateProperties(solAttack.damage,char.damage,"pierce"),updateProperties(solAttack.damage,char.damage,"acid"),updateProperties(solAttack.damage,char.damage,"fire"),updateProperties(solAttack.damage,char.damage,"frost"),updateProperties(solAttack.damage,char.damage,"lightning"),updateProperties(solAttack.damage,char.damage,"sacred"),updateProperties(solAttack.damage,char.damage,"shadow"),updateProperties(solAttack.damage,char.damage,"aether"),solAttack}null===attack&&(combatMessage(`C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Had no viable attacks.`,"default",attacker.location),attacker.init+=attacker.initStart);let solobj={};targets.forEach((target,idx)=>{for(let i=0;i<attack.hitnumber;i++){solobj[i]||(solobj[i]={}),solobj[i][idx]={};let thisAttack=applyStats(attack,attacker);if("buff"===thisAttack.effect||"buff"===thisAttack.effect)return;thisAttack.isBlockable&&(solobj[i][idx].blocked=Math.random()<target.blockCalculated-attack.blockCalculated),thisAttack.isDeflectable&&(solobj[i][idx].deflected=Math.random()<target.deflectCalculated-attack.deflectCalculated),thisAttack.isDirectable&&(solobj[i][idx].direct=Math.random()<thisAttack.directChanceCalculated&&!solobj[i][idx].deflected),thisAttack.isCritable&&(solobj[i][idx].critical=Math.random()<thisAttack.criticalChanceCalculated&&(!solobj[i][idx].blocked||!solobj[i][idx].deflected));let damageobj={blunt:calculateDamage(solobj[i][idx],thisAttack,target,"blunt"),pierce:calculateDamage(solobj[i][idx],thisAttack,target,"pierce"),acid:calculateDamage(solobj[i][idx],thisAttack,target,"acid"),fire:calculateDamage(solobj[i][idx],thisAttack,target,"fire"),frost:calculateDamage(solobj[i][idx],thisAttack,target,"frost"),lightning:calculateDamage(solobj[i][idx],thisAttack,target,"lightning"),sacred:calculateDamage(solobj[i][idx],thisAttack,target,"sacred"),shadow:calculateDamage(solobj[i][idx],thisAttack,target,"shadow"),aether:calculateDamage(solobj[i][idx],thisAttack,target,"aether"),total:0};for(let amount in damageobj)damageobj[amount]!==damageobj.total&&(damageobj.total+=damageobj[amount]);solobj[i][idx].damage=damageobj.total}});for(let i in solobj)for(let idx in solobj[i]){if(solobj[i][idx].damage>=1&&(targets[idx].health-=solobj[i][idx].damage,targets[idx].health<0&&(targets[idx].health=0)),solobj[i][idx].blocked&&(targets[idx].init+=targets[idx].blockRecovery),solobj[i][idx].deflected||(targets[idx].init+=attack.stun),attack.buffs.length>0)for(let buff of attack.buffs){let buffNames=assignFieldOfObjectsToArray(targets[idx].buffs,"name");if(buffNames.includes(buff.name)){if(buffNames.includes(buff.name)){let buffidx=buffNames.indexOf(buff.name);targets[idx].buffs[buffidx].duration=buff.duration,buff.onReapply(targets[idx])}}else targets[idx].buffs.push(cloneDeep(buff)),buff.onApply(targets[idx])}let blockMsg=solobj[i][idx].blocked?"✓":"",critMsg=solobj[i][idx].critical?"✓":"",directMsg=solobj[i][idx].direct?"✓":"",deflectMsg=solobj[i][idx].deflected?"✓":"";combatMessage(`C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Took ${Math.floor(solobj[i][idx].damage)} damage.`,"default",targets[idx].location)}attacker.init+=attack.initRecovery}function determineRowViabilities(){let ci=State.variables.ci;(!ci.ep[0]||ci.ep[0].health<=0)&&(!ci.ep[1]||ci.ep[1].health<=0)&&(!ci.ep[2]||ci.ep[2].health<=0)&&(ci.epbacklineTargetable=!0),(!ci.pp[0]||ci.pp[0].health<=0)&&(!ci.pp[1]||ci.pp[1].health<=0)&&(ci.ppbacklineTargetable=!0),(!ci.ep[3]||ci.ep[3].health<=0)&&(!ci.ep[4]||ci.ep[4].health<=0)&&(ci.epfrontlineTargetable=!0),(!ci.pp[2]||ci.pp[2].health<=0)&&(!ci.pp[3]||ci.pp[3].health<=0)&&(ci.ppfrontlineTargetable=!0)}!function(S){S.COM||(S.COM={}),S.COM.assignViableTargets=function(attacker,attack){return assignViableTargets(attacker,attack)},S.COM.attackRandomWithRandom=function(attacker){return attackRandomWithRandom(attacker)},S.COM.attackCalculations=function(attack,attacker,targets){return attackCalculations(attack,attacker,targets)},S.COM.determineRowViabilities=function(){return determineRowViabilities()},S.COM.CombatInstance=CombatInstance}(setup);
+class CombatInstance{constructor(obj){jQuery.extend(!0,this,obj),this.epfrontlineTargetable=!1,this.epbacklineTargetable=!1,this.ppfrontlineTargetable=!1,this.ppbacklineTargetable=!1,this.pp=[],State.variables.pc&&this.pp.push(State.variables.pc),State.variables.pp&&this.pp.push(State.variables.pp),State.variables.tp1&&this.pp.push(State.variables.tp1),State.variables.tp2&&this.pp.push(State.variables.tp2);for(let uninitPlayer in this.pp)this.pp[uninitPlayer]=new setup.COM.Combatant(this.pp[uninitPlayer]);for(let uninitEnemy in this.ep)this.ep[uninitEnemy]=new setup.COM.Combatant(monsters[this.ep[uninitEnemy]]);let alphabet=["A","B","C","D","E","F"],int=0;for(let char of this.ep)char.ally=!1,char.enemy=!0,char.location=`enemy${alphabet[int]}`,char.name+=` [${alphabet[int]}]`,int+=1;int=0;for(let char of this.pp)char.ally=!0,char.enemy=!1,char.location=`player${alphabet[int]}`,int+=1}}function determineTargetViability(attack,attacker,target){let at=attack.targets;if(void 0===target)return!1;if(target.health<=0)return!1;if("all"===at.style)return!0;if("self"===at.style)return attacker===target;let ci=State.variables.ci,attackerStatus=attacker.location.includes("player")?"player":"enemy";if(("ally"===at.side||"both"===at.side)&&"enemy"===attackerStatus||("enemy"===at.side||"both"===at.side)&&"player"===attackerStatus){if("side"===at.style&&[ci.ep[0],ci.ep[1],ci.ep[2],ci.ep[3],ci.ep[4]].includes(target))return!0;if("row"===at.style||"single"===at.style){if(("front"===at.row||"both"===at.row||ci.epfrontlineTargetable)&&[ci.ep[0],ci.ep[1],ci.ep[2]].includes(target))return!0;if(("back"===at.row||"both"===at.row||ci.epbacklineTargetable)&&[ci.ep[3],ci.ep[4]].includes(target))return!0}}if(("ally"===at.side||"both"===at.side)&&"player"===attackerStatus||("enemy"===at.side||"both"===at.side)&&"enemy"===attackerStatus){if("side"===at.style&&[ci.pp[0],ci.pp[1],ci.pp[2],ci.pp[3]].includes(target))return!0;if("row"===at.style||"single"===at.style){if(("front"===at.row||"both"===at.row||ci.ppfrontlineTargetable)&&[ci.pp[0],ci.pp[1]].includes(target))return!0;if(("back"===at.row||"both"===at.row||ci.ppbacklineTargetable)&&[ci.pp[2],ci.pp[3]].includes(target))return!0}}return!1}function assignViableTargets(attack,attacker){let ci=State.variables.ci,solTargets=[];for(let char of ci.ep)determineTargetViability(attack,attacker,char)&&solTargets.push(char);for(let char of ci.pp)determineTargetViability(attack,attacker,char)&&solTargets.push(char);return solTargets}function attackRandomWithRandom(attacker){let attacksClone=cloneDeep(attacker.attacks),chosenAttack,targets,determiningAttack=!0;for(;determiningAttack;)0===attacksClone.length&&(chosenAttack=null,determiningAttack=!1),chosenAttack=ranItems(1,attacksClone)[0],targets=assignViableTargets(chosenAttack,attacker),0===targets.length?attacksClone=attacksClone.filter(attack=>attack!==chosenAttack):determiningAttack=!1;"single"===chosenAttack.targetType&&(targets=ranItems(1,targets)),attackCalculations(chosenAttack,attacker,targets)}function attackCalculations(attack,attacker,targets){function calculateDamage(statusobj,attack,target,subDamageType){let mainDamageType="";switch(subDamageType){case"blunt":case"pierce":case"acid":mainDamageType="material";break;case"fire":case"frost":case"lightning":mainDamageType="elemental";break;case"sacred":case"shadow":case"aether":mainDamageType="occult"}let absorbPercent=Math.max(target.absorbPercent[mainDamageType],target.absorbPercent[subDamageType]);absorbPercent=Math.min(absorbPercent,target.absorbPercentMax[subDamageType]);let absorb=0,absorbFlat=0,damageResult,blockedDamageModifier=0;if(statusobj.direct&&!statusobj.deflected?(damageResult=attack.damage[subDamageType].max,blockedDamageModifier=.2):damageResult=Math.max(Math.random()*(attack.damage[subDamageType].min-attack.damage[subDamageType].max)+attack.damage[subDamageType].max,0),"attack"!==attack.type&&0===damageResult||(damageResult*=attack.wdm),statusobj.blocked)switch(mainDamageType){case"material":damageResult*=0+blockedDamageModifier;break;case"elemental":damageResult*=.2+blockedDamageModifier;break;case"occult":damageResult*=.35+blockedDamageModifier}if(0===damageResult)return 0;if(statusobj.critical&&!statusobj.deflected&&(damageResult*=attack.criticalDamageCalculated),statusobj.deflected&&!statusobj.critical&&!statusobj.direct)switch(mainDamageType){case"material":damageResult*=.5;break;case"elemental":damageResult*=.65;break;case"occult":damageResult*=.85}return damageResult*=1-Math.max(Math.min(target.resistance[mainDamageType],target.resistanceMax[mainDamageType]),Math.min(target.resistance[subDamageType],target.resistanceMax[subDamageType])),absorb=damageResult*absorbPercent,damageResult-=absorb,damageResult>0&&(damageResult=Math.max(damageResult-target.reduct[mainDamageType]-target.reduct[subDamageType],0)),damageResult>0&&(absorbFlat=Math.max(target.absorbFlat[subDamageType]+target.absorbFlat[mainDamageType],-1*damageResult),damageResult-=absorbFlat),Math.floor(1e4*damageResult)/1e4}function applyStats(attack,char){let solAttack=cloneDeep(attack);function updateProperties(attack,attacker,propobjname){Object.keys(attack[propobjname]).forEach((function(prop){attack[propobjname][prop]+=attacker[propobjname][prop]}))}return solAttack.criticalChanceBase+=char.criticalChanceBase,solAttack.criticalChanceIncreased+=char.criticalChanceIncreased,solAttack.criticalChanceMore*=char.criticalChanceMore,solAttack.criticalChanceCalculated=solAttack.criticalChanceBase*solAttack.criticalChanceIncreased*solAttack.criticalChanceMore,solAttack.criticalDamageBase+=char.criticalDamageBase,solAttack.criticalDamageIncreased+=char.criticalDamageIncreased,solAttack.criticalDamageMore*=char.criticalDamageMore,solAttack.criticalDamageCalculated=solAttack.criticalDamageBase*solAttack.criticalDamageIncreased*solAttack.criticalDamageMore,solAttack.directChanceBase+=char.directChanceBase,solAttack.directChanceIncreased+=char.directChanceIncreased,solAttack.directChanceMore*=char.directChanceMore,solAttack.directChanceCalculated=solAttack.directChanceBase*solAttack.directChanceIncreased*solAttack.directChanceMore,updateProperties(solAttack.damage,char.damage,"blunt"),updateProperties(solAttack.damage,char.damage,"pierce"),updateProperties(solAttack.damage,char.damage,"acid"),updateProperties(solAttack.damage,char.damage,"fire"),updateProperties(solAttack.damage,char.damage,"frost"),updateProperties(solAttack.damage,char.damage,"lightning"),updateProperties(solAttack.damage,char.damage,"sacred"),updateProperties(solAttack.damage,char.damage,"shadow"),updateProperties(solAttack.damage,char.damage,"aether"),solAttack}null===attack&&(combatMessage(`C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Had no viable attacks.`,"default",attacker.location),attacker.init+=attacker.initStart);let solobj={};targets.forEach((target,idx)=>{for(let i=0;i<attack.hitnumber;i++){solobj[i]||(solobj[i]={}),solobj[i][idx]={};let thisAttack=applyStats(attack,attacker);if("buff"===thisAttack.effect||"buff"===thisAttack.effect)return;thisAttack.isBlockable&&(solobj[i][idx].blocked=Math.random()<target.blockCalculated-attack.blockCalculated),thisAttack.isDeflectable&&(solobj[i][idx].deflected=Math.random()<target.deflectCalculated-attack.deflectCalculated),thisAttack.isDirectable&&(solobj[i][idx].direct=Math.random()<thisAttack.directChanceCalculated&&!solobj[i][idx].deflected),thisAttack.isCritable&&(solobj[i][idx].critical=Math.random()<thisAttack.criticalChanceCalculated&&(!solobj[i][idx].blocked||!solobj[i][idx].deflected));let damageobj={blunt:calculateDamage(solobj[i][idx],thisAttack,target,"blunt"),pierce:calculateDamage(solobj[i][idx],thisAttack,target,"pierce"),acid:calculateDamage(solobj[i][idx],thisAttack,target,"acid"),fire:calculateDamage(solobj[i][idx],thisAttack,target,"fire"),frost:calculateDamage(solobj[i][idx],thisAttack,target,"frost"),lightning:calculateDamage(solobj[i][idx],thisAttack,target,"lightning"),sacred:calculateDamage(solobj[i][idx],thisAttack,target,"sacred"),shadow:calculateDamage(solobj[i][idx],thisAttack,target,"shadow"),aether:calculateDamage(solobj[i][idx],thisAttack,target,"aether"),total:0};for(let amount in damageobj)damageobj[amount]!==damageobj.total&&(damageobj.total+=damageobj[amount]);solobj[i][idx].damage=damageobj.total}});for(let i in solobj)for(let idx in solobj[i]){if(solobj[i][idx].damage>=1&&(targets[idx].health-=solobj[i][idx].damage,targets[idx].health<0&&(targets[idx].health=0)),solobj[i][idx].blocked&&(targets[idx].init+=targets[idx].blockRecovery),solobj[i][idx].deflected||(targets[idx].init+=attack.stun),attack.buffs.length>0)for(let buff of attack.buffs){let buffNames=assignFieldOfObjectsToArray(targets[idx].buffs,"name");if(buffNames.includes(buff.name)){if(buffNames.includes(buff.name)){let buffidx=buffNames.indexOf(buff.name);targets[idx].buffs[buffidx].duration=buff.duration,buff.onReapply(targets[idx])}}else targets[idx].buffs.push(cloneDeep(buff)),buff.onApply(targets[idx])}let blockMsg=solobj[i][idx].blocked?"✓":"",critMsg=solobj[i][idx].critical?"✓":"",directMsg=solobj[i][idx].direct?"✓":"",deflectMsg=solobj[i][idx].deflected?"✓":"";combatMessage(`C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Took ${Math.floor(solobj[i][idx].damage)} damage.`,"default",targets[idx].location)}attacker.init+=attack.initRecovery}function determineRowViabilities(){let ci=State.variables.ci;(!ci.ep[0]||ci.ep[0].health<=0)&&(!ci.ep[1]||ci.ep[1].health<=0)&&(!ci.ep[2]||ci.ep[2].health<=0)&&(ci.epbacklineTargetable=!0),(!ci.pp[0]||ci.pp[0].health<=0)&&(!ci.pp[1]||ci.pp[1].health<=0)&&(ci.ppbacklineTargetable=!0),(!ci.ep[3]||ci.ep[3].health<=0)&&(!ci.ep[4]||ci.ep[4].health<=0)&&(ci.epfrontlineTargetable=!0),(!ci.pp[2]||ci.pp[2].health<=0)&&(!ci.pp[3]||ci.pp[3].health<=0)&&(ci.ppfrontlineTargetable=!0)}!function(S){S.COM||(S.COM={}),S.COM.assignViableTargets=function(attacker,attack){return assignViableTargets(attacker,attack)},S.COM.attackRandomWithRandom=function(attacker){return attackRandomWithRandom(attacker)},S.COM.attackCalculations=function(attack,attacker,targets){return attackCalculations(attack,attacker,targets)},S.COM.determineRowViabilities=function(){return determineRowViabilities()},S.COM.CombatInstance=CombatInstance}(setup);
 /* twine-user-script #7: "_combatant.min.js" */
 class Combatant{constructor(obj){jQuery.extend(!0,this,obj),this.original=cloneDeep(obj),this.health=this.healthMax;let max=this.initStart*(1+this.initVariance),min=this.initStart*(1-this.initVariance);if(this.init=Math.floor(Math.random()*(max-min+1))+Math.floor(min),this.attacks||(this.attacks=[]),this.triggers=[],this.equippables)for(let equippable in this.equippables){let item=this.equippables[equippable];function updateProperties(combatant,equip,propobjname){Object.keys(combatant[propobjname]).forEach((function(prop){combatant[propobjname][prop]+=equip[propobjname][prop]}))}this.equippables[equippable].attacks&&(this.attacks=mergeArray(this.attacks,item.attacks)),updateProperties(this,item,"absorbPercent"),updateProperties(this,item,"absorbPercentMax"),updateProperties(this,item,"absorbFlat"),updateProperties(this,item,"resistance"),updateProperties(this,item,"resistanceMax"),updateProperties(this,item,"reduct"),updateProperties(this.damage,item.damage,"blunt"),updateProperties(this.damage,item.damage,"pierce"),updateProperties(this.damage,item.damage,"acid"),updateProperties(this.damage,item.damage,"fire"),updateProperties(this.damage,item.damage,"frost"),updateProperties(this.damage,item.damage,"lightning"),updateProperties(this.damage,item.damage,"sacred"),updateProperties(this.damage,item.damage,"shadow"),updateProperties(this.damage,item.damage,"aether"),this.criticalChanceBase+=item.criticalChanceBase,this.criticalChanceIncreased+=item.criticalChanceIncreased,this.criticalChanceMore*=item.criticalChanceMore,this.criticalDamageBase+=item.criticalDamageBase,this.criticalDamageIncreased+=item.criticalDamageIncreased,this.criticalDamageMore*=item.criticalDamageMore,this.directChanceBase+=item.directChanceBase,this.directChanceIncreased+=item.directChanceIncreased,this.directChanceMore*=item.directChanceMore,this.blockChanceBase+=item.blockChanceBase,this.blockChanceIncreased+=item.blockChanceIncreased,this.blockChanceMore*=item.blockChanceMore,this.deflectChanceBase+=item.deflectChanceBase,this.deflectChanceIncreased+=item.deflectChanceIncreased,this.deflectChanceMore*=item.deflectChanceMore}this.deflectCalculated=this.deflectChanceBase*this.deflectChanceIncreased*this.deflectChanceMore,this.blockCalculated=this.blockChanceBase*this.blockChanceIncreased*this.blockChanceMore,"player"===this.family?this.rarity="Player":this.rarity="Normal"}reform(){let newBaseObj=cloneDeep(this.original),oldCombatant=cloneDeep(this);Object.assign(this,newBaseObj),this.health>this.healthMax&&(this.health=healthMax),this.buffs=oldCombatant.buffs,console.log(this.deflectChanceBase),this.deflectCalculated=this.deflectChanceBase*this.deflectChanceIncreased*this.deflectChanceMore,this.blockCalculated=this.blockChanceBase*this.blockChanceIncreased*this.blockChanceMore,"player"===this.family?this.rarity="Player":this.rarity="Normal"}getInfo(){let solstr="",res=this.resistance,resMax=this.resistanceMax;return solstr+=`<span id='infoName'>${this.name}</span>`,solstr+=`<span id='infoVariant'>#${this.rarity}</span>`,solstr+="<span class='divider'></span>","player"===this.family&&(solstr+="<span id='infoMetrics'><span class='infoSectionHeader'>METRICS</span>",solstr+="<grid id='infoMetricsGrid'>",solstr+=`<span id='infoHealth'>Health: ${Math.floor(this.health)} / ${Math.floor(this.healthMax)}</span>`,solstr+=`<span id='init'>Init: ${Math.floor(this.init)}</span>`,solstr+=`<span id='blockDeflect'>Block: ${Math.floor(100*this.blockCalculated)}% Deflect: ${Math.floor(100*this.deflectCalculated)}%</span>`,solstr+="</grid></span>"),solstr+="<span id='infoResistances'><span class='infoSectionHeader'>RESISTANCES</span>",solstr+="<grid id='infoResistanceGrid'>",solstr+='<span style="font-weight:bold">Material</span>',solstr+=`<span>Blunt: ${Math.floor(100*Math.min(res.material+res.blunt,resMax.blunt))}%</span>`,solstr+=`<span>Pierce: ${Math.floor(100*Math.min(res.material+res.pierce,resMax.pierce))}%</span>`,solstr+=`<span>Acid: ${Math.floor(100*Math.min(res.material+res.acid,resMax.acid))}%</span>`,solstr+='<span style="font-weight:bold">Elemental</span>',solstr+=`<span>Fire: ${Math.floor(100*Math.min(res.elemental+res.fire,resMax.fire))}%</span>`,solstr+=`<span>Frost: ${Math.floor(100*Math.min(res.elemental+res.frost,resMax.frost))}%</span>`,solstr+=`<span>Lightning: ${Math.floor(100*Math.min(res.elemental+res.lightning,resMax.lightning))}%</span>`,solstr+='<span style="font-weight:bold">Occult</span>',solstr+=`<span>Sacred: ${Math.floor(100*Math.min(res.occult+res.sacred,resMax.sacred))}%</span>`,solstr+=`<span>Shadow: ${Math.floor(100*Math.min(res.occult+res.shadow,resMax.shadow))}%</span>`,solstr+=`<span>Aether: ${Math.floor(100*Math.min(res.occult+res.aether,resMax.aether))}%</span>`,solstr+="</grid></span>","player"!==this.family&&(solstr+="<span class='infoSectionHeader'>FLAVOR</span>",solstr+=`<grid><span>${this.description}</span></grid>`),solstr}}!function(S){S.COM||(S.COM={}),S.COM.Combatant=Combatant}(setup);
 /* twine-user-script #8: "_combatui.min.js" */
@@ -170,7 +170,7 @@ class Equippable{constructor(obj){jQuery.extend(!0,this,DEFAULTEQUIPPABLE,obj),t
 /* twine-user-script #12: "_imports.min.js" */
 function importGameSSR(){function loggedin(id){State.variables.user.itch_id=id,db.getDBVars(State.variables.user.itch_id).then(result=>{State.variables.meta={...State.variables.meta,...result}}).then(()=>{State.variables.user.logged_in=!0,Engine.show()})}importScripts("src/assets/js/game_ssr.min.js").then(()=>{if(State.variables.user.logged_in=!1,db=new db,!recall("user-uuid"))return memorize("user-uuid",uuid_v4()),void db.createLoginChecker(recall("user-uuid"),loggedin);try{db.getItchID(recall("user-uuid")).then(result=>{void 0!==result&&void 0!==result.itch_id?loggedin(result.itch_id):db.createLoginChecker(recall("user-uuid"),loggedin)})}catch(e){console.warn(e)}}).catch(e=>{console.warn(e)})}async function importDiscordWidget(){importScripts("https://cdn.jsdelivr.net/npm/@widgetbot/crate@3").then(()=>{new Crate({server:"1001698951516397590",channel:"1001708306416533514"})})}!function(S){S.fns||(S.fns={}),S.fns.importGameSSR=function(){importGameSSR()},S.fns.importDiscordWidget=function(){importDiscordWidget()}}(setup);
 /* twine-user-script #13: "_players.min.js" */
-class Player{constructor(obj){jQuery.extend(!0,this,DEFAULTPLAYER,obj)}clone(){return new this.constructor(this)}toJSON(){const ownData={};return Object.keys(this).forEach((function(pn){ownData[pn]=clone(this[pn])}),this),JSON.reviveWrapper(`new ${this.constructor.name}($ReviveData$)`,ownData)}}!function(S){S.COM||(S.COM={}),S.COM.Player=Player}(setup);
+class Player{constructor(obj){jQuery.extend(!0,this,DEFAULTPLAYER,obj)}clone(){return new this.constructor(this)}toJSON(){const ownData={};return Object.keys(this).forEach((function(pn){ownData[pn]=clone(this[pn])}),this),JSON.reviveWrapper(`new ${this.constructor.name}($ReviveData$)`,ownData)}}!function(S){S.COM||(S.COM={}),S.COM.Player=Player}(setup);const DEFAULTPLAYER={initDecrementModifier:1,healthMax:125,initStart:23,initVariance:.1,equippables:{weapon:equippables.unequippedweapon,armor:equippables.unequippedarmor,accessory:equippables.unequippedaccessory},buffs:[],stats:{appearance:{mean:50,std:2.5,min:0,max:100},constitution:{mean:50,std:2.5,min:0,max:100},dexterity:{mean:50,std:2.5,min:0,max:100},education:{mean:50,std:2.5,min:0,max:100},intelligence:{mean:50,std:2.5,min:0,max:100},size:{mean:50,std:2.5,min:0,max:100},strength:{mean:50,std:2.5,min:0,max:100},telekinesis:{mean:50,std:2.5,min:0,max:100},willpower:{mean:50,std:2.5,min:0,max:100}},damage:{blunt:{min:0,max:0},pierce:{min:0,max:0},acid:{min:0,max:0},fire:{min:0,max:0},frost:{min:0,max:0},lightning:{min:0,max:0},sacred:{min:0,max:0},shadow:{min:0,max:0},aether:{min:0,max:0}},absorbPercent:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},absorbPercentMax:{material:45,blunt:45,pierce:45,acid:45,elemental:45,fire:45,frost:45,lightning:45,occult:45,sacred:45,shadow:45,aether:45},absorbFlat:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistance:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},resistanceMax:{material:75,blunt:75,pierce:75,acid:75,elemental:75,fire:75,frost:75,lightning:75,occult:75,sacred:75,shadow:75,aether:75},reduct:{material:0,blunt:0,pierce:0,acid:0,elemental:0,fire:0,frost:0,lightning:0,occult:0,sacred:0,shadow:0,aether:0},blockRecovery:6,initVariance:.1,family:"player",criticalChanceBase:.05,criticalChanceIncreased:1,criticalChanceMore:1,criticalDamageBase:1.5,criticalDamageIncreased:1,criticalDamageMore:1,directChanceBase:.05,directChanceIncreased:1,directChanceMore:1,deflectChanceBase:.05,deflectChanceIncreased:1,deflectChanceMore:1,blockChanceBase:0,blockChanceIncreased:1,blockChanceMore:1};
 /* twine-user-script #14: "_setup.min.js" */
 !function(S){S.CONST||(S.CONST={})}(setup);
 /* twine-user-script #15: "_update.min.js" */
@@ -920,9 +920,11 @@ $(document).ready(function() {
 
 
 if (tags().includes(&quot;.combat&quot;)) {
+    /* Clear and Stow the InfoScreen */
     $(&#39;#infoScreenMiddleMenuButtons&#39;).empty();
     $(&#39;#infoScreenBottomMenuButtons&#39;).empty().wiki(Story.get(&quot;Players_Info&quot;).processText());
-    /* TODO: Stow the left equipment thingy. */
+    $(&#39;body&#39;).addClass(&#39;stowed&#39;);
+    $(&#39;#infoScreen&#39;).addClass(&#39;stowed&#39;);
 
     State.variables.GameState = &quot;combat&quot;;
     /*
@@ -936,6 +938,14 @@ if (tags().includes(&quot;.combat&quot;)) {
         console.log(&quot;Mouse Entered&quot;);
     });
 } else {
+    if (State.variables.GameState === &quot;combat&quot;) {
+        /* Clear and Unstow the InfoScreen when coming from a combat to a new passage. */
+        /* TODO: This should be a passage. */
+        $(&#39;#infoScreenMiddleMenuButtons&#39;).empty();
+        $(&#39;#infoScreenBottomMenuButtons&#39;).empty().wiki(Story.get(&quot;Players_Info&quot;).processText());
+        $(&#39;body&#39;).removeClass(&#39;stowed&#39;);
+        $(&#39;#infoScreen&#39;).removeClass(&#39;stowed&#39;);
+    }
     State.variables.GameState = &quot;other&quot;;
     $(&#39;body&#39;).css({
         &quot;height&quot;: &quot;initial&quot;,
@@ -1110,6 +1120,10 @@ State.variables.account.inventory.mods = [];
 for (let mod in setup.COM.affixes) {
     State.variables.account.inventory.mods.push(setup.COM.Affix.new(setup.COM.affixes[mod]));
 }
+
+State.variables.pp = undefined;
+State.variables.tp1 = undefined;
+State.variables.tp2 = undefined;
 
 
 /* INFO MENU */
@@ -1340,24 +1354,10 @@ This is the helper text that appears after you pick an option.</tw-passagedata><
 		&lt;&lt;set $pc.vagina to true&gt;&gt;
         &lt;/griddescript&gt;
 	&lt;/griditem&gt;
-
-	&lt;griditem class=&quot;col2&quot;&gt;
-		&lt;gridtitle&gt;Your Combat Stats&lt;/gridtitle&gt;
-		&lt;griddescript&gt;
-		REQUIRED: 
-		&lt;br&gt;
-		STAT INITIALIZER GOES HERE. PLS NO MIND EMPTINESS FOR NOW. 
-		&lt;/griddescript&gt;
-	&lt;/griditem&gt;
 	
+	&lt;&lt;include &quot;Party_Preset_Select&quot;&gt;&gt;
 &lt;/gridcontainer&gt;
 &lt;br&gt;
-/* &lt;br&gt;&lt;&lt;link [[Time to move on.|prologue]]&gt;&gt;&lt;&lt;/link&gt;&gt; */
-
-I GOTTA SEE BETTER&lt;span class=&#39;sw&#39;&gt; exterminating the son!&lt;/span&gt; i just want to see &lt;span class=&quot;sw&quot;&gt; how it compares,&lt;/span&gt;&lt;br&gt;
-&lt;span class=&#39;lf&#39;&gt;Exterminating the Son!&lt;/span&gt;&lt;br&gt;
-&lt;span class=&quot;glitch&quot; data-text=&quot;quiet!&quot;&gt;&lt;span class=&#39;sw&#39;&gt;quiet!&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;glitch&quot; data-text=&quot; the future is dotless!&quot;&gt;&lt;span class=&#39;sw&#39;&gt; the future is dotless!&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
-
 
 &lt;&lt;button [[Gen. Random Combat Instance|Combat_Overlord]]&gt;&gt;
 	&lt;&lt;script&gt;&gt;
@@ -1384,7 +1384,114 @@ I GOTTA SEE BETTER&lt;span class=&#39;sw&#39;&gt; exterminating the son!&lt;/spa
 			Setting.save();
 		});
 	&lt;&lt;/script&gt;&gt;
-&lt;&lt;/done&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="ContentDisabler" tags=".initialize nostats" position="0,625" size="100,100">Please select which content you do not want to encounter.
+&lt;&lt;/done&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="Party_Preset_Select" tags=".helper nostats" position="475,475" size="100,100">&lt;griditem class=&quot;col2&quot;&gt;
+	&lt;gridtitle&gt;Main Character&lt;/gridtitle&gt;
+	&lt;griddescript&gt;
+		&lt;span id=&quot;lbpc&quot;&gt;
+		&lt;&lt;listbox &quot;_pcObj&quot; autoselect&gt;&gt;
+			&lt;&lt;option &quot;Bruiser&quot;&gt;&gt;
+		&lt;&lt;/listbox&gt;&gt;
+		&lt;/span&gt;
+	&lt;/griddescript&gt;
+&lt;/griditem&gt;
+
+&lt;griditem class=&quot;col2&quot;&gt;
+	&lt;gridtitle&gt;Main Partner&lt;/gridtitle&gt;
+	&lt;griddescript&gt;
+		&lt;span id=&quot;lbpp&quot;&gt;
+		&lt;&lt;listbox &quot;_ppObj&quot; autoselect&gt;&gt;
+			&lt;&lt;option &quot;None&quot;&gt;&gt;
+			&lt;&lt;option &quot;Bruiser&quot;&gt;&gt;
+		&lt;&lt;/listbox&gt;&gt;
+		&lt;/span&gt;
+	&lt;/griddescript&gt;
+&lt;/griditem&gt;
+
+&lt;griditem class=&quot;col2&quot;&gt;
+	&lt;gridtitle&gt;Temp Partner 1&lt;/gridtitle&gt;
+	&lt;griddescript&gt;
+		&lt;span id=&quot;lbtp1&quot;&gt;
+		&lt;&lt;listbox &quot;_tp1Obj&quot; autoselect&gt;&gt;
+			&lt;&lt;option &quot;None&quot;&gt;&gt;
+			&lt;&lt;option &quot;Bruiser&quot;&gt;&gt;
+		&lt;&lt;/listbox&gt;&gt;
+		&lt;/span&gt;
+	&lt;/griddescript&gt;
+&lt;/griditem&gt;
+
+&lt;griditem class=&quot;col2&quot;&gt;
+	&lt;gridtitle&gt;Temp Partner 2&lt;/gridtitle&gt;
+	&lt;griddescript&gt;
+		&lt;span id=&quot;lbtp2&quot;&gt;
+		&lt;&lt;listbox &quot;_tp2Obj&quot; autoselect&gt;&gt;
+			&lt;&lt;option &quot;None&quot;&gt;&gt;
+			&lt;&lt;option &quot;Bruiser&quot;&gt;&gt;
+		&lt;&lt;/listbox&gt;&gt;
+		&lt;/span&gt;
+	&lt;/griddescript&gt;
+&lt;/griditem&gt;
+
+&lt;&lt;done&gt;&gt;
+	&lt;&lt;script&gt;&gt;
+		let sv = State.variables;
+		let st = State.temporary;
+
+		function localUpdateInfoScreen() {
+			sv.info.current = null;
+			$(&#39;#infoScreenMiddleMenuButtons&#39;).empty();
+			$(&#39;#infoScreenBottomMenuButtons&#39;).empty().wiki(Story.get(&quot;Players_Info&quot;).processText());
+		}
+
+		/* TODO: Make presets. */
+		let presets = {
+			bruiser: new setup.COM.Player({name: &quot;Bruiser&quot;}),
+		};
+
+		$(&#39;#lbpc select&#39;).on(&#39;change&#39;, function (event) {
+			event.stopImmediatePropagation();
+
+			sv.pc = setup.fns.cloneDeep(presets[st.pcObj.toLowerCase()]);
+
+			localUpdateInfoScreen();
+		});
+
+		$(&#39;#lbpp select&#39;).on(&#39;change&#39;, function (event) {
+			event.stopImmediatePropagation();
+
+			if (st.ppObj.toLowerCase() === &quot;none&quot;) {
+				sv.pp = undefined;
+			} else {
+				sv.pp = setup.fns.cloneDeep(presets[st.ppObj.toLowerCase()]);
+			}
+
+			localUpdateInfoScreen();
+		});
+
+		$(&#39;#lbtp1 select&#39;).on(&#39;change&#39;, function (event) {
+			event.stopImmediatePropagation();
+
+			if (st.tp1Obj.toLowerCase() === &quot;none&quot;) {
+				sv.tp1 = undefined;
+			} else {
+				sv.tp1 = setup.fns.cloneDeep(presets[st.tp1Obj.toLowerCase()]);
+			}
+
+			localUpdateInfoScreen();
+		});
+
+		$(&#39;#lbtp2 select&#39;).on(&#39;change&#39;, function (event) {
+			event.stopImmediatePropagation();
+
+			if (st.tp2Obj.toLowerCase() === &quot;none&quot;) {
+				sv.tp2 = undefined;
+			} else {
+				sv.tp2 = setup.fns.cloneDeep(presets[st.tp2Obj.toLowerCase()]);
+			}
+
+			localUpdateInfoScreen();
+		});
+	&lt;&lt;/script&gt;&gt;
+&lt;&lt;/done&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="ContentDisabler" tags=".initialize nostats" position="0,625" size="100,100">Please select which content you do not want to encounter.
 
 @@.warning;&lt;br&gt;If you set content to &quot;Warn&quot;, passages that contain that content will have a warning.@@
 @@.warning;&lt;br&gt;If you set content to &quot;Disable&quot;, you&#39;ll never know that you even missed an option.@@
@@ -1455,7 +1562,7 @@ I GOTTA SEE BETTER&lt;span class=&#39;sw&#39;&gt; exterminating the son!&lt;/spa
             });
         };
 	&gt;&gt;
-&lt;&lt;/done&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="CreditsText" tags=".uibar nostats" position="925,25" size="100,100">My name is LeahPeach!
+&lt;&lt;/done&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="CreditsText" tags=".uibar nostats" position="925,25" size="100,100">My name is LeahPeach!
 &lt;br&gt;I made dis c:
 &lt;br&gt;
 &lt;br&gt;
@@ -1496,7 +1603,7 @@ This game was made using extensive knowledge and help from the fine folks over a
 &lt;br&gt;jCanvas v21.0.1, © Caleb Evans, MIT
 &lt;br&gt;* MODIFIED by Myself
 &lt;br&gt;* Homepage: https://projects.calebevans.me/jcanvas/
-&lt;br&gt;* Github: https://github.com/caleb531/jcanvas</tw-passagedata><tw-passagedata pid="36" name="DevOptionsText" tags=".uibar nostats" position="1025,25" size="100,100">@@.dialog-header;Development Options@@
+&lt;br&gt;* Github: https://github.com/caleb531/jcanvas</tw-passagedata><tw-passagedata pid="37" name="DevOptionsText" tags=".uibar nostats" position="1025,25" size="100,100">@@.dialog-header;Development Options@@
 
 &lt;span class=&quot;row&quot;&gt;
 &lt;div class=&quot;column&quot;&gt;
@@ -1669,7 +1776,7 @@ function passagesHandler(btnname, tag) {
 
 }
 &lt;&lt;/script&gt;&gt;
-&lt;&lt;/done&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="Info_Description_Widget" tags="widget .infoscreen .helper nostats" position="850,475" size="100,100">&lt;&lt;widget EquipmentButtonInInfoScreen&gt;&gt;
+&lt;&lt;/done&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="Info_Description_Widget" tags="widget .infoscreen .helper nostats" position="975,475" size="100,100">&lt;&lt;widget EquipmentButtonInInfoScreen&gt;&gt;
     /** Normally I would write error the following error, but since this widget won&#39;t ever be used again, who cares:
      *  WriteError: _args[0] should be &quot;weapon&quot; || &quot;armor&quot; || &quot;accessory&quot; 
      */
@@ -1760,7 +1867,7 @@ function passagesHandler(btnname, tag) {
             });
         &lt;&lt;/script&gt;&gt;
     &lt;/span&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="Slot_Menu_Info_Widget" tags="widget .infoscreen .helper nostats" position="975,475" size="100,100">&lt;&lt;widget SlotMenuInfo&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="Slot_Menu_Info_Widget" tags="widget .infoscreen .helper nostats" position="1100,475" size="100,100">&lt;&lt;widget SlotMenuInfo&gt;&gt;
     /** Normally I would write error the following error, but since this widget won&#39;t ever be used again, who cares:
      *  WriteError: _args[0] should be &quot;weapon&quot; || &quot;armor&quot; || &quot;accessory&quot; 
      */
@@ -1816,7 +1923,7 @@ function passagesHandler(btnname, tag) {
             });
         &lt;&lt;/script&gt;&gt;
     &lt;&lt;/capture&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="Slot_ModMenu_Info_Widget" tags="widget .infoscreen .helper nostats" position="1100,475" size="100,100">&lt;&lt;widget SlotModMenuInfo&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="Slot_ModMenu_Info_Widget" tags="widget .infoscreen .helper nostats" position="1225,475" size="100,100">&lt;&lt;widget SlotModMenuInfo&gt;&gt;
     /** Normally I would write error the following error, but since this widget won&#39;t ever be used again, who cares:
      *  WriteError: _args[0] should be &quot;weapon&quot; || &quot;armor&quot; || &quot;accessory&quot; 
      */
@@ -1900,7 +2007,7 @@ function passagesHandler(btnname, tag) {
             });
         &lt;&lt;/script&gt;&gt;
     &lt;&lt;/capture&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="Players_Info" tags=".infoscreen .helper nostats" position="1225,475" size="100,100">/** Show these buttons during combat. 
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="Players_Info" tags=".infoscreen .helper nostats" position="100,600" size="100,100">/** Show these buttons during combat. 
  * REVIEW: Disable instead? 
  */
 &lt;&lt;script&gt;&gt;
@@ -1916,7 +2023,7 @@ if (!tags().includes(&quot;.combat&quot;)) {
 } else {
     $(&#39;#infoScreenMiddleMenuButtons&#39;).empty()
 }
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="Player_Info_Widget" tags="widget .infoscreen .helper nostats" position="100,600" size="100,100">&lt;&lt;widget PlayerInfo&gt;&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="Player_Info_Widget" tags="widget .infoscreen .helper nostats" position="225,600" size="100,100">&lt;&lt;widget PlayerInfo&gt;&gt;
     /** Normally I would write error the following error, but since this widget won&#39;t ever be used again, who cares:
      *  WriteError: _args[0] should be $pc || $pp || $tp1 || $tp2 
      */
@@ -1933,7 +2040,7 @@ if (!tags().includes(&quot;.combat&quot;)) {
             &lt;&lt;/but&gt;&gt;
         &lt;&lt;/disable&gt;&gt;
     &lt;&lt;/if&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="Info_Description" tags=".infoscreen .helper nostats" position="225,600" size="100,100">&lt;&lt;if $info.current === null&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="Info_Description" tags=".infoscreen .helper nostats" position="350,600" size="100,100">&lt;&lt;if $info.current === null&gt;&gt;
     Info Screen Description.
 &lt;&lt;else&gt;&gt;
     &lt;&lt;EquipmentButtonInInfoScreen &quot;weapon&quot;&gt;&gt;
@@ -1941,21 +2048,21 @@ if (!tags().includes(&quot;.combat&quot;)) {
     &lt;&lt;EquipmentButtonInInfoScreen &quot;accessory&quot;&gt;&gt;
 
     &lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).empty().wiki(Story.get(&quot;Info_Button_Back&quot;).processText());&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="Info_Button_Back" tags=".infoscreen .helper nostats" position="350,600" size="100,100">&lt;&lt;but &quot;Back&quot; id &quot;infoBack&quot; class &quot;bottomInfoButton&quot;&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="44" name="Info_Button_Back" tags=".infoscreen .helper nostats" position="475,600" size="100,100">&lt;&lt;but &quot;Back&quot; id &quot;infoBack&quot; class &quot;bottomInfoButton&quot;&gt;&gt;
     &lt;&lt;set $info.current = null&gt;&gt;
     &lt;&lt;run $(&#39;#infoScreenMiddleMenuButtons&#39;).empty()&gt;&gt;
     &lt;&lt;run $(&#39;#infoScreenBottomMenuButtons&#39;).empty().wiki(Story.get(&quot;Players_Info&quot;).processText())&gt;&gt;
-&lt;&lt;/but&gt;&gt;</tw-passagedata><tw-passagedata pid="44" name="KnowledgeText" tags=".uibar nostats" position="0,525" size="100,100">&lt;&lt;include K_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="45" name="K_Template" tags=".knowledge" position="0,550" size="100,100">&lt;&lt;if true&gt;&gt;
+&lt;&lt;/but&gt;&gt;</tw-passagedata><tw-passagedata pid="45" name="KnowledgeText" tags=".uibar nostats" position="0,525" size="100,100">&lt;&lt;include K_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="46" name="K_Template" tags=".knowledge" position="0,550" size="100,100">&lt;&lt;if true&gt;&gt;
     @@.knowledge;Template Matter:@@&lt;br&gt;
     Lorem Ipsum about template matter.
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="46" name="LocationsText" tags=".uibar nostats" position="250,550" size="100,100">&lt;&lt;include L_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="47" name="L_Template" tags=".location" position="250,575" size="100,100">&lt;&lt;if $loc_tmpl_disc&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="47" name="LocationsText" tags=".uibar nostats" position="250,550" size="100,100">&lt;&lt;include L_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="L_Template" tags=".location" position="250,575" size="100,100">&lt;&lt;if $loc_tmpl_disc&gt;&gt;
     @@.knowledge;Template Matter:@@&lt;br&gt;
     Lorem Ipsum about template matter.
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="PeopleText" tags=".uibar nostats" position="125,550" size="100,100">&lt;&lt;include P_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="49" name="P_Template" tags=".people" position="125,575" size="100,100">&lt;&lt;if $ppl_tmpl_met&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="49" name="PeopleText" tags=".uibar nostats" position="125,550" size="100,100">&lt;&lt;include P_Template&gt;&gt;</tw-passagedata><tw-passagedata pid="50" name="P_Template" tags=".people" position="125,575" size="100,100">&lt;&lt;if $ppl_tmpl_met&gt;&gt;
     @@.knowledge;Template Matter:@@&lt;br&gt;
     Lorem Ipsum about template matter.
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="50" name="TooltipText" tags=".uibar nostats" position="375,550" size="100,100">/* The tool tips found in this file are strictly... tooltips. They&#39;re not meant to be seen with a button in the UI bar. */</tw-passagedata><tw-passagedata pid="51" name="TT_Template" tags="nostats" position="375,575" size="100,100">@@.knowledge;Template Matter:@@&lt;br&gt;
-Lorem Ipsum about template matter.</tw-passagedata><tw-passagedata pid="52" name="StoryInterface" tags=".ui nostats" position="0,475" size="100,100">&lt;div id=&quot;infoScreen&quot; class=&quot;&quot;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="51" name="TooltipText" tags=".uibar nostats" position="375,550" size="100,100">/* The tool tips found in this file are strictly... tooltips. They&#39;re not meant to be seen with a button in the UI bar. */</tw-passagedata><tw-passagedata pid="52" name="TT_Template" tags="nostats" position="375,575" size="100,100">@@.knowledge;Template Matter:@@&lt;br&gt;
+Lorem Ipsum about template matter.</tw-passagedata><tw-passagedata pid="53" name="StoryInterface" tags=".ui nostats" position="0,475" size="100,100">&lt;div id=&quot;infoScreen&quot; class=&quot;&quot;&gt;
     &lt;span id=&quot;infoScreenTitle&quot;&gt;
         Info Screen Title
     &lt;/span&gt;
@@ -2002,27 +2109,27 @@ Dialogs can change story variables, but they won&#39;t change on the
 current [non-dialog] passage, unless it calls:
   [Go To and Render Passage]  Engine.play(&quot;Passage&quot;) 
   [Re-Render Current Passage] Engine.show()
---&gt;</tw-passagedata><tw-passagedata pid="53" name="uiSettings" tags=".ui nostats" position="0,550" size="100,100">⚙️
+--&gt;</tw-passagedata><tw-passagedata pid="54" name="uiSettings" tags=".ui nostats" position="0,550" size="100,100">⚙️
 &lt;&lt;script&gt;&gt;
     $(&quot;li#settingsTab&quot;).click(() =&gt; UI.settings());
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="54" name="uiDisableContent" tags=".ui nostats" position="0,575" size="100,100">❌
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="55" name="uiDisableContent" tags=".ui nostats" position="0,575" size="100,100">❌
 &lt;&lt;script&gt;&gt;
 $(&quot;li#disableContentsTab&quot;).click(() =&gt; {
     Dialog.setup(&quot;Disable Content&quot;);
     Dialog.wiki(Story.get(&quot;ContentDisabler&quot;).processText());
     Dialog.open();
 });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="55" name="uiSaves" tags=".ui nostats" position="0,600" size="100,100">💾
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="56" name="uiSaves" tags=".ui nostats" position="0,600" size="100,100">💾
 &lt;&lt;script&gt;&gt;
     $(&quot;li#savesTab&quot;).click(() =&gt; UI.saves());
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="56" name="uiCredits" tags=".ui nostats" position="0,650" size="100,100">📜
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="57" name="uiCredits" tags=".ui nostats" position="0,650" size="100,100">📜
 &lt;&lt;script&gt;&gt;
 $(&quot;li#creditsTab&quot;).click(() =&gt; {
     Dialog.setup(&quot;Credits&quot;);
     Dialog.wiki(Story.get(&quot;CreditsText&quot;).processText());
     Dialog.open();
 });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="57" name="uiDev" tags=".ui nostats" position="0,675" size="100,100">🛠️
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="58" name="uiDev" tags=".ui nostats" position="0,675" size="100,100">🛠️
 &lt;&lt;script&gt;&gt;
 if (Config.debug) {
     $(&quot;li#devTab&quot;).click(() =&gt; {
@@ -2033,21 +2140,21 @@ if (Config.debug) {
 } else {
     $(&quot;li#devTab&quot;).css(&quot;display&quot;, &quot;none&quot;);
 }
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="58" name="uiKnowledge" tags=".ui nostats" position="0,700" size="100,100">📖
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="59" name="uiKnowledge" tags=".ui nostats" position="0,700" size="100,100">📖
 &lt;&lt;script&gt;&gt;
 $(&quot;li#knowledgeTab&quot;).click(() =&gt; {
     Dialog.setup(&quot;Knowledge Base&quot;);
     Dialog.wiki(Story.get(&quot;KnowledgeText&quot;).processText());
     Dialog.open();
 });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="59" name="uiPeople" tags=".ui nostats" position="0,725" size="100,100">🧑🏻‍🤝‍🧑🏻
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="60" name="uiPeople" tags=".ui nostats" position="0,725" size="100,100">🧑🏻‍🤝‍🧑🏻
 &lt;&lt;script&gt;&gt;
 $(&quot;li#peopleTab&quot;).click(() =&gt; {
     Dialog.setup(&quot;Person Base&quot;);
     Dialog.wiki(Story.get(&quot;PeopleText&quot;).processText());
     Dialog.open();
 });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="60" name="uiStow" tags=".ui nostats" position="0,750" size="100,100">/* TODO: Make the infoscreen autostow if combat and disable this button */
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="61" name="uiStow" tags=".ui nostats" position="0,750" size="100,100">/* TODO: Make the infoscreen autostow if combat and disable this button */
 Stow
 &lt;&lt;script&gt;&gt;
 $(&quot;li#stowTab&quot;).click((event) =&gt; {
@@ -2067,7 +2174,7 @@ $(&quot;li#stowTab&quot;).click((event) =&gt; {
         $(&#39;#infoScreen&#39;).addClass(&#39;stowed&#39;);
     }
 });
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="61" name="uiDatabaseInfo" tags=".ui nostats" position="0,775" size="100,100">&lt;span id=&quot;database-text&quot;&gt;&lt;/span&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="62" name="uiDatabaseInfo" tags=".ui nostats" position="0,775" size="100,100">&lt;span id=&quot;database-text&quot;&gt;&lt;/span&gt;
 &lt;&lt;script&gt;&gt;
 if (State.variables.user.logged_in) {
     $(&quot;#database-text&quot;).text(&quot;Connected to Server&quot;);
@@ -2079,7 +2186,7 @@ if (State.variables.user.logged_in) {
         window.open(`https://itch.io/user/oauth?client_id=9a5a87634b363c3ce3908f94c8767e1b&amp;scope=profile%3Ame&amp;response_type=token&amp;redirect_uri=https%3A%2F%2Fmetadb-a53ef.web.app%2Fitch_oauth.html&amp;state=${recall(&#39;user-uuid&#39;)}&amp;`, &quot;_blank&quot;);
     });  
 }
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="62" name="uiBottomText" tags=".ui nostats" position="0,800" size="100,100">&lt;&lt;script&gt;&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="63" name="uiBottomText" tags=".ui nostats" position="0,800" size="100,100">&lt;&lt;script&gt;&gt;
     /* TODO: Make this a db call. Have this as a backup.  Oh, have it call a different DB entry if the game is out of date. */
     $(output).wiki(setup.STR.bottomUIStr);
 &lt;&lt;/script&gt;&gt;</tw-passagedata></tw-storydata>

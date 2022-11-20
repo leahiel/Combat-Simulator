@@ -38,16 +38,16 @@ class CombatInstance {
         /* Initialize Player Party */
         this.pp = [];
         if (State.variables.pc) {
-            this.pp[0] = State.variables.pc;
+            this.pp.push(State.variables.pc);
         }
         if (State.variables.pp) {
-            this.pp[1] = State.variables.pp;
+            this.pp.push(State.variables.pp);
         }
         if (State.variables.tp1) {
-            this.pp[2] = State.variables.tp1;
+            this.pp.push(State.variables.tp1);
         }
         if (State.variables.tp2) {
-            this.pp[3] = State.variables.tp2;
+            this.pp.push(State.variables.tp2);
         }
 
         for (let uninitPlayer in this.pp) {

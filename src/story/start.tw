@@ -28,24 +28,10 @@
 		<<set $pc.vagina to true>>
         </griddescript>
 	</griditem>
-
-	<griditem class="col2">
-		<gridtitle>Your Combat Stats</gridtitle>
-		<griddescript>
-		REQUIRED: 
-		<br>
-		STAT INITIALIZER GOES HERE. PLS NO MIND EMPTINESS FOR NOW. 
-		</griddescript>
-	</griditem>
 	
+	<<include "Party_Preset_Select">>
 </gridcontainer>
 <br>
-/* <br><<link [[Time to move on.|prologue]]>><</link>> */
-
-I GOTTA SEE BETTER<span class='sw'> exterminating the son!</span> i just want to see <span class="sw"> how it compares,</span><br>
-<span class='lf'>Exterminating the Son!</span><br>
-<span class="glitch" data-text="quiet!"><span class='sw'>quiet!</span></span><span class="glitch" data-text=" the future is dotless!"><span class='sw'> the future is dotless!</span></span><br><br><br>
-
 
 <<button [[Gen. Random Combat Instance|Combat_Overlord]]>>
 	<<script>>
@@ -70,6 +56,118 @@ I GOTTA SEE BETTER<span class='sw'> exterminating the son!</span> i just want to
 		$("a#cycle--pronouns").on("click", () => {
 			settings.pronouns = State.temporary.pronouns;
 			Setting.save();
+		});
+	<</script>>
+<</done>>
+
+
+
+:: Party_Preset_Select [.helper nostats]
+<griditem class="col2">
+	<gridtitle>Main Character</gridtitle>
+	<griddescript>
+		<span id="lbpc">
+		<<listbox "_pcObj" autoselect>>
+			<<option "Bruiser">>
+		<</listbox>>
+		</span>
+	</griddescript>
+</griditem>
+
+<griditem class="col2">
+	<gridtitle>Main Partner</gridtitle>
+	<griddescript>
+		<span id="lbpp">
+		<<listbox "_ppObj" autoselect>>
+			<<option "None">>
+			<<option "Bruiser">>
+		<</listbox>>
+		</span>
+	</griddescript>
+</griditem>
+
+<griditem class="col2">
+	<gridtitle>Temp Partner 1</gridtitle>
+	<griddescript>
+		<span id="lbtp1">
+		<<listbox "_tp1Obj" autoselect>>
+			<<option "None">>
+			<<option "Bruiser">>
+		<</listbox>>
+		</span>
+	</griddescript>
+</griditem>
+
+<griditem class="col2">
+	<gridtitle>Temp Partner 2</gridtitle>
+	<griddescript>
+		<span id="lbtp2">
+		<<listbox "_tp2Obj" autoselect>>
+			<<option "None">>
+			<<option "Bruiser">>
+		<</listbox>>
+		</span>
+	</griddescript>
+</griditem>
+
+<<done>>
+	<<script>>
+		let sv = State.variables;
+		let st = State.temporary;
+
+		function localUpdateInfoScreen() {
+			sv.info.current = null;
+			$('#infoScreenMiddleMenuButtons').empty();
+			$('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText());
+		}
+
+		/* TODO: Make presets. */
+		let presets = {
+			bruiser: new setup.COM.Player({name: "Bruiser"}),
+		};
+
+		$('#lbpc select').on('change', function (event) {
+			event.stopImmediatePropagation();
+
+			sv.pc = setup.fns.cloneDeep(presets[st.pcObj.toLowerCase()]);
+
+			localUpdateInfoScreen();
+		});
+
+		$('#lbpp select').on('change', function (event) {
+			event.stopImmediatePropagation();
+
+			if (st.ppObj.toLowerCase() === "none") {
+				sv.pp = undefined;
+			} else {
+				sv.pp = setup.fns.cloneDeep(presets[st.ppObj.toLowerCase()]);
+			}
+
+			localUpdateInfoScreen();
+		});
+
+		$('#lbtp1 select').on('change', function (event) {
+			event.stopImmediatePropagation();
+
+			if (st.tp1Obj.toLowerCase() === "none") {
+				sv.tp1 = undefined;
+			} else {
+				sv.tp1 = setup.fns.cloneDeep(presets[st.tp1Obj.toLowerCase()]);
+			}
+
+			localUpdateInfoScreen();
+		});
+
+		$('#lbtp2 select').on('change', function (event) {
+			event.stopImmediatePropagation();
+
+			if (st.tp2Obj.toLowerCase() === "none") {
+				sv.tp2 = undefined;
+			} else {
+				sv.tp2 = setup.fns.cloneDeep(presets[st.tp2Obj.toLowerCase()]);
+			}
+
+			localUpdateInfoScreen();
 		});
 	<</script>>
 <</done>>
