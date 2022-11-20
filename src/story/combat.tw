@@ -11,6 +11,15 @@
         /* And scroll into view. */
         document.getElementById("passagetitleheader").scrollIntoView();
     });
+
+    $(document).on("mouseenter", '.playerAttack', function() {
+        State.variables.audio.sfx.light_tick.play();
+    });
+
+    $(document).on("click", '.playerAttack', function() {
+        State.variables.audio.sfx.light_tick.play();
+    });
+
 <</script>>
 
 <grid id="MainCombatGrid">

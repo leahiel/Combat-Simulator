@@ -362,8 +362,6 @@ const attacks = {
         },
         description: "Sweep at the foes in front of you.",
     }),
-
-    // TODO: Buff this and apply it to the unmade short spear class.
     // TODO: Made new Attack that counter attacks when allies (but not self) is hit.
     spearposture: new Attack({
         name: "Posture",
@@ -520,7 +518,7 @@ const attacks = {
         },
         criticalChanceBase: 0.6,
         criticalChanceMore: 1.3,
-        deflectCalculated: -0.25,
+        deflectCalculated: -0.25, // TODO: This stat and below should be fully integrated into the calculation for the enemy, not calculated here.
         blockCalculated: 0,
     }),
 

@@ -128,6 +128,8 @@ setup.promises.importInit = importScripts(
    ###    ##     ## ##     ## #### ##     ## ########  ######## ########  ######  
 */
 
+State.variables.GameState = "other";
+
 /* GAME FEATURES */
 State.variables.ft_knowledge = false;
 State.variables.ft_people = false;
@@ -264,4 +266,21 @@ Setting.save();
  * ~FIXME~: Pronouns get reset on refresh.  
  * REVIEW: Is this still a bug? 
  */
+<</script>>
+
+/*
+   ###    ##     ## ########  ####  #######  
+  ## ##   ##     ## ##     ##  ##  ##     ## 
+ ##   ##  ##     ## ##     ##  ##  ##     ## 
+##     ## ##     ## ##     ##  ##  ##     ## 
+######### ##     ## ##     ##  ##  ##     ## 
+##     ## ##     ## ##     ##  ##  ##     ## 
+##     ##  #######  ########  ####  #######  
+*/
+<<cacheaudio "light_tick" "src/assets/audio/light_tick.mp3">>
+
+<<script>>
+    State.variables.audio = {};
+    State.variables.audio.sfx = {};
+    State.variables.audio.sfx.light_tick = SimpleAudio.tracks.get("light_tick");
 <</script>>

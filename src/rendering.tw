@@ -183,19 +183,25 @@ $(document).ready(function() {
 
 
 /* Don't allow scrolling during combat. */
-/*
 if (tags().includes(".combat")) {
+    State.variables.GameState = "combat";
+    /*
     $('body').css({
         "height": "100%",
         "overflow": "hidden",
     })
+     */
+    $('#playerAttacks .playerAttack').on("mouseenter", function() {
+        light_tick.play();
+        console.log("Mouse Entered");
+    });
 } else {
+    State.variables.GameState = "other";
     $('body').css({
         "height": "initial",
         "overflow": "initial",
-    })
+    });
 }
- */
 
 /* TODO: Don't allow equipment changing during combat. Equipment changing will be a side tab eventually. */
 

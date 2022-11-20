@@ -485,7 +485,7 @@ function attackCalculations(attack, attacker, targets) {
 
             // Calculate if Deflected.
             if (thisAttack.isDeflectable) {
-                // NYI: target's blockCalculated should apply the attacks deflect manipulation stats properly.
+                // NYI: target's deflectCalculated should apply the attacks deflect manipulation stats properly.
                 solobj[i][idx].deflected =
                     Math.random() < target.deflectCalculated - attack.deflectCalculated ? true : false;
             }

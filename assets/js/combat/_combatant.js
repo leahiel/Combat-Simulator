@@ -198,7 +198,7 @@ class Combatant {
         solstr += `</grid></span>`;
 
         // buffs & debuffs
-        // NYI buff and debuff icons
+        // NYI buff and debuff information
 
         // flavor text
         if (!(this.family === "player")) {

@@ -3,7 +3,7 @@ const DEFAULTEQUIPPABLE = {
     initDecrementModifier: 1,
     mods: [],
     modslots: 0,
-    affixes: [], // REVIEW: Unused, but maybe I'll need it for special mods that do special things?
+    affixes: [], // NOTE: Unused, but maybe I'll need it for special mods that do special things?
 
     health: 0,
     blockRecovery: 0,
@@ -252,7 +252,7 @@ const DEFAULTATTACK = {
     effect: "damage",
     /** The amount of init after using this Attack that the character who used it should take to recover. */
     initRecovery: 45,
-    /** NYI: The weapon damage multiplier multiplies the weapon damage for the attack by this amount. */
+    /** The weapon damage multiplier multiplies the weapon damage for the attack by this amount. */
     wdm: 1,
     /** The amount of init added to the defender after an attack. */
     stun: 0,
