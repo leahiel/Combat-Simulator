@@ -566,7 +566,7 @@ const DEFAULTPLAYER = {
     /** A multiplier for your init decrements. */
     initDecrementModifier: 1,
     healthMax: 125,
-    initStart: 3,
+    initStart: 23,
     initVariance: 0.1,
 
     equippables: {},

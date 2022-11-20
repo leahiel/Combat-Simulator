@@ -194,7 +194,7 @@ async function processTurns(pp, ep) {
         });
 
         setup.COM.drawCombat();
-        await waitFor(10);
+        await waitFor(20);
         return processTurns(pp, ep);
     } else if (State.variables.ci.pp.includes(activeCharacter)) {
         /* Player Turn */
@@ -210,7 +210,7 @@ async function processTurns(pp, ep) {
         $("#notifArea").empty().wiki("Enemy Turn");
 
         setup.COM.drawCombat();
-        await waitFor(300);
+        await waitFor(500);
 
         /* Enemy AI */
         /* Not yet fully implemented, but this should call activeCharacter.ai() when complete.  */

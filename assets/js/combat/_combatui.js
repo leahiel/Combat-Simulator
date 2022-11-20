@@ -116,7 +116,7 @@ function updateCanvas(char, canvasElement) {
     let horiBarXPos = 432;
     let hpBarXPos = horiBarXPos + 220;
 
-    /** HP Bar*/
+    /** HP Bar */
     // "HP:" Text
     canvasElement.drawText({
         fillStyle: "#FFFFFF",
@@ -193,13 +193,24 @@ function updateCanvas(char, canvasElement) {
         rounded: true,
         x1: horiBarXPos,
         y1: 256,
-        x2: 2000,
+        x2: 1700,
         y2: 256,
+    });
+
+    // The Init Amount at the end of the horizontal line.
+    canvasElement.drawText({
+        fillStyle: "#FFFFFF",
+        fontSize: 120,
+        strokeWidth: 5,
+        strokeStyle: "#FFFFFF",
+        text: Math.ceil(char.init),
+        x: 1850,
+        y: 256,
     });
 
     // Init indicator.
     if (char.health > 0) {
-        let xpos = Math.min(char.init * 8 + horiBarXPos, 2000);
+        let xpos = Math.min(char.init * 6 + horiBarXPos, 1700);
         let iconimg = "";
         if (char.location.includes("player")) {
             /* Green indicator. */
@@ -219,8 +230,29 @@ function updateCanvas(char, canvasElement) {
     }
 
     /**
-     * TODO: Buff Indicators.
+     * Buff Indicators.
      */
+    if (char.buffs.length > 0) {
+        for (let buff of char.buffs) {
+            let xpos = Math.min(buff.duration * 6 + horiBarXPos, 1700);
+            let iconimg = "";
+            if (buff.type === "buff") {
+                /* Green indicator. */
+                iconimg = "src/assets/img/png/turn_icon_pl.png";
+            } else if (buff.type === "debuff") {
+                /* Red indicator. */
+                iconimg = "src/assets/img/png/turn_icon_en.png";
+            }
+
+            canvasElement.drawImage({
+                source: iconimg,
+                x: xpos,
+                y: 220,
+                width: 80,
+                height: 80,
+            });
+        }
+    }
 }
 
 /**
@@ -234,11 +266,11 @@ function updateCanvas(char, canvasElement) {
  */
 
 /**
- * Displays information about the obj when the selector element is 
+ * Displays information about the obj when the selector element is
  * mouseover'd.
- * 
+ *
  * The `obj` must have a `.getInfo()` method.
- * 
+ *
  * TODO: This should be called while hovering, not on mouseover.
  * That is, 100% of the time this function is called, I want it to call while object is hovering, so it is called repeatedly at a decent interval.
  */
@@ -251,7 +283,6 @@ function displayToInfoScreenOnMouseover(selector, obj) {
             } else {
                 $("#infoScreenDescription").html(obj.getInfo());
             }
-            
         });
     });
 }
@@ -262,7 +293,7 @@ function displayToInfoScreenOnMouseover(selector, obj) {
         S.fns = {};
     }
 
-    S.fns.displayToInfoScreenOnMouseover = function(selector, obj) {
+    S.fns.displayToInfoScreenOnMouseover = function (selector, obj) {
         displayToInfoScreenOnMouseover(selector, obj);
     };
 

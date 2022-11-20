@@ -16,7 +16,7 @@ class Buff {
 const buffs = {
     buffAmp: new Buff({
         type: "buff",
-        duration: 250,
+        duration: 100,
         name: "Amped",
         description: "Your inits tick twice as fast.",
         onApply: function (target) {

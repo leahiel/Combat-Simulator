@@ -100,7 +100,9 @@ const attacks = {
                 max: 1,
             },
         },
-        description: "DEBUG: You hit everyone.",
+        type: "buff",
+        buffs: [buffs.buffAmp],
+        description: "DEBUG: You hit everyone applying a strong buff.",
     }),
 
     enemyside: new Attack({

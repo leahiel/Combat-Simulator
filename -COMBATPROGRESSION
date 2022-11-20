@@ -1,8 +1,13 @@
 TODO for indev release: 
+☐  Add Equipment Button that Replaces the Info Screen Menu completely.
+    ☑  Disable equipment swapping in combat.
+    ☐  Let that button show relevant Combatant stats.
+☑  Add Buffs to Canvas
+    ☐  When hovering over buff/canvas, it should show info.
 ☐  Add content.
     ☐ 6 Enemy Families
         ☐  At least 5 enemies each.
-    ☐ Attacks
+    ☑ Attacks
         ☑  6 attack families for 6 weapon types, with 4 attacks each.
             ☑ Unarmed (Fast and stunning attacks)
             ☑ Spear (Standard Spear)
@@ -10,16 +15,15 @@ TODO for indev release:
             ☑ Sword & Shield (Higher Chance to Critical Attack, and Block)
             ☑ Mace & Shield (Higher Chance to Direct Attack, Stun, and Block)
             ☑ Two Handed Axe (Chance to cause Bleed on Hit)
-            ☐ Elemental Staves (No real point to implement these yet.)
     ☐ Equippables
         ☐  14 weapons, 2 for each weapon type.
         ☐  8 Accessories
         ☐  8 Armors
     ☐  10 mods for each slot.
 ☐  Add Reward/Defeat Screen.
-☐  Disable equipment swapping in combat.
 ☐  Limit certain mods to certain tags of Equippables
     = e.g. "leather" tag on mod only works with armors tagged "leather"
+☐  Add Preset characters options to start/inbetween.
 
 
 Implicit Weapon Balancing:
