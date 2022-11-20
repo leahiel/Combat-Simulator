@@ -182,8 +182,11 @@ $(document).ready(function() {
 });
 
 
-/* Don't allow scrolling during combat. */
 if (tags().includes(".combat")) {
+    $('#infoScreenMiddleMenuButtons').empty();
+    $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText());
+    /* TODO: Stow the left equipment thingy. */
+
     State.variables.GameState = "combat";
     /*
     $('body').css({

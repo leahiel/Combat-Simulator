@@ -1,5 +1,5 @@
 :: StoryInterface [.ui nostats] {"position":"0,475"}
-<div id="infoScreen">
+<div id="infoScreen" class="">
     <span id="infoScreenTitle">
         Info Screen Title
     </span>
@@ -29,6 +29,7 @@
         <!-- <li id="savesTab" data-passage="uiSaves"></li> -->
         <li id="creditsTab" data-passage="uiCredits"></li>
         <li id="devTab" data-passage="uiDev"></li>
+        <li id="stowTab" data-passage="uiStow"></li>
     </ul>
 </div>
 
@@ -115,7 +116,30 @@ $("li#peopleTab").click(() => {
 });
 <</script>>
 
-:: uiDatabaseInfo [.ui nostats] {"position":"0,750"}
+:: uiStow [.ui nostats] {"position":"0,750"}
+/* TODO: Make the infoscreen autostow if combat and disable this button */
+Stow
+<<script>>
+$("li#stowTab").click((event) => {
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+    let $body = $( 'body' );
+    if ($body.attr('class').split(' ').includes("stowed")) {
+        $body.removeClass('stowed');
+    } else {
+        $body.addClass('stowed');
+    }
+
+    if ($('#infoScreen').attr('class').split(' ').includes("stowed")) {
+        $('#infoScreen').removeClass('stowed');
+    } else {
+        $('#infoScreen').addClass('stowed');
+    }
+});
+<</script>>
+
+:: uiDatabaseInfo [.ui nostats] {"position":"0,775"}
 <span id="database-text"></span>
 <<script>>
 if (State.variables.user.logged_in) {
@@ -127,22 +151,6 @@ if (State.variables.user.logged_in) {
         /* REQUIRED SERVER: We shouldn't open the window directly, rather we should open a dialogue box that tells users things, that has a link with which they can click to open the window. */
         window.open(`https://itch.io/user/oauth?client_id=9a5a87634b363c3ce3908f94c8767e1b&scope=profile%3Ame&response_type=token&redirect_uri=https%3A%2F%2Fmetadb-a53ef.web.app%2Fitch_oauth.html&state=${recall('user-uuid')}&`, "_blank");
     });  
-}
-<</script>>
-
-:: uiAfterwards [.ui nostats] {"position":"0,775"}
-Afterwards
-<<script>>
-if (State.variables.ft_dev_ending) {
-    $("#afterwardsTab").css("cursor", "pointer");
-    $("#afterwardsTab").css("display", "contents");
-    $("#afterwardsTab").click(() => {
-        Dialog.setup();
-        Dialog.wiki(Story.get("Debug-ending").processText());
-        Dialog.open();
-    }); 
-} else {
-    $("#afterwardsTab").css("display", "none");
 }
 <</script>>
 

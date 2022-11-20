@@ -2,9 +2,6 @@ TODO for indev release:
 ☐  Add Equipment Button that Replaces the Info Screen Menu completely.
     ☑  Disable equipment swapping in combat.
     ☐  Let that button show relevant Combatant stats.
-    ☐  Remove Infoscreen menu.
-☑  Add Buffs to Canvas
-    ☐  When hovering over buff/canvas, it should show buff info.
 ☐  Add content.
     ☐  6 Enemy Families
         ☐  At least 5 enemies each.
@@ -23,7 +20,8 @@ TODO for indev release:
     ☑  Targetting functional.
         ☐  Targeting CSS.
     ☐  New Infoscreen is nice looking.
-    
+    ☐  When hovering over buff/canvas, it should show buffs info.
+
 
 
 Implicit Weapon Balancing:

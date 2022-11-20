@@ -244,6 +244,16 @@ tpi {
     text-shadow: 1px 1px 3px black;
 }
 
+body.stowed {
+    width: unset;
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+#infoScreen.stowed {
+    display: none;
+}
+
 #infoScreenTitle {
     display: block;
 
@@ -260,7 +270,8 @@ tpi {
 }
 
 #infoScreenDescription {
-    display: block;
+    /* display: block; */
+    display: none;
 
     padding: 1rem;
 
