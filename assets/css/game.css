@@ -1118,6 +1118,16 @@ gridcontainer {
     background-color: var(--background);
 }
 
+gridcontainer#charSelect {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+gridcontainer#charSelect2 {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
 gridcontainer.col1 {
     grid-template-columns: initial;
 }

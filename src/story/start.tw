@@ -1,7 +1,7 @@
 :: Start [@start] {"position":"275,200"}
 <<set _pronouns to "female">>
 
-<gridcontainer>
+<gridcontainer id="charSelect">
 	<griditem class="row2">
 		<gridtitle>Basic Settings</gridtitle>
 		<griddescript>
@@ -32,12 +32,12 @@
 	<<include "Party_Preset_Select">>
 </gridcontainer>
 <br>
-
-<<button [[Gen. Random Combat Instance|Combat_Overlord]]>>
+<<link [["Go to Inbetween"|Inbetween]]>><</link>>
+<br>
+<<button [[Gen. CI w/ Random Enemies|Combat_Overlord]]>>
 	<<script>>
 		/* Random Int between 1 and 5 */
-		/* let int = Math.ceil(Math.random() * (5)); */
-		let int = 5;
+		let int = Math.ceil(Math.random() * (5));
 
 		State.variables.ci = new setup.COM.CombatInstance({
 			win: "<<link [[You won!|Inbetween]]>><</link>>",
@@ -63,7 +63,7 @@
 
 
 :: Party_Preset_Select [.helper nostats]
-<griditem class="col2">
+<griditem>
 	<gridtitle>Main Character</gridtitle>
 	<griddescript>
 		<span id="lbpc">
@@ -74,8 +74,8 @@
 	</griddescript>
 </griditem>
 
-<griditem class="col2">
-	<gridtitle>Main Partner</gridtitle>
+<griditem>
+	<gridtitle>Permanent Partner</gridtitle>
 	<griddescript>
 		<span id="lbpp">
 		<<listbox "_ppObj" autoselect>>
@@ -86,7 +86,7 @@
 	</griddescript>
 </griditem>
 
-<griditem class="col2">
+<griditem>
 	<gridtitle>Temp Partner 1</gridtitle>
 	<griddescript>
 		<span id="lbtp1">
@@ -98,7 +98,7 @@
 	</griddescript>
 </griditem>
 
-<griditem class="col2">
+<griditem>
 	<gridtitle>Temp Partner 2</gridtitle>
 	<griddescript>
 		<span id="lbtp2">

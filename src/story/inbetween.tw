@@ -1,7 +1,13 @@
 :: Inbetween [@rest]
-This is a passage for you to change character characteristics between combat instances.
+This passage exists so that you can change your party configuration and items inbetween demo combat instances.
 <br>
-<<button [[Gen. Random Combat Instance|Combat_Overlord]]>>
+I hope you're enjoying my simulation! 
+<br>
+<gridcontainer id="charSelect2">
+	<<include "Party_Preset_Select">>
+</gridcontainer>
+<br>
+<<button [[Gen. CI w/ Random Enemies|Combat_Overlord]]>>
 	<<script>>
 		/* Random Int between 1 and 5 */
 		let int = Math.ceil(Math.random() * (5));
