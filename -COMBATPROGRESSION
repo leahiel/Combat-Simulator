@@ -16,6 +16,7 @@ TODO for indev release:
 ☐  Limit certain mods to certain tags of Equippables
     = e.g. "leather" tag on mod only works with armors tagged "leather"
 ☐  Add Preset characters options to start/inbetween.
+    ☑  Switching functional.
 ☐  CSS Update
     ☐  Location and Name embedded into canvases.
     ☑  Targetting functional.
@@ -107,7 +108,12 @@ Implicit Weapon Balancing:
 
 
 ☐  Passage Tags can decide CSS, a la 
-    ☐ #passages[data-tags~="Combat"]
-    ☐ #passages[data-tags~="Dungeon"]
-    ☐ #passages[data-tags~="Overworld"]
-    ☐ #passages[data-tags~="Town"]
+    ☐  #passages[data-tags~="Combat"]
+    ☐  #passages[data-tags~="Dungeon"]
+    ☐  #passages[data-tags~="Overworld"]
+    ☐  #passages[data-tags~="Town"]
+
+☐  Tags should be reused:
+    ☐  .tag => Common tags for CSS [classes] e.g. .overworld
+    ☐  #tag => Unique tags for CSS [IDs] e.g. #CombatOverlord
+    ☐  _tag => Compiler tags e.g. _nostats

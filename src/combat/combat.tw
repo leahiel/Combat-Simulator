@@ -122,16 +122,34 @@ async function processTurns(pp, ep) {
     /* Show Win/Los if all Combatants on a side are dead. */
     /* TODO: This should also check for special conditions set in CI. */
     if (ppdead) {
+        /* You lost. */
         setup.COM.drawCombat();
-        /* Update notice area with wikified lose message. */
-        $("#notifArea").empty().wiki(State.variables.ci.lose);
-        State.variables.ci = undefined;
+        $("#notifArea").empty().wiki("You Lost!");
+
+        Dialog.setup(`You Lost!`, "dialogCombatLoss");
+        Dialog.wiki(Story.get(`Dialog_Lose`).processText());
+        Dialog.open();
+
+        $(document).one(':dialogclosing', function (ev) {
+            /* For whatever reason, Engine.play() loops forever, so we have to wiki a <<goto>>. */
+            $.wiki(`<<goto ${State.variables.ci.losePassage}>>`);
+            State.variables.ci = undefined;
+        });
         return;
     } else if (epdead) {
+        /* You won. */
         setup.COM.drawCombat();
-        /* Update notice area with wikified win message. */
-        $("#notifArea").empty().wiki(State.variables.ci.win);
-        State.variables.ci = undefined;
+        $("#notifArea").empty().wiki("You Won!");
+
+        Dialog.setup(`You Won!`, "dialogCombatWon");
+        Dialog.wiki(Story.get(`Dialog_Win`).processText());
+        Dialog.open();
+
+        $(document).one(':dialogclosing', function (ev) {
+            /* For whatever reason, Engine.play() loops forever, so we have to wiki a <<goto>>. */
+            $.wiki(`<<goto ${State.variables.ci.winPassage}>>`);
+            State.variables.ci = undefined;
+        });
         return;
     }
 
