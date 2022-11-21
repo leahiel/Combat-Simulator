@@ -2,26 +2,28 @@
 /* Everything here is done before every passage begins rendering.
 Best for checking variables and whatnot. */
 <<script>>
+let sv = State.variables;
+
 /* Ensure correct versioning. */
-if (State.variables.version !== setup.version) {
+if (sv.version !== setup.version) {
     setup.fns.update_save();
 }
 
-/* Set State.variables.ft_people = true if any variable ending in _met is true. */
-if (!State.variables.ft_people) {
-    for (let key in State.variables) {
-        if (key.includes("ppl_") && key.includes("_met") && State.variables[key] === true) {
-            State.variables.ft_people = true;
+/* Set sv.ft_people = true if any variable ending in _met is true. */
+if (!sv.ft_people) {
+    for (let key in sv) {
+        if (key.includes("ppl_") && key.includes("_met") && sv[key] === true) {
+            sv.ft_people = true;
         }
     }
 }
 
-/* Set State.variables.ft_knowledge = true if any variable ending in _lv is true. */
-if (!State.variables.ft_knowledge) {
-    for (let key in State.variables) {
-        if (key.includes("kn_") && key.includes("_lv") && State.variables[key] == true) {
+/* Set sv.ft_knowledge = true if any variable ending in _lv is true. */
+if (!sv.ft_knowledge) {
+    for (let key in sv) {
+        if (key.includes("kn_") && key.includes("_lv") && sv[key] == true) {
             /* 0 is falsy, 1+ is truthy. That's why the condition is == and not ===. */
-            State.variables.ft_knowledge = true;
+            sv.ft_knowledge = true;
         }
     }
 }

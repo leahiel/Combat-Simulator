@@ -20,6 +20,24 @@
         State.variables.audio.sfx.light_tick.play();
     });
 
+    /**
+     * This is required here. If you have anything after the 
+     * `Engine.play()` call, the game recurvisely loops forever for
+     * some reason.
+     */
+    $(document).one(':dialogclosing', function (ev) {
+        console.log("Closing");
+        let loc;
+        if (State.temporary.winlose === "win") {
+            loc = State.variables.ci.winPassage;
+        } else {
+            loc = State.variables.ci.losePassage;
+        }
+
+        State.variables.ci = undefined;
+        Engine.play(loc);
+    });
+
 <</script>>
 
 <grid id="MainCombatGrid">
@@ -61,6 +79,8 @@
  * end of every Player or Enemy turn.
  */
 <<script>>
+let ci = State.variables.ci;
+
 /**
  * This function is called every "tick". It decrements Combatants
  * inits and determines whose turn it is.
@@ -70,7 +90,7 @@ async function processTurns(pp, ep) {
     function waitFor(ms) {
         return new Promise(resolve => {
             setTimeout(() => {
-                resolve('')
+                resolve('');
             }, ms);
         });
     };
@@ -103,7 +123,7 @@ async function processTurns(pp, ep) {
 
     /* Determine if all characters in pp are dead. */
     let ppdead = true;
-    for (let char of State.variables.ci.pp) {
+    for (let char of ci.pp) {
         if (char.health > 0) {
             ppdead = false;
             break;
@@ -112,44 +132,36 @@ async function processTurns(pp, ep) {
 
     /* Determine if all characters in ep are dead. */
     let epdead = true;
-    for (let char of State.variables.ci.ep) {
+    for (let char of ci.ep) {
         if (char.health > 0) {
             epdead = false;
             break;
         }
     }
 
-    /* Show Win/Los if all Combatants on a side are dead. */
+    /* Show Reward Dialog if all Combatants on a side are dead. */
     /* TODO: This should also check for special conditions set in CI. */
     if (ppdead) {
         /* You lost. */
         setup.COM.drawCombat();
         $("#notifArea").empty().wiki("You Lost!");
+        State.temporary.winlose === "loss";
 
         Dialog.setup(`You Lost!`, "dialogCombatLoss");
         Dialog.wiki(Story.get(`Dialog_Lose`).processText());
         Dialog.open();
 
-        $(document).one(':dialogclosing', function (ev) {
-            /* For whatever reason, Engine.play() loops forever, so we have to wiki a <<goto>>. */
-            $.wiki(`<<goto ${State.variables.ci.losePassage}>>`);
-            State.variables.ci = undefined;
-        });
         return;
     } else if (epdead) {
         /* You won. */
         setup.COM.drawCombat();
         $("#notifArea").empty().wiki("You Won!");
+        State.temporary.winlose === "win";
 
         Dialog.setup(`You Won!`, "dialogCombatWon");
         Dialog.wiki(Story.get(`Dialog_Win`).processText());
         Dialog.open();
-
-        $(document).one(':dialogclosing', function (ev) {
-            /* For whatever reason, Engine.play() loops forever, so we have to wiki a <<goto>>. */
-            $.wiki(`<<goto ${State.variables.ci.winPassage}>>`);
-            State.variables.ci = undefined;
-        });
+        
         return;
     }
 
@@ -173,7 +185,7 @@ async function processTurns(pp, ep) {
     }
 
     /* So that we can use this value in other Twine places, notably, ::Player_Zone. */
-    State.variables.ci.activeCharacter = activeCharacter;
+    ci.activeCharacter = activeCharacter;
 
     if (activeCharacter === null) {
         /* It is no ones turn. */
@@ -194,7 +206,7 @@ async function processTurns(pp, ep) {
         setup.COM.drawCombat();
         await waitFor(20);
         return processTurns(pp, ep);
-    } else if (State.variables.ci.pp.includes(activeCharacter)) {
+    } else if (ci.pp.includes(activeCharacter)) {
         /* Player Turn */
         $("#notifArea").empty().wiki("Player Turn");
 
@@ -203,7 +215,7 @@ async function processTurns(pp, ep) {
 
         /* The player will processTurns() after clicking a button. No need to do it here. */
         return;
-    } else if (State.variables.ci.ep.includes(activeCharacter)) {
+    } else if (ci.ep.includes(activeCharacter)) {
         /* Enemy Turn */
         $("#notifArea").empty().wiki("Enemy Turn");
 
@@ -222,7 +234,7 @@ async function processTurns(pp, ep) {
 $("#enemyZone").empty().wiki(Story.get("Combat_Zone_Main").processText());
 $("#playerZone").empty().wiki(Story.get("Player_Zone").processText());
 
-processTurns(State.variables.ci.pp, State.variables.ci.ep);
+processTurns(ci.pp, ci.ep);
 <</script>>
 
 
