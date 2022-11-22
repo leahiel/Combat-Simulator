@@ -134,7 +134,7 @@
         /* So that we can add attack buttons to the swap menu. */
         <<if _captureArg === "weapon">>
             <span id="attackButtons"></span>
-            <span id="attackInfoDescription"></span>
+            <span id="attackInfoDescription" style="display: block"></span>
             <<run setup.fns.waitForElm("#attackButtons").then(() => {$.wiki(`<<replace '#attackButtons'>><<include "Show_Attacks">><</replace>>`)});>>
         <</if>>
 

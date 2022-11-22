@@ -434,6 +434,11 @@ body.stowed {
     height: 40vh;
 }
 
+#ui-dialog button {
+    /* This stops the flickering when appending HTML to anything inside a Dialog. */
+    transition-duration: initial;
+}
+
 /**
  *    ###     ######   ######   #######  ########  ########  ####  #######  ##    ## 
  *   ## ##   ##    ## ##    ## ##     ## ##     ## ##     ##  ##  ##     ## ###   ## 
