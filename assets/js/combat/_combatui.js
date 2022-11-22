@@ -278,12 +278,13 @@ function updateCanvas(char, canvasElement) {
  */
 function displayToInfoScreenOnMouseover(selector, obj) {
     waitForElm(selector).then((elm) => {
-        $(elm).mouseover(function () {
+        $(elm).mouseenter(function () {
             // If state is combat
             if (Story.get(passage()).tags.includes(".combat")) {
                 $("#MainCombatGrid #combatNotifications").html(obj.getInfo());
             } else {
-                $("#infoScreenDescription").html(obj.getInfo());
+                /* FIXME: Major bug, flickers buttons. */
+                $("#attackInfoDescription").html(obj.getInfo());
             }
         });
     });

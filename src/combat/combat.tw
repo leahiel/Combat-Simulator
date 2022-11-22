@@ -25,16 +25,18 @@
      * `Engine.play()` call, the game recurvisely loops forever for
      * some reason.
      */
-    $(document).one(':dialogclosing', function (ev) {
+    $(document).on(':dialogclosing', function (ev) {
         let loc;
-        if (State.temporary.winlose === "win") {
-            loc = State.variables.ci.winPassage;
-        } else {
-            loc = State.variables.ci.losePassage;
-        }
 
-        State.variables.ci = undefined;
-        Engine.play(loc);
+        if ($(ev.target).attr('class') === "dialogCombatWon") {
+            loc = State.variables.ci.winPassage;
+            State.variables.ci = undefined;
+            Engine.play(loc);
+        } else if ($(ev.target).attr('class') === "dialogCombatLoss") {
+            loc = State.variables.ci.losePassage;
+            State.variables.ci = undefined;
+            Engine.play(loc);
+        }
     });
 
 <</script>>
@@ -144,7 +146,6 @@ async function processTurns(pp, ep) {
         /* You lost. */
         setup.COM.drawCombat();
         $("#notifArea").empty().wiki("You Lost!");
-        State.temporary.winlose === "loss";
 
         Dialog.setup(`You Lost!`, "dialogCombatLoss");
         Dialog.wiki(Story.get(`Dialog_Lose`).processText());
@@ -155,7 +156,6 @@ async function processTurns(pp, ep) {
         /* You won. */
         setup.COM.drawCombat();
         $("#notifArea").empty().wiki("You Won!");
-        State.temporary.winlose === "win";
 
         Dialog.setup(`You Won!`, "dialogCombatWon");
         Dialog.wiki(Story.get(`Dialog_Win`).processText());

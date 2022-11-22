@@ -47,6 +47,18 @@
 	<</script>>
 <</button>>
 <br>
+<<button [[Gen. Easy CI|Combat_Overlord]]>>
+	<<script>>
+		State.variables.ci = new setup.COM.CombatInstance({
+			winPassage: "Inbetween",
+			losePassage: "Inbetween",
+			ep: [
+				"EN_BABY_SPIDER",
+			],
+		});
+	<</script>>
+<</button>>
+<br>
 <<button [[Gen. CI w/ Spiders|Combat_Overlord]]>>
 	<<script>>
 		State.variables.ci = new setup.COM.CombatInstance({

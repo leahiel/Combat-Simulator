@@ -50,7 +50,7 @@ class Attack {
 
         // TODO: Targets Information
 
-        solstr += `</grid></span>`;
+        // solstr += `</grid></span>`;
 
         // damage info
         // NYI: damage += activeCharacter stats

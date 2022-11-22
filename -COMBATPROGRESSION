@@ -1,7 +1,8 @@
 TODO for indev release: 
 ☐  InfoScreen should show relevant Combatant stats. This need not be beautiful.
     ☐  Equipment/Mod Screens should show difference in stats.
-    ☐  Weapon Screens should show the attacks granted.
+    ☑  Weapon Screens should show the attacks granted.
+        ☐  Fix Flicker
     ☐  Temporary Characters should have viewable but not changable equipment
 ☐  Add content.
     ☐  6 Combat Instances
@@ -29,8 +30,6 @@ TODO for indev release:
             Init Start
         Accessory Ideas:
             pretty much the same as the above two?
-☐  Limit certain mods to certain tags of Equippables
-    = e.g. "leather" tag on mod only works with armors tagged "leather"
 ☐  Add Preset characters options to start/inbetween.
     ☑  Switching functional.
 ☐  CSS Update
@@ -129,6 +128,8 @@ Stats and Growth:
         
     ☐  Profiency with Gear
     ☐  Profiency with Attacks
+    ☐  Limit certain mods to certain tags of Equippables?
+        = e.g. "leather" tag on mod only works with armors tagged "leather"
 
 
 

@@ -244,6 +244,18 @@ tpi {
     text-shadow: 1px 1px 3px black;
 }
 
+#infoScreenAttacks {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-rows: 1fr;
+    grid-gap: 1rem;
+
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    width: 33%;
+}
+
 body.stowed {
     width: unset;
     margin-left: 10vw;
@@ -804,7 +816,7 @@ input:checked ~ accordionContent {
 
 #targetsZone #playerAttacks {
     display: grid;
-    
+
     width: 100%;
     margin: 1rem;
 
@@ -847,7 +859,7 @@ input:checked ~ accordionContent {
 
 #targetsZone #playerAttacks.target-single {
     grid-template-columns: 16% 16% 16% 16% 16% 16%;
-    grid-template-rows: 1fr 1fr 0.20fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 0.2fr 1fr 1fr;
 }
 
 #targetsZone #playerAttacks.target-single .enemyD {
@@ -900,18 +912,17 @@ input:checked ~ accordionContent {
     background-color: var(--backgroundplus1);
 }
 
-#playerAttacks .disabled {
+.disabled {
     cursor: not-allowed !important;
     background-color: #444;
     border: 1px solid #666;
 }
 
-#playerAttacks .disabled:hover {
+.disabled:hover {
     cursor: not-allowed !important;
     background-color: #444;
     border: 1px solid #666;
 }
-
 
 #MainCombatGrid #targetsZone #backForward {
     grid-column-start: 1;

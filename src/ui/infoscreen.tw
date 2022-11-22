@@ -131,6 +131,13 @@
             <</for>>
         </select>
 
+        /* So that we can add attack buttons to the swap menu. */
+        <<if _captureArg === "weapon">>
+            <span id="attackButtons"></span>
+            <span id="attackInfoDescription"></span>
+            <<run setup.fns.waitForElm("#attackButtons").then(() => {$.wiki(`<<replace '#attackButtons'>><<include "Show_Attacks">><</replace>>`)});>>
+        <</if>>
+
         <<script>>
             let st = State.temporary;
             let sv = State.variables;
@@ -147,6 +154,11 @@
                     sv.info.current.equippables[captureArg] = sv.account.inventory[st.strplural][$(`#${tmpstr}`).val()];
 
                     $('#infoScreenMiddleMenuButtons').empty().wiki(Story.get("Info_Description").processText());
+
+                    /* Replace attacks with attacks from new weapon. */
+                    if (captureArg === "weapon") {
+                        $.wiki(`<<replace '#attackButtons'>><<include "Show_Attacks">><</replace>>`);
+                    }
                 });
             });
         <</script>>
@@ -306,3 +318,20 @@ if (!tags().includes(".combat")) {
     <<run $('#infoScreenMiddleMenuButtons').empty()>>
     <<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText())>>
 <</but>>
+
+
+
+:: Show_Attacks [.infoscreen .helper nostats]
+<br>
+<span id="infoScreenAttacks"></span>
+<<run setup.fns.waitForElm("#infoScreenAttacks").then((elm) => {$(elm).wiki(Story.get("Show_Attacks_Helper").processText())});>>
+<br>
+
+
+:: Show_Attacks_Helper [.infoscreen .helper nostats]
+<<for _int, _attack range $info.current.equippables.weapon.attacks>>
+    <<capture _attack>>
+        <<run $("#infoScreenAttacks").wiki(Story.get("Player_Attack_Disabled").processText());>>
+        <<run setup.fns.displayToInfoScreenOnMouseover(`#PlayerAttack${_int + 1}`, _attack);>>
+    <</capture>>
+<</for>>
