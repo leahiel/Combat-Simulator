@@ -16,70 +16,51 @@
         <<run $info.current.equippables[_captureArg].itemplate(`#${_tempstr}`);>>
 
         /* Create "Swap" and "Mod" buttons, disabling them if the player object doesn't exist. */
-        /* TODO: "Swap" becomes "View" if the character is a temporary party member. */
         <<capture _captureArg>>
             <<set _tempstr to _captureArg + "InfoScreenButtons">>
             <span @id="_tempstr">
                 <<if $info.current === $tp1 || $info.current === $tp2>>
-                    <<but "View">>
-                        <<script>>
-                            let tempstr2;
-                            let tempstr3;
-
-                            switch (State.temporary.captureArg) {
-                                case "weapon":
-                                    tempstr2 = "Weapons";
-                                    tempstr3 = "Weapon";
-                                    break;
-                                case "armor":
-                                    tempstr2 = "Armors";
-                                    tempstr3 = "Armor";
-                                    break;
-                                case "accessory":
-                                    tempstr2 = "Accessories";
-                                    tempstr3 = "Accessory";
-                                    break;
-                            }
-
-                            Dialog.setup(`${tempstr2}`, "dialogEquipmentSwap");
-                            Dialog.wiki(`<<SlotMenuInfo ${State.temporary.captureArg}>>`);
-                            Dialog.open();
-                        <</script>>
-                    <</but>>
+                    <<set _butname = "View Equip">>
                 <<else>>
-                    <<but "Swap">>
-                        <<script>>
-                            let tempstr2;
-                            let tempstr3;
+                    <<set _butname = "Equip">>
+                <</if>>
+                <<but _butname>>
+                    <<script>>
+                        let tempstr2;
+                        let tempstr3;
 
-                            switch (State.temporary.captureArg) {
-                                case "weapon":
-                                    tempstr2 = "Weapons";
-                                    tempstr3 = "Weapon";
-                                    break;
-                                case "armor":
-                                    tempstr2 = "Armors";
-                                    tempstr3 = "Armor";
-                                    break;
-                                case "accessory":
-                                    tempstr2 = "Accessories";
-                                    tempstr3 = "Accessory";
-                                    break;
-                            }
+                        switch (State.temporary.captureArg) {
+                            case "weapon":
+                                tempstr2 = "Weapons";
+                                tempstr3 = "Weapon";
+                                break;
+                            case "armor":
+                                tempstr2 = "Armors";
+                                tempstr3 = "Armor";
+                                break;
+                            case "accessory":
+                                tempstr2 = "Accessories";
+                                tempstr3 = "Accessory";
+                                break;
+                        }
 
-                            Dialog.setup(`${tempstr2}`, "dialogEquipmentSwap");
-                            Dialog.wiki(`<<SlotMenuInfo ${State.temporary.captureArg}>>`);
-                            Dialog.open();
-                        <</script>>
-                    <</but>>
+                        Dialog.setup(`${tempstr2}`, "dialogEquipmentSwap");
+                        Dialog.wiki(`<<SlotMenuInfo ${State.temporary.captureArg}>>`);
+                        Dialog.open();
+                    <</script>>
+                <</but>>
+                <<if $info.current === $tp1 || $info.current === $tp2>>
+                    <<set _butname = "View Mods">>
+                <<else>>
+                    <<set _butname = "Mods">>
                 <</if>>
                 <<if $info.current.equippables[_captureArg].type === "unequipped">>
                     <<disable>>
-                        <<but "Mod">>
+                        <<but _butname>>
                         <</but>>
                     <</disable>>
                 <<else>>
-                    <<but "Mod">>
+                    <<but _butname>>
                         <<script>>
                             let tempstr2;
                             let tempstr3;
@@ -104,6 +85,7 @@
                             Dialog.open();
                         <</script>>
                     <</but>>
+
                 <</if>>
             </span>
         <</capture>>
@@ -207,9 +189,8 @@
                     var $target = $(elm.target); 
 
                     if ($target.is('option')) { 
-                        console.log($target.val());
-                        /* TODO: Show updated values to combatant in Green/Red */
-                        /* Make sure the comabtant info returns to normal when mouse leaves listbox. */
+                        /* DESIRED: Show updated values to combatant in Green/Red */
+                        /* Make sure the combatant info returns to normal when mouse leaves listbox. */
                     }
                 });
             });
@@ -262,18 +243,44 @@
 
         /* Create a listbox element for every modslot, populate it with viable mods array. */
         <<set _selectvalmod to []>>
-        <<for _i = 0; _i < $info.current.equippables[_captureArg].modslots; _i++>>
-            Slot _i:
-            <select @id="_listboxstr" @class="_listboxstr" @name="_listboxstr" tabindex="0" @boxnum=_i @size="$info.current.equippables[_captureArg].modslots">
-                <<for _j, _mod range _viableModList>>
-                    <<if _mod.name === $info.current.equippables[_captureArg].mods[_i].name>>
-                        <<set _selectvalmod[_i] to _j>>
-                    <</if>>
-                    <option @value=_j>_mod.name t._mod.tier</option>
-                <</for>>
-            </select>
-            <br>
-        <</for>>
+        
+
+
+
+
+
+
+
+        /* Create listbox. */
+        <<if $info.current === $tp1 || $info.current === $tp2>>
+            <<for _i = 0; _i < $info.current.equippables[_captureArg].modslots; _i++>>
+                Slot _i:
+                <select @id="_listboxstr" class="macro-listbox" @name="_listboxstr" tabindex="0" autocomplete="off" size="2">
+                    <option value="0">$info.current.equippables[_captureArg].mods[_i].name</option>
+                </select>
+                <br>
+            <</for>>
+        <<else>>
+            <<for _i = 0; _i < $info.current.equippables[_captureArg].modslots; _i++>>
+                Slot _i:
+                <select @id="_listboxstr" @class="_listboxstr" @name="_listboxstr" tabindex="0" @boxnum=_i @size="$info.current.equippables[_captureArg].modslots">
+                    <<for _j, _mod range _viableModList>>
+                        <<if _mod.name === $info.current.equippables[_captureArg].mods[_i].name>>
+                            <<set _selectvalmod[_i] to _j>>
+                        <</if>>
+                        <option @value=_j>_mod.name t._mod.tier</option>
+                    <</for>>
+                </select>
+                <br>
+            <</for>>
+        <</if>>
+
+
+
+
+
+
+
 
         /* Make listbox selection change related vars. */
         <<script>>

@@ -1550,7 +1550,7 @@ I hope you&#39;re enjoying my simulation!
 
 		/* TODO: Make presets. */
 		let presets = {
-			bruiser: new setup.COM.Player({name: &quot;Bruiser&quot;}),
+			bruiser: new setup.COM.Player({name: &quot;Bruiser&quot;, equippables: {weapon: sv.account.inventory.weapons[5]}}),
 		};
 
 		$(&#39;#lbpc select&#39;).on(&#39;change&#39;, function (event) {
@@ -1899,70 +1899,51 @@ function passagesHandler(btnname, tag) {
         &lt;&lt;run $info.current.equippables[_captureArg].itemplate(`#${_tempstr}`);&gt;&gt;
 
         /* Create &quot;Swap&quot; and &quot;Mod&quot; buttons, disabling them if the player object doesn&#39;t exist. */
-        /* TODO: &quot;Swap&quot; becomes &quot;View&quot; if the character is a temporary party member. */
         &lt;&lt;capture _captureArg&gt;&gt;
             &lt;&lt;set _tempstr to _captureArg + &quot;InfoScreenButtons&quot;&gt;&gt;
             &lt;span @id=&quot;_tempstr&quot;&gt;
                 &lt;&lt;if $info.current === $tp1 || $info.current === $tp2&gt;&gt;
-                    &lt;&lt;but &quot;View&quot;&gt;&gt;
-                        &lt;&lt;script&gt;&gt;
-                            let tempstr2;
-                            let tempstr3;
-
-                            switch (State.temporary.captureArg) {
-                                case &quot;weapon&quot;:
-                                    tempstr2 = &quot;Weapons&quot;;
-                                    tempstr3 = &quot;Weapon&quot;;
-                                    break;
-                                case &quot;armor&quot;:
-                                    tempstr2 = &quot;Armors&quot;;
-                                    tempstr3 = &quot;Armor&quot;;
-                                    break;
-                                case &quot;accessory&quot;:
-                                    tempstr2 = &quot;Accessories&quot;;
-                                    tempstr3 = &quot;Accessory&quot;;
-                                    break;
-                            }
-
-                            Dialog.setup(`${tempstr2}`, &quot;dialogEquipmentSwap&quot;);
-                            Dialog.wiki(`&lt;&lt;SlotMenuInfo ${State.temporary.captureArg}&gt;&gt;`);
-                            Dialog.open();
-                        &lt;&lt;/script&gt;&gt;
-                    &lt;&lt;/but&gt;&gt;
+                    &lt;&lt;set _butname = &quot;View Equip&quot;&gt;&gt;
                 &lt;&lt;else&gt;&gt;
-                    &lt;&lt;but &quot;Swap&quot;&gt;&gt;
-                        &lt;&lt;script&gt;&gt;
-                            let tempstr2;
-                            let tempstr3;
+                    &lt;&lt;set _butname = &quot;Equip&quot;&gt;&gt;
+                &lt;&lt;/if&gt;&gt;
+                &lt;&lt;but _butname&gt;&gt;
+                    &lt;&lt;script&gt;&gt;
+                        let tempstr2;
+                        let tempstr3;
 
-                            switch (State.temporary.captureArg) {
-                                case &quot;weapon&quot;:
-                                    tempstr2 = &quot;Weapons&quot;;
-                                    tempstr3 = &quot;Weapon&quot;;
-                                    break;
-                                case &quot;armor&quot;:
-                                    tempstr2 = &quot;Armors&quot;;
-                                    tempstr3 = &quot;Armor&quot;;
-                                    break;
-                                case &quot;accessory&quot;:
-                                    tempstr2 = &quot;Accessories&quot;;
-                                    tempstr3 = &quot;Accessory&quot;;
-                                    break;
-                            }
+                        switch (State.temporary.captureArg) {
+                            case &quot;weapon&quot;:
+                                tempstr2 = &quot;Weapons&quot;;
+                                tempstr3 = &quot;Weapon&quot;;
+                                break;
+                            case &quot;armor&quot;:
+                                tempstr2 = &quot;Armors&quot;;
+                                tempstr3 = &quot;Armor&quot;;
+                                break;
+                            case &quot;accessory&quot;:
+                                tempstr2 = &quot;Accessories&quot;;
+                                tempstr3 = &quot;Accessory&quot;;
+                                break;
+                        }
 
-                            Dialog.setup(`${tempstr2}`, &quot;dialogEquipmentSwap&quot;);
-                            Dialog.wiki(`&lt;&lt;SlotMenuInfo ${State.temporary.captureArg}&gt;&gt;`);
-                            Dialog.open();
-                        &lt;&lt;/script&gt;&gt;
-                    &lt;&lt;/but&gt;&gt;
+                        Dialog.setup(`${tempstr2}`, &quot;dialogEquipmentSwap&quot;);
+                        Dialog.wiki(`&lt;&lt;SlotMenuInfo ${State.temporary.captureArg}&gt;&gt;`);
+                        Dialog.open();
+                    &lt;&lt;/script&gt;&gt;
+                &lt;&lt;/but&gt;&gt;
+                &lt;&lt;if $info.current === $tp1 || $info.current === $tp2&gt;&gt;
+                    &lt;&lt;set _butname = &quot;View Mods&quot;&gt;&gt;
+                &lt;&lt;else&gt;&gt;
+                    &lt;&lt;set _butname = &quot;Mods&quot;&gt;&gt;
                 &lt;&lt;/if&gt;&gt;
                 &lt;&lt;if $info.current.equippables[_captureArg].type === &quot;unequipped&quot;&gt;&gt;
                     &lt;&lt;disable&gt;&gt;
-                        &lt;&lt;but &quot;Mod&quot;&gt;&gt;
+                        &lt;&lt;but _butname&gt;&gt;
                         &lt;&lt;/but&gt;&gt;
                     &lt;&lt;/disable&gt;&gt;
                 &lt;&lt;else&gt;&gt;
-                    &lt;&lt;but &quot;Mod&quot;&gt;&gt;
+                    &lt;&lt;but _butname&gt;&gt;
                         &lt;&lt;script&gt;&gt;
                             let tempstr2;
                             let tempstr3;
@@ -1987,6 +1968,7 @@ function passagesHandler(btnname, tag) {
                             Dialog.open();
                         &lt;&lt;/script&gt;&gt;
                     &lt;&lt;/but&gt;&gt;
+
                 &lt;&lt;/if&gt;&gt;
             &lt;/span&gt;
         &lt;&lt;/capture&gt;&gt;
@@ -2085,9 +2067,8 @@ function passagesHandler(btnname, tag) {
                     var $target = $(elm.target); 
 
                     if ($target.is(&#39;option&#39;)) { 
-                        console.log($target.val());
-                        /* TODO: Show updated values to combatant in Green/Red */
-                        /* Make sure the comabtant info returns to normal when mouse leaves listbox. */
+                        /* DESIRED: Show updated values to combatant in Green/Red */
+                        /* Make sure the combatant info returns to normal when mouse leaves listbox. */
                     }
                 });
             });
@@ -2135,18 +2116,44 @@ function passagesHandler(btnname, tag) {
 
         /* Create a listbox element for every modslot, populate it with viable mods array. */
         &lt;&lt;set _selectvalmod to []&gt;&gt;
-        &lt;&lt;for _i = 0; _i &lt; $info.current.equippables[_captureArg].modslots; _i++&gt;&gt;
-            Slot _i:
-            &lt;select @id=&quot;_listboxstr&quot; @class=&quot;_listboxstr&quot; @name=&quot;_listboxstr&quot; tabindex=&quot;0&quot; @boxnum=_i @size=&quot;$info.current.equippables[_captureArg].modslots&quot;&gt;
-                &lt;&lt;for _j, _mod range _viableModList&gt;&gt;
-                    &lt;&lt;if _mod.name === $info.current.equippables[_captureArg].mods[_i].name&gt;&gt;
-                        &lt;&lt;set _selectvalmod[_i] to _j&gt;&gt;
-                    &lt;&lt;/if&gt;&gt;
-                    &lt;option @value=_j&gt;_mod.name t._mod.tier&lt;/option&gt;
-                &lt;&lt;/for&gt;&gt;
-            &lt;/select&gt;
-            &lt;br&gt;
-        &lt;&lt;/for&gt;&gt;
+        
+
+
+
+
+
+
+
+        /* Create listbox. */
+        &lt;&lt;if $info.current === $tp1 || $info.current === $tp2&gt;&gt;
+            &lt;&lt;for _i = 0; _i &lt; $info.current.equippables[_captureArg].modslots; _i++&gt;&gt;
+                Slot _i:
+                &lt;select @id=&quot;_listboxstr&quot; class=&quot;macro-listbox&quot; @name=&quot;_listboxstr&quot; tabindex=&quot;0&quot; autocomplete=&quot;off&quot; size=&quot;2&quot;&gt;
+                    &lt;option value=&quot;0&quot;&gt;$info.current.equippables[_captureArg].mods[_i].name&lt;/option&gt;
+                &lt;/select&gt;
+                &lt;br&gt;
+            &lt;&lt;/for&gt;&gt;
+        &lt;&lt;else&gt;&gt;
+            &lt;&lt;for _i = 0; _i &lt; $info.current.equippables[_captureArg].modslots; _i++&gt;&gt;
+                Slot _i:
+                &lt;select @id=&quot;_listboxstr&quot; @class=&quot;_listboxstr&quot; @name=&quot;_listboxstr&quot; tabindex=&quot;0&quot; @boxnum=_i @size=&quot;$info.current.equippables[_captureArg].modslots&quot;&gt;
+                    &lt;&lt;for _j, _mod range _viableModList&gt;&gt;
+                        &lt;&lt;if _mod.name === $info.current.equippables[_captureArg].mods[_i].name&gt;&gt;
+                            &lt;&lt;set _selectvalmod[_i] to _j&gt;&gt;
+                        &lt;&lt;/if&gt;&gt;
+                        &lt;option @value=_j&gt;_mod.name t._mod.tier&lt;/option&gt;
+                    &lt;&lt;/for&gt;&gt;
+                &lt;/select&gt;
+                &lt;br&gt;
+            &lt;&lt;/for&gt;&gt;
+        &lt;&lt;/if&gt;&gt;
+
+
+
+
+
+
+
 
         /* Make listbox selection change related vars. */
         &lt;&lt;script&gt;&gt;

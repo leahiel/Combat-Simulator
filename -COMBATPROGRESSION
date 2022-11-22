@@ -1,9 +1,9 @@
 TODO for indev release: 
 ☐  InfoScreen should show relevant Combatant stats. This need not be beautiful.
-    ☐  Equipment/Mod Screens should show difference in stats.
     ☑  Weapon Screens should show the attacks granted.
     ☑  Temporary Characters should have viewable but not changeable equipment
         ☐  Ensure Temporary Character Mods are viewable but not changeable.
+    ☐  DESIRED: Equipment/Mod Screens should show difference in stats on hover.
 ☐  Add content.
     ☐  6 Combat Instances
         ☑  Spiders

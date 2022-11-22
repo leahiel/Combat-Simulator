@@ -187,7 +187,7 @@
 
 		/* TODO: Make presets. */
 		let presets = {
-			bruiser: new setup.COM.Player({name: "Bruiser"}),
+			bruiser: new setup.COM.Player({name: "Bruiser", equippables: {weapon: sv.account.inventory.weapons[5]}}),
 		};
 
 		$('#lbpc select').on('change', function (event) {
