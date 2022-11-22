@@ -16,34 +16,63 @@
         <<run $info.current.equippables[_captureArg].itemplate(`#${_tempstr}`);>>
 
         /* Create "Swap" and "Mod" buttons, disabling them if the player object doesn't exist. */
+        /* TODO: "Swap" becomes "View" if the character is a temporary party member. */
         <<capture _captureArg>>
             <<set _tempstr to _captureArg + "InfoScreenButtons">>
             <span @id="_tempstr">
-                <<but "Swap">>
-                    <<script>>
-                        let tempstr2;
-                        let tempstr3;
+                <<if $info.current === $tp1 || $info.current === $tp2>>
+                    <<but "View">>
+                        <<script>>
+                            let tempstr2;
+                            let tempstr3;
 
-                        switch (State.temporary.captureArg) {
-                            case "weapon":
-                                tempstr2 = "Weapons";
-                                tempstr3 = "Weapon";
-                                break;
-                            case "armor":
-                                tempstr2 = "Armors";
-                                tempstr3 = "Armor";
-                                break;
-                            case "accessory":
-                                tempstr2 = "Accessories";
-                                tempstr3 = "Accessory";
-                                break;
-                        }
+                            switch (State.temporary.captureArg) {
+                                case "weapon":
+                                    tempstr2 = "Weapons";
+                                    tempstr3 = "Weapon";
+                                    break;
+                                case "armor":
+                                    tempstr2 = "Armors";
+                                    tempstr3 = "Armor";
+                                    break;
+                                case "accessory":
+                                    tempstr2 = "Accessories";
+                                    tempstr3 = "Accessory";
+                                    break;
+                            }
 
-                        Dialog.setup(`${tempstr2}`, "dialogEquipmentSwap");
-                        Dialog.wiki(`<<SlotMenuInfo ${State.temporary.captureArg}>>`);
-                        Dialog.open();
-                    <</script>>
-                <</but>>
+                            Dialog.setup(`${tempstr2}`, "dialogEquipmentSwap");
+                            Dialog.wiki(`<<SlotMenuInfo ${State.temporary.captureArg}>>`);
+                            Dialog.open();
+                        <</script>>
+                    <</but>>
+                <<else>>
+                    <<but "Swap">>
+                        <<script>>
+                            let tempstr2;
+                            let tempstr3;
+
+                            switch (State.temporary.captureArg) {
+                                case "weapon":
+                                    tempstr2 = "Weapons";
+                                    tempstr3 = "Weapon";
+                                    break;
+                                case "armor":
+                                    tempstr2 = "Armors";
+                                    tempstr3 = "Armor";
+                                    break;
+                                case "accessory":
+                                    tempstr2 = "Accessories";
+                                    tempstr3 = "Accessory";
+                                    break;
+                            }
+
+                            Dialog.setup(`${tempstr2}`, "dialogEquipmentSwap");
+                            Dialog.wiki(`<<SlotMenuInfo ${State.temporary.captureArg}>>`);
+                            Dialog.open();
+                        <</script>>
+                    <</but>>
+                <</if>>
                 <<if $info.current.equippables[_captureArg].type === "unequipped">>
                     <<disable>>
                         <<but "Mod">>
@@ -120,23 +149,32 @@
 
     <<capture _captureArg _listboxstr>>
         /* Create listbox. */
-        <select @id="_listboxstr" class="macro-listbox" @name="_listboxstr" tabindex="0" autocomplete="off"> 
-            <<for _i, _equippable range $account.inventory[_strplural]>>
-                /* NYI: add the `disabled` attribute if we don't own the equippable */
-                /* TODO: $account.inventory.weapons should probably be: [[weapon, bool], [weapon, bool]], where weapon as obj and bool is "obtained", which will allow disabled. */
-                <<if $info.current.equippables[_captureArg].name === _equippable.name>>
-                    <<set _selectval to _i>>
-                <</if>>
-                <option @value="_i">_equippable.name</option>
-            <</for>>
-        </select>
-
+        <<if $info.current === $tp1 || $info.current === $tp2>>
+            <select @id="_listboxstr" class="macro-listbox" @name="_listboxstr" tabindex="0" autocomplete="off" size="2">
+                <option value="0">$info.current.equippables[_captureArg].name</option>
+            </select>
+        <<else>>
+            <select @id="_listboxstr" class="macro-listbox" @name="_listboxstr" tabindex="0" autocomplete="off" @size="$account.inventory[_strplural].length"> 
+                <<for _i, _equippable range $account.inventory[_strplural]>>
+                    /* NYI: add the `disabled` attribute if we don't own the equippable */
+                    /* TODO: $account.inventory.weapons should probably be: [[weapon, bool], [weapon, bool]], where weapon as obj and bool is "obtained", which will allow disabled. */
+                    <<if $info.current.equippables[_captureArg].name === _equippable.name>>
+                        <<set _selectval to _i>>
+                    <</if>>
+                    <option @value="_i">_equippable.name</option>
+                <</for>>
+            </select>
+        <</if>>
+        
         /* So that we can add attack buttons to the swap menu. */
         <<if _captureArg === "weapon">>
             <span id="attackButtons"></span>
             <span id="attackInfoDescription" style="display: block"></span>
             <<run setup.fns.waitForElm("#attackButtons").then(() => {$.wiki(`<<replace '#attackButtons'>><<include "Show_Attacks">><</replace>>`)});>>
         <</if>>
+
+        /* The place to show the character stats. */
+        <span id="equipmentCharacterStats"><<print new setup.COM.Combatant($info.current).getInfo()>></span>
 
         <<script>>
             let st = State.temporary;
@@ -153,11 +191,25 @@
                 $(`#${tmpstr}`).change( function () {
                     sv.info.current.equippables[captureArg] = sv.account.inventory[st.strplural][$(`#${tmpstr}`).val()];
 
+                    /* Update Info Screen Buttons with proper names. */
                     $('#infoScreenMiddleMenuButtons').empty().wiki(Story.get("Info_Description").processText());
+
+                    /* Update character stats. */
+                    $('#equipmentCharacterStats').empty().wiki(new setup.COM.Combatant(sv.info.current).getInfo());
 
                     /* Replace attacks with attacks from new weapon. */
                     if (captureArg === "weapon") {
                         $.wiki(`<<replace '#attackButtons'>><<include "Show_Attacks">><</replace>>`);
+                    }
+                });
+
+                $(`#${tmpstr}`).on('mouseenter', 'option', function (elm) {
+                    var $target = $(elm.target); 
+
+                    if ($target.is('option')) { 
+                        console.log($target.val());
+                        /* TODO: Show updated values to combatant in Green/Red */
+                        /* Make sure the comabtant info returns to normal when mouse leaves listbox. */
                     }
                 });
             });
@@ -212,7 +264,7 @@
         <<set _selectvalmod to []>>
         <<for _i = 0; _i < $info.current.equippables[_captureArg].modslots; _i++>>
             Slot _i:
-            <select @id="_listboxstr" @class="_listboxstr" @name="_listboxstr" tabindex="0" @boxnum=_i>
+            <select @id="_listboxstr" @class="_listboxstr" @name="_listboxstr" tabindex="0" @boxnum=_i @size="$info.current.equippables[_captureArg].modslots">
                 <<for _j, _mod range _viableModList>>
                     <<if _mod.name === $info.current.equippables[_captureArg].mods[_i].name>>
                         <<set _selectvalmod[_i] to _j>>
@@ -253,6 +305,21 @@
         <</script>>
     <</capture>>
 <</widget>>
+
+
+
+:: Show_Attacks [.infoscreen .helper nostats]
+<span id="infoScreenAttacks"></span>
+<<run setup.fns.waitForElm("#infoScreenAttacks").then((elm) => {$(elm).wiki(Story.get("Show_Attacks_Helper").processText())});>>
+
+
+:: Show_Attacks_Helper [.infoscreen .helper nostats]
+<<for _int, _attack range $info.current.equippables.weapon.attacks>>
+    <<capture _attack>>
+        <<run $("#infoScreenAttacks").wiki(Story.get("Player_Attack_Disabled").processText());>>
+        <<run setup.fns.displayToInfoScreenOnMouseover(`#PlayerAttack${_int + 1}`, _attack);>>
+    <</capture>>
+<</for>>
 
 
 
@@ -318,20 +385,3 @@ if (!tags().includes(".combat")) {
     <<run $('#infoScreenMiddleMenuButtons').empty()>>
     <<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText())>>
 <</but>>
-
-
-
-:: Show_Attacks [.infoscreen .helper nostats]
-<br>
-<span id="infoScreenAttacks"></span>
-<<run setup.fns.waitForElm("#infoScreenAttacks").then((elm) => {$(elm).wiki(Story.get("Show_Attacks_Helper").processText())});>>
-<br>
-
-
-:: Show_Attacks_Helper [.infoscreen .helper nostats]
-<<for _int, _attack range $info.current.equippables.weapon.attacks>>
-    <<capture _attack>>
-        <<run $("#infoScreenAttacks").wiki(Story.get("Player_Attack_Disabled").processText());>>
-        <<run setup.fns.displayToInfoScreenOnMouseover(`#PlayerAttack${_int + 1}`, _attack);>>
-    <</capture>>
-<</for>>

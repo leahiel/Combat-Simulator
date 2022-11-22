@@ -29,7 +29,7 @@ class Attack {
      * This will eventually show up left or above of the attack menu, so that players can know what their attacks do
      */
     getInfo() {
-        let solstr = "";
+        let solstr = `<span id=AttackInformationPlate>`;
 
         // misc info
         solstr += `<span id='infoName'>${this.name}</span>`;
@@ -71,6 +71,8 @@ class Attack {
         solstr += `<span>Shadow:<br>${this.damage.shadow.min} - ${this.damage.shadow.max}</span>`;
         solstr += `<span>Aether:<br>${this.damage.aether.min} - ${this.damage.aether.max}</span>`;
         solstr += `</grid></span>`;
+
+        solstr += `</span>`;
 
         return solstr;
     }

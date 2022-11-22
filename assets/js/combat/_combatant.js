@@ -152,13 +152,12 @@ class Combatant {
      * This should be HTML text.
      */
     getInfo() {
-        let solstr = "";
         let res = this.resistance;
         let resMax = this.resistanceMax;
+        let solstr = `<span id=CombatantInformationPlate>`;
 
         // misc info
-        solstr += `<span id='infoName'>${this.name}</span>`;
-        solstr += `<span id='infoVariant'>#${this.rarity}</span>`; // NYI: Different colors for different rarities.
+        solstr += `<span id='infoName'>${this.name} <span id='infoVariant'>#${this.rarity}</span></span>`; // NYI: Different colors for different rarities.
         solstr += `<span class='divider'></span>`;
 
         // special info
@@ -176,6 +175,13 @@ class Combatant {
             solstr += `</grid></span>`;
         }
 
+        // buffs & debuffs
+        if (this.buffs.length > 0) {
+            solstr += `<span id='infoBuffs'><span class='infoSectionHeader'>BUFFS & DEBUFFS</span>`;
+                // NYI buff and debuff information
+            solstr += `</span>`;
+        }
+        
         // resistances info
         solstr += `<span id='infoResistances'><span class='infoSectionHeader'>RESISTANCES</span>`;
         solstr += `<grid id='infoResistanceGrid'>`;
@@ -197,15 +203,13 @@ class Combatant {
         solstr += `<span>Aether: ${Math.floor(Math.min(res.occult + res.aether, resMax.aether) * 100)}%</span>`;
         solstr += `</grid></span>`;
 
-        // buffs & debuffs
-        // NYI buff and debuff information
-
         // flavor text
         if (!(this.family === "player")) {
             solstr += `<span class='infoSectionHeader'>FLAVOR</span>`;
             solstr += `<grid><span>${this.description}</span></grid>`;
         }
 
+        solstr += `</span>`;
         return solstr;
     }
 }
