@@ -1,18 +1,34 @@
 TODO for indev release: 
-☐  Add Reward/Defeat Screen.
-☐  InfoScreen should show relevant Combatant stats.
+☐  InfoScreen should show relevant Combatant stats. This need not be beautiful.
     ☐  Equipment/Mod Screens should show difference in stats.
     ☐  Weapon Screens should show the attacks granted.
     ☐  Temporary Characters should have viewable but not changable equipment
 ☐  Add content.
-    ☐  6 Enemy Families
-        ☐  At least 5 enemies each.
+    ☐  6 Combat Instances
+        ☑  Spiders
+        ☑  Hog [As Miniboss]
+        ☑  Carbuncle
+        ☐  ???
+        ☐  ???
+        ☐  Udom [As Boss]
     ☑ Attacks
     ☐ Equippables
         ☐  14 weapons, 2 for each weapon type.
         ☐  8 Accessories
         ☐  8 Armors
     ☐  10 mods for each slot.
+        Weapon Ideas:
+            Init Recovery
+            Damage
+            CC
+            CH
+            DC
+        Armor Ideas:
+            Reduct
+            Resistance
+            Init Start
+        Accessory Ideas:
+            pretty much the same as the above two?
 ☐  Limit certain mods to certain tags of Equippables
     = e.g. "leather" tag on mod only works with armors tagged "leather"
 ☐  Add Preset characters options to start/inbetween.
@@ -37,6 +53,15 @@ Implicit Weapon Balancing:
         Lightning has higher damage ranges, crits for more, and has a less direct modifier
     Staves/Occult Tools are useful for their builds due to basic affixes and special mods.
         While they have attacks, attacks are not the central focus of them.
+
+Stats and Growth:
+    Each level should exponentially increase calculated stats by 2 to 4%. Then, the game can be about increasing base stats, and everything can be balanced. Not sure how to handle Init, though.
+    Base stats would be split into 3 types:
+        Character: These are the stats you start with, plus bonii for reaching profiency levels and bestiary levels.
+        Items: The items you equipped. This would make balancing them easier too, as you can use the same weapon for all levels. On stat screens, this should include mods too.
+    These would be added up and then multiplied by the exponential modifier.
+    Of note, the higher the bestiary level of a mob, the less experience it gives.
+    ...The experience a monster gives is also increased by levels.
 
 ☐  = Planned for Implementation
 ☑  = Currently Implemented

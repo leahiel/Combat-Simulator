@@ -590,7 +590,7 @@ function attackCalculations(attack, attacker, targets) {
 
             // TODO: Have a delay between messages if there are 2+ strikes at a time.
             combatMessage(
-                `C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Took ${Math.floor(
+                `C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Took ${Math.ceil(
                     solobj[i][idx].damage
                 )} damage.`,
                 "default",

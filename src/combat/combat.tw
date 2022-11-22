@@ -26,7 +26,6 @@
      * some reason.
      */
     $(document).one(':dialogclosing', function (ev) {
-        console.log("Closing");
         let loc;
         if (State.temporary.winlose === "win") {
             loc = State.variables.ci.winPassage;

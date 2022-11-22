@@ -76,6 +76,7 @@ class Attack {
     }
 }
 
+// TODO: All attacks should have a `dealsElement` bool. If false, character/equipment stuff doesn't apply to that element.
 const attacks = {
     // ##      ## ########    ###    ########   #######  ##    ##  ######
     // ##  ##  ## ##         ## ##   ##     ## ##     ## ###   ## ##    ##
@@ -646,10 +647,15 @@ const attacks = {
     // ##       ##   ### ##       ##     ##   ##   ##       ##    ##
     // ######## ##    ## ######## ##     ##  ####  ########  ######
 
-    // Spider
-    vilebite: new Attack({
+    /*
+     * Spiders
+     */
+    // mommySpider
+    VILE_BITE: new Attack({
+        wdm: 2,
         name: "Vile Bite",
-        family: ["Spider"],
+        initRecovery: 21,
+        family: ["mommySpider"],
         targets: {
             style: "single",
             side: "enemy",
@@ -657,21 +663,24 @@ const attacks = {
         },
         damage: {
             pierce: {
-                min: 8,
-                max: 12,
+                min: 4,
+                max: 6,
             },
             acid: {
-                min: 8,
-                max: 12,
+                min: 4,
+                max: 6,
             },
         },
         description: "A vile bite, inflicting pierce and acid damage.",
     }),
 
-    webshot: new Attack({
+    // Spell
+    WEB_SHOT: new Attack({
+        wdm: 0,
         name: "Web Shot",
         type: "spell",
-        family: ["Spider"],
+        family: ["mommySpider"],
+        initRecovery: 42,
         targets: {
             style: "side",
             side: "enemy",
@@ -679,59 +688,84 @@ const attacks = {
         },
         damage: {
             frost: {
-                min: 2,
-                max: 4,
+                min: 6,
+                max: 8,
             },
             acid: {
-                min: 2,
-                max: 4,
+                min: 6,
+                max: 8,
             },
         },
         description: "A gooey web that slows down the opponent.",
-        // TODO: Add debuff
+        buffs: [buffs.debuffWebShot],
     }),
 
-    eightleggedrush: new Attack({
+    EIGHT_LEGGED_RUSH: new Attack({
+        wdm: 0.5,
         name: "Eight Legged Rush",
-        family: ["Spider"],
+        family: ["mommySpider"],
         initRecovery: 80,
         targets: {
-            style: "single",
+            style: "side",
             side: "enemy",
-            row: "front",
-        },
-        damage: {
-            blunt: {
-                min: 13,
-                max: 19,
-            },
-        },
-        description: "A spider's tackle.",
-    }),
-
-    // Hog
-    hogrush: new Attack({
-        name: "Hog Rush",
-        family: ["Hog"],
-        initRecovery: "80",
-        targets: {
-            style: "single",
-            side: "enemy",
-            row: "front",
+            row: null,
         },
         damage: {
             blunt: {
                 min: 9,
-                max: 13,
+                max: 15,
+            },
+        },
+        description: "The spider rushes through your party.",
+    }),
+
+    // babySpider
+    CREEPY_CRAWLIES: new Attack({
+        name: "Creepy Crawlies",
+        family: ["babySpider"],
+        initRecovery: 31,
+        stun: 1,
+        hitnumber: 2,
+        targets: {
+            style: "single",
+            side: "enemy",
+            row: "front",
+        },
+        damage: {
+            blunt: {
+                min: 1,
+                max: 3,
+            },
+        },
+        description: "Ew! The little baby spider is crawling on you!",
+    }),
+
+    /*
+     * Hog
+     */
+    HOG_RUSH: new Attack({
+        name: "Hog Rush",
+        family: ["Hog"],
+        initRecovery: "60",
+        targets: {
+            style: "side",
+            side: "enemy",
+            row: null,
+        },
+        damage: {
+            blunt: {
+                min: 13,
+                max: 18,
             },
         },
         description: "A hog's tackle.",
     }),
 
-    hoggore: new Attack({
+    HOG_GORE: new Attack({
         name: "Hog Gore",
+        wdm: 1.25,
         family: ["Hog"],
-        initRecovery: "72",
+        initRecovery: "42",
         targets: {
             style: "single",
             side: "enemy",
@@ -743,10 +777,28 @@ const attacks = {
                 max: 14,
             },
         },
-        description: "The hog impales it's enemy with it's tusks.",
+        description: "The hog impales it's enemy with it's tusks, causing bleeding",
+        buffs: [buffs.debuffBleed],
     }),
 
-    // Carbuncle
+    // Spell
+    HOG_ROAR: new Attack({
+        name: "Hog Gore",
+        wdm: 0,
+        family: ["Hog"],
+        initRecovery: "42",
+        targets: {
+            style: "self",
+            side: null,
+            row: null,
+        },
+        description: "The hog roars, increasing it's material resistance.",
+        buffs: [buffs.buffHogRoar],
+    }),
+
+    /*
+     * Carbuncles
+     */
     cuddlebutt: new Attack({
         name: "Cuddle Butt",
         family: ["Carbuncle"],
@@ -762,10 +814,12 @@ const attacks = {
                 max: 5,
             },
         },
-        description: "An adorable little attack that inspires awh in its enemies.",
+        description: "An adorable little attack that inspires awe in its enemies.",
     }),
 
+    // Spell
     crystalshot: new Attack({
+        wdm: 0,
         name: "Crystal Shot",
         type: "spell",
         family: ["Carbuncle"],
@@ -777,11 +831,121 @@ const attacks = {
         },
         damage: {
             pierce: {
-                min: 7,
-                max: 10,
+                min: 9,
+                max: 14,
             },
         },
         description: "A piercing candle stick's worth of crystal is summoned and shot through the air.",
+    }),
+
+    // Spell
+    acidicshot: new Attack({
+        wdm: 0,
+        name: "Acid Crystal Shot",
+        type: "spell",
+        family: [],
+        initRecovery: "34",
+        targets: {
+            style: "single",
+            side: "enemy",
+            row: "both",
+        },
+        damage: {
+            acid: {
+                min: 9,
+                max: 14,
+            },
+        },
+        description: "An acidic bolt.",
+    }),
+
+    // Spell
+    rockfall: new Attack({
+        wdm: 0,
+        name: "Rock Fall",
+        type: "spell",
+        family: [],
+        initRecovery: "50",
+        hitnumber: 3,
+        targets: {
+            style: "row",
+            side: "enemy",
+            row: "both",
+        },
+        damage: {
+            blunt: {
+                min: 4,
+                max: 7,
+            },
+        },
+        deflectCalculated: -0.5,
+        description: "An avalanche of rocks falls on the enemy. Easily deflected.",
+    }),
+
+    // Spell
+    firewall: new Attack({
+        wdm: 0,
+        name: "Fire Wall",
+        type: "spell",
+        family: [],
+        initRecovery: "45",
+        targets: {
+            style: "row",
+            side: "enemy",
+            row: "both",
+        },
+        damage: {
+            fire: {
+                min: 5,
+                max: 9,
+            },
+        },
+        description: "Blazes a wall of fire on your enemies.",
+        buffs: [buffs.debuffFirewall],
+    }),
+
+    // Spell
+    iceprison: new Attack({
+        wdm: 0,
+        name: "Ice Prison",
+        type: "spell",
+        family: [],
+        initRecovery: "65",
+        targets: {
+            style: "single",
+            side: "enemy",
+            row: "both",
+        },
+        damage: {
+            frost: {
+                min: 5,
+                max: 9,
+            },
+        },
+        description: "Freezes one of your units, lowering their action speed.",
+        buffs: [buffs.debuffIcePrison],
+    }),
+
+    // Spell
+    flash: new Attack({
+        wdm: 0,
+        name: "Flash",
+        type: "spell",
+        family: [],
+        initRecovery: "25",
+        targets: {
+            style: "side",
+            side: "enemy",
+            row: null,
+        },
+        damage: {
+            lightning: {
+                min: 1,
+                max: 1,
+            },
+        },
+        description: "A bright light momentarily blinds the enemy..",
+        stun: 5,
     }),
 };
 

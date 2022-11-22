@@ -1,7 +1,7 @@
 :: Dialog_Win [.combat .helper nostats]
-Winners Screen! Congratulations!
+Winners Screen! Congratulations, this screen is Not Yet Implemented.
 
 
 
 :: Dialog_Lose [.combat .helper nostats]
-Losing Screen! Damn, you kinda suck!
+Losing Screen! This screen is Not Yet Implemented.

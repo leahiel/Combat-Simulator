@@ -37,13 +37,64 @@
 <<button [[Gen. CI w/ Random Enemies|Combat_Overlord]]>>
 	<<script>>
 		/* Random Int between 1 and 5 */
-		/* let int = Math.ceil(Math.random() * (5)); */
-		let int = 1;
+		let int = Math.ceil(Math.random() * (5));
 
 		State.variables.ci = new setup.COM.CombatInstance({
 			winPassage: "Inbetween",
 			losePassage: "Inbetween",
-			ep: setup.fns.ranItems(int, Object.keys(setup.COM.monsters), true),  /* Array of monster names. */
+			ep: setup.fns.ranItems(int, Object.keys(setup.COM.monsters), true),
+		});
+	<</script>>
+<</button>>
+<br>
+<<button [[Gen. CI w/ Spiders|Combat_Overlord]]>>
+	<<script>>
+		State.variables.ci = new setup.COM.CombatInstance({
+			winPassage: "Inbetween",
+			losePassage: "Inbetween",
+			ep: [
+				"EN_BABY_SPIDER",
+				"EN_MOMMY_SPIDER",
+				"EN_BABY_SPIDER",
+				"EN_BABY_SPIDER",
+				"EN_BABY_SPIDER",
+			],
+		});
+	<</script>>
+<</button>>
+<br>
+<<button [[Gen. CI w/ Fauna Miniboss|Combat_Overlord]]>>
+	<<script>>
+		/* Random Int between 1 and 2 */
+		let int = Math.ceil(Math.random() * (2));
+		let ep = setup.fns.ranItems(int, ["EN_HOG"], true); /* Basically: 1 or 2 hogs? */
+
+		State.variables.ci = new setup.COM.CombatInstance({
+			winPassage: "Inbetween",
+			losePassage: "Inbetween",
+			ep: ep,
+		});
+	<</script>>
+<</button>>
+<br>
+<<button [[Gen. CI w/ Carbuncles|Combat_Overlord]]>>
+	<<script>>
+		/* Random Int between 1 and 5 */
+		let int = Math.ceil(Math.random() * (5));
+		let carbuncleArr = [
+			"EN_CARBUNCLE",
+			"EN_EMERALD_CARBUNCLE",
+			"EN_OYNX_CARBUNCLE",
+			"EN_RUBY_CARBUNCLE",
+			"EN_SAPPHIRE_CARBUNCLE",
+			"EN_TOPAZ_CARBUNCLE",
+		];
+		let ep = setup.fns.ranItems(int, carbuncleArr, true);
+
+		State.variables.ci = new setup.COM.CombatInstance({
+			winPassage: "Inbetween",
+			losePassage: "Inbetween",
+			ep: ep,
 		});
 	<</script>>
 <</button>>

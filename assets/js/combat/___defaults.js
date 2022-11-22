@@ -1,77 +1,20 @@
 const DEFAULTEQUIPPABLE = {
-    /** A multiplier for your init decrements. */
-    initDecrementModifier: 1,
-    mods: [],
     modslots: 0,
+    mods: [],
+
     affixes: [], // NOTE: Unused, but maybe I'll need it for special mods that do special things?
 
     health: 0,
-    blockRecovery: 0,
+
     initStart: 0,
-    initVariance: 0,
+    initVariance: 0 /* Init Start Variance */,
+    initDecrementModifier: 1,
 
-    triggers: [],
+    triggers: [], // NYI
 
-    stats: {
-        appearance: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        constitution: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        dexterity: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        education: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        intelligence: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        size: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        strength: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        telekinesis: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        willpower: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-    },
     criticalChanceBase: 0,
     criticalChanceIncreased: 0,
     criticalChanceMore: 1,
-
     criticalDamageBase: 0,
     criticalDamageIncreased: 0,
     criticalDamageMore: 1,
@@ -84,6 +27,7 @@ const DEFAULTEQUIPPABLE = {
     deflectChanceIncreased: 0,
     deflectChanceMore: 1,
 
+    blockRecovery: 0,
     blockChanceBase: 0,
     blockChanceIncreased: 0,
     blockChanceMore: 1,
@@ -131,6 +75,57 @@ const DEFAULTEQUIPPABLE = {
             max: 0,
         },
     },
+
+    reduct: {
+        material: 0,
+        blunt: 0,
+        pierce: 0,
+        acid: 0,
+
+        elemental: 0,
+        fire: 0,
+        frost: 0,
+        lightning: 0,
+
+        occult: 0,
+        sacred: 0,
+        shadow: 0,
+        aether: 0,
+    },
+
+    resistance: {
+        material: 0,
+        blunt: 0,
+        pierce: 0,
+        acid: 0,
+
+        elemental: 0,
+        fire: 0,
+        frost: 0,
+        lightning: 0,
+
+        occult: 0,
+        sacred: 0,
+        shadow: 0,
+        aether: 0,
+    },
+    resistanceMax: {
+        material: 0,
+        blunt: 0,
+        pierce: 0,
+        acid: 0,
+
+        elemental: 0,
+        fire: 0,
+        frost: 0,
+        lightning: 0,
+
+        occult: 0,
+        sacred: 0,
+        shadow: 0,
+        aether: 0,
+    },
+
     absorbPercent: {
         material: 0,
         blunt: 0,
@@ -179,57 +174,8 @@ const DEFAULTEQUIPPABLE = {
         shadow: 0,
         aether: 0,
     },
-    resistance: {
-        material: 0,
-        blunt: 0,
-        pierce: 0,
-        acid: 0,
-
-        elemental: 0,
-        fire: 0,
-        frost: 0,
-        lightning: 0,
-
-        occult: 0,
-        sacred: 0,
-        shadow: 0,
-        aether: 0,
-    },
-    resistanceMax: {
-        material: 0,
-        blunt: 0,
-        pierce: 0,
-        acid: 0,
-
-        elemental: 0,
-        fire: 0,
-        frost: 0,
-        lightning: 0,
-
-        occult: 0,
-        sacred: 0,
-        shadow: 0,
-        aether: 0,
-    },
-    reduct: {
-        material: 0,
-        blunt: 0,
-        pierce: 0,
-        acid: 0,
-
-        elemental: 0,
-        fire: 0,
-        frost: 0,
-        lightning: 0,
-
-        occult: 0,
-        sacred: 0,
-        shadow: 0,
-        aether: 0,
-    },
 };
 
-/** The default attack object. Name must be specified itself when creating a new Attack. Values not specified will use these default values instead. */
 const DEFAULTBUFF = {
     duration: 0,
     onApply: function (target) {
@@ -243,21 +189,19 @@ const DEFAULTBUFF = {
     },
 };
 
-// NYI: initVariancePercent to vary the recovery Init a little.
 const DEFAULTATTACK = {
     family: null,
-    /** Must be "attack", "spell", or "miracle". */
-    type: "attack",
-    /** Must be "damage", "buff", or "debuff". */
-    effect: "damage",
-    /** The amount of init after using this Attack that the character who used it should take to recover. */
-    initRecovery: 45,
-    /** The weapon damage multiplier multiplies the weapon damage for the attack by this amount. */
+    type: "attack" /* "attack", "spell", or "miracle". */,
+    effect: "damage" /* "damage", "buff", or "debuff". */,
+
+    hitnumber: 1 /** The number of times an attack hits. */,
     wdm: 1,
-    /** The amount of init added to the defender after an attack. */
-    stun: 0,
-    /** The number of times an attack hits. */
-    hitnumber: 1,
+    initRecovery: 22,
+    initRecoveryVariance: 0.12 /* NYI */,
+    stun: 0 /** The amount of init added to the defender after an attack. */,
+
+    /** The buffs or debuffs the attack performs. */
+    buffs: [],
 
     deflectCalculated: 0,
     blockCalculated: 0,
@@ -267,28 +211,25 @@ const DEFAULTATTACK = {
     isDirectable: true,
     isCritical: true,
 
-    /** The buffs or debuffs the attack performs. */
-    buffs: [],
-
     targets: {
         style: null, // "all", "side", "row", "single", "self"
         side: null, // "both", "ally", "enemy"
         row: null, // "both", "front", "back"
     },
 
-    criticalChanceCalculated: 0,
     criticalChanceBase: 0,
     criticalChanceIncreased: 0,
     criticalChanceMore: 1,
-    criticalDamageCalculated: 0,
+    criticalChanceCalculated: 0,
     criticalDamageBase: 0,
     criticalDamageIncreased: 0,
     criticalDamageMore: 1,
+    criticalDamageCalculated: 0,
 
-    directChanceCalculated: 0,
     directChanceBase: 0,
     directChanceIncreased: 0,
     directChanceMore: 1,
+    directChanceCalculated: 0,
 
     damage: {
         // Material Damage Types
@@ -336,64 +277,37 @@ const DEFAULTATTACK = {
 };
 
 const DEFAULTENEMY = {
-    /** A multiplier for your init decrements. */
+    family: null,
+    description: null,
+
+    buffs: [],
+
+    healthMax: 100,
+
+    initStart: 45,
+    initVariance: 0.12 /* Init Start Variance */,
     initDecrementModifier: 1,
-    stats: {
-        appearance: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        constitution: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        dexterity: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        education: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        intelligence: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        size: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        strength: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        telekinesis: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-        willpower: {
-            mean: 50,
-            std: 2.5,
-            min: 0,
-            max: 100,
-        },
-    },
+
+    criticalChanceBase: 0.05,
+    criticalChanceIncreased: 1,
+    criticalChanceMore: 1,
+    criticalDamageBase: 1.5,
+    criticalDamageIncreased: 1,
+    criticalDamageMore: 1,
+
+    directChanceBase: 0.05,
+    directChanceIncreased: 1,
+    directChanceMore: 1,
+
+    deflectChanceBase: 0.05,
+    deflectChanceIncreased: 1,
+    deflectChanceMore: 1,
+
+    blockRecovery: 12,
+    blockChanceBase: 0,
+    blockChanceIncreased: 1,
+    blockChanceMore: 1,
+
     damage: {
         // Material Damage Types
         blunt: {
@@ -437,6 +351,57 @@ const DEFAULTENEMY = {
             max: 0,
         },
     },
+
+    reduct: {
+        material: 0,
+        blunt: 0,
+        pierce: 0,
+        acid: 0,
+
+        elemental: 0,
+        fire: 0,
+        frost: 0,
+        lightning: 0,
+
+        occult: 0,
+        sacred: 0,
+        shadow: 0,
+        aether: 0,
+    },
+
+    resistance: {
+        material: 0,
+        blunt: 0,
+        pierce: 0,
+        acid: 0,
+
+        elemental: 0,
+        fire: 0,
+        frost: 0,
+        lightning: 0,
+
+        occult: 0,
+        sacred: 0,
+        shadow: 0,
+        aether: 0,
+    },
+    resistanceMax: {
+        material: 75,
+        blunt: 75,
+        pierce: 75,
+        acid: 75,
+
+        elemental: 75,
+        fire: 75,
+        frost: 75,
+        lightning: 75,
+
+        occult: 75,
+        sacred: 75,
+        shadow: 75,
+        aether: 75,
+    },
+
     absorbPercent: {
         material: 0,
         blunt: 0,
@@ -485,79 +450,4 @@ const DEFAULTENEMY = {
         shadow: 0,
         aether: 0,
     },
-    resistance: {
-        material: 0,
-        blunt: 0,
-        pierce: 0,
-        acid: 0,
-
-        elemental: 0,
-        fire: 0,
-        frost: 0,
-        lightning: 0,
-
-        occult: 0,
-        sacred: 0,
-        shadow: 0,
-        aether: 0,
-    },
-    resistanceMax: {
-        material: 75,
-        blunt: 75,
-        pierce: 75,
-        acid: 75,
-
-        elemental: 75,
-        fire: 75,
-        frost: 75,
-        lightning: 75,
-
-        occult: 75,
-        sacred: 75,
-        shadow: 75,
-        aether: 75,
-    },
-    reduct: {
-        material: 0,
-        blunt: 0,
-        pierce: 0,
-        acid: 0,
-
-        elemental: 0,
-        fire: 0,
-        frost: 0,
-        lightning: 0,
-
-        occult: 0,
-        sacred: 0,
-        shadow: 0,
-        aether: 0,
-    },
-    /** The amount of init after blocking. */
-    blockRecovery: 6,
-
-    criticalChanceBase: 0.05,
-    criticalChanceIncreased: 1,
-    criticalChanceMore: 1,
-    criticalDamageBase: 1.5,
-    criticalDamageIncreased: 1,
-    criticalDamageMore: 1,
-
-    directChanceBase: 0.05,
-    directChanceIncreased: 1,
-    directChanceMore: 1,
-
-    deflectChanceBase: 0.05,
-    deflectChanceIncreased: 1,
-    deflectChanceMore: 1,
-
-    blockChanceBase: 0,
-    blockChanceIncreased: 1,
-    blockChanceMore: 1,
-
-    initVariance: 0.1,
-    family: null,
-    description: null,
-
-    buffs: [],
 };

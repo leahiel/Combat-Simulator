@@ -86,9 +86,20 @@ const buffs = {
         },
     }),
 
+    buffHogRoar: new Buff({
+        type: "buff",
+        duration: 200,
+        name: "Hog's Roar",
+        description: "You have 20% more material resistance.",
+        onApply: function (target) {
+            target.resistance.material += .2;
+            return;
+        },
+    }),
+
     debuffBleed: new Buff({
         type: "debuff",
-        duration: 250,
+        duration: 80,
         name: "Bleeding!",
         description: "10% chance to take 1 damage every init.",
         perInit: function (target) {
@@ -96,6 +107,42 @@ const buffs = {
                 target.health -= 1;
             }
 
+            return;
+        },
+    }),
+
+    debuffFirewall: new Buff({
+        type: "debuff",
+        duration: 60,
+        name: "Standing in Firewall!",
+        description: "10% chance to take 1 damage every init.",
+        perInit: function (target) {
+            if (Math.random() < 0.1) {
+                target.health -= 1;
+            }
+
+            return;
+        },
+    }),
+
+    debuffWebShot: new Buff({
+        type: "debuff",
+        duration: 80,
+        name: "Webbed!",
+        description: "You have 20% less init decrement modifier.",
+        onApply: function (target) {
+            target.initDecrementModifier *= .8;
+            return;
+        },
+    }),
+
+    debuffIcePrison: new Buff({
+        type: "debuff",
+        duration: 80,
+        name: "Webbed!",
+        description: "You have 50% less init decrement modifier.",
+        onApply: function (target) {
+            target.initDecrementModifier *= .5;
             return;
         },
     }),
