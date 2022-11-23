@@ -51,6 +51,7 @@ const DEFAULTPLAYER = {
     initStart: 45,
     initStartVariance: 0.12,
     initDecrementModifier: 1,
+    initRecoveryModifier: 1,
 
     criticalChanceBase: 0.05,
     criticalChanceIncreased: 1,

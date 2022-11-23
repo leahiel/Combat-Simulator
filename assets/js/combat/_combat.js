@@ -621,7 +621,7 @@ function attackCalculations(attack, attacker, targets) {
         }
     }
 
-    attacker.init += attack.initRecovery;
+    attacker.init += (attack.initRecovery * attacker.initRecoveryModifier);
 }
 
 function determineRowViabilities() {

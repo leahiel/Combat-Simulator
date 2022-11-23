@@ -7,8 +7,9 @@ const DEFAULTEQUIPPABLE = {
     health: 0,
 
     initStart: 0,
-    initStartVariance: 0 /* Init Start Variance */,
+    initStartVariance: 0,
     initDecrementModifier: 1,
+    initRecoveryModifier: 1,
 
     triggers: [], // NYI
 
@@ -323,6 +324,7 @@ const DEFAULTENEMY = {
     initStart: 45,
     initStartVariance: 0.12,
     initDecrementModifier: 1,
+    initRecoveryModifier: 1,
 
     criticalChanceBase: 0.05,
     criticalChanceIncreased: 1,

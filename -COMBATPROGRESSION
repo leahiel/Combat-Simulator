@@ -40,8 +40,8 @@ When a stat reaches its cap, its numbers can shine gold to represent that.
         ☐  8 Armors
     ☐  10 mods for each slot.
         Weapon Ideas:
-            Init Recovery
-            Damage
+            Init Recovery Modifier
+            Damage (increased/more/flat)
             CC
             CH
             DC
@@ -49,6 +49,7 @@ When a stat reaches its cap, its numbers can shine gold to represent that.
             Reduct
             Resistance
             Init Start
+            Init Recovery Modifier // NYI
         Accessory Ideas:
             pretty much the same as the above two?
 

@@ -194,13 +194,15 @@ class Combatant {
         // Init
         let iInitStart = `<span class='infoMax'>/${Math.ceil(this.initStart)}</span>`;
         let iInitStartVariance = `<span class='infoMax'>±${Math.ceil(this.initStartVariance * this.initStart)}</span>`;
+        let iInitRecoveryModifier = `<span class="infoMax">Attack Recovery: </span>x${+(this.initRecoveryModifier).toFixed(2)}`;
+
         let iInit;
         if (tags().includes(".combat")) {
             iInit = `${Math.ceil(this.init)}${iInitStart}`;
         } else {
             iInit = `${Math.ceil(this.init)}${iInitStartVariance}`;
         }
-        let iInitDecrement = `<span id='infoInitDecrement'>${this.initDecrementModifier}<span class="infoMax">/tick</span></span>`;
+        let iInitDecrement = `<span id='infoInitDecrement'>${this.initDecrementModifier}<span class="infoMax">/tick</span><br>${iInitRecoveryModifier}</span>`;
 
         solstr += `<span id='infoInit'>Init<br>${iInit} -${iInitDecrement}</span>`;
 
