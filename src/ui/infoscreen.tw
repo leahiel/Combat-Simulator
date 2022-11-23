@@ -243,13 +243,6 @@
 
         /* Create a listbox element for every modslot, populate it with viable mods array. */
         <<set _selectvalmod to []>>
-        
-
-
-
-
-
-
 
         /* Create listbox. */
         <<if $info.current === $tp1 || $info.current === $tp2>>
@@ -274,13 +267,6 @@
                 <br>
             <</for>>
         <</if>>
-
-
-
-
-
-
-
 
         /* Make listbox selection change related vars. */
         <<script>>

@@ -28,7 +28,7 @@ class Attack {
      *
      * This will eventually show up left or above of the attack menu, so that players can know what their attacks do
      */
-    getInfo() {
+    getInfo(attacker) {
         let solstr = `<span id="AttackInformationPlate">`;
 
         // misc info

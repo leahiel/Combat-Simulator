@@ -294,9 +294,11 @@ body.stowed {
 }
 
 #AttackInformationPlate,
-#CombatantInformationPlate {
+#CombatantInformationPlate,
+#EquippableInformationPlate {
     display: block;
     padding: 1rem;
+    width: 21vw;
 
     border: 1px solid hsl(312deg 74% 16% / 0%);
     box-shadow: var(--boxShadow);
@@ -320,6 +322,7 @@ body.stowed {
     display: inline-block;
 
     /* font-weight: 600; */
+    font-size: 0.9em;
     font-weight: bold;
     color: grey;
 
@@ -347,17 +350,89 @@ body.stowed {
 }
 
 #infoMetricsGrid {
+    display: grid; 
     grid-auto-flow: column;
+    justify-items: center;
+    align-items: center;
+    padding-bottom: 1em;
 
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+
+    grid-gap: 0.5em;
+}
+
+#infoMetricsGrid #infoHealth {
+    grid-row: 1;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.infoMax {
+    font-size: 0.7em;
+    color:hsl(0, 0%, 40%);
+}
+
+.infoNYI {
+    font-size: 0.8em;
+    font-style: italic;
+    color: hsl(39, 100%, 50%)
+}
+
+#infoMetricsGrid #infoInit {
+    grid-row: 1;
+    grid-column-start: 3;
+    grid-column-end: 5;
+}
+
+#infoInitVariance {
+    font-size: 0.8em;
+    color:hsl(0, 0%, 40%);
+}
+
+#infoDeflect {
+    grid-row: 2;
+    grid-column: 1;
+}
+
+
+#infoBlock {
+    grid-row: 2;
+    grid-column: 2;
+}
+
+#infoCrit {
+    grid-row: 2;
+    grid-column: 3;
+}
+
+#infoDirect {
+    grid-row: 2;
+    grid-column: 4;
+}
+
+#infoInit,
+#infoBlock,
+#infoDeflect,
+#infoCrit,
+#infoDirect {
+    text-align: center;
 }
 
 #infoResistanceGrid,
+#infoAbsorbtionGrid,
 #infoDamageGrid {
+    display: grid;
+    justify-items: center;
+    text-align:center;
+    align-items: center;
+    font-size: 0.7em;
     grid-auto-flow: column;
+    grid-gap: 0.5em;
 
-    grid-template-rows: auto 1fr 1fr 1fr;
+    padding-bottom: 1em;
+
+    grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
 }
 
@@ -379,9 +454,10 @@ body.stowed {
     top: 0;
     height: 1px;
 
-    margin-top: 8px;
+    margin-top: 6px;
+    margin-bottom: 2px;
 
-    background-color: rgba(25, 25, 25, 0.5);
+    background-color: hsla(0, 0%, 75%, 0.5);
 }
 
 .infoSectionHeader {
@@ -442,7 +518,6 @@ body.stowed {
 #ui-dialog-body.dialogEquipmentSwap,
 #ui-dialog-body.dialogEquipmentMod {
     display: grid;
-    grid-template-columns: 31fr 50fr;
     grid-template-rows: 1fr 1fr 1fr;
     grid-gap: 1rem;
     width: 60vw;

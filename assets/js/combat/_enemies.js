@@ -45,7 +45,7 @@ const monsters = {
         family: "babySpider",
         healthMax: 20,
         initStart: 34,
-        initVariance: 0.3,
+        initStartVariance: 0.3,
         attacks: setup.COM.familyAttacks.babySpider,
         description: "A small little spider. It's almost kinda cute...",
     }),
@@ -85,7 +85,7 @@ const monsters = {
         family: "Carbuncle",
         healthMax: 60,
         initStart: 34,
-        initVariance: 0.24,
+        initStartVariance: 0.24,
         attacks: setup.COM.familyAttacks.Carbuncle,
         description: "An adorable little rabbit with crystals growing on it.",
         damage: {
@@ -123,7 +123,7 @@ const monsters = {
         family: "Carbuncle",
         healthMax: 35,
         initStart: 35,
-        initVariance: 0.24,
+        initStartVariance: 0.24,
         attacks: mergeArray(setup.COM.familyAttacks.Carbuncle, setup.COM.attacks.acidicshot),
         description: "A magical rabbit focusing on acidic magic.",
         damage: {
@@ -144,7 +144,7 @@ const monsters = {
         family: "Carbuncle",
         healthMax: 67,
         initStart: 34,
-        initVariance: 0.24,
+        initStartVariance: 0.24,
         attacks: mergeArray(setup.COM.familyAttacks.Carbuncle, setup.COM.attacks.rockfall),
         description: "A magical rabbit focusing on blunt magic.",
         damage: {
@@ -165,7 +165,7 @@ const monsters = {
         family: "Carbuncle",
         healthMax: 42,
         initStart: 34,
-        initVariance: 0.24,
+        initStartVariance: 0.24,
         attacks: mergeArray(setup.COM.familyAttacks.Carbuncle, setup.COM.attacks.firewall),
         description: "A magical rabbit focusing on fire magic.",
         damage: {
@@ -186,7 +186,7 @@ const monsters = {
         family: "Carbuncle",
         healthMax: 42,
         initStart: 34,
-        initVariance: 0.24,
+        initStartVariance: 0.24,
         attacks: mergeArray(setup.COM.familyAttacks.Carbuncle, setup.COM.attacks.iceprison),
         description: "A magical rabbit focusing on frost magic.",
         damage: {
@@ -207,7 +207,7 @@ const monsters = {
         family: "Carbuncle",
         healthMax: 42,
         initStart: 34,
-        initVariance: 0.24,
+        initStartVariance: 0.24,
         attacks: mergeArray(setup.COM.familyAttacks.Carbuncle, setup.COM.attacks.flash),
         description: "A magical rabbit focusing on lightning magic.",
         damage: {
@@ -234,7 +234,7 @@ const monsters = {
         family: "Skeleton",
         healthMax: 38,
         initStart: 34,
-        initVariance: 0.24,
+        initStartVariance: 0.24,
         initRecoveryModifier: 2.3, // NYI: initRecoveryModifier
         attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.unarmedAttacks),
         description: "A spoopy skeleton animated out of arcane magicks.",
@@ -259,7 +259,7 @@ const monsters = {
         family: "Skeleton",
         healthMax: 38,
         initStart: 37,
-        initVariance: 0.24,
+        initStartVariance: 0.24,
         initRecoveryModifier: 1.8,
         attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.spearWeaponAttacks),
         description: "A spoopy skeleton spearman animated out of arcane magicks.",
@@ -284,7 +284,7 @@ const monsters = {
         family: "Skeleton",
         healthMax: 38,
         initStart: 37,
-        initVariance: 0.24,
+        initStartVariance: 0.24,
         initRecoveryModifier: 1.8,
         attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.swordandshieldWeaponAttacks),
         description: "A spoopy skeleton spearman animated out of arcane magicks.",
@@ -310,7 +310,7 @@ const monsters = {
         positionPreferance: "backline", // NYI: positionPreferance. After CI are randomly performed, parties should shuffle for preferances.
         healthMax: 38,
         initStart: 37,
-        initVariance: 0.24,
+        initStartVariance: 0.24,
         initRecoveryModifier: 1.8,
         attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.bowWeaponAttacks),
         description: "A spoopy skeleton spearman animated out of arcane magicks.",
@@ -336,7 +336,7 @@ const monsters = {
         positionPreferance: "backline", // NYI: positionPreferance. After CI are randomly performed, parties should shuffle for preferances.
         healthMax: 88,
         initStart: 24,
-        initVariance: 0.12,
+        initStartVariance: 0.12,
         attacks: mergeArray(setup.COM.attacks.healUndead, setup.COM.attacks.flash),
         description: "The oldest of enemies that wish to see everything burn: A Sauson.",
         damage: {

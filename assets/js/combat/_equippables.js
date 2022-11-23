@@ -36,6 +36,58 @@ class Equippable {
         }
     }
 
+    /**
+     * Convert the data into an HTML string so that the player can understand the data within.
+     */
+    getInfo() {
+        let solstr = `<span id="EquippableInformationPlate">`;
+
+        // misc info
+        solstr += `<span id='infoName'>${this.name}</span>`;
+        solstr += `<span class='divider'></span>`;
+
+        // special info
+
+        // For uncommon stat thingies. "Absorbs Elemental."  We could also put the rarity affix info here?
+
+        // metrics info
+        solstr += `<span id='infoMetrics'><span class='infoSectionHeader'>METRICS</span>`;
+        solstr += `<grid id='infoMetricsAttacksGrid'>`;
+        solstr += `<span>WDM:${this.wdm}</span>`;
+        solstr += `<span>initRecovery:${this.initRecovery}</span>`;
+        // solstr += `<span>Direct:${this.directCalculated}</span>`; // NYI I need to pull the attacker's stats for this
+        // solstr += `<span>Critical:${this.criticalCalculated}</span>`; // NYI I need to pull the attacker's stats for this
+        solstr += `</grid></span>`;
+
+        // TODO: Targets Information
+
+        // solstr += `</grid></span>`;
+
+        // damage info
+        // NYI: damage += activeCharacter stats
+        solstr += `<span id='infoDamage'><span class='infoSectionHeader'>ADDED DAMAGE</span>`;
+        solstr += `<grid id='infoDamageGrid'>`;
+        solstr += `<span style="font-weight:bold">Material</span>`;
+        solstr += `<span>Blunt:<br>${this.damage.blunt.min} - ${this.damage.blunt.max}</span>`;
+        solstr += `<span>Pierce:<br>${this.damage.pierce.min} - ${this.damage.pierce.max}</span>`;
+        solstr += `<span>Acid:<br>${this.damage.acid.min} - ${this.damage.acid.max}</span>`;
+
+        solstr += `<span style="font-weight:bold">Elemental</span>`;
+        solstr += `<span>Fire:<br>${this.damage.fire.min} - ${this.damage.fire.max}</span>`;
+        solstr += `<span>Frost:<br>${this.damage.frost.min} - ${this.damage.frost.max}</span>`;
+        solstr += `<span>Lightning:<br>${this.damage.lightning.min} - ${this.damage.lightning.max}</span>`;
+
+        solstr += `<span style="font-weight:bold">Occult</span>`;
+        solstr += `<span>Sacred:<br>${this.damage.sacred.min} - ${this.damage.sacred.max}</span>`;
+        solstr += `<span>Shadow:<br>${this.damage.shadow.min} - ${this.damage.shadow.max}</span>`;
+        solstr += `<span>Aether:<br>${this.damage.aether.min} - ${this.damage.aether.max}</span>`;
+        solstr += `</grid></span>`;
+
+        solstr += `</span>`;
+
+        return solstr;
+    }
+
     // NYI: Every item should have this function which creates an HTML "plate" of the item with stats and whatnot, which can be used in various places for various things.
     // The item plate will show like the very basic features of the item at the top, which can then be hovered over to get more information, kinda like cards in MTG
     itemplate(selector) {
