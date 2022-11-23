@@ -420,7 +420,11 @@ function attackCalculations(attack, attacker, targets) {
         // Update Attack Properties with Character Properties
         function updateProperties(attack, attacker, propobjname) {
             Object.keys(attack[propobjname]).forEach(function (prop) {
-                attack[propobjname][prop] += attacker[propobjname][prop];
+                if (prop === "more") {
+                    attack[propobjname][prop] *= attacker[propobjname][prop];
+                } else {
+                    attack[propobjname][prop] += attacker[propobjname][prop];
+                }
             });
         }
 
@@ -433,6 +437,24 @@ function attackCalculations(attack, attacker, targets) {
         updateProperties(solAttack.damage, char.damage, "sacred");
         updateProperties(solAttack.damage, char.damage, "shadow");
         updateProperties(solAttack.damage, char.damage, "aether");
+
+        // NYI: A function to update the damage AGAIN, this time with MORE and INCREASED calculated.
+        function calcRealDamage(sub) {
+            let increased = solAttack.damage[sub].increased;
+            let more = solAttack.damage[sub].more;
+            solAttack.damage[sub].min = Math.floor(solAttack.damage[sub].min * (1 + increased) * more);
+            solAttack.damage[sub].max = Math.floor(solAttack.damage[sub].max * (1 + increased) * more);
+        }
+
+        calcRealDamage("blunt");
+        calcRealDamage("pierce");
+        calcRealDamage("acid");
+        calcRealDamage("fire");
+        calcRealDamage("frost");
+        calcRealDamage("lightning");
+        calcRealDamage("sacred");
+        calcRealDamage("shadow");
+        calcRealDamage("aether");
 
         return solAttack;
     }

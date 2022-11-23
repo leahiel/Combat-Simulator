@@ -77,42 +77,60 @@ const DEFAULTPLAYER = {
         blunt: {
             min: 0,
             max: 0,
+            increased: 0,
+            more: 1,
         },
         pierce: {
             min: 0,
             max: 0,
+            increased: 0,
+            more: 1,
         },
         acid: {
             min: 0,
             max: 0,
+            increased: 0,
+            more: 1,
         },
 
         // Elemental Damage Types
         fire: {
             min: 0,
             max: 0,
+            increased: 0,
+            more: 1,
         },
         frost: {
             min: 0,
             max: 0,
+            increased: 0,
+            more: 1,
         },
         lightning: {
             min: 0,
             max: 0,
+            increased: 0,
+            more: 1,
         },
 
         // Occult Damage Types
         sacred: {
             min: 0,
             max: 0,
+            increased: 0,
+            more: 1,
         },
         shadow: {
             min: 0,
             max: 0,
+            increased: 0,
+            more: 1,
         },
         aether: {
             min: 0,
             max: 0,
+            increased: 0,
+            more: 1,
         },
     },
 

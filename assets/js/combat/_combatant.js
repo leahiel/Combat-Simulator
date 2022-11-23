@@ -39,7 +39,11 @@ class Combatant {
                 // Update Combatant Properties with Equippable Properties
                 function updateProperties(combatant, equip, propobjname) {
                     Object.keys(combatant[propobjname]).forEach(function (prop) {
-                        combatant[propobjname][prop] += equip[propobjname][prop];
+                        if (prop === "more") {
+                            combatant[propobjname][prop] *= equip[propobjname][prop];
+                        } else {
+                            combatant[propobjname][prop] += equip[propobjname][prop];
+                        }
                     });
                 }
 
@@ -196,7 +200,7 @@ class Combatant {
         } else {
             iInit = `${Math.ceil(this.init)}${iInitStartVariance}`;
         }
-        let iInitDecrement = `<span id='infoInitDecrement'>${this.initDecrementModifier}<span class="infoMax">/turn</span></span>`;
+        let iInitDecrement = `<span id='infoInitDecrement'>${this.initDecrementModifier}<span class="infoMax">/tick</span></span>`;
 
         solstr += `<span id='infoInit'>Init<br>${iInit} -${iInitDecrement}</span>`;
 
@@ -351,7 +355,10 @@ class Combatant {
         solstr += `<grid id='infoDamageGrid'>`;
 
         function getDmgString(sub) {
-            return `${Math.floor(dmg[sub].min)} - ${Math.floor(dmg[sub].max)}<br><span class="infoMax">x1.0</span> <span class="infoNYI">NYI</span>`;
+            return `${Math.floor(dmg[sub].min)} - ${Math.floor(dmg[sub].max)}<br><span class="infoMax">x${+(
+                dmg[sub].more *
+                (1 + dmg[sub].increased)
+            ).toFixed(2)}</span>`;
         }
 
         // Material
