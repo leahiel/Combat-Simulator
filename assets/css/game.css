@@ -961,12 +961,14 @@ input:checked ~ accordionContent {
     background-color: var(--backgroundplus1);
 }
 
+.playerAttack.disabled,
 .disabled {
     cursor: not-allowed !important;
     background-color: #444;
     border: 1px solid #666;
 }
 
+.playerAttack.disabled:hover,
 .disabled:hover {
     cursor: not-allowed !important;
     background-color: #444;

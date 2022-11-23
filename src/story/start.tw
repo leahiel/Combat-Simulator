@@ -110,6 +110,26 @@
 		});
 	<</script>>
 <</button>>
+<br>
+<<button [[Gen. CI w/ Skeletons|Combat_Overlord]]>>
+	<<script>>
+		/* Random Int between 1 and 5 */
+		let int = Math.ceil(Math.random() * (5));
+		let skeletonArr = [
+			"EN_UNARMED_SKELETON",
+			"EN_SPEAR_SKELETON",
+			"EN_SWORDSHIELD_SKELETON",
+			"EN_BOW_SKELETON",
+		];
+		let ep = setup.fns.ranItems(int, skeletonArr, true);
+
+		State.variables.ci = new setup.COM.CombatInstance({
+			winPassage: "Inbetween",
+			losePassage: "Inbetween",
+			ep: ep,
+		});
+	<</script>>
+<</button>>
 
 <<done>>
 	<<script>>

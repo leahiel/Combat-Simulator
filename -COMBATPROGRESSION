@@ -1,17 +1,27 @@
 TODO for indev release: 
-☐  InfoScreen should show relevant Combatant stats. This need not be beautiful.
-    ☑  Weapon Screens should show the attacks granted.
-    ☑  Temporary Characters should have viewable but not changeable equipment
-        ☐  Ensure Temporary Character Mods are viewable but not changeable.
-    ☐  DESIRED: Equipment/Mod Screens should show difference in stats on hover.
+☐  AttackInformationPlate
+    ☐  Information Present
+    ☐  CSS
+☐  CombatantInformationPlate
+    ☐  Information Present
+    ☐  CSS
+☐  Equipment InformationPlate
+    ☐  Information Present
+    ☐  CSS
+☐  Battle Log
 ☐  Add content.
     ☐  6 Combat Instances
         ☑  Spiders
         ☑  Hog [As Miniboss]
         ☑  Carbuncle
+        ☑  Skeletons 
         ☐  Goblins
         ☐  ???
-        ☐  Udom [As Boss]
+        ☐  Centaur
+        ☐  Dryad
+        ☐  Dyrad
+        ☐  Ghoul (with Udom mage)
+        ☐  Sauson ("Esau-son" Edomite)
     ☑ Attacks
     ☐ Equippables
         ☐  14 weapons, 2 for each weapon type.
@@ -30,13 +40,18 @@ TODO for indev release:
             Init Start
         Accessory Ideas:
             pretty much the same as the above two?
+
+    Things with damage types can be split into a single function that takes the `this` obj as an argument.
+    They can show up iff they have stats that modify them.
+    Mods can show the stats they mod in green on equipment, to indicate that the stat isn`t the base stat.
+    When a stat reaches its cap, its numbers can shine gold to represent that.
+
 ☐  Add Preset characters options to start/inbetween.
     ☑  Switching functional.
 ☐  CSS Update
     ☐  Location and Name embedded into canvases.
     ☑  Targetting functional.
         ☐  Targeting CSS.
-    ☐  New Infoscreen is nice looking.
     ☐  When hovering over buff/canvas, it should show buffs info.
 
 
@@ -91,6 +106,8 @@ Stats and Growth:
             ☐  Deflected
             ☐  Blocked
     ☐  Spells
+        ☐  Spell Casting Time
+        ☐  Spell Syncing [Party memebers with the same spell can cast it together, which makes a more powerful spell.]
     ☐  Miracles
     ☐  Energy Shield (or do I want divine shield? Having both would be illogical and/or confusing.)
     

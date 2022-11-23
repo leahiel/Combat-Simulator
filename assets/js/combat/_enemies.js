@@ -19,6 +19,12 @@ class Enemy {
 }
 
 const monsters = {
+    /*
+     *  888888    db    88   88 88b 88    db
+     *  88__     dPYb   88   88 88Yb88   dPYb
+     *  88""    dP__Yb  Y8   8P 88 Y88  dP__Yb
+     *  88     dP""""Yb `YbodP' 88  Y8 dP""""Yb
+     */
     EN_MOMMY_SPIDER: new Enemy({
         name: "Momma Spider",
         family: "mommySpider",
@@ -68,7 +74,12 @@ const monsters = {
         },
     }),
 
-    //Carbuncles
+    /*
+     *  dP""b8    db    88""Yb 88""Yb 88   88 88b 88  dP""b8 88     888888 .dP"Y8
+     * dP   `"   dPYb   88__dP 88__dP 88   88 88Yb88 dP   `" 88     88__   `Ybo."
+     * Yb       dP__Yb  88"Yb  88""Yb Y8   8P 88 Y88 Yb      88  .o 88""   o.`Y8b
+     *  YboodP dP""""Yb 88  Yb 88oodP `YbodP' 88  Y8  YboodP 88ood8 888888 8bodP'
+     */
     EN_CARBUNCLE: new Enemy({
         name: "Carbuncle",
         family: "Carbuncle",
@@ -209,6 +220,134 @@ const monsters = {
             lightning: 0.1,
             elemental: 0.2,
             occult: 0.2,
+        },
+    }),
+
+    /*
+     * .dP"Y8 88  dP 888888 88     888888 888888  dP"Yb  88b 88 .dP"Y8
+     * `Ybo." 88odP  88__   88     88__     88   dP   Yb 88Yb88 `Ybo."
+     * o.`Y8b 88"Yb  88""   88  .o 88""     88   Yb   dP 88 Y88 o.`Y8b
+     * 8bodP' 88  Yb 888888 88ood8 888888   88    YbodP  88  Y8 8bodP'
+     */
+    EN_UNARMED_SKELETON: new Enemy({
+        name: "Unarmed Skeleton",
+        family: "Skeleton",
+        healthMax: 38,
+        initStart: 34,
+        initVariance: 0.24,
+        initRecoveryModifier: 2.3, // NYI: initRecoveryModifier
+        attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.unarmedAttacks),
+        description: "A spoopy skeleton animated out of arcane magicks.",
+        damage: {
+            blunt: {
+                min: 7,
+                max: 12,
+            },
+        },
+        resistance: {
+            blunt: -0.4,
+            pierce: 0.3,
+            acid: 0.2,
+            sacred: -0.4,
+            frost: 0.2,
+            fire: 0.2,
+        },
+    }),
+
+    EN_SPEAR_SKELETON: new Enemy({
+        name: "Skeleton Spearman",
+        family: "Skeleton",
+        healthMax: 38,
+        initStart: 37,
+        initVariance: 0.24,
+        initRecoveryModifier: 1.8,
+        attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.spearWeaponAttacks),
+        description: "A spoopy skeleton spearman animated out of arcane magicks.",
+        damage: {
+            pierce: {
+                min: 4,
+                max: 8,
+            },
+        },
+        resistance: {
+            blunt: -0.4,
+            pierce: 0.3,
+            acid: 0.2,
+            sacred: -0.4,
+            frost: 0.2,
+            fire: 0.2,
+        },
+    }),
+
+    EN_SWORDSHIELD_SKELETON: new Enemy({
+        name: "Skeleton Swordsman",
+        family: "Skeleton",
+        healthMax: 38,
+        initStart: 37,
+        initVariance: 0.24,
+        initRecoveryModifier: 1.8,
+        attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.swordandshieldWeaponAttacks),
+        description: "A spoopy skeleton spearman animated out of arcane magicks.",
+        damage: {
+            pierce: {
+                min: 4,
+                max: 8,
+            },
+        },
+        resistance: {
+            blunt: -0.4,
+            pierce: 0.3,
+            acid: 0.2,
+            sacred: -0.4,
+            frost: 0.2,
+            fire: 0.2,
+        },
+    }),
+
+    EN_BOW_SKELETON: new Enemy({
+        name: "Skeleton Archer",
+        family: "Skeleton",
+        positionPreferance: "backline", // NYI: positionPreferance. After CI are randomly performed, parties should shuffle for preferances.
+        healthMax: 38,
+        initStart: 37,
+        initVariance: 0.24,
+        initRecoveryModifier: 1.8,
+        attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.bowWeaponAttacks),
+        description: "A spoopy skeleton spearman animated out of arcane magicks.",
+        damage: {
+            pierce: {
+                min: 5,
+                max: 11,
+            },
+        },
+        resistance: {
+            blunt: -0.4,
+            pierce: 0.3,
+            acid: 0.2,
+            sacred: -0.4,
+            frost: 0.2,
+            fire: 0.2,
+        },
+    }),
+
+    EN_SAUSON_SKELETON_MASTER: new Enemy({
+        name: "Sauson Skeleton Master",
+        family: "Sauson",
+        positionPreferance: "backline", // NYI: positionPreferance. After CI are randomly performed, parties should shuffle for preferances.
+        healthMax: 88,
+        initStart: 24,
+        initVariance: 0.12,
+        attacks: mergeArray(setup.COM.attacks.healUndead, setup.COM.attacks.flash),
+        description: "The oldest of enemies that wish to see everything burn: A Sauson.",
+        damage: {
+            shadow: {
+                min: 5,
+                max: 11,
+            },
+        },
+        resistance: {
+            material: -0.2,
+            occult: 0.3,
         },
     }),
 };

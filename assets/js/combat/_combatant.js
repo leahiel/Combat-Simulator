@@ -118,7 +118,7 @@ class Combatant {
 
         // Keep health the same.
         if (this.health > this.healthMax) {
-            this.health = healthMax;
+            this.health = this.healthMax;
         }
 
         // Keep init the same.
@@ -131,7 +131,6 @@ class Combatant {
         /**
          * Recalculate aggregate defensive properties here.
          */
-        console.log(this.deflectChanceBase);
         this.deflectCalculated = this.deflectChanceBase * this.deflectChanceIncreased * this.deflectChanceMore;
         this.blockCalculated = this.blockChanceBase * this.blockChanceIncreased * this.blockChanceMore;
 
@@ -154,7 +153,7 @@ class Combatant {
     getInfo() {
         let res = this.resistance;
         let resMax = this.resistanceMax;
-        let solstr = `<span id=CombatantInformationPlate>`;
+        let solstr = `<span id="CombatantInformationPlate">`;
 
         // misc info
         solstr += `<span id='infoName'>${this.name} <span id='infoVariant'>#${this.rarity}</span></span>`; // NYI: Different colors for different rarities.
@@ -178,10 +177,10 @@ class Combatant {
         // buffs & debuffs
         if (this.buffs.length > 0) {
             solstr += `<span id='infoBuffs'><span class='infoSectionHeader'>BUFFS & DEBUFFS</span>`;
-                // NYI buff and debuff information
+            // NYI buff and debuff information
             solstr += `</span>`;
         }
-        
+
         // resistances info
         solstr += `<span id='infoResistances'><span class='infoSectionHeader'>RESISTANCES</span>`;
         solstr += `<grid id='infoResistanceGrid'>`;

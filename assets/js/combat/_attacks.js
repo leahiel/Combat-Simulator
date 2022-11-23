@@ -29,7 +29,7 @@ class Attack {
      * This will eventually show up left or above of the attack menu, so that players can know what their attacks do
      */
     getInfo() {
-        let solstr = `<span id=AttackInformationPlate>`;
+        let solstr = `<span id="AttackInformationPlate">`;
 
         // misc info
         solstr += `<span id='infoName'>${this.name}</span>`;
@@ -88,7 +88,12 @@ const attacks = {
     // ##  ##  ## ##       ##     ## ##        ##     ## ##   ### ##    ##
     //  ###  ###  ######## ##     ## ##         #######  ##    ##  ######
 
-    // DEBUG
+    /*
+     * Yb        dP .o.     8888b.  888888 88""Yb 88   88  dP""b8
+     *  Yb  db  dP  `"'      8I  Yb 88__   88__dP 88   88 dP   `"
+     *   YbdPYbdP   .o.      8I  dY 88""   88""Yb Y8   8P Yb  "88
+     *    YP  YP    `"'     8888Y"  888888 88oodP `YbodP'  YboodP
+     */
     all: new Attack({
         name: "Hits All",
         family: ["debugAttacks"],
@@ -210,7 +215,12 @@ const attacks = {
         description: "DEBUG: You hit every ally in the specified row.",
     }),
 
-    // UNARMED
+    /*
+     * Yb        dP .o.     88   88 88b 88    db    88""Yb 8b    d8 888888 8888b.
+     *  Yb  db  dP  `"'     88   88 88Yb88   dPYb   88__dP 88b  d88 88__    8I  Yb
+     *   YbdPYbdP   .o.     Y8   8P 88 Y88  dP__Yb  88"Yb  88YbdP88 88""    8I  dY
+     *    YP  YP    `"'     `YbodP' 88  Y8 dP""""Yb 88  Yb 88 YY 88 888888 8888Y"
+     */
     flick: new Attack({
         name: "Flick",
         family: ["unarmedAttacks"],
@@ -306,7 +316,12 @@ const attacks = {
         stun: 4,
     }),
 
-    // SPEAR ATTACKS
+    /*
+     * Yb        dP .o.     .dP"Y8 88""Yb 888888    db    88""Yb
+     *  Yb  db  dP  `"'     `Ybo." 88__dP 88__     dPYb   88__dP
+     *   YbdPYbdP   .o.     o.`Y8b 88"""  88""    dP__Yb  88"Yb
+     *    YP  YP    `"'     8bodP' 88     888888 dP""""Yb 88  Yb
+     */
     stab: new Attack({
         name: "Stab",
         family: ["spearWeaponAttacks"],
@@ -445,7 +460,12 @@ const attacks = {
         },
     }),
 
-    // SHIELD PORTION OF X AND SHIELDS
+    /*
+     * Yb        dP .o.     .dP"Y8 88  88 88 888888 88     8888b.
+     *  Yb  db  dP  `"'     `Ybo." 88  88 88 88__   88      8I  Yb
+     *   YbdPYbdP   .o.     o.`Y8b 888888 88 88""   88  .o  8I  dY
+     *    YP  YP    `"'     8bodP' 88  88 88 888888 88ood8 8888Y"
+     */
     shieldposture: new Attack({
         name: "Posture",
         family: ["swordandshieldWeaponAttacks", "maceandshieldWeaponAttacks"],
@@ -481,7 +501,12 @@ const attacks = {
         directChanceMore: 1.3,
     }),
 
-    // SWORD PORTION OF SWORD AND SHIELD
+    /*
+     * Yb        dP .o.     .dP"Y8 Yb        dP  dP"Yb  88""Yb 8888b.      .dP"Y8 88  88 88 888888 88     8888b.
+     *  Yb  db  dP  `"'     `Ybo."  Yb  db  dP  dP   Yb 88__dP  8I  Yb     `Ybo." 88  88 88 88__   88      8I  Yb
+     *   YbdPYbdP   .o.     o.`Y8b   YbdPYbdP   Yb   dP 88"Yb   8I  dY     o.`Y8b 888888 88 88""   88  .o  8I  dY
+     *    YP  YP    `"'     8bodP'    YP  YP     YbodP  88  Yb 8888Y"      8bodP' 88  88 88 888888 88ood8 8888Y"
+     */
     swipe: new Attack({
         name: "Swipe",
         family: ["swordandshieldWeaponAttacks"],
@@ -525,7 +550,12 @@ const attacks = {
         blockCalculated: 0,
     }),
 
-    // MACE PORTION OF MACE AND SHIELD
+    /*
+     * Yb        dP .o.     8b    d8    db     dP""b8 888888     .dP"Y8 88  88 88 888888 88     8888b.
+     *  Yb  db  dP  `"'     88b  d88   dPYb   dP   `" 88__       `Ybo." 88  88 88 88__   88      8I  Yb
+     *   YbdPYbdP   .o.     88YbdP88  dP__Yb  Yb      88""       o.`Y8b 888888 88 88""   88  .o  8I  dY
+     *    YP  YP    `"'     88 YY 88 dP""""Yb  YboodP 888888     8bodP' 88  88 88 888888 88ood8 8888Y"
+     */
     bash: new Attack({
         name: "Bash",
         family: ["maceandshieldWeaponAttacks"],
@@ -568,7 +598,12 @@ const attacks = {
         hitnumber: 2,
     }),
 
-    // TWO HANDED AXE
+    /*
+     * Yb        dP .o.     oP"Yb. 88  88        db    Yb  dP 888888
+     *  Yb  db  dP  `"'     "' dP' 88  88       dPYb    YbdP  88__
+     *   YbdPYbdP   .o.       dP'  888888      dP__Yb   dPYb  88""
+     *    YP  YP    `"'     .d8888 88  88     dP""""Yb dP  Yb 888888
+     */
     whirlwind: new Attack({
         name: "Whirlwind",
         family: ["twohandedaxeWeaponAttacks"],
@@ -641,6 +676,83 @@ const attacks = {
         buffs: [buffs.buffLumberjackStance],
     }),
 
+    /*
+     * 88""Yb  dP"Yb  Yb        dP
+     * 88__dP dP   Yb  Yb  db  dP
+     * 88""Yb Yb   dP   YbdPYbdP
+     * 88oodP  YbodP     YP  YP
+     */
+
+    snipe: new Attack({
+        name: "Snipe",
+        family: ["bowWeaponAttacks"],
+        initRecovery: 58,
+        wdm: 2.5,
+        targets: {
+            style: "single",
+            side: "enemy",
+            row: "both",
+        },
+        description: "Snipe your enemy.",
+        damage: {
+            pierce: {
+                min: 4,
+                max: 7,
+            },
+        },
+        criticalChanceBase: 0.6,
+        criticalChanceMore: 1.3,
+    }),
+
+    rainofarrows: new Attack({
+        name: "Rain of Arrows",
+        family: ["bowWeaponAttacks"],
+        initRecovery: 51,
+        wdm: 0.5,
+        targets: {
+            style: "side",
+            side: "enemy",
+            row: null,
+        },
+        description: "Rain arrows onto your enemy.",
+        damage: {
+            pierce: {
+                min: 4,
+                max: 7,
+            },
+        },
+        criticalChanceBase: 0.6,
+        criticalChanceMore: 1.3,
+    }),
+
+    checkquiver: new Attack({
+        name: "Check Quver",
+        family: ["bowWeaponAttacks"],
+        initRecovery: 21,
+        wdm: 0,
+        targets: {
+            style: "self",
+            side: null,
+            row: null,
+        },
+        description: "Ensure everything is correct with your ammo, increasing your action speed.",
+        buffs: [buffs.buffCheckQuiver],
+    }),
+
+    sharptiparrows: new Attack({
+        name: "Switch to Sharp-Tip Arrows",
+        family: ["bowWeaponAttacks"],
+        initRecovery: 27,
+        wdm: 0,
+        targets: {
+            style: "self",
+            side: null,
+            row: null,
+        },
+        description: "Switch to Sharp-Tip Arrows, increasing your chance to critically hit.",
+        buffs: [buffs.buffSharpTipArrows],
+    }),
+
     // ######## ##    ## ######## ##     ##  ####  ########  ######
     // ##       ###   ## ##       ###   ###   ##   ##       ##    ##
     // ##       ####  ## ##       #### ####   ##   ##       ##
@@ -650,7 +762,10 @@ const attacks = {
     // ######## ##    ## ######## ##     ##  ####  ########  ######
 
     /*
-     * Spiders
+     *  888888    db    88   88 88b 88    db
+     *  88__     dPYb   88   88 88Yb88   dPYb
+     *  88""    dP__Yb  Y8   8P 88 Y88  dP__Yb
+     *  88     dP""""Yb `YbodP' 88  Y8 dP""""Yb
      */
     // mommySpider
     VILE_BITE: new Attack({
@@ -721,7 +836,6 @@ const attacks = {
         description: "The spider rushes through your party.",
     }),
 
-    // babySpider
     CREEPY_CRAWLIES: new Attack({
         name: "Creepy Crawlies",
         family: ["babySpider"],
@@ -742,9 +856,6 @@ const attacks = {
         description: "Ew! The little baby spider is crawling on you!",
     }),
 
-    /*
-     * Hog
-     */
     HOG_RUSH: new Attack({
         name: "Hog Rush",
         family: ["Hog"],
@@ -799,7 +910,10 @@ const attacks = {
     }),
 
     /*
-     * Carbuncles
+     *  dP""b8    db    88""Yb 88""Yb 88   88 88b 88  dP""b8 88     888888 .dP"Y8
+     * dP   `"   dPYb   88__dP 88__dP 88   88 88Yb88 dP   `" 88     88__   `Ybo."
+     * Yb       dP__Yb  88"Yb  88""Yb Y8   8P 88 Y88 Yb      88  .o 88""   o.`Y8b
+     *  YboodP dP""""Yb 88  Yb 88oodP `YbodP' 88  Y8  YboodP 88ood8 888888 8bodP'
      */
     cuddlebutt: new Attack({
         name: "Cuddle Butt",
@@ -948,6 +1062,66 @@ const attacks = {
         },
         description: "A bright light momentarily blinds the enemy..",
         stun: 5,
+    }),
+
+    /*
+     * .dP"Y8 88  dP 888888 88     888888 888888  dP"Yb  88b 88 .dP"Y8
+     * `Ybo." 88odP  88__   88     88__     88   dP   Yb 88Yb88 `Ybo."
+     * o.`Y8b 88"Yb  88""   88  .o 88""     88   Yb   dP 88 Y88 o.`Y8b
+     * 8bodP' 88  Yb 888888 88ood8 888888   88    YbodP  88  Y8 8bodP'
+     */
+
+    // Spell
+    rattle: new Attack({
+        wdm: 0,
+        name: "Rattle",
+        type: "spell",
+        family: ["Skeleton"],
+        initRecovery: "25",
+        targets: {
+            style: "side",
+            side: "enemy",
+            row: null,
+        },
+        description: "Strikes fear into the hearts of your enemies, lowering their blunt resistance.",
+        buffs: [buffs.debuffRattle],
+    }),
+
+    cackle: new Attack({
+        wdm: 0,
+        name: "Cackle",
+        type: "spell",
+        family: ["Skeleton"],
+        initRecovery: "28",
+        targets: {
+            style: "self",
+            side: null,
+            row: null,
+        },
+        description: "Cackle in your madness, buffing your blunt damage.",
+        buffs: [buffs.buffCackle],
+    }),
+
+    /*
+     * .dP"Y8    db    88   88 .dP"Y8  dP"Yb  88b 88
+     * `Ybo."   dPYb   88   88 `Ybo." dP   Yb 88Yb88
+     * o.`Y8b  dP__Yb  Y8   8P o.`Y8b Yb   dP 88 Y88
+     * 8bodP' dP""""Yb `YbodP' 8bodP'  YbodP  88  Y8
+     */
+    // Spell
+    healUndead: new Attack({
+        wdm: 0,
+        name: "Heal Undead",
+        type: "spell",
+        family: ["Skeleton"],
+        initRecovery: "32",
+        targets: {
+            style: "all",
+            side: null,
+            row: null,
+        },
+        description: "Heals all undead units in combat by 20%.",
+        buffs: [buffs.buffHealUndead],
     }),
 };
 
