@@ -285,7 +285,7 @@ const DEFAULTENEMY = {
     healthMax: 100,
 
     initStart: 45,
-    initStartVariance: 0.12 /* Init Start Variance */,
+    initStartVariance: 0.12,
     initDecrementModifier: 1,
 
     criticalChanceBase: 0.05,

@@ -158,6 +158,7 @@ class Combatant {
         let abp = this.absorbPercent;
         let abpMax = this.absorbPercentMax;
         let abf = this.absorbFlat;
+        let dmg = this.damage;
 
         let solstr = `<span id="CombatantInformationPlate">`;
 
@@ -207,17 +208,19 @@ class Combatant {
         let iBlock = Math.floor(this.blockCalculated * 100);
         let iBlockRecovery = `<span class='infoMax'>+${Math.ceil(this.blockRecovery)}init</span>`;
 
-        solstr += `<span id='infoBlock'>Block<br>${iBlock}% ${iBlockRecovery}</span>`;
+        solstr += `<span id='infoBlock'>Block<br>${iBlock}%<br>${iBlockRecovery}</span>`;
 
         // Crit
         let iCritChance = Math.ceil(
             this.criticalChanceBase * this.criticalChanceIncreased * this.criticalChanceMore * 100
         );
-        let iCritDamage = `<span class='infoMax'>*${Math.ceil(
-            this.criticalDamageBase * this.criticalDamageIncreased * this.criticalDamageMore * 100
-        )}%</span>`;
+        let iCritDamage = `<span class='infoMax'>${+(
+            this.criticalDamageBase *
+            this.criticalDamageIncreased *
+            this.criticalDamageMore
+        ).toFixed(2)}x</span>`;
 
-        solstr += `<span id='infoCrit'>Critical<br>${iCritChance}% ${iCritDamage}</span>`;
+        solstr += `<span id='infoCrit'>Critical<br>${iCritChance}%<br>${iCritDamage}</span>`;
 
         // Direct
         let iDirectChance = Math.ceil(this.directChanceBase * this.directChanceIncreased * this.directChanceMore * 100);
@@ -337,9 +340,51 @@ class Combatant {
         solstr += `</grid></span>`;
 
         /**
-         * Added Damadge
+         * Added Damage
          */
-         // NYI Added Damage Information
+        /**
+         * Since damage is calculated at the time of attack, I should display it differently:
+         * Added (Min) - (Max)
+         * (Increased * More)x  // NYI: This stat doesn't actaully exist.
+         */
+        solstr += `<span id='infoDamage'><span class='infoSectionHeader'>Damage</span>`;
+        solstr += `<grid id='infoDamageGrid'>`;
+
+        function getDmgString(sub) {
+            return `${Math.floor(dmg[sub].min)} - ${Math.floor(dmg[sub].max)}<br><span class="infoMax">x1.0</span> <span class="infoNYI">NYI</span>`;
+        }
+
+        // Material
+        let iBluntDmg = getDmgString("blunt");
+        let iPierceDmg = getDmgString("pierce");
+        let iAcidDmg = getDmgString("acid");
+
+        solstr += `<span class='infoMaterial'>Material</span>`;
+        solstr += `<span class='infoBlunt'>Blunt<br>${iBluntDmg}</span>`;
+        solstr += `<span class='infoPierce'>Pierce<br>${iPierceDmg}</span>`;
+        solstr += `<span class='infoAcid'>Acid<br>${iAcidDmg}</span>`;
+
+        // Elemental
+        let iFireDmg = getDmgString("fire");
+        let iFrostDmg = getDmgString("frost");
+        let iLightningDmg = getDmgString("lightning");
+
+        solstr += `<span class='infoElemental'>Elemental</span>`;
+        solstr += `<span class='infoFire'>Fire<br>${iFireDmg}</span>`;
+        solstr += `<span class='infoFrost'>Frost<br>${iFrostDmg}</span>`;
+        solstr += `<span class='infoLightning'>Lightning<br>${iLightningDmg}</span>`;
+
+        // Occult
+        let iShadowDmg = getDmgString("shadow");
+        let iSacredDmg = getDmgString("sacred");
+        let iAetherDmg = getDmgString("aether");
+
+        solstr += `<span class='infoOccult'>Occult</span>`;
+        solstr += `<span class='infoShadow'>Shadow<br>${iShadowDmg}</span>`;
+        solstr += `<span class='infoSacred'>Sacred<br>${iSacredDmg}</span>`;
+        solstr += `<span class='infoAether'>Aether<br>${iAetherDmg}</span>`;
+
+        solstr += `</grid></span>`;
 
         /**
          * Buffs & Debuffs
