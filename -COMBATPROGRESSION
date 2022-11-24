@@ -1,19 +1,9 @@
 TODO for indev release: 
 ☐  AttackInformationPlate
-    ☐  Information Present
+    →  Information Present
     ☐  CSS
 ☐  CombatantInformationPlate
     ☐  CSS
-☐  Equipment InformationPlate
-    ☐  Information Present
-    ☐  CSS
-
-Things with the 9 damage types can be split into a single function that takes the `this` obj as an argument.
-They can show up iff they have stats that modify them.
-Mods can show the stats they mod in green on equipment, to indicate that the stat isn`t the base stat.
-When a stat reaches its cap, its numbers can shine gold to represent that.
-
-☐  Battle Log
 ☐  Primitive Combat Flash Messages
     ☐  Words for Spells
     ☐  Buffs
@@ -53,8 +43,12 @@ When a stat reaches its cap, its numbers can shine gold to represent that.
         Accessory Ideas:
             pretty much the same as the above two?
 
-☐  Add Preset characters options to start/inbetween.
+☐  Add Preset character options to start/inbetween.
     ☑  Switching functional.
+    ☐  Tank
+    ☐  AoE Bruiser
+    ☐  Buffer
+    ☐  Chaos User
 ☐  CSS Update
     ☐  Location and Name embedded into canvases.
     ☑  Targetting functional.
@@ -117,6 +111,7 @@ Stats and Growth:
         ☐  Spell Syncing [Party memebers with the same spell can cast it together, which makes a more powerful spell.]
     ☐  Miracles
     ☐  Energy Shield (or do I want divine shield? Having both would be illogical and/or confusing.)
+    ☐  Battle Log
     
     Combat Initialization:
     ☐  Setting (Music, Background, ETC) 
@@ -129,13 +124,13 @@ Stats and Growth:
     ☐  Enemies use a "prefer backline/frontline" bool
 
     Information Screen:
-    →  Combat Instance Statistics Visible
-    →  Attack Statistics Visible
-    →  Monster Statistics Visible
-    ☐  Useable as a Guide/Help system.
-    ☐  Bestiary system that teaches you more about enemies the more you fight them.
+    ☐  Battle Log
+    ☐  Equipment InformationPlate
+        ☐  Information Present
+        ☐  CSS
 
     Character Customization:
+    ☐  Bestiary system that teaches you more about enemies the more you fight them.
     ☐  Passive Skill Tree
     ☐  Guild Rank
         ☐  E-Rank:

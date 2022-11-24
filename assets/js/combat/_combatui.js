@@ -276,15 +276,14 @@ function updateCanvas(char, canvasElement) {
  * TODO: This should be called while hovering, not on mouseover.
  * That is, 100% of the time this function is called, I want it to call while object is hovering, so it is called repeatedly at a decent interval.
  */
-function displayToInfoScreenOnMouseover(selector, obj) {
+function displayToInfoScreenOnMouseover(selector, obj, obj2) {
     waitForElm(selector).then((elm) => {
         $(elm).mouseenter(function () {
             // If state is combat
             if (Story.get(passage()).tags.includes(".combat")) {
-                $("#MainCombatGrid #combatNotifications").html(obj.getInfo());
+                $("#MainCombatGrid #combatNotifications").html(obj.getInfo(obj2));
             } else {
-                /* FIXME: Major bug, flickers buttons. */
-                $("#attackInfoDescription").html(obj.getInfo());
+                $("#attackInfoDescription").html(obj.getInfo(obj2));
             }
         });
     });
@@ -296,8 +295,8 @@ function displayToInfoScreenOnMouseover(selector, obj) {
         S.fns = {};
     }
 
-    S.fns.displayToInfoScreenOnMouseover = function (selector, obj) {
-        displayToInfoScreenOnMouseover(selector, obj);
+    S.fns.displayToInfoScreenOnMouseover = function (selector, obj, obj2) {
+        displayToInfoScreenOnMouseover(selector, obj, obj2);
     };
 
     // S.fns.combatMessage = function (text, type, charLoc) {

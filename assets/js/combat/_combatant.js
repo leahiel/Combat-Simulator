@@ -182,10 +182,10 @@ class Combatant {
         solstr += `<grid id='infoMetricsGrid'>`;
 
         // Health & Mana
-        let iHPMax = Math.floor(this.healthMax);
+        let iHPMax = Math.ceil(this.healthMax);
         let iHP;
         if (tags().includes(".combat")) {
-            iHP = this.health;
+            iHP = Math.ceil(this.health);
         } else {
             iHP = iHPMax;
         }
@@ -194,13 +194,15 @@ class Combatant {
         // Init
         let iInitStart = `<span class='infoMax'>/${Math.ceil(this.initStart)}</span>`;
         let iInitStartVariance = `<span class='infoMax'>±${Math.ceil(this.initStartVariance * this.initStart)}</span>`;
-        let iInitRecoveryModifier = `<span class="infoMax">Attack Recovery: </span>x${+(this.initRecoveryModifier).toFixed(2)}`;
+        let iInitRecoveryModifier = `<span class="infoMax">Attack Recovery: </span>x${+this.initRecoveryModifier.toFixed(
+            2
+        )}`;
 
         let iInit;
         if (tags().includes(".combat")) {
             iInit = `${Math.ceil(this.init)}${iInitStart}`;
         } else {
-            iInit = `${Math.ceil(this.init)}${iInitStartVariance}`;
+            iInit = `${Math.ceil(this.initStart)}${iInitStartVariance}`;
         }
         let iInitDecrement = `<span id='infoInitDecrement'>${this.initDecrementModifier}<span class="infoMax">/tick</span><br>${iInitRecoveryModifier}</span>`;
 
@@ -225,12 +227,10 @@ class Combatant {
             this.criticalDamageIncreased *
             this.criticalDamageMore
         ).toFixed(2)}x</span>`;
-
         solstr += `<span id='infoCrit'>Critical<br>${iCritChance}%<br>${iCritDamage}</span>`;
 
         // Direct
         let iDirectChance = Math.ceil(this.directChanceBase * this.directChanceIncreased * this.directChanceMore * 100);
-
         solstr += `<span id='infoDirect'>Direct<br>${iDirectChance}%</span>`;
 
         solstr += `</grid></span>`;

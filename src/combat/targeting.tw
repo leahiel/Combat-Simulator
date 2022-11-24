@@ -33,7 +33,7 @@
     <<run $("#targetsZone #playerAttacks").empty().wiki(Story.get("Player_Attack_Targets").processText());>>
 <</but>>
 
-<<run setup.fns.displayToInfoScreenOnMouseover(`#targetsZone #playerAttacks #${State.temporary.id}`, State.temporary.attack);>>
+<<run setup.fns.displayToInfoScreenOnMouseover(`#targetsZone #playerAttacks #${_id}`, _attack, $ci.activeCharacter);>>
 
 
 :: Player_Attack_Disabled [.combat .helper nostats]
@@ -43,8 +43,9 @@
 <<set _id to "PlayerAttack" + (_int + 1)>>
 <<but _attack.name id _id class "playerAttack disabled">>
 <</but>>
-
-<<run setup.fns.displayToInfoScreenOnMouseover(`#targetsZone #playerAttacks #${State.temporary.id}`, State.temporary.attack);>>
+<<if tags().includes('.combat')>>
+    <<run setup.fns.displayToInfoScreenOnMouseover(`#targetsZone #playerAttacks #${_id}`, _attack, $ci.activeCharacter);>>
+<</if>>
 
 
 

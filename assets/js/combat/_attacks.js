@@ -29,50 +29,168 @@ class Attack {
      * This will eventually show up left or above of the attack menu, so that players can know what their attacks do
      */
     getInfo(attacker) {
+        let dmg = this.damage;
         let solstr = `<span id="AttackInformationPlate">`;
 
-        // misc info
+        /**
+         * Miscellanious Information
+         */
         solstr += `<span id='infoName'>${this.name}</span>`;
+        solstr += `<span id='infoAttackDescription'>${this.description}</span>`;
         solstr += `<span class='divider'></span>`;
 
-        // special info
-
-        // For uncommon stat thingies. "Absorbs Elemental."  We could also put the rarity affix info here?
-
-        // metrics info
+        /**
+         * Metrics Information
+         */
         solstr += `<span id='infoMetrics'><span class='infoSectionHeader'>METRICS</span>`;
         solstr += `<grid id='infoMetricsAttacksGrid'>`;
-        solstr += `<span>WDM:${this.wdm}</span>`;
-        solstr += `<span>initRecovery:${this.initRecovery}</span>`;
-        // solstr += `<span>Direct:${this.directCalculated}</span>`; // NYI I need to pull the attacker's stats for this
-        // solstr += `<span>Critical:${this.criticalCalculated}</span>`; // NYI I need to pull the attacker's stats for this
+
+        // WDM & Init
+        solstr += `<span id='infoWDM'>WDM<br>${Math.floor(this.wdm * 100)}%</span>`;
+        solstr += `<span id='init'>Init Recovery<br>+${Math.ceil(
+            this.initRecovery * attacker.initRecoveryModifier
+        )}</span>`;
+        // NYI Init Recovery Variance
+        // <span class='infoMax'>±${Math.ceil(this.initRecoveryVariance * this.initRecovery * attacker.initRecoveryModifier)}</span>
+
+        // Crit & Direct & Targets
+        // Crit
+        let iCritChance = Math.ceil(
+            (this.criticalChanceBase + attacker.criticalChanceBase) *
+                (this.criticalChanceIncreased + attacker.criticalChanceIncreased) *
+                (this.criticalChanceMore * attacker.criticalChanceMore) *
+                100
+        );
+        let iCritDamage = `<span class='infoMax'>${+(
+            (this.criticalDamageBase + attacker.criticalDamageBase) *
+            (this.criticalDamageIncreased + attacker.criticalDamageIncreased) *
+            (this.criticalDamageMore * attacker.criticalDamageMore)
+        ).toFixed(2)}x</span>`;
+        solstr += `<span id='infoCrit'>Critical<br>${iCritChance}%<br>${iCritDamage}</span>`;
+
+        // Direct
+        let iDirectChance = Math.ceil(
+            (this.directChanceBase + attacker.directChanceBase) *
+                (this.directChanceIncreased + attacker.directChanceIncreased) *
+                (this.directChanceMore * attacker.directChanceMore) *
+                100
+        );
+        solstr += `<span id='infoDirect'>Direct<br>${iDirectChance}%</span>`;
+
+        // Targets
+        let targetStr;
+        let targetSide = this.targets.side
+            ? this.targets.side.charAt(0).toUpperCase() + this.targets.side.slice(1)
+            : null;
+        let targetRow = this.targets.row ? this.targets.row.charAt(0).toUpperCase() + this.targets.row.slice(1) : null;
+        switch (this.targets.style) {
+            case "all":
+                targetStr = "Targets Everyone";
+                break;
+            case "side":
+                targetStr = `Targets ${targetSide} Side`;
+                break;
+            case "row":
+                targetStr = `Targets ${targetSide} Side's ${targetRow} Row`;
+                break;
+            case "single":
+                targetStr = `Targets an ${targetSide} from the ${targetRow}row`;
+                break;
+            case "self":
+                targetStr = "Targets Self";
+                break;
+        }
+        if (this.targets.style === "All") {
+            targetStr;
+        }
+        // TODO: This string is honestly a mess lmao.
+        solstr += `<span id='infoTargets'>${targetStr}</span>`;
+
         solstr += `</grid></span>`;
 
-        // TODO: Targets Information
+        /**
+         * Special Information
+         */
+        // Block/Deflect Modifiers
+        // If it is unblocked/undeflectable
+        // For uncommon stat thingies. "Absorbs Elemental."  We could also put the rarity affix info here?
 
-        // solstr += `</grid></span>`;
+        // Buffs & Debuffs
+        if (this.buffs.length > 0) {
+            solstr += `<span id='infoSpecial'><span class='infoSectionHeader'>SPECIAL INFORMATION</span>`;
+            solstr += `<grid id='infoSpecialGrid'>`;
 
-        // damage info
-        // NYI: damage += activeCharacter stats
-        solstr += `<span id='infoDamage'><span class='infoSectionHeader'>ADDED DAMAGE</span>`;
+            solstr += `<span id='infoBuffs'>Applies ${this.buffs[0].name} to targets.</span>`;
+
+            solstr += `</grid></span>`;
+        }
+
+        /**
+         * Damage Information
+         */
+        let totalMin = 0;
+        let totalMax = 0;
+        function getDmgString(sub, attack) {
+            let min = dmg[sub].min + attacker.damage[sub].min;
+            let max = dmg[sub].max + attacker.damage[sub].max;
+            let increased = dmg[sub].increased + attacker.damage[sub].increased;
+            let more = dmg[sub].more * attacker.damage[sub].more;
+
+            let minTotal = Math.floor(min * (1 + increased) * more * attack.wdm);
+            let maxTotal = Math.floor(max * (1 + increased) * more * attack.wdm);
+
+            totalMin += minTotal;
+            totalMax += maxTotal;
+
+            let minstr = +minTotal.toFixed(2);
+            let maxstr = +maxTotal.toFixed(2);
+
+            return `${minstr} - ${maxstr}`;
+        }
+
+        totalMin = +totalMin.toFixed(2);
+        totalMax = +totalMax.toFixed(2);
+
+        let iBluntDmg = getDmgString("blunt", this);
+        let iPierceDmg = getDmgString("pierce", this);
+        let iAcidDmg = getDmgString("acid", this);
+        let iFireDmg = getDmgString("fire", this);
+        let iFrostDmg = getDmgString("frost", this);
+        let iLightningDmg = getDmgString("lightning", this);
+        let iShadowDmg = getDmgString("shadow", this);
+        let iSacredDmg = getDmgString("sacred", this);
+        let iAetherDmg = getDmgString("aether", this);
+
+        solstr += `<span id='infoDamage'><span class='infoSectionHeader'>Damage</span>`;
         solstr += `<grid id='infoDamageGrid'>`;
-        solstr += `<span style="font-weight:bold">Material</span>`;
-        solstr += `<span>Blunt:<br>${this.damage.blunt.min} - ${this.damage.blunt.max}</span>`;
-        solstr += `<span>Pierce:<br>${this.damage.pierce.min} - ${this.damage.pierce.max}</span>`;
-        solstr += `<span>Acid:<br>${this.damage.acid.min} - ${this.damage.acid.max}</span>`;
 
-        solstr += `<span style="font-weight:bold">Elemental</span>`;
-        solstr += `<span>Fire:<br>${this.damage.fire.min} - ${this.damage.fire.max}</span>`;
-        solstr += `<span>Frost:<br>${this.damage.frost.min} - ${this.damage.frost.max}</span>`;
-        solstr += `<span>Lightning:<br>${this.damage.lightning.min} - ${this.damage.lightning.max}</span>`;
+        if (totalMin !== 0 || totalMax !== 0) {
+            // Total
+            solstr += `<span id='infoDamageTotal'>Total<br>${totalMin} - ${totalMax}</span>`;
+            solstr += `<span id='infoDamageHitNumber'>Hits ${this.hitnumber} Times</span>`;
 
-        solstr += `<span style="font-weight:bold">Occult</span>`;
-        solstr += `<span>Sacred:<br>${this.damage.sacred.min} - ${this.damage.sacred.max}</span>`;
-        solstr += `<span>Shadow:<br>${this.damage.shadow.min} - ${this.damage.shadow.max}</span>`;
-        solstr += `<span>Aether:<br>${this.damage.aether.min} - ${this.damage.aether.max}</span>`;
+            // Material
+            solstr += `<span class='infoMaterial'>Material</span>`;
+            solstr += `<span class='infoBlunt'>Blunt<br>${iBluntDmg}</span>`;
+            solstr += `<span class='infoPierce'>Pierce<br>${iPierceDmg}</span>`;
+            solstr += `<span class='infoAcid'>Acid<br>${iAcidDmg}</span>`;
+
+            // Elemental
+            solstr += `<span class='infoElemental'>Elemental</span>`;
+            solstr += `<span class='infoFire'>Fire<br>${iFireDmg}</span>`;
+            solstr += `<span class='infoFrost'>Frost<br>${iFrostDmg}</span>`;
+            solstr += `<span class='infoLightning'>Lightning<br>${iLightningDmg}</span>`;
+
+            // Occult
+            solstr += `<span class='infoOccult'>Occult</span>`;
+            solstr += `<span class='infoShadow'>Shadow<br>${iShadowDmg}</span>`;
+            solstr += `<span class='infoSacred'>Sacred<br>${iSacredDmg}</span>`;
+            solstr += `<span class='infoAether'>Aether<br>${iAetherDmg}</span>`;
+        } else {
+            solstr += `<span id='infoDamageTotal'>Deals no damage.</span>`;
+        }
+
         solstr += `</grid></span>`;
-
-        solstr += `</span>`;
 
         return solstr;
     }
@@ -234,7 +352,7 @@ const attacks = {
         damage: {
             pierce: {
                 min: 1,
-                max: 1,
+                max: 2,
             },
         },
         stun: 5,
@@ -283,6 +401,7 @@ const attacks = {
 
     amp: new Attack({
         name: "Amped Up",
+        wdm: 0,
         family: ["unarmedAttacks"],
         initRecovery: 24,
         type: "buff",

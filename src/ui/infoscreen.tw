@@ -310,7 +310,7 @@
 <<for _int, _attack range $info.current.equippables.weapon.attacks>>
     <<capture _attack>>
         <<run $("#infoScreenAttacks").wiki(Story.get("Player_Attack_Disabled").processText());>>
-        <<run setup.fns.displayToInfoScreenOnMouseover(`#PlayerAttack${_int + 1}`, _attack);>>
+        <<run setup.fns.displayToInfoScreenOnMouseover(`#PlayerAttack${_int + 1}`, _attack, $info.current);>>
     <</capture>>
 <</for>>
 

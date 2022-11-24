@@ -252,8 +252,6 @@ tpi {
 
     padding-top: 1rem;
     padding-bottom: 1rem;
-
-    width: 33%;
 }
 
 body.stowed {
@@ -381,6 +379,16 @@ body.stowed {
     color: hsl(39, 100%, 50%);
 }
 
+#infoDamageTotal {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+#infoDamageHitNumber {
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+
 #infoMetricsGrid #infoInit {
     grid-row: 1;
     grid-column-start: 3;
@@ -390,6 +398,12 @@ body.stowed {
 #infoInitVariance {
     font-size: 0.8em;
     color: hsl(0, 0%, 40%);
+}
+
+#infoAttackDescription {
+    display: block;
+    font-size: 0.9em;
+    color: hsl(0, 0%, 60%);
 }
 
 #infoDeflect {
@@ -437,11 +451,55 @@ body.stowed {
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-#infoMetricsAttacksGrid {
-    grid-auto-flow: column;
+#attackInfoDescription #infoDamageGrid {
+    grid-template-rows: auto auto auto auto auto;
+}
 
-    grid-template-rows: 1fr;
-    grid-template-columns: 1fr 1fr;
+#infoMetricsAttacksGrid {
+    display: grid;
+    grid-auto-flow: column;
+    justify-items: center;
+    align-items: center;
+    padding-bottom: 0.5em;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 0.5em;
+    font-size: 0.9em;
+    line-height: 1.25;
+    text-align: center;
+}
+
+#infoBuffs {
+    font-size: .7em;
+    text-align: center;
+    display: block;
+}
+
+#infoMetricsAttacksGrid #infoWDM {
+    grid-row: 1;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+#infoMetricsAttacksGrid #init {
+    grid-row: 1;
+    grid-column-start: 3;
+    grid-column-end: 5;
+}
+
+#infoMetricsAttacksGrid #infoDirect {
+    grid-column: 1;
+}
+
+#infoMetricsAttacksGrid #infoCrit {
+    grid-column: 2;
+}
+
+#infoMetricsAttacksGrid #infoTargets {
+    font-size: 0.9em;
+    grid-row: 2;
+    grid-column-start: 3;
+    grid-column-end: 5;
 }
 
 #infoTargetingGrid {
@@ -519,10 +577,15 @@ body.stowed {
 #ui-dialog-body.dialogEquipmentSwap,
 #ui-dialog-body.dialogEquipmentMod {
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: auto auto 5fr;
+    grid-template-columns: 23vw 23vw;
     grid-gap: 1rem;
-    width: 60vw;
+    /* width: 60vw; */
     height: 80vh;
+    justify-content: space-between;
+    align-items: start;
+
+    overflow-x: hidden;
 }
 
 .dialogEquipmentSwap .macro-listbox,
@@ -684,7 +747,7 @@ input:checked ~ accordionContent {
 }
 
 #ui-dialog {
-    max-width: 65vw;
+    max-width: 68vw;
 }
 
 #mainwrapper {
@@ -1151,7 +1214,6 @@ input:checked ~ accordionContent {
     padding-right: 2rem;
 
     line-height: 1.25;
-    min-width: initial;
 
     box-shadow: var(--boxShadow);
     background-color: rgb(25, 25, 25);
