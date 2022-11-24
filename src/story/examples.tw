@@ -1,4 +1,4 @@
-:: Link-Replace-Prepend [@ex nostats] {"position":"500,475"}
+:: Link-Replace-Prepend [@ex nostats] {"position":"750,25"}
 /* Showing how to use Link Replaces to go through all options, and then showing a final text block. */
 <<bg "src/assets/img/desolatecity.jpeg" 0.70>>
 <<set _loc to "#1_resp">>
@@ -63,12 +63,12 @@ Here, I want to show off using an event handler to show text, and then show the 
     })
 <</script>>
 
-:: Link-Replace-Prepend-Helper [@ex nostats] {"position":"500,500"}
+:: Link-Replace-Prepend-Helper [@ex nostats] {"position":"750,50"}
 And there you go, all the text has been replaced! This text has been added using a passage.
 
 
 
-:: Link-Replace-Hide-Others [@ex nostats] {"position":"375,475"}
+:: Link-Replace-Hide-Others [@ex nostats] {"position":"625,25"}
 Only one option can be picked, Which one will it be?
 <br>
 <br>
@@ -89,7 +89,7 @@ Only one option can be picked, Which one will it be?
     })
 <</script>>
 
-:: Link-Replace-Hide-Others-Helper [@ex nostats] {"position":"375,500"}
+:: Link-Replace-Hide-Others-Helper [@ex nostats] {"position":"625,50"}
 <br>
 <br>
 This is the helper text that appears after you pick an option.

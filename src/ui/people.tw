@@ -1,9 +1,9 @@
-:: PeopleText [.uibar nostats] {"position":"125,550"}
+:: PeopleText [.uibar nostats] {"position":"1150,25"}
 <<include P_Template>>
 
 
 
-:: P_Template [.people] {"position":"125,575"}
+:: P_Template [.people] {"position":"1150,50"}
 <<if $ppl_tmpl_met>>
     @@.knowledge;Template Matter:@@<br>
     Lorem Ipsum about template matter.

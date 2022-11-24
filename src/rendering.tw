@@ -1,4 +1,4 @@
-:: PassageReady [.rendering] {"position":"250,475"}
+:: PassageReady [.rendering] {"position":"500,25"}
 /* Everything here is done before every passage begins rendering.
 Best for checking variables and whatnot. */
 <<script>>
@@ -34,7 +34,7 @@ setup.fns.settingsHandler();
 
 
 
-:: PassageHeader [.rendering] {"position":"250,500"}
+:: PassageHeader [.rendering] {"position":"500,50"}
 /* Everything here is rendered at the start of every passage rendering. 
 It's intended for actual rendering stuff. */
 <div id="chapterheader">Chapter Header Text</div>
@@ -47,7 +47,7 @@ It's intended for actual rendering stuff. */
 
 
 
-:: PassageFooter [.rendering] {"position":"250,525"}
+:: PassageFooter [.rendering] {"position":"500,75"}
 /* Everything here is rendered at the end of every passage rendering.
 It's intended for actual rendering stuff. */
 
@@ -55,7 +55,7 @@ It's intended for actual rendering stuff. */
 
 
 
-:: PassageDone [.rendering] {"position":"250,550"}
+:: PassageDone [.rendering] {"position":"500,100"}
 /* Everything here is done after each passage is rendered. Best for 
 event handlers and the like. */
 <<script>>

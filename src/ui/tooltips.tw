@@ -1,8 +1,8 @@
-:: TooltipText [.uibar nostats] {"position":"375,550"}
+:: TooltipText [.uibar nostats] {"position":"625,100"}
 /* The tool tips found in this file are strictly... tooltips. They're not meant to be seen with a button in the UI bar. */ 
 
 
 
-:: TT_Template [nostats] {"position":"375,575"}
+:: TT_Template [nostats] {"position":"625,125"}
 @@.knowledge;Template Matter:@@<br>
 Lorem Ipsum about template matter.

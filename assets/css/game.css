@@ -866,6 +866,10 @@ input:checked ~ accordionContent {
     content: " Credits";
 }
 
+#storyTabs li#stowTab:after {
+    content: " Stow";
+}
+
 #storyTabs li#devTab {
     background-color: red;
 }

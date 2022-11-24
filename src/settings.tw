@@ -1,9 +1,9 @@
-:: StoryTitle [.initialize] {"position":"0,0"}
+:: StoryTitle [.initialize] {"position":"0,25"}
 Combat Simulator
 
 
 
-:: StoryData [.initialize] {"position":"0,100"}
+:: StoryData [.initialize] {"position":"0,50"}
 {
     "ifid": "8A91596D-1642-4080-BDFE-707526D32D3E",
     "format": "SugarCube",
@@ -12,17 +12,17 @@ Combat Simulator
 
 
 
-:: StorySubtitle [.initialize] {"position":"0,200"}
+:: StorySubtitle [.initialize] {"position":"0,75"}
 
 
 
 
-:: StoryAuthor [.initialize] {"position":"0,300"}
+:: StoryAuthor [.initialize] {"position":"0,100"}
 LeahPeach
 
 
 
-:: StoryInit [.initialize] {"position":"0,400"}
+:: StoryInit [.initialize] {"position":"0,125"}
 /* Everything here is only called once, when the story is initialized. */
 
 <<script>>

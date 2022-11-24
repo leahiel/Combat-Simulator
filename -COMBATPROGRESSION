@@ -1,4 +1,10 @@
 TODO for indev release: 
+☐  CSS Update
+    ☐  AttackInformationPlate
+    ☐  CombatantInformationPlate
+    ☐  Location and Name embedded into canvases.
+    ☑  Targetting functional.
+        ☐  Targeting CSS.
 ☐  Add content.
     ☐  6 Combat Instances
         ☑  Spiders
@@ -33,13 +39,6 @@ TODO for indev release:
     ☐  AoE Bruiser
     ☐  Buffer
     ☐  Chaos User
-☐  CSS Update
-    ☐  AttackInformationPlate
-    ☐  CombatantInformationPlate
-    ☐  Location and Name embedded into canvases.
-    ☑  Targetting functional.
-        ☐  Targeting CSS.
-    ☐  When hovering over buff/canvas, it should show buffs info.
 
 Implicit Weapon Balancing:
     Two Handed Weapons hit Area and Single, less defense.
@@ -82,6 +81,7 @@ Stats and Growth:
         ☐  On Miracle
         ☐  On Ally Attack
         ☐  When Ally Hit
+        ☐  When hovering over buff/canvas, it should show buffs info.
     ☐  Triggers
         I need a system whereby when an event buffs, buffs can be applied. For instance, if I have a chance to bleed modifier on an axe, then bleeding should be able to be applied on every attack.
     ☐  Animations

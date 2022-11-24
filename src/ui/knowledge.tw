@@ -1,9 +1,9 @@
-:: KnowledgeText [.uibar nostats] {"position":"0,525"}
+:: KnowledgeText [.uibar nostats] {"position":"0,175"}
 <<include K_Template>>
 
 
 
-:: K_Template [.knowledge] {"position":"0,550"}
+:: K_Template [.knowledge] {"position":"0,200"}
 <<if true>>
     @@.knowledge;Template Matter:@@<br>
     Lorem Ipsum about template matter.

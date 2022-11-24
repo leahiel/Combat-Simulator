@@ -1,4 +1,4 @@
-:: Start [@start] {"position":"275,200"}
+:: Start [@start] {"position":"275,250"}
 <<set _pronouns to "female">>
 
 <gridcontainer id="charSelect">
@@ -8,6 +8,7 @@
 		<h4><label>Name thyself:   <<textbox "$pc.name" "PCName_TBD">></label></h4>
 		<br>
 		<br> 
+		/*
 		<label>Which set of pronouns do you prefer? 
 			<<cycle "_pronouns" "autoselect">>
 				<<option "she/her/hers" "female">>
@@ -15,6 +16,7 @@
 				<<option "they/them/theirs" "misc">>
 			<</cycle>>
 		</label>
+		 */
 		/* 
 		<br>
 		<br>
@@ -146,7 +148,7 @@
 
 
 
-:: Party_Preset_Select [.helper nostats]
+:: Party_Preset_Select [.helper nostats] {"position":"275,350"}
 <griditem>
 	<gridtitle>Main Character</gridtitle>
 	<griddescript>

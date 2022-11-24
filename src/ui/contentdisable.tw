@@ -1,4 +1,4 @@
-:: ContentDisabler [.initialize nostats] {"position":"0,625"}
+:: ContentDisabler [.initialize nostats] {"position":"0,275"}
 Please select which content you do not want to encounter.
 
 @@.warning;<br>If you set content to "Warn", passages that contain that content will have a warning.@@

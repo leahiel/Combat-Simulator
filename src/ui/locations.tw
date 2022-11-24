@@ -1,9 +1,9 @@
-:: LocationsText [.uibar nostats] {"position":"250,550"}
+:: LocationsText [.uibar nostats] {"position":"500,100"}
 <<include L_Template>>
 
 
 
-:: L_Template [.location] {"position":"250,575"}
+:: L_Template [.location] {"position":"500,125"}
 <<if $loc_tmpl_disc>>
     @@.knowledge;Template Matter:@@<br>
     Lorem Ipsum about template matter.

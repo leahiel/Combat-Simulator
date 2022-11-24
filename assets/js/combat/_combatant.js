@@ -236,6 +236,16 @@ class Combatant {
         solstr += `</grid></span>`;
 
         /**
+         * Buffs & Debuffs
+         */
+         if (this.buffs.length > 0) {
+            solstr += `<span id='infoBuffs'><span class='infoSectionHeader'>BUFFS & DEBUFFS</span>`;
+            // NYI buff and debuff information
+            solstr += `<span class='infoNYI'>Buff and debuff information are NYI, but you currently have at least one.</span>`;
+            solstr += `</span>`;
+        }
+
+        /**
          * Resistances & Reductions
          */
         solstr += `<span id='infoResistances'><span class='infoSectionHeader'>RESISTANCES & REDUCTIONS</span>`;
@@ -394,16 +404,6 @@ class Combatant {
         solstr += `<span class='infoAether'>Aether<br>${iAetherDmg}</span>`;
 
         solstr += `</grid></span>`;
-
-        /**
-         * Buffs & Debuffs
-         */
-        if (this.buffs.length > 0) {
-            solstr += `<span id='infoBuffs'><span class='infoSectionHeader'>BUFFS & DEBUFFS</span>`;
-            // NYI buff and debuff information
-            solstr += `<span class='infoNYI'>Buff and debuff information are NYI, but you currently have at least one.</span>`;
-            solstr += `</span>`;
-        }
 
         /**
          * Flavor
