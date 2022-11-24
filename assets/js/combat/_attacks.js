@@ -35,7 +35,7 @@ class Attack {
         /**
          * Miscellanious Information
          */
-        solstr += `<span id='infoName'>${this.name}</span>`;
+        solstr += `<span id='infoName'>${this.name} <span id='infoVariant'>#${this.type.toUpperCase()}</span></span>`;
         solstr += `<span id='infoAttackDescription'>${this.description}</span>`;
         solstr += `<span class='divider'></span>`;
 
@@ -47,9 +47,9 @@ class Attack {
 
         // WDM & Init
         solstr += `<span id='infoWDM'>WDM<br>${Math.floor(this.wdm * 100)}%</span>`;
-        solstr += `<span id='init'>Init Recovery<br>+${Math.ceil(
+        solstr += `<span id='init'>Recovery<br>+${Math.ceil(
             this.initRecovery * attacker.initRecoveryModifier
-        )}</span>`;
+        )}<span class='infoMax'> init</span></span>`;
         // NYI Init Recovery Variance
         // <span class='infoMax'>±${Math.ceil(this.initRecoveryVariance * this.initRecovery * attacker.initRecoveryModifier)}</span>
 
@@ -616,7 +616,7 @@ const attacks = {
                 max: 6,
             },
         },
-        directChanceBase: 0.6,
+        directChanceBase: 0.06,
         directChanceMore: 1.3,
     }),
 
@@ -663,7 +663,7 @@ const attacks = {
                 max: 6,
             },
         },
-        criticalChanceBase: 0.6,
+        criticalChanceBase: 0.06,
         criticalChanceMore: 1.3,
         deflectCalculated: -0.25, // TODO: This stat and below should be fully integrated into the calculation for the enemy, not calculated here.
         blockCalculated: 0,
@@ -693,7 +693,7 @@ const attacks = {
             },
         },
         stun: 5,
-        directChanceBase: 0.6,
+        directChanceBase: 0.06,
         directChanceMore: 1.3,
     }),
 
@@ -776,7 +776,7 @@ const attacks = {
             },
         },
         buffs: [buffs.debuffBleed],
-        criticalChanceBase: 0.6,
+        criticalChanceBase: 0.06,
         criticalChanceMore: 1.3,
         deflectCalculated: -0.25,
     }),
@@ -819,7 +819,7 @@ const attacks = {
                 max: 7,
             },
         },
-        criticalChanceBase: 0.6,
+        criticalChanceBase: 0.06,
         criticalChanceMore: 1.3,
     }),
 
@@ -840,7 +840,7 @@ const attacks = {
                 max: 7,
             },
         },
-        criticalChanceBase: 0.6,
+        criticalChanceBase: 0.06,
         criticalChanceMore: 1.3,
     }),
 

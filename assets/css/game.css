@@ -319,16 +319,14 @@ body.stowed {
 }
 
 #infoVariant {
-    display: inline-block;
-
-    /* font-weight: 600; */
-    font-size: 0.9em;
-    font-weight: bold;
+    display: block;
+    font-size: 0.6em;
+    font-weight: 700;
     color: grey;
-
     padding-top: 2px;
-
     outline: 0;
+    text-align: right;
+    margin-top: -1.4rem; /* TODO: negative margin */
 }
 
 #infoMetrics,
@@ -451,7 +449,7 @@ body.stowed {
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-#attackInfoDescription #infoDamageGrid {
+#infoDamageGrid {
     grid-template-rows: auto auto auto auto auto;
 }
 
@@ -470,7 +468,7 @@ body.stowed {
 }
 
 #infoBuffs {
-    font-size: .7em;
+    font-size: 0.7em;
     text-align: center;
     display: block;
 }

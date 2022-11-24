@@ -169,7 +169,7 @@ class Combatant {
         /**
          * Miscellanious Information
          */
-        solstr += `<span id='infoName'>${this.name} <span id='infoVariant'>#${this.rarity}</span></span>`; // NYI: Different colors for different rarities.
+        solstr += `<span id='infoName'>${this.name} <span id='infoVariant'>#${this.rarity.toUpperCase()}</span></span>`; // NYI: Different colors for different rarities.
         solstr += `<span class='divider'></span>`;
 
         // special info
