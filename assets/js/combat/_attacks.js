@@ -100,9 +100,6 @@ class Attack {
                 targetStr = "Targets Self";
                 break;
         }
-        if (this.targets.style === "All") {
-            targetStr;
-        }
         // TODO: This string is honestly a mess lmao.
         solstr += `<span id='infoTargets'>${targetStr}</span>`;
 
@@ -137,7 +134,7 @@ class Attack {
             let more = dmg[sub].more * attacker.damage[sub].more;
 
             let minTotal = Math.floor(min * (1 + increased) * more * attack.wdm);
-            let maxTotal = Math.floor(max * (1 + increased) * more * attack.wdm);
+            let maxTotal = Math.ceil(max * (1 + increased) * more * attack.wdm);
 
             totalMin += minTotal;
             totalMax += maxTotal;
@@ -227,6 +224,7 @@ const attacks = {
             },
         },
         type: "buff",
+        wdm: 0,
         buffs: [buffs.buffAmp],
         description: "DEBUG: You hit everyone applying a strong buff.",
     }),
@@ -501,6 +499,7 @@ const attacks = {
     }),
     // TODO: Made new Attack that counter attacks when allies (but not self) is hit.
     spearposture: new Attack({
+        wdm: 0,
         name: "Posture",
         family: ["spearWeaponAttacks"],
         initRecovery: 24,
@@ -532,6 +531,7 @@ const attacks = {
         name: "Chaotic Sacrifice",
         family: ["chaoticspearWeaponAttacks"],
         initRecovery: 50,
+        wdm: 0,
         type: "buff",
         targets: {
             style: "self",
@@ -589,6 +589,7 @@ const attacks = {
         name: "Posture",
         family: ["swordandshieldWeaponAttacks", "maceandshieldWeaponAttacks"],
         initRecovery: 24,
+        wdm: 0,
         type: "buff",
         targets: {
             style: "self",
@@ -785,6 +786,7 @@ const attacks = {
         name: "Lumberjack Stance",
         family: ["twohandedaxeWeaponAttacks"],
         initRecovery: 24,
+        wdm: 0,
         type: "buff",
         targets: {
             style: "self",
@@ -806,7 +808,7 @@ const attacks = {
         name: "Snipe",
         family: ["bowWeaponAttacks"],
         initRecovery: 58,
-        wdm: 2.5,
+        wdm: 2.25,
         targets: {
             style: "single",
             side: "enemy",
@@ -815,8 +817,8 @@ const attacks = {
         description: "Snipe your enemy.",
         damage: {
             pierce: {
-                min: 4,
-                max: 7,
+                min: 1,
+                max: 3,
             },
         },
         criticalChanceBase: 0.06,

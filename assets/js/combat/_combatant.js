@@ -357,7 +357,7 @@ class Combatant {
         solstr += `<grid id='infoDamageGrid'>`;
 
         function getDmgString(sub) {
-            return `${Math.floor(dmg[sub].min)} - ${Math.floor(dmg[sub].max)}<br><span class="infoMax">x${+(
+            return `${Math.floor(dmg[sub].min)} - ${Math.ceil(dmg[sub].max)}<br><span class="infoMax">x${+(
                 dmg[sub].more *
                 (1 + dmg[sub].increased)
             ).toFixed(2)}</span>`;

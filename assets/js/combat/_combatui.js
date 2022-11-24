@@ -38,17 +38,28 @@ function drawCombat() {
 }
 
 /**
- * Sends a Flash notification to the location of a given character during combat.
+ * Generate and send a Flash notification to the location of a given single character during combat.
+ *
+ * The attackPackage contains specific information about the attack on its target. Specifically:
+ *  attackPackage.damage === n.nnnn
+ *  attackPackage.blocked === bool
+ *  attackPackage.critical === bool
+ *  attackPackage.deflected === bool
+ *  attackPackage.direct === bool
  *
  * https://github.com/SjoerdHekking/custom-macros-sugarcube2/tree/main/Notification
  */
-function combatMessage(text, type, charLoc) {
+// function combatMessage(text, type, charLoc) {
+function combatMessage(attack, char, attackPackage) {
+    /** Combat messages always have the same Flash `Type`: "default" */
+    let type = "default";
+
     /* Get bounding box of character element. */
-    let eleName = "#enemyZone #gitemA";
-    if (charLoc.includes("enemy")) {
-        eleName = `#enemyZone #gitem${charLoc.charAt(charLoc.length - 1)}`;
-    } else if (charLoc.includes("player")) {
-        eleName = `#playerZone #gitem${charLoc.charAt(charLoc.length - 1)}`;
+    let eleName;
+    if (char.location.includes("enemy")) {
+        eleName = `#enemyZone #gitem${char.location.charAt(char.location.length - 1)}`;
+    } else if (char.location.includes("player")) {
+        eleName = `#playerZone #gitem${char.location.charAt(char.location.length - 1)}`;
     }
 
     let charPos = {
@@ -63,36 +74,124 @@ function combatMessage(text, type, charLoc) {
      * Flash deletes the parent container to prevent DOM polluting, so
      * this is required.
      */
-    if ($("#flash-" + charLoc).length === 0) {
+    if ($("#flash-" + char.location).length === 0) {
         $("<div>", {
             class: "flash-container",
-            id: "flash-" + charLoc,
+            id: "flash-" + char.location,
         }).prependTo("#flash-notifs-here");
     }
 
-    // Create the message.
-    window.FlashMessage.create(text, type, {
-        progress: true,
-        interactive: true,
-        timeout: 2000,
-        appear_delay: 100,
-        container: "#flash-" + charLoc,
-        theme: "default",
-        layout: charLoc,
-        classes: {
-            container: "flash-container",
-            flash: "flash-message",
-            visible: "flash-is-visible",
-            progress: "flash-progress",
-            progress_hidden: "flash-is-hidden",
-        },
-    });
-
     // Ensure the message is correctly placed.
-    $("div." + charLoc + "-flash-layout").css({
-        top: charPos.bottom + 20,
-        left: charPos.left,
-    });
+    // NOTE: If we $appendTo(), it just gets deleted when the elements are refreshed.
+    let gitemWidth = (charPos.right - charPos.left) / 2;
+    let gitemHeight = (charPos.bottom - charPos.top) / 2;
+
+    let randomHorizontalPos = Math.floor(Math.random() * (gitemWidth - 0 + 1) + 0) + gitemWidth / 2;
+    let randomVerticalPos = Math.floor(Math.random() * (gitemHeight - 0 + 1) + 0) + gitemHeight / 4;
+
+    // Create and place the damage message.
+    if (attackPackage.damage > 0) {
+        let theme = "damage";
+        if (attackPackage.critical) {
+            theme = "critical";
+        } else if (attackPackage.direct) {
+            theme = "direct";
+        }
+
+        let message = window.FlashMessage.create(Math.round(attackPackage.damage), type, {
+            progress: false,
+            interactive: false,
+            timeout: 2000,
+            appear_delay: 50,
+            container: "#flash-" + char.location, // This is the container for ALL flash notifications for this character.
+            /**
+             * Theme becomes a class with name: `${theme}-theme`, so theme: "damage" becomes "damage-theme".
+             * So we want to edit ".flash-message.default-theme"
+             */
+            theme: theme,
+            layout: char.location,
+            classes: {
+                container: "flash-container",
+                flash: "flash-message",
+                visible: "flash-is-visible",
+                progress: "flash-progress",
+                progress_hidden: "flash-is-hidden",
+            },
+        });
+        let messageId = $(message["$_element"]).attr("id");
+
+        $(`#${messageId}`)
+            .css({
+                left: charPos.left + randomHorizontalPos,
+                top: charPos.bottom + randomVerticalPos,
+            })
+            .animate(
+                {
+                    top: charPos.bottom + randomVerticalPos / 2,
+                },
+                2000
+            );
+    }
+
+    // Create and place the block message.
+    if (attackPackage.blocked) {
+        let message = window.FlashMessage.create("Blocked", type, {
+            progress: false,
+            interactive: false,
+            timeout: 2000,
+            appear_delay: 50,
+            container: "#flash-" + char.location, // This is the container for ALL flash notifications for this character.
+            /**
+             * Theme becomes a class with name: `${theme}-theme`, so theme: "damage" becomes "damage-theme".
+             * So we want to edit ".flash-message.default-theme"
+             */
+            theme: "block",
+            layout: char.location,
+            classes: {
+                container: "flash-container",
+                flash: "flash-message",
+                visible: "flash-is-visible",
+                progress: "flash-progress",
+                progress_hidden: "flash-is-hidden",
+            },
+        });
+        let messageId = $(message["$_element"]).attr("id");
+
+        $(`#${messageId}`).css({
+            left: charPos.right - gitemWidth / 3,
+            top: charPos.bottom + gitemHeight,
+        });
+    }
+
+    // Create and place the deflect message.
+    if (attackPackage.deflect) {
+        let message = window.FlashMessage.create("Deflected", type, {
+            progress: false,
+            interactive: false,
+            timeout: 2000,
+            appear_delay: 50,
+            container: "#flash-" + char.location, // This is the container for ALL flash notifications for this character.
+            /**
+             * Theme becomes a class with name: `${theme}-theme`, so theme: "damage" becomes "damage-theme".
+             * So we want to edit ".flash-message.default-theme"
+             */
+            theme: "deflect",
+            layout: char.location,
+            classes: {
+                container: "flash-container",
+                flash: "flash-message",
+                visible: "flash-is-visible",
+                progress: "flash-progress",
+                progress_hidden: "flash-is-hidden",
+            },
+        });
+        let messageId = $(message["$_element"]).attr("id");
+
+        $(`#${messageId}`).css({
+            left: charPos.right - gitemWidth / 3,
+            top: charPos.bottom + gitemHeight,
+        });
+    }
 }
 
 /** Updates the #playerAttacks, which is in #targetsZone. */
@@ -295,8 +394,8 @@ function displayToInfoScreenOnMouseover(selector, obj, obj2) {
         S.fns = {};
     }
 
-    S.fns.displayToInfoScreenOnMouseover = function (selector, obj, obj2) {
-        displayToInfoScreenOnMouseover(selector, obj, obj2);
+    S.fns.displayToInfoScreenOnMouseover = function (selector, obj, attackPackage) {
+        displayToInfoScreenOnMouseover(selector, obj, attackPackage);
     };
 
     // S.fns.combatMessage = function (text, type, charLoc) {

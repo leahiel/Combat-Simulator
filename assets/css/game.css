@@ -768,7 +768,7 @@ input:checked ~ accordionContent {
     margin-right: auto;
 
     /* margin-top: 2rem; */
-    background-color: rgb(25, 25, 25);
+    background-color: var(--background);
     /* box-shadow:var(--boxShadow); */
     border-radius: 20px;
     padding: 1.5rem 2rem;
@@ -1174,6 +1174,51 @@ input:checked ~ accordionContent {
 #enemyZone griditem#gitemE {
     grid-row: 1;
     grid-column: 4 / span 2;
+}
+
+#flash-notifs-here {
+    /* For easy offsets of flash messages. */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.flash-container {
+    position: absolute;
+}
+
+.flash-container .flash-message {
+    position: absolute;
+    font-size: 1.2em;
+    background-color: transparent;
+    text-shadow: 1px 1px 3px black;
+    line-height: 0;
+}
+
+.flash-container .flash-message.block-theme {
+    color: blue;
+}
+
+.flash-container .flash-message.deflect-theme {
+    color: grey;
+}
+
+.flash-container .flash-message.damage-theme {
+    color: red;
+}
+
+.flash-container .flash-message.critical-theme {
+    color: yellow;
+}
+
+.flash-container .flash-message.direct-theme {
+    color: turquoise;
+}
+
+.flash-container .flash-message.damage-theme,
+.flash-container .flash-message.direct-theme,
+.flash-container .flash-message.critical-theme {
+    transition: opacity 0.5s;
 }
 
 /**

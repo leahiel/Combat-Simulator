@@ -228,7 +228,7 @@ const DEFAULTATTACK = {
     isBlockable: true,
     isDeflectable: true,
     isDirectable: true,
-    isCritical: true,
+    isCritable: true,
 
     targets: {
         style: null, // "all", "side", "row", "single", "self"

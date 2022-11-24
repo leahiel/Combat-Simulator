@@ -316,8 +316,8 @@ const monsters = {
         description: "A spoopy skeleton spearman animated out of arcane magicks.",
         damage: {
             pierce: {
-                min: 5,
-                max: 11,
+                min: 3,
+                max: 9,
             },
         },
         resistance: {

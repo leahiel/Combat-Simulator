@@ -352,6 +352,15 @@ function updateProperty(obj, path, value, updateWith) {
     return { ...obj, [head]: result };
 }
 
+/** Wait for arbitrary amount of time in miliseconds. */
+function waitFor(ms) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve('');
+        }, ms);
+    });
+};
+
 // Add the required utility functions to setup.
 (function (S) {
     if (!S.fns) {
@@ -405,4 +414,8 @@ function updateProperty(obj, path, value, updateWith) {
     // S.fns.updateProperty = function(obj, path, value, updateWith) {
     //     return updateProperty(obj, path, value, updateWith);
     // };
+
+    S.fns.waitFor = function (ms) {
+        return waitFor(ms);
+    };
 })(setup);

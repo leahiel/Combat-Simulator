@@ -464,12 +464,9 @@ function attackCalculations(attack, attacker, targets) {
      * attackRandomWithRandom().
      */
     if (attack === null) {
-        combatMessage(
-            `C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Had no viable attacks.`,
-            "default",
-            attacker.location
-        );
+        combatMessage(null, attacker);
         attacker.init += attacker.initStart;
+        return;
     }
 
     /*
@@ -503,6 +500,8 @@ function attackCalculations(attack, attacker, targets) {
             if (thisAttack.isBlockable) {
                 // NYI: target's blockCalculated should apply the attacks block manipulation stats properly.
                 solobj[i][idx].blocked = Math.random() < target.blockCalculated - attack.blockCalculated ? true : false;
+            } else {
+                solobj[i][idx].blocked = false;
             }
 
             // Calculate if Deflected.
@@ -510,6 +509,8 @@ function attackCalculations(attack, attacker, targets) {
                 // NYI: target's deflectCalculated should apply the attacks deflect manipulation stats properly.
                 solobj[i][idx].deflected =
                     Math.random() < target.deflectCalculated - attack.deflectCalculated ? true : false;
+            } else {
+                solobj[i][idx].deflected = false;
             }
 
             // Determine if Direct Hit.
@@ -517,6 +518,8 @@ function attackCalculations(attack, attacker, targets) {
             if (thisAttack.isDirectable) {
                 solobj[i][idx].direct =
                     Math.random() < thisAttack.directChanceCalculated && !solobj[i][idx].deflected ? true : false;
+            } else {
+                solobj[i][idx].direct = false;
             }
 
             // Determine if Critical Strike.
@@ -527,6 +530,8 @@ function attackCalculations(attack, attacker, targets) {
                     (!solobj[i][idx].blocked || !solobj[i][idx].deflected)
                         ? true
                         : false;
+            } else {
+                solobj[i][idx].critical = false;
             }
 
             let damageobj = {
@@ -611,17 +616,11 @@ function attackCalculations(attack, attacker, targets) {
             let deflectMsg = solobj[i][idx].deflected ? "✓" : "";
 
             // TODO: Have a delay between messages if there are 2+ strikes at a time.
-            combatMessage(
-                `C:${critMsg} D:${directMsg} B:${blockMsg} Df:${deflectMsg} \n Took ${Math.ceil(
-                    solobj[i][idx].damage
-                )} damage.`,
-                "default",
-                targets[idx].location
-            );
+            combatMessage(attack, targets[idx], solobj[i][idx]);
         }
     }
 
-    attacker.init += (attack.initRecovery * attacker.initRecoveryModifier);
+    attacker.init += attack.initRecovery * attacker.initRecoveryModifier;
 }
 
 function determineRowViabilities() {

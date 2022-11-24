@@ -123,6 +123,8 @@ const equippables = {
         slot: "weapon",
         type: "unequipped",
         attacks: mergeArray(setup.COM.familyAttacks.debugAttacks),
+        deflectChanceBase: 1,
+        blockChanceBase: 1,
     }),
 
     // UNEQUIPPED

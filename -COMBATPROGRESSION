@@ -1,18 +1,4 @@
 TODO for indev release: 
-☐  AttackInformationPlate
-    ☐  CSS
-☐  CombatantInformationPlate
-    ☐  CSS
-☐  Primitive Combat Flash Messages
-    ☐  Words for Spells
-    ☐  Buffs
-    ☐  Healing
-    ☐  Damage (blue w/ ! if direct, yellow with ! if crit)
-    ☐  Factors:
-        ☐  Deflect
-        ☐  Blocked
-        ☐  Crit
-        ☐  Direct
 ☐  Add content.
     ☐  6 Combat Instances
         ☑  Spiders
@@ -41,7 +27,6 @@ TODO for indev release:
             Init Recovery Modifier // NYI
         Accessory Ideas:
             pretty much the same as the above two?
-
 ☐  Add Preset character options to start/inbetween.
     ☑  Switching functional.
     ☐  Tank
@@ -49,12 +34,12 @@ TODO for indev release:
     ☐  Buffer
     ☐  Chaos User
 ☐  CSS Update
+    ☐  AttackInformationPlate
+    ☐  CombatantInformationPlate
     ☐  Location and Name embedded into canvases.
     ☑  Targetting functional.
         ☐  Targeting CSS.
     ☐  When hovering over buff/canvas, it should show buffs info.
-
-
 
 Implicit Weapon Balancing:
     Two Handed Weapons hit Area and Single, less defense.
@@ -64,7 +49,7 @@ Implicit Weapon Balancing:
     Pierce type weapons crit more.
     Blunt type weapons stun and direct more.
     Elemental and Occult damage types have less implicit attacks, but pierce through more damage.
-        Lightning has higher damage ranges, crits for more, and has a less direct modifier
+        Lightning has higher damage ranges, crits for more, and has a less direct modifier.
     Staves/Occult Tools are useful for their builds due to basic affixes and special mods.
         While they have attacks, attacks are not the central focus of them.
 
@@ -105,13 +90,17 @@ Stats and Growth:
             ☐  Hit
             ☐  Deflected
             ☐  Blocked
+    ☐  Primitive Combat Flash Messages
+        ☐  Words for Spells
+        ☐  Buffs
+        ☐  Healing
     ☐  Spells
         ☐  Spell Casting Time
         ☐  Spell Syncing [Party memebers with the same spell can cast it together, which makes a more powerful spell.]
     ☐  Miracles
     ☐  Energy Shield (or do I want divine shield? Having both would be illogical and/or confusing.)
     ☐  Battle Log
-    
+        
     Combat Initialization:
     ☐  Setting (Music, Background, ETC) 
     ☐  Reward/Defeat Screen 
@@ -129,6 +118,7 @@ Stats and Growth:
         ☐  CSS
 
     Character Customization:
+    ☐  Leveling and experience
     ☐  Bestiary system that teaches you more about enemies the more you fight them.
     ☐  Passive Skill Tree
     ☐  Guild Rank
@@ -157,7 +147,7 @@ Stats and Growth:
     ☐  #passages[data-tags~="Overworld"]
     ☐  #passages[data-tags~="Town"]
 
-☐  Tags should be reused:
+☐  Tags should be refactored:
     ☐  .tag => Common tags for CSS [classes] e.g. .overworld
     ☐  #tag => Unique tags for CSS [IDs] e.g. #CombatOverlord
     ☐  _tag => Compiler tags e.g. _nostats

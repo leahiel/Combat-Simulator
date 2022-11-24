@@ -87,15 +87,6 @@ let ci = State.variables.ci;
  * inits and determines whose turn it is.
  */
 async function processTurns(pp, ep) {
-    /** Wait for arbitrary amount of time. */
-    function waitFor(ms) {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve('');
-            }, ms);
-        });
-    };
-
     /** Decrement init of the character, and apply buffs if applicable. */
     function decrementInits(char) {
         let initDecrementAmount = .25;
@@ -203,7 +194,7 @@ async function processTurns(pp, ep) {
         });
 
         setup.COM.drawCombat();
-        await waitFor(20);
+        await setup.fns.waitFor(20);
         return processTurns(pp, ep);
     } else if (ci.pp.includes(activeCharacter)) {
         /* Player Turn */
@@ -212,6 +203,7 @@ async function processTurns(pp, ep) {
         setup.COM.drawCombat();
         /* setup.COM.drawCombat() updates #playerZone, so the player can make a choice there. */
 
+        /* TODO: Return a promise that ensure's an attacks animation is over before proceeding. */
         /* The player will processTurns() after clicking a button. No need to do it here. */
         return;
     } else if (ci.ep.includes(activeCharacter)) {
@@ -219,12 +211,13 @@ async function processTurns(pp, ep) {
         $("#notifArea").empty().wiki("Enemy Turn");
 
         setup.COM.drawCombat();
-        await waitFor(500);
+        await setup.fns.waitFor(500);
 
         /* Enemy AI */
         /* Not yet fully implemented, but this should call activeCharacter.ai() when complete.  */
         setup.COM.attackRandomWithRandom(activeCharacter);
 
+        /* TODO: Return a promise that ensure's an attacks animation is over before proceeding. */
         $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
         return;
     }
