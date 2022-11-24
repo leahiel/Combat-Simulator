@@ -132,6 +132,26 @@
 		});
 	<</script>>
 <</button>>
+<br>
+<<button [[Gen.Hardest CI|Combat_Overlord]]>>
+	<<script>>
+		/* Random Int between 3 and 5 */
+		let int = Math.floor(Math.random() * (5 - 3 + 1) + 3);
+		let skeletonArr = [
+			"EN_CENTAUR_BOWMAN",
+			"EN_CENTAUR_HERD_MENTOR",
+			"EN_CENTAUR_WARRIOR",
+			"EN_CHAOS_CENTAUR",
+		];
+		let ep = setup.fns.ranItems(int, skeletonArr, true);
+
+		State.variables.ci = new setup.COM.CombatInstance({
+			winPassage: "Inbetween",
+			losePassage: "Inbetween",
+			ep: ep,
+		});
+	<</script>>
+<</button>>
 
 <<done>>
 	<<script>>

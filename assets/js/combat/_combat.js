@@ -497,7 +497,7 @@ function attackCalculations(attack, attacker, targets) {
             // Add Healing from Absorb
 
             // Calculate if Blocked.
-            if (thisAttack.isBlockable) {
+            if (thisAttack.isBlockable && thisAttack.targets.style !== "self") {
                 // NYI: target's blockCalculated should apply the attacks block manipulation stats properly.
                 solobj[i][idx].blocked = Math.random() < target.blockCalculated - attack.blockCalculated ? true : false;
             } else {
@@ -505,7 +505,7 @@ function attackCalculations(attack, attacker, targets) {
             }
 
             // Calculate if Deflected.
-            if (thisAttack.isDeflectable) {
+            if (thisAttack.isDeflectable && thisAttack.targets.style !== "self") {
                 // NYI: target's deflectCalculated should apply the attacks deflect manipulation stats properly.
                 solobj[i][idx].deflected =
                     Math.random() < target.deflectCalculated - attack.deflectCalculated ? true : false;
@@ -515,7 +515,7 @@ function attackCalculations(attack, attacker, targets) {
 
             // Determine if Direct Hit.
             // NOTE: Direct Hits do not occur if the attack was deflected.
-            if (thisAttack.isDirectable) {
+            if (thisAttack.isDirectable && thisAttack.targets.style !== "self") {
                 solobj[i][idx].direct =
                     Math.random() < thisAttack.directChanceCalculated && !solobj[i][idx].deflected ? true : false;
             } else {
@@ -524,7 +524,7 @@ function attackCalculations(attack, attacker, targets) {
 
             // Determine if Critical Strike.
             // NOTE: Critical Strikes do not occur if the attack was blocked or deflected.
-            if (thisAttack.isCritable) {
+            if (thisAttack.isCritable && thisAttack.targets.style !== "self") {
                 solobj[i][idx].critical =
                     Math.random() < thisAttack.criticalChanceCalculated &&
                     (!solobj[i][idx].blocked || !solobj[i][idx].deflected)

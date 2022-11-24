@@ -513,7 +513,12 @@ const attacks = {
         buffs: [buffs.buffSpearPosture],
     }),
 
-    // CHAOTIC SPEAR ATTACKS
+    /**
+     *  dP""b8 88  88    db     dP"Yb  888888 88  dP""b8     .dP"Y8 88""Yb 888888    db    88""Yb 
+     * dP   `" 88  88   dPYb   dP   Yb   88   88 dP   `"     `Ybo." 88__dP 88__     dPYb   88__dP 
+     * Yb      888888  dP__Yb  Yb   dP   88   88 Yb          o.`Y8b 88"""  88""    dP__Yb  88"Yb  
+     *  YboodP 88  88 dP""""Yb  YbodP    88   88  YboodP     8bodP' 88     888888 dP""""Yb 88  Yb 
+     */
     chaoschuck: new Attack({
         name: "Chaos Chuck",
         family: ["chaoticspearWeaponAttacks"],
@@ -587,7 +592,7 @@ const attacks = {
      */
     shieldposture: new Attack({
         name: "Posture",
-        family: ["swordandshieldWeaponAttacks", "maceandshieldWeaponAttacks"],
+        family: ["swordandshieldWeaponAttacks", "maceandshieldWeaponAttacks", "shieldWeaponAttacks"],
         initRecovery: 24,
         wdm: 0,
         type: "buff",
@@ -602,7 +607,7 @@ const attacks = {
 
     shieldbash: new Attack({
         name: "Shield Bash",
-        family: ["swordandshieldWeaponAttacks", "maceandshieldWeaponAttacks"],
+        family: ["swordandshieldWeaponAttacks", "maceandshieldWeaponAttacks", "shieldWeaponAttacks"],
         initRecovery: 29,
         wdm: 1,
         targets: {
@@ -856,6 +861,7 @@ const attacks = {
             side: null,
             row: null,
         },
+        type: "buff",
         description: "Ensure everything is correct with your ammo, increasing your action speed.",
         buffs: [buffs.buffCheckQuiver],
     }),
@@ -870,6 +876,7 @@ const attacks = {
             side: null,
             row: null,
         },
+        type: "buff",
         description: "Switch to Sharp-Tip Arrows, increasing your chance to critically hit.",
         buffs: [buffs.buffSharpTipArrows],
     }),
@@ -980,7 +987,7 @@ const attacks = {
     HOG_RUSH: new Attack({
         name: "Hog Rush",
         family: ["Hog"],
-        initRecovery: "60",
+        initRecovery: 60,
         targets: {
             style: "side",
             side: "enemy",
@@ -999,7 +1006,7 @@ const attacks = {
         name: "Hog Gore",
         wdm: 1.25,
         family: ["Hog"],
-        initRecovery: "42",
+        initRecovery: 42,
         targets: {
             style: "single",
             side: "enemy",
@@ -1015,12 +1022,12 @@ const attacks = {
         buffs: [buffs.debuffBleed],
     }),
 
-    // Spell
     HOG_ROAR: new Attack({
         name: "Hog Gore",
         wdm: 0,
         family: ["Hog"],
-        initRecovery: "42",
+        type: "buff",
+        initRecovery: 42,
         targets: {
             style: "self",
             side: null,
@@ -1039,7 +1046,7 @@ const attacks = {
     cuddlebutt: new Attack({
         name: "Cuddle Butt",
         family: ["Carbuncle"],
-        initRecovery: "16",
+        initRecovery: 16,
         targets: {
             style: "single",
             side: "enemy",
@@ -1060,7 +1067,7 @@ const attacks = {
         name: "Crystal Shot",
         type: "spell",
         family: ["Carbuncle"],
-        initRecovery: "36",
+        initRecovery: 36,
         targets: {
             style: "single",
             side: "enemy",
@@ -1081,7 +1088,7 @@ const attacks = {
         name: "Acid Crystal Shot",
         type: "spell",
         family: [],
-        initRecovery: "34",
+        initRecovery: 34,
         targets: {
             style: "single",
             side: "enemy",
@@ -1102,7 +1109,7 @@ const attacks = {
         name: "Rock Fall",
         type: "spell",
         family: [],
-        initRecovery: "50",
+        initRecovery: 50,
         hitnumber: 3,
         targets: {
             style: "row",
@@ -1125,7 +1132,7 @@ const attacks = {
         name: "Fire Wall",
         type: "spell",
         family: [],
-        initRecovery: "45",
+        initRecovery: 45,
         targets: {
             style: "row",
             side: "enemy",
@@ -1147,7 +1154,7 @@ const attacks = {
         name: "Ice Prison",
         type: "spell",
         family: [],
-        initRecovery: "65",
+        initRecovery: 65,
         targets: {
             style: "single",
             side: "enemy",
@@ -1169,7 +1176,7 @@ const attacks = {
         name: "Flash",
         type: "spell",
         family: [],
-        initRecovery: "25",
+        initRecovery: 25,
         targets: {
             style: "side",
             side: "enemy",
@@ -1191,14 +1198,12 @@ const attacks = {
      * o.`Y8b 88"Yb  88""   88  .o 88""     88   Yb   dP 88 Y88 o.`Y8b
      * 8bodP' 88  Yb 888888 88ood8 888888   88    YbodP  88  Y8 8bodP'
      */
-
-    // Spell
     rattle: new Attack({
         wdm: 0,
         name: "Rattle",
-        type: "spell",
+        type: "debuff",
         family: ["Skeleton"],
-        initRecovery: "25",
+        initRecovery: 25,
         targets: {
             style: "side",
             side: "enemy",
@@ -1213,7 +1218,8 @@ const attacks = {
         name: "Cackle",
         type: "spell",
         family: ["Skeleton"],
-        initRecovery: "28",
+        initRecovery: 28,
+        type: "debuff",
         targets: {
             style: "self",
             side: null,
@@ -1235,7 +1241,7 @@ const attacks = {
         name: "Heal Undead",
         type: "spell",
         family: ["Skeleton"],
-        initRecovery: "32",
+        initRecovery: 32,
         targets: {
             style: "all",
             side: null,
@@ -1244,6 +1250,66 @@ const attacks = {
         description: "Heals all undead units in combat by 20%.",
         buffs: [buffs.buffHealUndead],
     }),
+
+    /*
+     *  dP""b8 888888 88b 88 888888    db    88   88 88""Yb .dP"Y8 
+     * dP   `" 88__   88Yb88   88     dPYb   88   88 88__dP `Ybo." 
+     * Yb      88""   88 Y88   88    dP__Yb  Y8   8P 88"Yb  o.`Y8b 
+     *  YboodP 888888 88  Y8   88   dP""""Yb `YbodP' 88  Yb 8bodP' 
+     */
+    herdmentor: new Attack({
+        wdm: 0,
+        name: "Herd Mentor",
+        type: "buff",
+        family: [],
+        initRecovery: 26,
+        targets: {
+            style: "side",
+            side: "ally",
+            row: null,
+        },
+        description: "Encourage your teammates, reducing their attack recovery.",
+        buffs: [buffs.buffHerdMentor],
+    }),
+
+    stampede: new Attack({
+        wdm: 1,
+        name: "Stampede",
+        type: "attack",
+        family: ["Centaur"],
+        initRecovery: 46,
+        targets: {
+            style: "side",
+            side: "enemy",
+            row: null,
+        },
+        description: "Stampede your way through your enemies.",
+        stun: 3,
+    }),
+
+    stomp: new Attack({
+        wdm: 1,
+        name: "Stomp",
+        type: "attack",
+        family: ["Centaur"],
+        initRecovery: 46,
+        targets: {
+            style: "single",
+            side: "enemy",
+            row: "front",
+        },
+        description: "Stomp on an enemy with increased blunt damage.",
+        stun: 3,
+        damage: {
+            blunt: {
+                min: 3,
+                max: 4,
+                increased: 0.5,
+            }
+        }
+    })
+
+
 };
 
 /**

@@ -350,6 +350,128 @@ const monsters = {
             occult: 0.3,
         },
     }),
+
+    /*
+     *  dP""b8 888888 88b 88 888888    db    88   88 88""Yb .dP"Y8 
+     * dP   `" 88__   88Yb88   88     dPYb   88   88 88__dP `Ybo." 
+     * Yb      88""   88 Y88   88    dP__Yb  Y8   8P 88"Yb  o.`Y8b 
+     *  YboodP 888888 88  Y8   88   dP""""Yb `YbodP' 88  Yb 8bodP' 
+     */
+    EN_CENTAUR_BOWMAN: new Enemy({
+        name: "Centaur Bowman",
+        family: "Centaur",
+        positionPreferance: "backline", // NYI: positionPreferance. After CI are randomly performed, parties should shuffle for preferances.
+        healthMax: 84,
+        initStart: 19,
+        initStartVariance: 0.16,
+        initRecoveryModifier: 1.3,
+        attacks: mergeArray(setup.COM.familyAttacks.Centaur, setup.COM.familyAttacks.bowWeaponAttacks),
+        description: "A proud centaur bowmen.",
+        directChanceBase: 5,
+        directChanceIncreased: 0.5,
+        damage: {
+            pierce: {
+                min: 3,
+                max: 9,
+            },
+        },
+        resistance: {
+            shadow: -0.2,
+            fire: -0.2,
+        },
+    }),
+
+    EN_CENTAUR_HERD_MENTOR: new Enemy({
+        name: "Centaur Herd Mentor",
+        family: "Centaur",
+        healthMax: 98,
+        initStart: 26,
+        initStartVariance: 0.24,
+        initRecoveryModifier: 1.5,
+        attacks: mergeArray(setup.COM.familyAttacks.Centaur, [setup.COM.attacks.herdmentor], setup.COM.familyAttacks.shieldWeaponAttacks),
+        description: "A shielded veteran centaur.",
+        directChanceBase: 5,
+        directChanceIncreased: 0.5,
+        directChanceMore: 1.2,
+        blockRecovery: 5,
+        blockChanceBase: 5,
+        blockChanceIncreased: 0.5,
+        blockChanceMore: 1.2,
+        damage: {
+            sacred: {
+                min: 1,
+                max: 3,
+            },
+        },
+        resistance: {
+            shadow: -0.2,
+            fire: -0.2,
+        },
+    }),
+
+    EN_CENTAUR_WARRIOR: new Enemy({
+        name: "Centaur Warrior",
+        family: "Centaur",
+        healthMax: 120,
+        initStart: 19,
+        initStartVariance: 0.16,
+        initRecoveryModifier: 1.3,
+        attacks: mergeArray(setup.COM.familyAttacks.Centaur, setup.COM.familyAttacks.maceandshieldWeaponAttacks),
+        description: "A shield and mace wielding warrior.",
+        directChanceBase: 5,
+        directChanceIncreased: 0.5,
+        directChanceMore: 1.2,
+        blockRecovery: 5,
+        blockChanceBase: 5,
+        blockChanceIncreased: 0.5,
+        blockChanceMore: 1.2,
+        damage: {
+            blunt: {
+                min: 5,
+                max: 9,
+            },
+        },
+        resistance: {
+            shadow: -0.2,
+            fire: -0.2,
+        },
+    }),
+
+    EN_CHAOS_CENTAUR: new Enemy({
+        name: "Chaos Centaur",
+        family: "Centaur",
+        healthMax: 120,
+        initStart: 19,
+        initStartVariance: 0.16,
+        initRecoveryModifier: 1.3,
+        attacks: mergeArray(setup.COM.familyAttacks.Centaur, setup.COM.familyAttacks.shieldWeaponAttacks, setup.COM.familyAttacks.chaoticspearWeaponAttacks),
+        description: "An unholy spear wielding centaur, complete with a shield.",
+        directChanceBase: 5,
+        directChanceIncreased: 0.5,
+        directChanceMore: 1.2,
+        blockRecovery: 5,
+        blockChanceBase: 5,
+        blockChanceIncreased: 0.5,
+        blockChanceMore: 1.2,
+        damage: {
+            aether: {
+                min: 1,
+                max: 3,
+            },
+            shadow: {
+                min: 1,
+                max: 3,
+            },
+            sacred: {
+                min: 1,
+                max: 3,
+            },
+        },
+        resistance: {
+            occult: 0.2,
+            fire: -0.2,
+        },
+    }),
 };
 
 // Add enemies to setup.

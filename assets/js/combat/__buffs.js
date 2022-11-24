@@ -147,6 +147,17 @@ const buffs = {
         },
     }),
 
+    buffHerdMentor: new Buff({
+        type: "buff",
+        duration: 200,
+        name: "Herd Mentor",
+        description: "You have 15% less attack recovery.",
+        onApply: function (target) {
+            target.resistance.initRecoveryModifier *= 0.85;
+            return;
+        },
+    }),
+
     debuffBleed: new Buff({
         type: "debuff",
         duration: 80,
