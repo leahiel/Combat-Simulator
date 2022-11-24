@@ -909,11 +909,6 @@ input:checked ~ accordionContent {
     /* width: 10em; */
 }
 
-.macro-disable,
-#macro-disable {
-    border: none;
-}
-
 #MainCombatGrid {
     display: grid;
     grid-template-columns: 31fr 50fr; /* approximate φ */
@@ -1586,11 +1581,6 @@ griditem.row2 {
 
     font-size: 0.7rem;
     vertical-align: top;
-}
-
-.macro-disable {
-    text-decoration: line-through var(--warning-color);
-    color: var(--warning-color);
 }
 
 /**

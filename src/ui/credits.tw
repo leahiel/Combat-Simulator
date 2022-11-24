@@ -3,18 +3,13 @@ My name is LeahPeach!
 <br>I made dis c:
 <br>
 <br>
-This game was made from my template, which you can browse, fork, or clone at this <a href="https://github.com/leahiel/Twine-Template" target="_blank" rel="noreferrer noopener">GitHub Repository↗</a>
+This game was made from my template, which you can browse, fork, or clone at this <a class="link-external" href="https://github.com/leahiel/Twine-Template" target="_blank" rel="noreferrer noopener">GitHub Repository</a>
 <br>
 <br>
-This game was made using extensive knowledge and help from the fine folks over at the Twine Games Discord (<a href="https://discord.gg/r848Gn7sRn" target="_blank" rel="noreferrer noopener">Join us here!↗</a>) Special thanks go to Chapel, Sjoerdhekking, and Greyelf for their support or help with debugging!
+This game was made using extensive knowledge and help from the fine folks over at the Twine Games Discord (<a class="link-external" href="https://discord.gg/r848Gn7sRn" target="_blank" rel="noreferrer noopener">Join us here!</a>) Special thanks go to Chapel, Sjoerdhekking, and Greyelf for their support or help with debugging!
 <br>
 <br>
 <h3>This game uses some SugarCube macros by these fine folks:</h3>
-<br>Disable Macro by Chapel, Unlicensed
-<br>* Github: https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/docs/disable-macro.md
-<br>* Chapel's Homepage: https://twinelab.net/
-<br>* Chapel's Itch.io: https://chapel.itch.io/
-<br>
 <br>Flash Macro, © SjoerdHekking, MIT
 <br>* Flash Macro is a port of FlashJS, © betaWeb, MIT
 <br>* UNMODIFIED
@@ -33,7 +28,7 @@ This game was made using extensive knowledge and help from the fine folks over a
 <br>* Github: https://github.com/AlyxMS/Twine-SugarCube-repository
 <br>
 <br>Tooltipster v4.2.8, © Caleb Jacob and Louis Ameline, MIT
-<br>* CSS MODIFIED by Myself, JS unmodified 
+<br>* CSS MODIFIED by Myself, JS UNMODIFIED
 <br>* Homepage: https://calebjacob.github.io/tooltipster/
 <br>* Github: https://github.com/calebjacob/tooltipster
 <br>

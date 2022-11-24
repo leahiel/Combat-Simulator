@@ -55,10 +55,8 @@
                     <<set _butname = "Mods">>
                 <</if>>
                 <<if $info.current.equippables[_captureArg].type === "unequipped">>
-                    <<disable>>
-                        <<but _butname>>
-                        <</but>>
-                    <</disable>>
+                    <<but _butname class "disabled">>
+                    <</but>>
                 <<else>>
                     <<but _butname>>
                         <<script>>
@@ -350,10 +348,8 @@ if (!tags().includes(".combat")) {
             <<run $('#infoScreenMiddleMenuButtons').empty().wiki(Story.get("Info_Description").processText());>>
         <</but>>
     <<else>>
-        <<disable>>
-            <<but "Char Not Present" class "bottomInfoButton">>
-            <</but>>
-        <</disable>>
+        <<but "Char Not Present" class "bottomInfoButton disabled">>
+        <</but>>
     <</if>>
 <</widget>>
 

@@ -26,7 +26,7 @@ Please select which content you do not want to encounter.
 <br>@@.contentdisabletitle;NSFW@@
 <br>@@.subtext;Listen, the point of this story is to be naughty.@@
 <br>@@.warning;I'm not going to stop you, but turning this on may significantly hinder your enjoyment of this story.@@
-<br><<disable>><label><<checkbox "_warn-nsfw" false true autocheck>> Warn</label><</disable>>
+<br><label><<checkbox "_warn-nsfw" false true autocheck>> Warn</label>
 <br><label><<checkbox "_disable-nsfw" false true autocheck>> Disable</label>
 
 </div>
