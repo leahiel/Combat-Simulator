@@ -46,7 +46,7 @@
     <span id="enemyZone"></span>
 
     /* The "center field", if you will. */
-    <span id="combatNotifications"></span>
+    <span id="combatNotifications"><span class="infoNYI">NYI: The combat log goes here.</span></span>
 
     /**
     * This is effectively the player's side of the "field". 

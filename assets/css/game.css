@@ -15,9 +15,11 @@
     --tabTransition: font-size 0.35s, opacity 0.35s, visibility 0.35s;
     --boxShadow: 0 2px 8px rgb(0 0 0 / 50%);
 
+    --backgroundminus1: hsl(0, 0%, 8%);
     --background: hsl(0, 0%, 10%);
-    --backgroundplus1: hsl(0, 0%, 15%);
     --backgroundTransparent: hsla(0, 0%, 10%, 0.8);
+    --backgroundplus1: hsl(0, 0%, 15%);
+    --backgroundplus2: hsl(0, 0%, 20%);
 
     --tooltip-background-color: hsla(0, 0%, 13%, 0.95);
 }
@@ -47,7 +49,7 @@
 
 ::-webkit-scrollbar-thumb {
     border: 5px solid transparent;
-    background-clip: content-box;
+    background-clip: padding-box;
     border-radius: 12px;
     box-shadow: inset 0 0 0 10px hsla(0, 0%, 35%, 0.6);
 }
@@ -546,9 +548,7 @@ body.stowed {
 
 .divider {
     display: block;
-    position: sticky;
 
-    top: 0;
     height: 1px;
 
     margin-top: 6px;
@@ -1022,14 +1022,18 @@ input:checked ~ accordionContent {
     grid-row-end: 4;
 
     border-radius: 1rem;
-    border: 1px solid white;
     padding: 1em;
     margin: 1em;
 
-    box-shadow: var(--boxShadow);
     background-color: var(--backgroundTransparent);
+}
 
-    overflow: scroll;
+#combatNotifications #CombatantInformationPlate {
+    height: 100%;
+    overflow-y: scroll;
+
+    border-radius: 0;
+    border-color: var(--backgroundplus2);
 }
 
 #MainCombatGrid #targetsZone {
@@ -1044,10 +1048,10 @@ input:checked ~ accordionContent {
     margin: 1rem;
     padding: 4px 12px 8px;
     /* border: 1px solid hsl(312deg 74% 16% / 0%); */
-    border: 1px solid white;
+    border: 1px solid var(--backgroundplus2);
     border-radius: 8px;
     box-shadow: var(--boxShadow);
-    background-color: var(--backgroundTransparent);
+    background-color: #0c0c0c;
 
     justify-items: center;
 }
@@ -1141,12 +1145,41 @@ input:checked ~ accordionContent {
     padding: 0.2em;
 
     width: 100%;
-    height: 100%;
+    height: 95%;
 }
 
 #playerAttacks .playerAttack:hover {
     border: none;
     background-color: var(--backgroundplus1);
+}
+
+#playerAttacks .playerAttack.disabled {
+    background-color: var(--backgroundminus1);
+    color: grey;
+}
+
+#playerAttacks .playerAttack.disabled:hover {
+    background-color: var(--backgroundminus1);
+}
+
+#backForward #back {
+    border: none;
+    background-color: var(--background);
+    box-shadow: none;
+    border-radius: 0;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#backForward #back #BackAttack {
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    width: 100%;
+    background: none;
+    font-size: 1.2rem;
+    padding: 0.2em;
 }
 
 .playerAttack.disabled,

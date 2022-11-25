@@ -1,6 +1,5 @@
 TODO for indev release: 
 ☐  CSS Update
-    ☐  Location and Name embedded into canvases.
     ☑  Targetting functional.
         ☐  Targeting CSS.
 ☐  Add content.
@@ -100,6 +99,9 @@ Stats and Growth:
     ☐  Energy Shield (or do I want divine shield? Having both would be illogical and/or confusing.)
     ☐  Battle Log
     ☐  Background Images
+    ☐  Canvas Stuff
+        ☐  Find better modern canvas library that is still simple.
+        ☐  Embedded Location and Name
         
     Combat Initialization:
     ☐  Setting (Music, Background, ETC) 

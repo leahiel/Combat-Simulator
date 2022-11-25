@@ -22,6 +22,10 @@
 <<else>>
     <<run setup.COM.updatePlayerAttacks()>>
 <</if>>
+<<script>>
+    $(`#targetsZone #backForward #back`).empty();
+    $(`#targetsZone #backForward #forward`).empty();
+<</script>>
 
 
 :: Player_Attack_Enabled [.combat .helper nostats] {"position":"575,675"}
@@ -70,7 +74,7 @@
 /* Provide a back button if the player wants to chose a different attack. */
 <<script>>
     $(`#targetsZone #backForward #back`).empty().wiki(`
-        <<but "Back" id "#BackAttack">>
+        <<but "Back" id "BackAttack">>
             <<run $("#playerAttacks").empty().wiki(Story.get("Player_Attacks").processText());>>
         <</but>>
     `);
