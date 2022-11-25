@@ -967,7 +967,7 @@ input:checked ~ accordionContent {
     grid-template-columns: 31fr 50fr; /* approximate φ */
     grid-template-rows: 1fr 2fr 3fr;
 
-    height: 95vh;
+    height: 92vh;
 }
 
 #MainCombatGrid #enemyZone {
@@ -982,7 +982,6 @@ input:checked ~ accordionContent {
     row-gap: 1em;
     column-gap: 2em;
 
-    margin-bottom: 2em;
     padding: 4px 12px 8px;
     border: 1px solid hsl(312deg 74% 16% / 0%);
     border-radius: 8px;
@@ -1023,29 +1022,38 @@ input:checked ~ accordionContent {
 
     border-radius: 1rem;
     padding: 1em;
-    margin: 1em;
 
     background-color: var(--backgroundTransparent);
 }
 
+#combatNotifications #AttackInformationPlate,
 #combatNotifications #CombatantInformationPlate {
     height: 100%;
     overflow-y: scroll;
+    margin: auto;
 
     border-radius: 0;
     border-color: var(--backgroundplus2);
 }
 
+#notifArea.playerTurn {
+    background-color: hsl(125, 70%, 10%);
+}
+
+#notifArea.enemyTurn {
+    background-color: hsl(0, 70%, 10%);;
+}
+
 #MainCombatGrid #targetsZone {
     grid-column: 2;
     grid-row: 3;
+    height: 100%;
 
     grid-template-columns: 1fr;
     grid-template-rows: 18% 70%;
 
     display: grid;
 
-    margin: 1rem;
     padding: 4px 12px 8px;
     /* border: 1px solid hsl(312deg 74% 16% / 0%); */
     border: 1px solid var(--backgroundplus2);
@@ -1231,7 +1239,6 @@ html[data-tags~="@combatoverlord"] {
 
     width: 100%;
 
-    font-size: 1.5em;
     border: 1px solid hsl(312deg 74% 16% / 0%);
     border-radius: 8px;
     box-shadow: var(--boxShadow);

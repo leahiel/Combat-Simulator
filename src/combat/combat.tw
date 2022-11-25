@@ -178,7 +178,7 @@ async function processTurns(pp, ep) {
 
     if (activeCharacter === null) {
         /* It is no ones turn. */
-        $("#notifArea").empty().wiki("Determining Turn");
+        $("#notifArea").empty().removeClass().wiki("Determining Turn");
 
         /* Decrement inits. */
         pp.forEach((char) => {
@@ -197,7 +197,7 @@ async function processTurns(pp, ep) {
         return processTurns(pp, ep);
     } else if (ci.pp.includes(activeCharacter)) {
         /* Player Turn */
-        $("#notifArea").empty().wiki("Player Turn");
+        $("#notifArea").empty().removeClass().addClass("playerTurn").wiki("Player Turn");
 
         setup.COM.drawCombat();
         /* setup.COM.drawCombat() updates #playerZone, so the player can make a choice there. */
@@ -207,7 +207,7 @@ async function processTurns(pp, ep) {
         return;
     } else if (ci.ep.includes(activeCharacter)) {
         /* Enemy Turn */
-        $("#notifArea").empty().wiki("Enemy Turn");
+        $("#notifArea").empty().removeClass().addClass("enemyTurn").wiki("Enemy Turn");
 
         setup.COM.drawCombat();
         await setup.fns.waitFor(500);
