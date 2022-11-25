@@ -4,7 +4,7 @@
 class Affix {
     constructor(obj) {
         // Merge our obj onto default, then merge those onto this.
-        jQuery.extend(true, this, /* DEFAULTAFFIX, */ obj);
+        jQuery.extend(true, this, /* DEFAULTMOD, */ obj);
     }
 
     static new(Affix) {
@@ -49,7 +49,7 @@ const affixes = {
             return "${this.value[0] * 100}% increased Fire Resistance \n ${this.value[1] * 100}% increased Elemental Resistance";
         },
 
-        type: "armor",
+        slot: "armor",
         tags: ["leather"],
     }),
 
@@ -71,7 +71,7 @@ const affixes = {
             return "${this.value[0] * 100}% increased Frost Resistance \n ${this.value[1] * 100}% increased Elemental Resistance";
         },
 
-        type: "armor",
+        slot: "armor",
         tags: ["leather"],
     }),
 };

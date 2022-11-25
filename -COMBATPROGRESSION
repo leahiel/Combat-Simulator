@@ -2,24 +2,19 @@ TODO for indev release:
 ☐  CSS Update
     ☐  AttackInformationPlate
     ☐  CombatantInformationPlate
+    ☐  Mods Show CombatantInformationPlate
     ☐  Location and Name embedded into canvases.
     ☑  Targetting functional.
         ☐  Targeting CSS.
+    ☐  Background Images
 ☐  Add content.
-    ☐  6 Combat Instances
-        ☑  Spiders
-        ☑  Hog [As Miniboss]
-        ☑  Carbuncle
-        ☑  Skeletons 
-        ☑  Centaur
-        ☐  Ghoul (with Udom mage)
-        ☐  Sauson ("Esau-son")
     ☑ Attacks
     ☐ Equippables
         ☐  14 weapons, 2 for each weapon type.
         ☐  8 Accessories
         ☐  8 Armors
     ☐  10 mods for each slot.
+        ☐  Also, tags on mods work. Mods and Equipment must share at least one tag to be compatible.
         Weapon Ideas:
             Init Recovery Modifier
             Damage (increased/more/flat)
@@ -30,8 +25,8 @@ TODO for indev release:
             Reduct
             Resistance
             Init Start
-            Init Recovery Modifier // NYI
         Accessory Ideas:
+            Init Decrement Modifier
             pretty much the same as the above two?
 ☐  Add Preset character options to start/inbetween.
     ☑  Switching functional.

@@ -230,7 +230,7 @@
             /* Temp array with all the mods that have the slot type. */
             st.viableModList = [setup.COM.affixes.unequippedMod];
             for (let mod in svaim) {
-                if (svaim[mod].type === captureArg) {
+                if (svaim[mod].slot === captureArg) {
                     st.viableModList.push(svaim[mod]);
                 }
             }

@@ -189,12 +189,12 @@ class Combatant {
         } else {
             iHP = iHPMax;
         }
-        solstr += `<span id='infoHealth'>Health: ${iHP}<span class='infoMax'>/${iHPMax}</span><br>Mana: ${iNYI}</span>`;
+        solstr += `<span id='infoHealth'>Health: ${iHP}<span class='infoMax'> /${iHPMax}</span><br>Mana: ${iNYI}</span>`;
 
         // Init
         let iInitStart = `<span class='infoMax'>/${Math.ceil(this.initStart)}</span>`;
-        let iInitStartVariance = `<span class='infoMax'>±${Math.ceil(this.initStartVariance * this.initStart)}</span>`;
-        let iInitRecoveryModifier = `<span class="infoMax">Attack Recovery: </span>x${+this.initRecoveryModifier.toFixed(
+        let iInitStartVariance = `<span class='infoMax'> ±${Math.ceil(this.initStartVariance * this.initStart)}</span>`;
+        let iInitRecoveryModifier = `<span class="infoMax">Recovery: </span>x${+this.initRecoveryModifier.toFixed(
             2
         )}`;
 
@@ -210,13 +210,20 @@ class Combatant {
 
         // Deflect
         let iDeflect = Math.floor(this.deflectCalculated * 100);
-        solstr += `<span id='infoDeflect'>Deflect<br>${iDeflect}%</span>`;
+        if (iDeflect <= 5) {
+            solstr += `<span id='infoDeflect' class='infoDarkGrey'>Deflect<br>${iDeflect}%</span>`;
+        } else {
+            solstr += `<span id='infoDeflect'>Deflect<br>${iDeflect}%</span>`;
+        }
 
         // Block
         let iBlock = Math.floor(this.blockCalculated * 100);
         let iBlockRecovery = `<span class='infoMax'>+${Math.ceil(this.blockRecovery)}init</span>`;
-
-        solstr += `<span id='infoBlock'>Block<br>${iBlock}%<br>${iBlockRecovery}</span>`;
+        if (iBlock <= 0) {
+            solstr += `<span id='infoBlock' class='infoDarkGrey'>Block<br>${iBlock}%<br>${iBlockRecovery}</span>`;
+        } else {
+            solstr += `<span id='infoBlock'>Block<br>${iBlock}%<br>${iBlockRecovery}</span>`;
+        }
 
         // Crit
         let iCritChance = Math.ceil(
@@ -227,18 +234,26 @@ class Combatant {
             this.criticalDamageIncreased *
             this.criticalDamageMore
         ).toFixed(2)}x</span>`;
-        solstr += `<span id='infoCrit'>Critical<br>${iCritChance}%<br>${iCritDamage}</span>`;
+        if (iCritChance <= 5) {
+            solstr += `<span id='infoCrit' class='infoDarkGrey'>Critical<br>${iCritChance}%<br>${iCritDamage}</span>`;
+        } else {
+            solstr += `<span id='infoCrit'>Critical<br>${iCritChance}%<br>${iCritDamage}</span>`;
+        }
 
         // Direct
         let iDirectChance = Math.ceil(this.directChanceBase * this.directChanceIncreased * this.directChanceMore * 100);
-        solstr += `<span id='infoDirect'>Direct<br>${iDirectChance}%</span>`;
+        if (iDirectChance <= 5) {
+            solstr += `<span id='infoDirect' class='infoDarkGrey'>Direct<br>${iDirectChance}%</span>`;
+        } else {
+            solstr += `<span id='infoDirect'>Direct<br>${iDirectChance}%</span>`;
+        }
 
         solstr += `</grid></span>`;
 
         /**
          * Buffs & Debuffs
          */
-         if (this.buffs.length > 0) {
+        if (this.buffs.length > 0) {
             solstr += `<span id='infoBuffs'><span class='infoSectionHeader'>BUFFS & DEBUFFS</span>`;
             // NYI buff and debuff information
             solstr += `<span class='infoNYI'>Buff and debuff information are NYI, but you currently have at least one.</span>`;
@@ -250,53 +265,132 @@ class Combatant {
          */
         solstr += `<span id='infoResistances'><span class='infoSectionHeader'>RESISTANCES & REDUCTIONS</span>`;
         solstr += `<grid id='infoResistanceGrid'>`;
+        let sub1realRes = "";
+        let sub1maxRes = "";
+        let sub1flatRes = "";
 
-        function getMainResString(main) {
-            return `${Math.floor(Math.min(res[main], resMax[main]) * 100)}%<span class='infoMax'> :${Math.floor(
-                Math.max(resMax[main])
-            )}%</span> - ${Math.floor(Math.min(red[main]))}`;
+        /** If all of the subs are equal, add them to main and hide the subs. */
+        function determineResEquivalances(main, sub1, sub2, sub3) {
+            sub1realRes = Math.floor(Math.min(res[main] + res[sub1], resMax[sub1]) * 100);
+            sub1maxRes = Math.floor(Math.max(resMax[sub1]));
+            sub1flatRes = Math.floor(Math.min(red[main] + red[sub1]));
+
+            let sub2real = Math.floor(Math.min(res[main] + res[sub2], resMax[sub2]) * 100);
+            let sub2max = Math.floor(Math.max(resMax[sub2]));
+            let sub2flat = Math.floor(Math.min(red[main] + red[sub2]));
+
+            let sub3real = Math.floor(Math.min(res[main] + res[sub3], resMax[sub3]) * 100);
+            let sub3max = Math.floor(Math.max(resMax[sub3]));
+            let sub3flat = Math.floor(Math.min(red[main] + red[sub3]));
+
+            let realeq = sub1realRes === sub2real && sub1realRes === sub3real ? true : false;
+            let maxeq = sub1maxRes === sub2max && sub1maxRes === sub3max ? true : false;
+            let flateq = sub1flatRes === sub2flat && sub1flatRes === sub3flat ? true : false;
+
+            let actuallyeq = realeq === maxeq && realeq === flateq ? true : false;
+
+            return actuallyeq;
+        }
+
+        /** subsEq indicates whether all the subs are the same. */
+        function getMainResString(subsEq, main) {
+            if (subsEq) {
+                // TODO: If max'd, add `infoGold` class.
+
+                // Determine if stats are zero'd.
+                let isZeroedClass = "";
+                if (sub1realRes === 0 && sub1flatRes === 0) {
+                    isZeroedClass = " infoDarkGrey";
+                }
+
+                return `class='info${main.replace(/^\w/, (c) =>
+                    c.toUpperCase()
+                )} plateInformationGridsSpan3Rows${isZeroedClass}'> All ${main.replace(/^\w/, (c) =>
+                    c.toUpperCase()
+                )} Resistances: ${Math.floor(Math.min(sub1realRes, sub1maxRes))}%<span class='infoMax'> :${Math.floor(
+                    sub1maxRes
+                )}%</span> - ${Math.floor(sub1flatRes)}`;
+            } else {
+                return `class='info${main.replace(/^\w/, (c) => c.toUpperCase())} infoUpper'> ${main.replace(
+                    /^\w/,
+                    (c) => c.toUpperCase()
+                )}`;
+            }
         }
 
         function getSubResString(main, sub) {
-            return `${Math.floor(
-                Math.min(res[main] + res[sub], resMax[sub]) * 100
-            )}%<span class='infoMax'> :${Math.floor(Math.max(resMax[sub]))}%</span> - ${Math.floor(
-                Math.min(red[main] + red[sub])
-            )}`;
+            // TODO: If max'd, add `infoGold` class.
+
+            let subrealRes = Math.floor(Math.min(res[main] + res[sub], resMax[sub]) * 100);
+            let submaxRes = Math.floor(Math.max(resMax[sub]));
+            let subflatRes = Math.floor(Math.min(red[main] + red[sub]));
+
+            console.log(sub);
+            console.log(subrealRes);
+            console.log(subflatRes);
+
+            // Determine if stats are zero'd.
+            let isZeroedClass = "";
+            if (subrealRes === 0 && subflatRes === 0) {
+                isZeroedClass = " infoDarkGrey";
+            }
+            console.log(isZeroedClass);
+
+            return `class='info${sub.replace(/^\w/, (c) => c.toUpperCase())}${isZeroedClass}'>${sub.replace(
+                /^\w/,
+                (c) => c.toUpperCase()
+            )}<br>${subrealRes}%<span class='infoMax'> :${submaxRes}%</span> + ${subflatRes}`;
         }
 
         // Material
-        let iMaterialRes = getMainResString("material");
-        let iBluntRes = getSubResString("material", "blunt");
-        let iPierceRes = getSubResString("material", "pierce");
-        let iAcidRes = getSubResString("material", "acid");
+        let iMaterialEqRes = determineResEquivalances("material", "blunt", "pierce", "acid");
+        let iMaterialRes = iMaterialEqRes ? getMainResString(true, "material") : getMainResString(false, "material");
 
-        solstr += `<span class='infoMaterial'>Material<br>${iMaterialRes}</span>`;
-        solstr += `<span class='infoBlunt'>Blunt<br>${iBluntRes}</span>`;
-        solstr += `<span class='infoPierce'>Pierce<br>${iPierceRes}</span>`;
-        solstr += `<span class='infoAcid'>Acid<br>${iAcidRes}</span>`;
+        solstr += `<span ${iMaterialRes}</span>`;
+
+        if (!iMaterialEqRes) {
+            let iBluntRes = getSubResString("material", "blunt");
+            let iPierceRes = getSubResString("material", "pierce");
+            let iAcidRes = getSubResString("material", "acid");
+
+            solstr += `<span ${iBluntRes}</span>`;
+            solstr += `<span ${iPierceRes}</span>`;
+            solstr += `<span ${iAcidRes}</span>`;
+        }
 
         // Elemental
-        let iElementalRes = getMainResString("elemental");
-        let iFireRes = getSubResString("elemental", "fire");
-        let iFrostRes = getSubResString("elemental", "frost");
-        let iLightningRes = getSubResString("elemental", "lightning");
+        let iElementalEqRes = determineResEquivalances("elemental", "fire", "frost", "lightning");
+        let iElementalRes = iElementalEqRes
+            ? getMainResString(true, "elemental")
+            : getMainResString(false, "elemental");
 
-        solstr += `<span class='infoElemental'>Elemental<br>${iElementalRes}</span>`;
-        solstr += `<span class='infoFire'>Fire<br>${iFireRes}</span>`;
-        solstr += `<span class='infoFrost'>Frost<br>${iFrostRes}</span>`;
-        solstr += `<span class='infoLightning'>Lightning<br>${iLightningRes}</span>`;
+        solstr += `<span ${iElementalRes}</span>`;
+
+        if (!iElementalEqRes) {
+            let iFireRes = getSubResString("elemental", "fire");
+            let iFrostRes = getSubResString("elemental", "frost");
+            let iLightningRes = getSubResString("elemental", "lightning");
+
+            solstr += `<span ${iFireRes}</span>`;
+            solstr += `<span ${iFrostRes}</span>`;
+            solstr += `<span ${iLightningRes}</span>`;
+        }
 
         // Occult
-        let iOccultRes = getMainResString("occult");
-        let iShadowRes = getSubResString("occult", "shadow");
-        let iSacredRes = getSubResString("occult", "sacred");
-        let iAetherRes = getSubResString("occult", "aether");
+        let iOccultEqRes = determineResEquivalances("occult", "shadow", "aether", "sacred");
+        let iOccultRes = iOccultEqRes ? getMainResString(true, "occult") : getMainResString(false, "occult");
 
-        solstr += `<span class='infoOccult'>Occult<br>${iOccultRes}</span>`;
-        solstr += `<span class='infoShadow'>Shadow<br>${iShadowRes}</span>`;
-        solstr += `<span class='infoSacred'>Sacred<br>${iSacredRes}</span>`;
-        solstr += `<span class='infoAether'>Aether<br>${iAetherRes}</span>`;
+        solstr += `<span ${iOccultRes}</span>`;
+
+        if (!iOccultEqRes) {
+            let iShadowRes = getSubResString("occult", "shadow");
+            let iSacredRes = getSubResString("occult", "sacred");
+            let iAetherRes = getSubResString("occult", "aether");
+
+            solstr += `<span ${iShadowRes}</span>`;
+            solstr += `<span ${iSacredRes}</span>`;
+            solstr += `<span ${iAetherRes}</span>`;
+        }
 
         solstr += `</grid></span>`;
 
@@ -306,52 +400,121 @@ class Combatant {
         solstr += `<span id='infoAbsorbtions'><span class='infoSectionHeader'>Absorbtion</span>`;
         solstr += `<grid id='infoAbsorbtionGrid'>`;
 
-        function getMainAbsString(main) {
-            return `${Math.floor(Math.min(abp[main], abpMax[main]) * 100)}%<span class='infoMax'> :${Math.floor(
-                Math.max(abpMax[main])
-            )}%</span> + ${Math.floor(Math.min(abf[main]))}`;
+        let sub1realAb = "";
+        let sub1maxAb = "";
+        let sub1flatAb = "";
+
+        /** If all of the subs are equal, add them to main and hide the subs. */
+        function determineAbEquivalances(main, sub1, sub2, sub3) {
+            sub1realAb = Math.floor(Math.min(abp[main] + abp[sub1], abpMax[sub1]) * 100);
+            sub1maxAb = Math.floor(Math.max(abpMax[sub1]));
+            sub1flatAb = Math.floor(Math.min(abf[main] + abf[sub1]));
+
+            let sub2real = Math.floor(Math.min(abp[main] + abp[sub2], abpMax[sub2]) * 100);
+            let sub2max = Math.floor(Math.max(abpMax[sub2]));
+            let sub2flat = Math.floor(Math.min(abf[main] + abf[sub2]));
+
+            let sub3real = Math.floor(Math.min(abp[main] + abp[sub3], abpMax[sub3]) * 100);
+            let sub3max = Math.floor(Math.max(abpMax[sub3]));
+            let sub3flat = Math.floor(Math.min(abf[main] + abf[sub3]));
+
+            let realeq = sub1realAb === sub2real && sub1realAb === sub3real ? true : false;
+            let maxeq = sub1maxAb === sub2max && sub1maxAb === sub3max ? true : false;
+            let flateq = sub1flatAb === sub2flat && sub1flatAb === sub3flat ? true : false;
+
+            let actuallyeq = realeq === maxeq && realeq === flateq ? true : false;
+
+            return actuallyeq;
+        }
+
+        /** subsEq indicates whether all the subs are the same. */
+        function getMainAbsString(subsEq, main) {
+            if (subsEq) {
+                // Determine if stats are zero'd.
+                let isZeroedClass = "";
+                if (sub1realAb === 0 && sub1flatAb === 0) {
+                    isZeroedClass = " infoDarkGrey";
+                }
+
+                return `class='info${main.replace(/^\w/, (c) =>
+                    c.toUpperCase()
+                )} plateInformationGridsSpan3Rows${isZeroedClass}'> All ${main.replace(/^\w/, (c) =>
+                    c.toUpperCase()
+                )} Absorptions: ${Math.floor(Math.min(sub1realAb, sub1maxAb))}%<span class='infoMax'> :${Math.floor(
+                    sub1maxAb
+                )}%</span> - ${Math.floor(sub1flatAb)}`;
+            } else {
+                return `class='info${main.replace(/^\w/, (c) => c.toUpperCase())}'> ${main.replace(/^\w/, (c) =>
+                    c.toUpperCase()
+                )}: ${Math.floor(Math.min(abp[main], abpMax[main]) * 100)}%<span class='infoMax'> :${Math.floor(
+                    abpMax[main]
+                )}%</span> - ${Math.floor(abf[main])}`;
+            }
         }
 
         function getSubAbsString(main, sub) {
-            return `${Math.floor(
-                Math.min(abp[main] + abp[sub], abpMax[sub]) * 100
-            )}%<span class='infoMax'> :${Math.floor(Math.max(abpMax[sub]))}%</span> + ${Math.floor(
-                Math.min(abf[main] + abf[sub])
-            )}`;
+            let subrealAb = Math.floor(Math.min(abp[main] + abp[sub], abpMax[sub]) * 100);
+            let submaxAb = Math.floor(Math.max(abpMax[sub]));
+            let subflatAb = Math.floor(Math.min(abf[main] + abf[sub]));
+
+            // Determine if stats are zero'd.
+            let isZeroedClass = "";
+            if (sub1realAb === 0 && sub1flatAb === 0) {
+                isZeroedClass = " infoDarkGrey";
+            }
+            return `class='info${sub.replace(/^\w/, (c) => c.toUpperCase())}${isZeroedClass}'>${sub.replace(
+                /^\w/,
+                (c) => c.toUpperCase()
+            )}<br>${subrealAb}%<span class='infoMax'> :${submaxAb}%</span> + ${subflatAb}`;
         }
 
         // Material
-        let iMaterialAbs = getMainAbsString("material");
-        let iBluntAbs = getSubAbsString("material", "blunt");
-        let iPierceAbs = getSubAbsString("material", "pierce");
-        let iAcidAbs = getSubAbsString("material", "acid");
+        let iMaterialEqAb = determineAbEquivalances("material", "blunt", "pierce", "acid");
+        let iMaterialAb = iMaterialEqAb ? getMainAbsString(true, "material") : getMainAbsString(false, "material");
 
-        solstr += `<span class='infoMaterial'>Material<br>${iMaterialAbs}</span>`;
-        solstr += `<span class='infoBlunt'>Blunt<br>${iBluntAbs}</span>`;
-        solstr += `<span class='infoPierce'>Pierce<br>${iPierceAbs}</span>`;
-        solstr += `<span class='infoAcid'>Acid<br>${iAcidAbs}</span>`;
+        solstr += `<span ${iMaterialAb}</span>`;
+
+        if (!iMaterialEqAb) {
+            let iBluntAbs = getSubAbsString("material", "blunt");
+            let iPierceAbs = getSubAbsString("material", "pierce");
+            let iAcidAbs = getSubAbsString("material", "acid");
+
+            solstr += `<span ${iBluntAbs}</span>`;
+            solstr += `<span ${iPierceAbs}</span>`;
+            solstr += `<span ${iAcidAbs}</span>`;
+        }
 
         // Elemental
-        let iElementalAbs = getMainAbsString("elemental");
-        let iFireAbs = getSubAbsString("elemental", "fire");
-        let iFrostAbs = getSubAbsString("elemental", "frost");
-        let iLightningAbs = getSubAbsString("elemental", "lightning");
+        let iElementalEqAb = determineAbEquivalances("elemental", "fire", "frost", "lightning");
+        let iElementalAb = iElementalEqAb ? getMainAbsString(true, "elemental") : getMainAbsString(false, "elemental");
 
-        solstr += `<span class='infoElemental'>Elemental<br>${iElementalAbs}</span>`;
-        solstr += `<span class='infoFire'>Fire<br>${iFireAbs}</span>`;
-        solstr += `<span class='infoFrost'>Frost<br>${iFrostAbs}</span>`;
-        solstr += `<span class='infoLightning'>Lightning<br>${iLightningAbs}</span>`;
+        solstr += `<span ${iElementalAb}</span>`;
+
+        if (!iElementalEqAb) {
+            let iFireAbs = getSubAbsString("elemental", "fire");
+            let iFrostAbs = getSubAbsString("elemental", "frost");
+            let iLightningAbs = getSubAbsString("elemental", "lightning");
+
+            solstr += `<span ${iFireAbs}</span>`;
+            solstr += `<span ${iFrostAbs}</span>`;
+            solstr += `<span ${iLightningAbs}</span>`;
+        }
 
         // Occult
-        let iOccultAbs = getMainAbsString("occult");
-        let iShadowAbs = getSubAbsString("occult", "shadow");
-        let iSacredAbs = getSubAbsString("occult", "sacred");
-        let iAetherAbs = getSubAbsString("occult", "aether");
+        let iOccultEqAb = determineAbEquivalances("occult", "shadow", "aether", "sacred");
+        let iOccultAb = iOccultEqAb ? getMainAbsString(true, "occult") : getMainAbsString(false, "occult");
 
-        solstr += `<span class='infoOccult'>Occult<br>${iOccultAbs}</span>`;
-        solstr += `<span class='infoShadow'>Shadow<br>${iShadowAbs}</span>`;
-        solstr += `<span class='infoSacred'>Sacred<br>${iSacredAbs}</span>`;
-        solstr += `<span class='infoAether'>Aether<br>${iAetherAbs}</span>`;
+        solstr += `<span ${iOccultAb}</span>`;
+
+        if (!iOccultEqAb) {
+            let iShadowAbs = getSubAbsString("occult", "shadow");
+            let iSacredAbs = getSubAbsString("occult", "sacred");
+            let iAetherAbs = getSubAbsString("occult", "aether");
+
+            solstr += `<span ${iShadowAbs}</span>`;
+            solstr += `<span ${iSacredAbs}</span>`;
+            solstr += `<span ${iAetherAbs}</span>`;
+        }
 
         solstr += `</grid></span>`;
 
@@ -367,10 +530,25 @@ class Combatant {
         solstr += `<grid id='infoDamageGrid'>`;
 
         function getDmgString(sub) {
-            return `${Math.floor(dmg[sub].min)} - ${Math.ceil(dmg[sub].max)}<br><span class="infoMax">x${+(
-                dmg[sub].more *
-                (1 + dmg[sub].increased)
-            ).toFixed(2)}</span>`;
+            let dmgmin = Math.floor(dmg[sub].min);
+            let dmgmax = Math.ceil(dmg[sub].max);
+            let dmgmore = dmg[sub].more * (1 + dmg[sub].increased);
+
+            // Determine if stats are zero'd.
+            let isZeroedClass = "";
+            if (dmgmin === 0 && dmgmax === 0) {
+                isZeroedClass = " infoDarkGrey";
+            }
+
+            let isHiddenClass = "";
+            if (dmgmore === 1) {
+                isHiddenClass = " infoHidden";
+            }
+
+            return `class='info${sub.replace(/^\w/, (c) => c.toUpperCase())} ${isZeroedClass}'>${sub.replace(
+                /^\w/,
+                (c) => c.toUpperCase()
+            )}<br>${dmgmin} - ${dmgmax}<br><span class="infoMax${isHiddenClass}">x${+dmgmore.toFixed(2)}</span>`;
         }
 
         // Material
@@ -378,30 +556,30 @@ class Combatant {
         let iPierceDmg = getDmgString("pierce");
         let iAcidDmg = getDmgString("acid");
 
-        solstr += `<span class='infoMaterial'>Material</span>`;
-        solstr += `<span class='infoBlunt'>Blunt<br>${iBluntDmg}</span>`;
-        solstr += `<span class='infoPierce'>Pierce<br>${iPierceDmg}</span>`;
-        solstr += `<span class='infoAcid'>Acid<br>${iAcidDmg}</span>`;
+        solstr += `<span class='infoMaterial infoUpper'>Material</span>`;
+        solstr += `<span ${iBluntDmg}</span>`;
+        solstr += `<span ${iPierceDmg}</span>`;
+        solstr += `<span ${iAcidDmg}</span>`;
 
         // Elemental
         let iFireDmg = getDmgString("fire");
         let iFrostDmg = getDmgString("frost");
         let iLightningDmg = getDmgString("lightning");
 
-        solstr += `<span class='infoElemental'>Elemental</span>`;
-        solstr += `<span class='infoFire'>Fire<br>${iFireDmg}</span>`;
-        solstr += `<span class='infoFrost'>Frost<br>${iFrostDmg}</span>`;
-        solstr += `<span class='infoLightning'>Lightning<br>${iLightningDmg}</span>`;
+        solstr += `<span class='infoElemental infoUpper'>Elemental</span>`;
+        solstr += `<span ${iFireDmg}</span>`;
+        solstr += `<span ${iFrostDmg}</span>`;
+        solstr += `<span ${iLightningDmg}</span>`;
 
         // Occult
         let iShadowDmg = getDmgString("shadow");
         let iSacredDmg = getDmgString("sacred");
         let iAetherDmg = getDmgString("aether");
 
-        solstr += `<span class='infoOccult'>Occult</span>`;
-        solstr += `<span class='infoShadow'>Shadow<br>${iShadowDmg}</span>`;
-        solstr += `<span class='infoSacred'>Sacred<br>${iSacredDmg}</span>`;
-        solstr += `<span class='infoAether'>Aether<br>${iAetherDmg}</span>`;
+        solstr += `<span class='infoOccult infoUpper'>Occult</span>`;
+        solstr += `<span ${iShadowDmg}</span>`;
+        solstr += `<span ${iSacredDmg}</span>`;
+        solstr += `<span ${iAetherDmg}</span>`;
 
         solstr += `</grid></span>`;
 

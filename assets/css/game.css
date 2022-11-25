@@ -368,7 +368,11 @@ body.stowed {
 
 .infoMax {
     font-size: 0.7em;
-    color: hsl(0, 0%, 40%);
+    color: hsl(0, 0%, 60%);
+}
+
+.infoDarkGrey .infoMax {
+    color: inherit;
 }
 
 .infoNYI {
@@ -440,16 +444,47 @@ body.stowed {
     text-align: center;
     align-items: center;
     font-size: 0.7em;
-    grid-auto-flow: column;
+    grid-auto-flow: row;
     grid-gap: 0.5em;
 
     padding-bottom: 1em;
 
-    grid-template-rows: auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto auto auto auto;
     grid-template-columns: 1fr 1fr 1fr;
 }
 
+.infoUpper {
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+    text-transform: uppercase;
+}
+
+.infoDarkGrey {
+    color: hsl(0, 0%, 35%);
+}
+
+.infoGold {
+    color: goldenrod;
+}
+
+.plateInformationGridsSpan3Rows {
+    grid-row: span 3;
+}
+
+.infoMaterial,
+.infoElemental,
+.infoOccult {
+    grid-column: span 3;
+}
+
+.infoHidden {
+    visibility: hidden;
+    display: none;
+}
+
 #infoDamageGrid {
+    line-height: 1.1em;
     grid-template-rows: auto auto auto auto auto;
 }
 
