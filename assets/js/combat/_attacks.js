@@ -102,7 +102,7 @@ class Attack {
                 targetStr = `Targets ${targetSide} Side's ${targetRow} Row`;
                 break;
             case "single":
-                targetStr = `Targets an ${targetSide} from the ${targetRow}row`;
+                targetStr = `Targets an ${targetSide} on the ${targetRow}row`;
                 break;
             case "self":
                 targetStr = "Targets Self";

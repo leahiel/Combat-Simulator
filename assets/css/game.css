@@ -17,6 +17,7 @@
 
     --background: hsl(0, 0%, 10%);
     --backgroundplus1: hsl(0, 0%, 15%);
+    --backgroundTransparent: hsla(0, 0%, 10%, 0.8);
 
     --tooltip-background-color: hsla(0, 0%, 13%, 0.95);
 }
@@ -304,6 +305,10 @@ body.stowed {
     box-shadow: var(--boxShadow);
     border-radius: 20px;
     background-color: hsl(0, 0%, 5%);
+}
+
+#ui-dialog-body.dialogEquipmentMod #CombatantInformationPlate {
+    grid-column: span all;
 }
 
 #infoName {
@@ -617,8 +622,12 @@ body.stowed {
     height: 80vh;
     justify-content: space-between;
     align-items: start;
-
+    justify-items: center;
     overflow-x: hidden;
+}
+
+#ui-dialog-body.dialogEquipmentSwap select {
+    width: 100%;
 }
 
 .dialogEquipmentSwap .macro-listbox,
@@ -627,6 +636,15 @@ body.stowed {
     height: 20vh;
 
     cursor: default;
+}
+
+#modSelectionGrid {
+    display: grid;
+}
+
+#modSelectionGrid select {
+    height: 12vh;
+    width: 100%;
 }
 
 .dialogEquipmentSwap .macro-listbox option:hover {
@@ -969,7 +987,7 @@ input:checked ~ accordionContent {
     border: 1px solid hsl(312deg 74% 16% / 0%);
     border-radius: 8px;
     /* box-shadow: var(--boxShadow); */
-    background-color: var(--background);
+    background-color: var(--backgroundTransparent);
 
     justify-items: center;
     grid-auto-flow: dense;
@@ -992,7 +1010,7 @@ input:checked ~ accordionContent {
     border: 1px solid hsl(312deg 74% 16% / 0%);
     border-radius: 8px;
     /* box-shadow: var(--boxShadow); */
-    background-color: var(--background);
+    background-color: var(--backgroundTransparent);
 
     justify-items: center;
     grid-auto-flow: dense;
@@ -1009,7 +1027,7 @@ input:checked ~ accordionContent {
     margin: 1em;
 
     box-shadow: var(--boxShadow);
-    background-color: var(--background);
+    background-color: var(--backgroundTransparent);
 
     overflow: scroll;
 }
@@ -1029,7 +1047,7 @@ input:checked ~ accordionContent {
     border: 1px solid white;
     border-radius: 8px;
     box-shadow: var(--boxShadow);
-    background-color: var(--background);
+    background-color: var(--backgroundTransparent);
 
     justify-items: center;
 }
@@ -1040,7 +1058,6 @@ input:checked ~ accordionContent {
     width: 100%;
     margin: 1rem;
 
-    background: var(--background);
     grid-gap: 1px;
 
     justify-items: center;
@@ -1159,6 +1176,14 @@ input:checked ~ accordionContent {
 
     width: 100%;
     height: 100%;
+}
+
+html[data-tags~="@combatoverlord"] {
+    /* NYI: Background images for combat. */
+}
+
+.modSlotTitle {
+    text-align: center;
 }
 
 #enemyZone [data-name="/if"] {

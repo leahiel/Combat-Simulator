@@ -1,10 +1,8 @@
 TODO for indev release: 
 ☐  CSS Update
-    ☐  Mods Show CombatantInformationPlate
     ☐  Location and Name embedded into canvases.
     ☑  Targetting functional.
         ☐  Targeting CSS.
-    ☐  Background Images
 ☐  Add content.
     ☑ Attacks
     ☐ Equippables
@@ -101,6 +99,7 @@ Stats and Growth:
     ☐  Miracles
     ☐  Energy Shield (or do I want divine shield? Having both would be illogical and/or confusing.)
     ☐  Battle Log
+    ☐  Background Images
         
     Combat Initialization:
     ☐  Setting (Music, Background, ETC) 

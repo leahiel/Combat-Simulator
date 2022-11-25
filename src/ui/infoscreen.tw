@@ -243,32 +243,46 @@
         <<set _selectvalmod to []>>
 
         /* Create listbox. */
-        <<if $info.current === $tp1 || $info.current === $tp2>>
-            <<for _i = 0; _i < $info.current.equippables[_captureArg].modslots; _i++>>
-                Slot _i:
-                <select @id="_listboxstr" class="macro-listbox" @name="_listboxstr" tabindex="0" autocomplete="off" size="2">
-                    <option value="0">$info.current.equippables[_captureArg].mods[_i].name</option>
-                </select>
-                <br>
-            <</for>>
-        <<else>>
-            <<for _i = 0; _i < $info.current.equippables[_captureArg].modslots; _i++>>
-                Slot _i:
-                <select @id="_listboxstr" @class="_listboxstr" @name="_listboxstr" tabindex="0" @boxnum=_i @size="$info.current.equippables[_captureArg].modslots">
-                    <<for _j, _mod range _viableModList>>
-                        <<if _mod.name === $info.current.equippables[_captureArg].mods[_i].name>>
-                            <<set _selectvalmod[_i] to _j>>
-                        <</if>>
-                        <option @value=_j>_mod.name t._mod.tier</option>
-                    <</for>>
-                </select>
-                <br>
-            <</for>>
-        <</if>>
+        <span id="modSelectionGrid">
+            <<if $info.current === $tp1 || $info.current === $tp2>>
+                <<for _i = 0; _i < $info.current.equippables[_captureArg].modslots; _i++>>
+                    <span class="modSlotTitle">Slot _i</span>
+                    <select @id="_listboxstr" class="macro-listbox" @name="_listboxstr" tabindex="0" autocomplete="off" size="2">
+                        <option value="0">$info.current.equippables[_captureArg].mods[_i].name</option>
+                    </select>
+                    <br>
+                <</for>>
+            <<else>>
+                <<for _i = 0; _i < $info.current.equippables[_captureArg].modslots; _i++>>
+                    <span class="modSlotTitle">Slot _i</span>
+                    <select @id="_listboxstr" @class="_listboxstr" @name="_listboxstr" tabindex="0" @boxnum=_i @size="$info.current.equippables[_captureArg].modslots">
+                        <<for _j, _mod range _viableModList>>
+                            <<if _mod.name === $info.current.equippables[_captureArg].mods[_i].name>>
+                                <<set _selectvalmod[_i] to _j>>
+                            <</if>>
+                            <option @value=_j>_mod.name t._mod.tier</option>
+                        <</for>>
+                    </select>
+                    <br>
+                <</for>>
+            <</if>>
+        </span>
+
+        /*NYI: Show attacks on mod swap screen. */
+        /* <<if _captureArg === "weapon">>
+            Weapon Attacks
+            <span id="attackButtons"></span>
+            <span id="attackInfoDescription" style="display: block"></span>
+            <<run setup.fns.waitForElm("#attackButtons").then(() => {$.wiki(`<<replace '#attackButtons'>><<include "Show_Attacks">><</replace>>`)});>>
+        <</if>> */
+
+        /* The place to show the character stats. */
+        <span id="equipmentCharacterStats"><<print new setup.COM.Combatant($info.current).getInfo()>></span>
 
         /* Make listbox selection change related vars. */
         <<script>>
             let st = State.temporary;
+            let sv = State.variables;
             let svice = State.variables.info.current.equippables;
             let captureArg = st.captureArg;
             let selectvalmod = st.selectvalmod;
@@ -284,8 +298,12 @@
                 $(`.${st.listboxstr}`).change( function (elm) {
                     /* Change the modslot's mod to the updated mod. */
                     svice[captureArg].mods[$(this).attr("boxnum")] = viableModList[$(this).val()];
+
                     /* Update the Equippable */
                     svice[captureArg].applyMods();
+
+                    /* Update character stats. */
+                    $('#equipmentCharacterStats').empty().wiki(new setup.COM.Combatant(sv.info.current).getInfo());
 
                     /* Reload this dialogue so that viableModList is updated. */
                     Dialog.setup(`${st.strcap} Mods`, "dialogEquipmentMod");
