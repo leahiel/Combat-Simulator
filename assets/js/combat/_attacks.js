@@ -514,10 +514,10 @@ const attacks = {
     }),
 
     /**
-     *  dP""b8 88  88    db     dP"Yb  888888 88  dP""b8     .dP"Y8 88""Yb 888888    db    88""Yb 
-     * dP   `" 88  88   dPYb   dP   Yb   88   88 dP   `"     `Ybo." 88__dP 88__     dPYb   88__dP 
-     * Yb      888888  dP__Yb  Yb   dP   88   88 Yb          o.`Y8b 88"""  88""    dP__Yb  88"Yb  
-     *  YboodP 88  88 dP""""Yb  YbodP    88   88  YboodP     8bodP' 88     888888 dP""""Yb 88  Yb 
+     *  dP""b8 88  88    db     dP"Yb  888888 88  dP""b8     .dP"Y8 88""Yb 888888    db    88""Yb
+     * dP   `" 88  88   dPYb   dP   Yb   88   88 dP   `"     `Ybo." 88__dP 88__     dPYb   88__dP
+     * Yb      888888  dP__Yb  Yb   dP   88   88 Yb          o.`Y8b 88"""  88""    dP__Yb  88"Yb
+     *  YboodP 88  88 dP""""Yb  YbodP    88   88  YboodP     8bodP' 88     888888 dP""""Yb 88  Yb
      */
     chaoschuck: new Attack({
         name: "Chaos Chuck",
@@ -900,7 +900,7 @@ const attacks = {
         wdm: 2,
         name: "Vile Bite",
         initRecovery: 21,
-        family: ["mommySpider"],
+        family: ["mommySpider", "Ghoul"],
         targets: {
             style: "single",
             side: "enemy",
@@ -916,6 +916,7 @@ const attacks = {
                 max: 6,
             },
         },
+        buffs: [buffs.debuffPoisoned],
         description: "A vile bite, inflicting pierce and acid damage.",
     }),
 
@@ -1252,10 +1253,10 @@ const attacks = {
     }),
 
     /*
-     *  dP""b8 888888 88b 88 888888    db    88   88 88""Yb .dP"Y8 
-     * dP   `" 88__   88Yb88   88     dPYb   88   88 88__dP `Ybo." 
-     * Yb      88""   88 Y88   88    dP__Yb  Y8   8P 88"Yb  o.`Y8b 
-     *  YboodP 888888 88  Y8   88   dP""""Yb `YbodP' 88  Yb 8bodP' 
+     *  dP""b8 888888 88b 88 888888    db    88   88 88""Yb .dP"Y8
+     * dP   `" 88__   88Yb88   88     dPYb   88   88 88__dP `Ybo."
+     * Yb      88""   88 Y88   88    dP__Yb  Y8   8P 88"Yb  o.`Y8b
+     *  YboodP 888888 88  Y8   88   dP""""Yb `YbodP' 88  Yb 8bodP'
      */
     herdmentor: new Attack({
         wdm: 0,
@@ -1305,11 +1306,63 @@ const attacks = {
                 min: 3,
                 max: 4,
                 increased: 0.5,
-            }
-        }
-    })
+            },
+        },
+    }),
 
+    /*
+     *  dP""b8 88  88  dP"Yb  88   88 88     .dP"Y8
+     * dP   `" 88  88 dP   Yb 88   88 88     `Ybo."
+     * Yb  "88 888888 Yb   dP Y8   8P 88  .o o.`Y8b
+     *  YboodP 88  88  YbodP  `YbodP' 88ood8 8bodP'
+     */
+    regenerate: new Attack({
+        wdm: 0,
+        name: "Regenerate",
+        initRecovery: 35,
+        family: ["Ghoul"],
+        targets: {
+            style: "self",
+            side: null,
+            row: null,
+        },
+        buffs: [buffs.buffRegenerate],
+        description: "Regenerate life over time.",
+    }),
 
+    ghoulscreech: new Attack({
+        name: "Ghoul Screech",
+        family: ["Ghoul"],
+        initRecovery: 35,
+        wdm: 0,
+        targets: {
+            style: "side",
+            side: "ally",
+            row: null,
+        },
+        type: "buff",
+        description: "Inspire your allies to attack more often.",
+        buffs: [buffs.buffGhoulScreech],
+    }),
+
+    poisonedClaw: new Attack({
+        wdm: 1.25,
+        name: "Poisoned Claw",
+        initRecovery: 24,
+        family: ["Ghoul"],
+        targets: {
+            style: "single",
+            side: "enemy",
+            row: "front",
+        },
+        buffs: [buffs.debuffPoisoned],
+        description: "Slash your target with a particularly nasty claw.",
+        damage: {
+            acid: {
+                increased: 0.6,
+            },
+        },
+    }),
 };
 
 /**

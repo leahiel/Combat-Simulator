@@ -152,6 +152,27 @@
 		});
 	<</script>>
 <</button>>
+<br>
+<<button [[Gen. CI w/ Ghouls|Combat_Overlord]]>>
+	<<script>>
+		/* Random Int between 2 and 4 */
+		let int = Math.floor(Math.random() * (4 - 2 + 1) + 2);
+		let skeletonArr = [
+			"EN_UNARMED_SKELETON",
+			"EN_SPEAR_SKELETON",
+			"EN_SWORDSHIELD_SKELETON",
+			"EN_BOW_SKELETON",
+		];
+		let ep = setup.fns.ranItems(int, skeletonArr, true);
+		ep.push("EN_SAUSON_GHOUL_MASTER");
+
+		State.variables.ci = new setup.COM.CombatInstance({
+			winPassage: "Inbetween",
+			losePassage: "Inbetween",
+			ep: ep,
+		});
+	<</script>>
+<</button>>
 
 <<done>>
 	<<script>>

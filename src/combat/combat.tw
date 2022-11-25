@@ -89,13 +89,12 @@ let ci = State.variables.ci;
 async function processTurns(pp, ep) {
     /** Decrement init of the character, and apply buffs if applicable. */
     function decrementInits(char) {
-        let initDecrementAmount = .25;
-        char.init -= (initDecrementAmount * char.initDecrementModifier);
+        char.init -= (State.variables.initDecrementAmount * char.initDecrementModifier);
 
         for (let buff of char.buffs) {
             /* Decrement buff. If buff duration goes down a whole number, apply its effects. */
             let buffStart = Math.floor(buff.duration);
-            buff.duration -= initDecrementAmount;
+            buff.duration -= State.variables.initDecrementAmount;
             let buffEnd = Math.floor(buff.duration);
 
             if (buffStart > buffEnd) {

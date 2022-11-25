@@ -172,6 +172,8 @@ for (let equippable in setup.COM.equippables) {
     }
 }
 
+State.variables.initDecrementAmount = .25;
+
 sv.pc.equippables.weapon = svai.weapons[1];
 sv.pc.equippables.armor = svai.armors[1];
 sv.pc.equippables.accessory = svai.accessories[0];

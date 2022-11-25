@@ -315,9 +315,6 @@
 
 
 :: Players_Info [.infoscreen .helper nostats] {"position":"1000,650"}
-/** Show these buttons during combat. 
- * REVIEW: Disable instead? 
- */
 <<script>>
 if (!tags().includes(".combat")) {
     $('#infoScreenBottomMenuButtons').empty();

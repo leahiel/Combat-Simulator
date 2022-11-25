@@ -330,27 +330,6 @@ const monsters = {
         },
     }),
 
-    EN_SAUSON_SKELETON_MASTER: new Enemy({
-        name: "Sauson Skeleton Master",
-        family: "Sauson",
-        positionPreferance: "backline", // NYI: positionPreferance. After CI are randomly performed, parties should shuffle for preferances.
-        healthMax: 88,
-        initStart: 24,
-        initStartVariance: 0.12,
-        attacks: mergeArray(setup.COM.attacks.healUndead, setup.COM.attacks.flash),
-        description: "The oldest of enemies that wish to see everything burn: A Sauson.",
-        damage: {
-            shadow: {
-                min: 5,
-                max: 11,
-            },
-        },
-        resistance: {
-            material: -0.2,
-            occult: 0.3,
-        },
-    }),
-
     /*
      *  dP""b8 888888 88b 88 888888    db    88   88 88""Yb .dP"Y8 
      * dP   `" 88__   88Yb88   88     dPYb   88   88 88__dP `Ybo." 
@@ -470,6 +449,61 @@ const monsters = {
         resistance: {
             occult: 0.2,
             fire: -0.2,
+        },
+    }),
+
+    /*
+     *  dP""b8 88  88  dP"Yb  88   88 88     .dP"Y8 
+     * dP   `" 88  88 dP   Yb 88   88 88     `Ybo." 
+     * Yb  "88 888888 Yb   dP Y8   8P 88  .o o.`Y8b 
+     *  YboodP 88  88  YbodP  `YbodP' 88ood8 8bodP' 
+     */
+    EN_GHOUL: new Enemy({
+        name: "Ghoul",
+        family: "Ghoul",
+        healthMax: 36,
+        initStart: 19,
+        initStartVariance: 0.12,
+        initRecoveryModifier: 1,
+        attacks: mergeArray(setup.COM.familyAttacks.Ghoul),
+        description: "A nasty ghoul, highly resistant to material damage.",
+        criticalChanceBase: 9,
+        criticalChanceIncreased: 0.5,
+        criticalChanceMore: 1.2,
+        criticalDamageBase: 1,
+        damage: {
+            acid: {
+                min: 5,
+                max: 9,
+            },
+        },
+        resistance: {
+            material: 0.6,
+            occult: -0.3,
+        },
+        absorbPercent: {
+            material: 0.05,
+        }
+    }),
+
+    EN_SAUSON_GHOUL_MASTER: new Enemy({
+        name: "Sauson Ghoul Master",
+        family: "Sauson",
+        positionPreferance: "backline", // NYI: positionPreferance. After CI are randomly performed, parties should shuffle for preferances.
+        healthMax: 88,
+        initStart: 24,
+        initStartVariance: 0.12,
+        attacks: mergeArray(setup.COM.attacks.healUndead, setup.COM.attacks.flash),
+        description: "The oldest of enemies that wish to see everything burn: A Sauson.",
+        damage: {
+            shadow: {
+                min: 5,
+                max: 11,
+            },
+        },
+        resistance: {
+            material: -0.2,
+            occult: 0.3,
         },
     }),
 };
