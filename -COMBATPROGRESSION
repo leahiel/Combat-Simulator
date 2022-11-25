@@ -1,7 +1,5 @@
 TODO for indev release: 
 ☐  CSS Update
-    ☐  AttackInformationPlate
-    ☐  CombatantInformationPlate
     ☐  Mods Show CombatantInformationPlate
     ☐  Location and Name embedded into canvases.
     ☑  Targetting functional.

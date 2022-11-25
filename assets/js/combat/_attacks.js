@@ -66,7 +66,11 @@ class Attack {
             (this.criticalDamageIncreased + attacker.criticalDamageIncreased) *
             (this.criticalDamageMore * attacker.criticalDamageMore)
         ).toFixed(2)}x</span>`;
-        solstr += `<span id='infoCrit'>Critical<br>${iCritChance}%<br>${iCritDamage}</span>`;
+        if (iCritChance <= 5) {
+            solstr += `<span id='infoCrit' class='infoDarkGrey'>Critical<br>${iCritChance}%<br>${iCritDamage}</span>`;
+        } else {
+            solstr += `<span id='infoCrit'>Critical<br>${iCritChance}%<br>${iCritDamage}</span>`;
+        }
 
         // Direct
         let iDirectChance = Math.ceil(
@@ -75,7 +79,11 @@ class Attack {
                 (this.directChanceMore * attacker.directChanceMore) *
                 100
         );
-        solstr += `<span id='infoDirect'>Direct<br>${iDirectChance}%</span>`;
+        if (iDirectChance <= 5) {
+            solstr += `<span id='infoDirect' class='infoDarkGrey'>Direct<br>${iDirectChance}%</span>`;
+        } else {
+            solstr += `<span id='infoDirect'>Direct<br>${iDirectChance}%</span>`;
+        }
 
         // Targets
         let targetStr;
@@ -133,17 +141,27 @@ class Attack {
             let increased = dmg[sub].increased + attacker.damage[sub].increased;
             let more = dmg[sub].more * attacker.damage[sub].more;
 
-            let minTotal = Math.floor(min * (1 + increased) * more * attack.wdm);
-            let maxTotal = Math.ceil(max * (1 + increased) * more * attack.wdm);
+            let minCalculated = Math.floor(min * (1 + increased) * more * attack.wdm);
+            let maxCalculated = Math.ceil(max * (1 + increased) * more * attack.wdm);
 
-            totalMin += minTotal;
-            totalMax += maxTotal;
+            totalMin += minCalculated;
+            totalMax += maxCalculated;
 
-            let minstr = +minTotal.toFixed(2);
-            let maxstr = +maxTotal.toFixed(2);
+            let minstr = +minCalculated.toFixed(2);
+            let maxstr = +maxCalculated.toFixed(2);
 
-            return `${minstr} - ${maxstr}`;
+            // Determine if stats are zero'd.
+            let isZeroedClass = "";
+            if (minCalculated === 0 && maxCalculated === 0) {
+                isZeroedClass = " infoDarkGrey";
+            }
+
+            return `class='info${sub.replace(/^\w/, (c) => c.toUpperCase())} ${isZeroedClass}'>${sub.replace(
+                /^\w/,
+                (c) => c.toUpperCase()
+            )}<br>${minstr} - ${maxstr}`;
         }
+
 
         totalMin = +totalMin.toFixed(2);
         totalMax = +totalMax.toFixed(2);
@@ -163,28 +181,33 @@ class Attack {
 
         if (totalMin !== 0 || totalMax !== 0) {
             // Total
-            solstr += `<span id='infoDamageTotal'>Total<br>${totalMin} - ${totalMax}</span>`;
-            solstr += `<span id='infoDamageHitNumber'>Hits ${this.hitnumber} Times</span>`;
+            solstr += `<span id='infoDamageTotal'>Total: ${totalMin} - ${totalMax}</span>`;
+
+            if (this.hitnumber === 1) {
+                solstr += `<span id='infoDamageHitNumber' class='infoDarkGrey'>Hits ${this.hitnumber} Time</span>`;
+            } else {
+                solstr += `<span id='infoDamageHitNumber'>Hits ${this.hitnumber} Times</span>`;
+            }
 
             // Material
-            solstr += `<span class='infoMaterial'>Material</span>`;
-            solstr += `<span class='infoBlunt'>Blunt<br>${iBluntDmg}</span>`;
-            solstr += `<span class='infoPierce'>Pierce<br>${iPierceDmg}</span>`;
-            solstr += `<span class='infoAcid'>Acid<br>${iAcidDmg}</span>`;
+            solstr += `<span class='infoMaterial infoUpper'>Material</span>`;
+            solstr += `<span ${iBluntDmg}</span>`;
+            solstr += `<span ${iPierceDmg}</span>`;
+            solstr += `<span ${iAcidDmg}</span>`;
 
             // Elemental
-            solstr += `<span class='infoElemental'>Elemental</span>`;
-            solstr += `<span class='infoFire'>Fire<br>${iFireDmg}</span>`;
-            solstr += `<span class='infoFrost'>Frost<br>${iFrostDmg}</span>`;
-            solstr += `<span class='infoLightning'>Lightning<br>${iLightningDmg}</span>`;
+            solstr += `<span class='infoElemental infoUpper'>Elemental</span>`;
+            solstr += `<span ${iFireDmg}</span>`;
+            solstr += `<span ${iFrostDmg}</span>`;
+            solstr += `<span ${iLightningDmg}</span>`;
 
             // Occult
-            solstr += `<span class='infoOccult'>Occult</span>`;
-            solstr += `<span class='infoShadow'>Shadow<br>${iShadowDmg}</span>`;
-            solstr += `<span class='infoSacred'>Sacred<br>${iSacredDmg}</span>`;
-            solstr += `<span class='infoAether'>Aether<br>${iAetherDmg}</span>`;
+            solstr += `<span class='infoOccult infoUpper'>Occult</span>`;
+            solstr += `<span ${iShadowDmg}</span>`;
+            solstr += `<span ${iSacredDmg}</span>`;
+            solstr += `<span ${iAetherDmg}</span>`;
         } else {
-            solstr += `<span id='infoDamageTotal'>Deals no damage.</span>`;
+            solstr += `<span id='infoDamageTotal' class='infoDarkGrey'>Deals no damage.</span>`;
         }
 
         solstr += `</grid></span>`;

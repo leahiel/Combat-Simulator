@@ -521,11 +521,6 @@ class Combatant {
         /**
          * Added Damage
          */
-        /**
-         * Since damage is calculated at the time of attack, I should display it differently:
-         * Added (Min) - (Max)
-         * (Increased * More)x  // NYI: This stat doesn't actaully exist.
-         */
         solstr += `<span id='infoDamage'><span class='infoSectionHeader'>Damage</span>`;
         solstr += `<grid id='infoDamageGrid'>`;
 
