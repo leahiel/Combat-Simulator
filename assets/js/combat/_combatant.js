@@ -65,6 +65,13 @@ class Combatant {
                 updateProperties(this.damage, item.damage, "shadow");
                 updateProperties(this.damage, item.damage, "aether");
 
+                this.healthMax += item.healthMax;
+
+                this.initStart += item.initStart;
+                this.initStartVariance += item.initStartVariance;
+                this.initDecrementModifier += item.initDecrementModifier;
+                this.initRecoveryModifier += item.initRecoveryModifier
+
                 this.criticalChanceBase += item.criticalChanceBase;
                 this.criticalChanceIncreased += item.criticalChanceIncreased;
                 this.criticalChanceMore *= item.criticalChanceMore;
@@ -76,6 +83,7 @@ class Combatant {
                 this.directChanceIncreased += item.directChanceIncreased;
                 this.directChanceMore *= item.directChanceMore;
 
+                this.blockRecovery += item.blockRecovery;
                 this.blockChanceBase += item.blockChanceBase;
                 this.blockChanceIncreased += item.blockChanceIncreased;
                 this.blockChanceMore *= item.blockChanceMore;
@@ -204,10 +212,12 @@ class Combatant {
         } else {
             iInit = `${Math.ceil(this.initStart)}${iInitStartVariance}`;
         }
-        let iInitDecrement = `<span id='infoInitDecrement'>${this.initDecrementModifier}<span class="infoMax">/tick</span><br>${iInitRecoveryModifier}</span>`;
+        let iInitDecrement = `<span id='infoInitDecrement'>${+this.initDecrementModifier.toFixed(2)}<span class="infoMax">/tick</span><br>${iInitRecoveryModifier}</span>`;
 
         solstr += `<span id='infoInit'>Init<br>${iInit} -${iInitDecrement}</span>`;
 
+        // TODO: Show the max amount of Deflect/Block/Crit/Direct
+        // NYI: Max amounts of Deflect/Block/Crit/Direct
         // Deflect
         let iDeflect = Math.floor(this.deflectCalculated * 100);
         if (iDeflect <= 5) {
@@ -324,10 +334,6 @@ class Combatant {
             let subrealRes = Math.floor(Math.min(res[main] + res[sub], resMax[sub]) * 100);
             let submaxRes = Math.floor(Math.max(resMax[sub]));
             let subflatRes = Math.floor(Math.min(red[main] + red[sub]));
-
-            console.log(sub);
-            console.log(subrealRes);
-            console.log(subflatRes);
 
             // Determine if stats are zero'd.
             let isZeroedClass = "";

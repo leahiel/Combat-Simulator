@@ -1,27 +1,5 @@
 TODO for indev release: 
-☐  Add content.
-    ☑ Attacks
-    ☐ Equippables
-        ☐  14 weapons, 2 for each weapon type.
-        ☐  8 Accessories
-        ☐  8 Armors
-    ☐  10 mods for each slot.
-        ☐  Also, tags on mods work. Mods and Equipment must share at least one tag to be compatible.
-        Weapon Ideas:
-            Init Recovery Modifier
-            Damage (increased/more/flat)
-            CC
-            CH
-            DC
-        Armor Ideas:
-            Reduct
-            Resistance
-            Init Start
-        Accessory Ideas:
-            Init Decrement Modifier
-            pretty much the same as the above two?
 ☐  Add Preset character options to start/inbetween.
-    ☑  Switching functional.
     ☐  Tank
     ☐  AoE Bruiser
     ☐  Buffer
@@ -68,7 +46,7 @@ Stats and Growth:
         ☑  On Apply
         ☑  On Reapply
         ☑  Per Init
-        ☐  When Targetted
+        ☐  When Targeted
             ☐  Counter-Attacks
         ☐  When Take Damage
         ☐  On Attack
@@ -104,9 +82,9 @@ Stats and Growth:
     ☐  Setting (Music, Background, ETC) 
     ☐  Reward/Defeat Screen 
         ☐  Drops
-            ☐   Predetermined
-            ☐   From Weighted Array
-            ☐   From Enemy Drop Table
+            ☐  Predetermined
+            ☐  From Weighted Array
+            ☐  From Enemy Drop Table
     ☐  Monster Rarity and Affix System
     ☐  Enemies use a "prefer backline/frontline" bool
 
@@ -128,25 +106,27 @@ Stats and Growth:
             ☐  Boss
             ☑  Guild Test [E Rank promotes automatically]
     ☐  Able to Learn Spells
-        ☐   By watching allies cast spell
-        ☐   By watching enemies cast spell
-        ☐   By reading scrolls (P2P Premium Trading)
-        ☐   By studying (G2P Resource Trading)
+        ☐  By watching allies cast spell
+        ☐  By watching enemies cast spell
+        ☐  By reading scrolls (P2P Premium Trading)
+        ☐  By studying (G2P Resource Trading)
+    ☐  Affixes
+        ☐  More/Increased Health
+        ☐  More/Increased Material/Elemental/Occult
         
     ☐  Profiency with Gear
     ☐  Profiency with Attacks
     ☐  Limit certain mods to certain tags of Equippables?
         = e.g. "leather" tag on mod only works with armors tagged "leather"
 
+    Refactoering:
+    ☐  Passage Tags can decide CSS, a la 
+        ☐  #passages[data-tags~="Combat"]
+        ☐  #passages[data-tags~="Dungeon"]
+        ☐  #passages[data-tags~="Overworld"]
+        ☐  #passages[data-tags~="Town"]
 
-
-☐  Passage Tags can decide CSS, a la 
-    ☐  #passages[data-tags~="Combat"]
-    ☐  #passages[data-tags~="Dungeon"]
-    ☐  #passages[data-tags~="Overworld"]
-    ☐  #passages[data-tags~="Town"]
-
-☐  Tags should be refactored:
-    ☐  .tag => Common tags for CSS [classes] e.g. .overworld
-    ☐  #tag => Unique tags for CSS [IDs] e.g. #CombatOverlord
-    ☐  _tag => Compiler tags e.g. _nostats
+    ☐  Passage Tags should be refactored:
+        ☐  .tag => Common tags for CSS [classes] e.g. .overworld
+        ☐  #tag => Unique tags for CSS [IDs] e.g. #CombatOverlord
+        ☐  _tag => Compiler tags e.g. _nostats

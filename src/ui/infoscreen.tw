@@ -245,6 +245,7 @@
         /* Create listbox. */
         <span id="modSelectionGrid">
             <<if $info.current === $tp1 || $info.current === $tp2>>
+                /* View Mods on Temporary Characters */
                 <<for _i = 0; _i < $info.current.equippables[_captureArg].modslots; _i++>>
                     <span class="modSlotTitle">Slot _i</span>
                     <select @id="_listboxstr" class="macro-listbox" @name="_listboxstr" tabindex="0" autocomplete="off" size="2">
@@ -253,6 +254,7 @@
                     <br>
                 <</for>>
             <<else>>
+                /* Swap Mods on Main Characters */
                 <<for _i = 0; _i < $info.current.equippables[_captureArg].modslots; _i++>>
                     <span class="modSlotTitle">Slot _i</span>
                     <select @id="_listboxstr" @class="_listboxstr" @name="_listboxstr" tabindex="0" @boxnum=_i @size="$info.current.equippables[_captureArg].modslots">
@@ -260,7 +262,13 @@
                             <<if _mod.name === $info.current.equippables[_captureArg].mods[_i].name>>
                                 <<set _selectvalmod[_i] to _j>>
                             <</if>>
-                            <option @value=_j>_mod.name t._mod.tier</option>
+                            /* Check if at least one tag matches between mod and equipment. */
+                            <<if _mod.tags.some(tag => $info.current.equippables[_captureArg].tags.includes(tag))>>
+                                <option @value=_j>_mod.name t._mod.tier</option>
+                            <<else>>
+                                /* Don't show anything. */
+                                /* <option @value=_j disabled>_mod.name t._mod.tier</option> */
+                            <</if>>
                         <</for>>
                     </select>
                     <br>

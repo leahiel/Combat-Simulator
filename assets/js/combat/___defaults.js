@@ -4,12 +4,12 @@ const DEFAULTEQUIPPABLE = {
 
     affixes: [], // NOTE: Unused, but maybe I'll need it for special mods that do special things?
 
-    health: 0,
+    healthMax: 0,
 
     initStart: 0,
     initStartVariance: 0,
-    initDecrementModifier: 1,
-    initRecoveryModifier: 1,
+    initDecrementModifier: 0,
+    initRecoveryModifier: 0,
 
     triggers: [], // NYI
 
@@ -341,7 +341,7 @@ const DEFAULTENEMY = {
     deflectChanceIncreased: 1,
     deflectChanceMore: 1,
 
-    blockRecovery: 12,
+    blockRecovery: 8,
     blockChanceBase: 0,
     blockChanceIncreased: 1,
     blockChanceMore: 1,

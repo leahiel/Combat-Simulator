@@ -755,7 +755,7 @@ const attacks = {
     whirlwind: new Attack({
         name: "Whirlwind",
         family: ["twohandedaxeWeaponAttacks"],
-        initRecovery: 55,
+        initRecovery: 50,
         wdm: 0.25,
         targets: {
             style: "row",
@@ -770,7 +770,7 @@ const attacks = {
     wideslash: new Attack({
         name: "Wide Slash",
         family: ["twohandedaxeWeaponAttacks"],
-        initRecovery: 34,
+        initRecovery: 30,
         wdm: 0.75,
         targets: {
             style: "row",
@@ -790,7 +790,7 @@ const attacks = {
     overheadchop: new Attack({
         name: "Overhead Chop",
         family: ["twohandedaxeWeaponAttacks"],
-        initRecovery: 50,
+        initRecovery: 45,
         wdm: 2,
         targets: {
             style: "single",
@@ -807,13 +807,14 @@ const attacks = {
         buffs: [buffs.debuffBleed],
         criticalChanceBase: 0.06,
         criticalChanceMore: 1.3,
+        criticalDamageMore: 1.3,
         deflectCalculated: -0.25,
     }),
 
     lumberjackstance: new Attack({
         name: "Lumberjack Stance",
         family: ["twohandedaxeWeaponAttacks"],
-        initRecovery: 24,
+        initRecovery: 19,
         wdm: 0,
         type: "buff",
         targets: {

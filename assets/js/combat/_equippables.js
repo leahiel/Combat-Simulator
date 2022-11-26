@@ -117,15 +117,16 @@ class Equippable {
  * Proficiency should be a player stat. Player and their Main Pawn can gain it, while other pawns cannot.
  */
 const equippables = {
-    // DEBUG
-    debugweapon: new Equippable({
-        name: "Debug Weapon",
-        slot: "weapon",
-        type: "unequipped",
-        attacks: mergeArray(setup.COM.familyAttacks.debugAttacks),
-        deflectChanceBase: 1,
-        blockChanceBase: 1,
-    }),
+    // // DEBUG
+    // debugweapon: new Equippable({
+    //     name: "Debug Weapon",
+    //     slot: "weapon",
+    //     type: "unequipped",
+    //     attacks: mergeArray(setup.COM.familyAttacks.debugAttacks),
+    //     deflectChanceBase: 1,
+    //     blockChanceBase: 1,
+    //     tag: ["all", "unequipped"],
+    // }),
 
     // UNEQUIPPED
     unequippedweapon: new Equippable({
@@ -139,38 +140,128 @@ const equippables = {
                 max: 3,
             },
         },
+        tag: ["all", "unequipped"],
     }),
 
     unequippedarmor: new Equippable({
         name: "No Armor Equipped",
         slot: "armor",
         type: "unequipped",
+        tag: ["all", "unequipped"],
     }),
 
     unequippedaccessory: new Equippable({
         name: "No Accessory Equipped",
         slot: "accessory",
         type: "unequipped",
+        tag: ["all", "unequipped"],
     }),
 
-    // WEAPONS
-    woodenspear: new Equippable({
-        name: "Wooden Spear",
+    /*
+     * Yb        dP 888888    db    88""Yb  dP"Yb  88b 88 .dP"Y8
+     *  Yb  db  dP  88__     dPYb   88__dP dP   Yb 88Yb88 `Ybo."
+     *   YbdPYbdP   88""    dP__Yb  88"""  Yb   dP 88 Y88 o.`Y8b
+     *    YP  YP    888888 dP""""Yb 88      YbodP  88  Y8 8bodP'
+     */
+    /**
+     * Current and [Planned] Weapon Tags:
+     *
+     * All: All
+     * Type: Axe, Mace, Sword, Spear, [Bow], [Dagger]
+     * Style: Two-Handed, Shield, One-Handed, [Dual Wield]
+     * Damage:
+     * 	Material, Blunt, Pierce, [Acid]
+     * 	[Elemental], [Fire], [Frost], [Lightning]
+     * 	Occult, Aether, Sacred, Shadow
+     * Misc: Block
+     */
+
+    /** TODO: Add a sword and dagger. Add a bow. */
+    // Bows
+    arcanebow: new Equippable({
+        name: "Arcane Bow",
         slot: "weapon",
-        modslots: 2,
-        attacks: mergeArray(setup.COM.familyAttacks.spearWeaponAttacks),
+        modslots: 4,
+        attacks: mergeArray(setup.COM.familyAttacks.bowWeaponAttacks),
+        damage: {
+            fire: {
+                min: 1,
+                max: 3,
+            },
+            frost: {
+                min: 1,
+                max: 3,
+            },
+            lightning: {
+                min: 1,
+                max: 3,
+            },
+        },
+        criticalChanceBase: 0.03,
+        criticalChanceIncreased: 0.75,
+        initRecoveryModifier: 0.2,
+        initDecrementModifier: -0.1,
+        tags: ["all", "bow", "two-handed", "elemental", "fire", "frost", "lightning"],
+    }),
+
+    recurvebow: new Equippable({
+        name: "Recurve Bow",
+        slot: "weapon",
+        modslots: 4,
+        attacks: mergeArray(setup.COM.familyAttacks.bowWeaponAttacks),
         damage: {
             pierce: {
                 min: 4,
                 max: 7,
             },
         },
-        deflectChanceBase: 0.03,
-        deflectChanceIncreased: 0.75,
+        criticalChanceBase: 0.03,
+        criticalChanceIncreased: 0.75,
+        criticalDamageBase: 0.25,
+        criticalDamageIncreased: 0.75,
+        initDecrementModifier: -0.3,
+        tags: ["all", "bow", "two-handed", "material", "pierce"],
     }),
 
+    // Spears
+    woodenspear: new Equippable({
+        name: "Nimble Spear",
+        slot: "weapon",
+        modslots: 2,
+        attacks: mergeArray(setup.COM.familyAttacks.spearWeaponAttacks),
+        damage: {
+            pierce: {
+                min: 2,
+                max: 6,
+            },
+        },
+        deflectChanceBase: 0.04,
+        deflectChanceIncreased: 0.75,
+        initDecrementModifier: -0.1,
+        tags: ["all", "spear", "two-handed", "pierce", "material"],
+    }),
+
+    woodenspear: new Equippable({
+        name: "Heavy Spear",
+        slot: "weapon",
+        modslots: 2,
+        attacks: mergeArray(setup.COM.familyAttacks.spearWeaponAttacks),
+        damage: {
+            pierce: {
+                min: 4,
+                max: 9,
+            },
+        },
+        deflectChanceBase: 0.02,
+        deflectChanceIncreased: 0.5,
+        initDecrementModifier: -0.1,
+        initRecoveryModifier: 0.2,
+        tags: ["all", "spear", "two-handed", "pierce", "material"],
+    }),
+
+    // Chaotic Spears
     chaoticspear: new Equippable({
-        name: "Chaotic Spear",
+        name: "Occultic Spear",
         slot: "weapon",
         modslots: 2,
         attacks: mergeArray(setup.COM.familyAttacks.chaoticspearWeaponAttacks),
@@ -188,10 +279,32 @@ const equippables = {
                 max: 3,
             },
         },
+        initDecrementModifier: -0.2,
+        tags: ["all", "spear", "two-handed", "occult", "aether", "sacred", "shadow"],
     }),
 
+    abyssalspear: new Equippable({
+        name: "Abyssal Spear",
+        slot: "weapon",
+        modslots: 2,
+        attacks: mergeArray(setup.COM.familyAttacks.chaoticspearWeaponAttacks),
+        damage: {
+            aether: {
+                min: 2,
+                max: 5,
+            },
+            lightning: {
+                min: 2,
+                max: 5,
+            },
+        },
+        initDecrementModifier: -0.2,
+        tags: ["all", "spear", "two-handed", "elemental", "lightning", "occult", "aether"],
+    }),
+
+    // Sword and Shield
     swordandshield: new Equippable({
-        name: "Sword and Shield",
+        name: "Short Sword and Shield",
         slot: "weapon",
         modslots: 2,
         attacks: mergeArray(setup.COM.familyAttacks.swordandshieldWeaponAttacks),
@@ -204,10 +317,13 @@ const equippables = {
         criticalChanceBase: 0.03,
         criticalChanceIncreased: 1,
         blockChanceBase: 0.08,
-        blockChanceIncreasedx: 1,
+        blockChanceIncreased: 1,
         blockRecovery: 4,
+        initDecrementModifier: 0.1,
+        tags: ["all", "sword", "one-handed", "shield", "material", "pierce", "block"],
     }),
 
+    // Mace and Shield
     maceandshield: new Equippable({
         name: "Mace and Shield",
         slot: "weapon",
@@ -222,37 +338,251 @@ const equippables = {
         directChanceBase: 0.03,
         directChanceIncreased: 1,
         blockChanceBase: 0.08,
-        blockChanceIncreasedx: 1,
+        blockChanceIncreased: 1,
         blockRecovery: 4,
         stun: 3,
+        tags: ["all", "mace", "shield", "one-handed", "material", "blunt", "block"],
     }),
 
+    acidicmaceandshield: new Equippable({
+        name: "Acid Mace and Shield",
+        slot: "weapon",
+        modslots: 2,
+        attacks: mergeArray(setup.COM.familyAttacks.maceandshieldWeaponAttacks),
+        damage: {
+            blunt: {
+                min: 2,
+                max: 6,
+            },
+            acid: {
+                min: 2,
+                max: 4,
+            },
+        },
+        directChanceBase: 0.03,
+        directChanceIncreased: 1,
+        blockChanceBase: 0.08,
+        blockChanceIncreased: 1,
+        blockRecovery: 4,
+        stun: 3,
+        tags: ["all", "mace", "shield", "one-handed", "material", "blunt", "block"],
+    }),
+
+    // 2H Axe
     lumbermanaxe: new Equippable({
         name: "Lumberman's Axe",
+        slot: "weapon",
+        modslots: 3,
+        attacks: mergeArray(setup.COM.familyAttacks.twohandedaxeWeaponAttacks),
+        damage: {
+            pierce: {
+                min: 7,
+                max: 14,
+            },
+        },
+        criticalChanceBase: 0.02,
+        criticalChanceIncreased: 0.5,
+        initDecrementModifier: 0,
+        initRecoveryModifier: -0.1,
+        tags: ["all", "axe", "two-handed", "material", "pierce"],
+    }),
+
+    executioneraxe: new Equippable({
+        name: "Executioner's Axe",
         slot: "weapon",
         modslots: 2,
         attacks: mergeArray(setup.COM.familyAttacks.twohandedaxeWeaponAttacks),
         damage: {
             pierce: {
-                min: 5,
-                max: 11,
+                min: 4,
+                max: 8,
             },
         },
-        criticalChanceBase: 0.02,
-        criticalChanceIncreased: 0.5,
+        criticalChanceBase: 0.2,
+        criticalChanceIncreased: 0.75,
+        initDecrementModifier: -0.1,
+        initRecoveryModifier: 0.2,
+        tags: ["all", "axe", "two-handed", "material", "pierce"],
     }),
 
-    // ARMORS
+    /*
+     *    db    88""Yb 8b    d8  dP"Yb  88""Yb .dP"Y8
+     *   dPYb   88__dP 88b  d88 dP   Yb 88__dP `Ybo."
+     *  dP__Yb  88"Yb  88YbdP88 Yb   dP 88"Yb  o.`Y8b
+     * dP""""Yb 88  Yb 88 YY 88  YbodP  88  Yb 8bodP'
+     */
+    knightarmor: new Equippable({
+        name: "Knight's Armor",
+        slot: "armor",
+        modslots: 4,
+        resistance: {
+            material: 0.2,
+            lightning: -0.2,
+            occult: -0.1,
+        },
+        reduct: {
+            blunt: 2,
+            pierce: 4,
+        },
+        initDecrementModifier: -0.2,
+        initRecoveryModifier: 0.1,
+        healthMax: 30,
+        tags: ["plate"],
+    }),
+
+    chainmail: new Equippable({
+        name: "Chainmail",
+        slot: "armor",
+        modslots: 3,
+        resistance: {
+            material: 0.2,
+            lightning: -0.2,
+            occult: -0.1,
+        },
+        reduct: {
+            pierce: 1,
+        },
+        initDecrementModifier: -0.1,
+        initRecoveryModifier: 0.05,
+        healthMax: 24,
+        tags: ["plate"],
+    }),
+
     leatherarmor: new Equippable({
         name: "Leather Chest Armor",
         slot: "armor",
-        modslots: 2,
+        modslots: 3,
+        resistance: {
+            material: 0.1,
+            elemental: 0.1,
+            occult: -0.1,
+        },
+        healthMax: 16,
+        tags: ["leather"],
     }),
 
-    metalarmor: new Equippable({
-        name: "Metal Chest Armor",
+    priestvestiges: new Equippable({
+        name: "Priest's Vestiges",
         slot: "armor",
+        modslots: 3,
+        resistance: {
+            elemental: 0.1,
+            occult: 0.3,
+        },
+        healthMax: 10,
+        tags: ["cloth"],
+    }),
+
+    comfortableclothes: new Equippable({
+        name: "Village Clothes",
+        slot: "armor",
+        modslots: 3,
+        resistance: {
+            occult: -0.1,
+        },
+        initDecrementModifier: 0.1,
+        initRecoveryModifier: -0.1,
+        healthMax: 3,
+        tags: ["cloth"],
+    }),
+
+    /**
+     *    db     dP""b8  dP""b8 888888 .dP"Y8 .dP"Y8  dP"Yb  88""Yb 88 888888 .dP"Y8
+     *   dPYb   dP   `" dP   `" 88__   `Ybo." `Ybo." dP   Yb 88__dP 88 88__   `Ybo."
+     *  dP__Yb  Yb      Yb      88""   o.`Y8b o.`Y8b Yb   dP 88"Yb  88 88""   o.`Y8b
+     * dP""""Yb  YboodP  YboodP 888888 8bodP' 8bodP'  YbodP  88  Yb 88 888888 8bodP'
+     */
+    trickstersamulet: new Equippable({
+        name: "Trickster's Amulet",
+        slot: "accessory",
         modslots: 2,
+        resistance: {
+            occult: 0.1,
+        },
+        initDecrementModifier: 0.2,
+        initRecoveryModifier: -0.15,
+        tags: ["all"],
+    }),
+
+    elementalistsamulet: new Equippable({
+        name: "Elementalist's Amulet",
+        slot: "accessory",
+        modslots: 2,
+        damage: {
+            fire: {
+                increased: 0.1,
+            },
+            frost: {
+                increased: 0.1,
+            },
+            lightning: {
+                increased: 0.1,
+            },
+        },
+        resistance: {
+            elemental: 0.2,
+        },
+        tags: ["all"],
+    }),
+
+    occultistsamulet: new Equippable({
+        name: "Occultist's Amulet",
+        slot: "accessory",
+        modslots: 2,
+        damage: {
+            aether: {
+                increased: 0.1,
+            },
+            sacred: {
+                increased: 0.1,
+            },
+            shadow: {
+                increased: 0.1,
+            },
+        },
+        resistance: {
+            occult: 0.2,
+        },
+        tags: ["all"],
+    }),
+
+    dadspendant: new Equippable({
+        name: "Dad's Pendant",
+        slot: "accessory",
+        modslots: 3,
+        resistance: {
+            material: 0.1,
+        },
+        blockRecovery: -3,
+        blockChanceIncreased: .45,
+        blockChanceMore: 1.1,
+        healthMax: 15,
+        tags: ["all"],
+    }),
+
+    sharktoothamulet: new Equippable({
+        name: "Sharktooth Amulet",
+        slot: "accessory",
+        modslots: 4,
+        damage: {
+            pierce: {
+                increased: 0.1,
+            },
+        },
+        tags: ["all"],
+    }),
+
+    friendscharm: new Equippable({
+        name: "Friend's Charm",
+        slot: "accessory",
+        modslots: 4,
+        damage: {
+            pierce: {
+                increased: 0.1,
+            },
+        },
+        healthMax: 25,
+        tags: ["all"],
     }),
 };
 

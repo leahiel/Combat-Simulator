@@ -34,8 +34,6 @@
 	<<include "Party_Preset_Select">>
 </gridcontainer>
 <br>
-<<link [["Go to Inbetween"|Inbetween]]>><</link>>
-<br>
 <<button [[Gen. CI w/ Random Enemies|Combat_Overlord]]>>
 	<<script>>
 		/* Random Int between 1 and 5 */

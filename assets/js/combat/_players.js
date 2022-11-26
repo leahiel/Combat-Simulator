@@ -68,7 +68,7 @@ const DEFAULTPLAYER = {
     deflectChanceIncreased: 1,
     deflectChanceMore: 1,
 
-    blockRecovery: 12,
+    blockRecovery: 8,
     blockChanceBase: 0,
     blockChanceIncreased: 1,
     blockChanceMore: 1,
