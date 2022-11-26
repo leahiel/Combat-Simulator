@@ -341,7 +341,7 @@ const DEFAULTENEMY = {
     deflectChanceIncreased: 1,
     deflectChanceMore: 1,
 
-    blockRecovery: 8,
+    blockRecovery: 5,
     blockChanceBase: 0,
     blockChanceIncreased: 1,
     blockChanceMore: 1,

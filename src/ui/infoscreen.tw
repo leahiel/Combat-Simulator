@@ -141,7 +141,11 @@
                     <<if $info.current.equippables[_captureArg].name === _equippable.name>>
                         <<set _selectval to _i>>
                     <</if>>
-                    <option @value="_i">_equippable.name</option>
+                    <<if _captureArg === "accessory">>
+                        <option @value="_i">[_equippable.modslots] _equippable.name</option>
+                    <<else>>
+                        <option @value="_i">_equippable.name</option>
+                    <</if>>
                 <</for>>
             </select>
         <</if>>

@@ -891,7 +891,7 @@ const attacks = {
     }),
 
     sharptiparrows: new Attack({
-        name: "Switch to Sharp-Tip Arrows",
+        name: "Sharp-Tip Arrows",
         family: ["bowWeaponAttacks"],
         initRecovery: 27,
         wdm: 0,

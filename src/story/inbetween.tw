@@ -1,36 +1,15 @@
 :: Inbetween [@rest] {"position":"575,350"}
-This passage exists so that you can change your party configuration and items inbetween demo combat instances.
+This passage exists so that you can change your party configuration and items inbetween combat instances.
 <br>
-I hope you're enjoying my simulation! 
+I hope you're enjoying my simulator! 
 <br>
 <gridcontainer id="charSelect2">
 	<<include "Party_Preset_Select">>
 </gridcontainer>
 <br>
-<<button [[Gen. CI w/ Random Enemies|Combat_Overlord]]>>
-	<<script>>
-		/* Random Int between 1 and 5 */
-		let int = Math.ceil(Math.random() * (5));
-
-		State.variables.ci = new setup.COM.CombatInstance({
-			winPassage: "Inbetween",
-			losePassage: "Inbetween",
-			ep: setup.fns.ranItems(int, Object.keys(setup.COM.monsters), true),
-		});
-	<</script>>
-<</button>>
+Click a button to generate a Combat Instance.
 <br>
-<<button [[Gen. Easy CI|Combat_Overlord]]>>
-	<<script>>
-		State.variables.ci = new setup.COM.CombatInstance({
-			winPassage: "Inbetween",
-			losePassage: "Inbetween",
-			ep: [
-				"EN_BABY_SPIDER",
-			],
-		});
-	<</script>>
-<</button>>
+They're roughly ordered from least difficult to most difficult.
 <br>
 <<button [[Gen. CI w/ Spiders|Combat_Overlord]]>>
 	<<script>>
@@ -48,20 +27,6 @@ I hope you're enjoying my simulation!
 	<</script>>
 <</button>>
 <br>
-<<button [[Gen. CI w/ Fauna Miniboss|Combat_Overlord]]>>
-	<<script>>
-		/* Random Int between 1 and 2 */
-		let int = Math.ceil(Math.random() * (2));
-		let ep = setup.fns.ranItems(int, ["EN_HOG"], true); /* Basically: 1 or 2 hogs? */
-
-		State.variables.ci = new setup.COM.CombatInstance({
-			winPassage: "Inbetween",
-			losePassage: "Inbetween",
-			ep: ep,
-		});
-	<</script>>
-<</button>>
-<br>
 <<button [[Gen. CI w/ Carbuncles|Combat_Overlord]]>>
 	<<script>>
 		/* Random Int between 1 and 5 */
@@ -75,6 +40,20 @@ I hope you're enjoying my simulation!
 			"EN_TOPAZ_CARBUNCLE",
 		];
 		let ep = setup.fns.ranItems(int, carbuncleArr, true);
+
+		State.variables.ci = new setup.COM.CombatInstance({
+			winPassage: "Inbetween",
+			losePassage: "Inbetween",
+			ep: ep,
+		});
+	<</script>>
+<</button>>
+<br>
+<<button [[Gen. CI w/ Fauna|Combat_Overlord]]>>
+	<<script>>
+		/* Random Int between 1 and 2 */
+		let int = Math.ceil(Math.random() * (2));
+		let ep = setup.fns.ranItems(int, ["EN_HOG"], true); /* Basically: 1 or 2 hogs? */
 
 		State.variables.ci = new setup.COM.CombatInstance({
 			winPassage: "Inbetween",
@@ -104,6 +83,27 @@ I hope you're enjoying my simulation!
 	<</script>>
 <</button>>
 <br>
+<<button [[Gen. CI w/ Ghouls|Combat_Overlord]]>>
+	<<script>>
+		/* Random Int between 2 and 4 */
+		let int = Math.floor(Math.random() * (4 - 2 + 1) + 2);
+		let skeletonArr = [
+			"EN_UNARMED_SKELETON",
+			"EN_SPEAR_SKELETON",
+			"EN_SWORDSHIELD_SKELETON",
+			"EN_BOW_SKELETON",
+		];
+		let ep = setup.fns.ranItems(int, skeletonArr, true);
+		ep.push("EN_SAUSON_GHOUL_MASTER");
+
+		State.variables.ci = new setup.COM.CombatInstance({
+			winPassage: "Inbetween",
+			losePassage: "Inbetween",
+			ep: ep,
+		});
+	<</script>>
+<</button>>
+<br>
 <<button [[Gen.Hardest CI|Combat_Overlord]]>>
 	<<script>>
 		/* Random Int between 3 and 5 */
@@ -124,23 +124,15 @@ I hope you're enjoying my simulation!
 	<</script>>
 <</button>>
 <br>
-<<button [[Gen. CI w/ Ghouls|Combat_Overlord]]>>
+<<button [[Gen. CI w/ Random Enemies|Combat_Overlord]]>>
 	<<script>>
-		/* Random Int between 2 and 4 */
-		let int = Math.floor(Math.random() * (4 - 2 + 1) + 2);
-		let skeletonArr = [
-			"EN_UNARMED_SKELETON",
-			"EN_SPEAR_SKELETON",
-			"EN_SWORDSHIELD_SKELETON",
-			"EN_BOW_SKELETON",
-		];
-		let ep = setup.fns.ranItems(int, skeletonArr, true);
-		ep.push("EN_SAUSON_GHOUL_MASTER");
+		/* Random Int between 1 and 5 */
+		let int = Math.ceil(Math.random() * (5));
 
 		State.variables.ci = new setup.COM.CombatInstance({
 			winPassage: "Inbetween",
 			losePassage: "Inbetween",
-			ep: ep,
+			ep: setup.fns.ranItems(int, Object.keys(setup.COM.monsters), true),
 		});
 	<</script>>
 <</button>>
