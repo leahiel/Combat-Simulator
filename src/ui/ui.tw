@@ -29,7 +29,7 @@
         <!-- <li id="savesTab" data-passage="uiSaves"></li> -->
         <li id="creditsTab" data-passage="uiCredits"></li>
         <li id="devTab" data-passage="uiDev"></li>
-        <li id="stowTab" data-passage="uiStow"></li>
+        <!-- <li id="stowTab" data-passage="uiStow"></li> -->
     </ul>
 </div>
 

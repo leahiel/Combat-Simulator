@@ -216,6 +216,17 @@ class Attack {
     }
 }
 
+/**
+ * InDev Balance Manifesto:
+ * Buffs are 20 recovery.
+ * Buffs all are 28 recovery.
+ * 
+ * All attacks start at 22 recovery.
+ * - 4 recovery per 25% wdm less
+ * + 2 recovery per 25% wdm more
+ * + 4 recovery for every target available.
+ * * 1.6 recovery for every additional hit after first
+ */
 // TODO: All attacks should have a `dealsElement` bool. If false, character/equipment stuff doesn't apply to that element.
 const attacks = {
     // ##      ## ########    ###    ########   #######  ##    ##  ######
@@ -363,7 +374,7 @@ const attacks = {
     flick: new Attack({
         name: "Flick",
         family: ["unarmedAttacks"],
-        initRecovery: 18,
+        initRecovery: 14,
         wdm: 0.5,
         targets: {
             style: "single",
@@ -383,7 +394,7 @@ const attacks = {
     gutpunch: new Attack({
         name: "Gut Punch",
         family: ["unarmedAttacks"],
-        initRecovery: 23,
+        initRecovery: 28,
         wdm: 1.75,
         targets: {
             style: "single",
@@ -392,8 +403,8 @@ const attacks = {
         },
         damage: {
             blunt: {
-                min: 3,
-                max: 3,
+                min: 4,
+                max: 4,
             },
         },
         stun: 18,
@@ -404,7 +415,7 @@ const attacks = {
         name: "Double Strike",
         wdm: 0.75,
         family: ["unarmedAttacks"],
-        initRecovery: 20,
+        initRecovery: 25,
         targets: {
             style: "single",
             side: "enemy",
@@ -424,7 +435,7 @@ const attacks = {
         name: "Amped Up",
         wdm: 0,
         family: ["unarmedAttacks"],
-        initRecovery: 24,
+        initRecovery: 20,
         type: "buff",
         targets: {
             style: "self",
@@ -439,7 +450,7 @@ const attacks = {
         name: "Double Leg Sweep",
         wdm: 0.25,
         family: ["unarmedAttacks"],
-        initRecovery: 20,
+        initRecovery: 22,
         targets: {
             style: "row",
             side: "enemy",
@@ -465,7 +476,7 @@ const attacks = {
     stab: new Attack({
         name: "Stab",
         family: ["spearWeaponAttacks"],
-        initRecovery: 50,
+        initRecovery: 24,
         wdm: 1.25,
         targets: {
             style: "single",
@@ -474,8 +485,9 @@ const attacks = {
         },
         damage: {
             pierce: {
-                min: 7,
-                max: 13,
+                min: 4,
+                max: 7,
+                increased: 0.5,
             },
         },
         description: "Stab at your foe, doing extra pierce damage.",
@@ -485,7 +497,7 @@ const attacks = {
     rapidjab: new Attack({
         name: "Rapid Jab",
         family: ["spearWeaponAttacks"],
-        initRecovery: 50,
+        initRecovery: 46,
         wdm: 0.75,
         targets: {
             style: "single",
@@ -495,8 +507,8 @@ const attacks = {
         hitnumber: 3,
         damage: {
             pierce: {
-                min: 4,
-                max: 7,
+                min: 1,
+                max: 1,
             },
         },
         description: "Rapidly jab at your foe three times.",
@@ -505,7 +517,7 @@ const attacks = {
     sweep: new Attack({
         name: "Sweep",
         family: ["spearWeaponAttacks"],
-        initRecovery: 50,
+        initRecovery: 28,
         wdm: 1.25,
         targets: {
             style: "row",
@@ -514,18 +526,19 @@ const attacks = {
         },
         damage: {
             pierce: {
-                min: 7,
-                max: 13,
+                min: 1,
+                max: 3,
             },
         },
         description: "Sweep at the foes in front of you.",
     }),
+
     // TODO: Made new Attack that counter attacks when allies (but not self) is hit.
     spearposture: new Attack({
         wdm: 0,
         name: "Posture",
         family: ["spearWeaponAttacks"],
-        initRecovery: 24,
+        initRecovery: 20,
         type: "buff",
         targets: {
             style: "self",
@@ -545,20 +558,31 @@ const attacks = {
     chaoschuck: new Attack({
         name: "Chaos Chuck",
         family: ["chaoticspearWeaponAttacks"],
-        initRecovery: 50,
+        initRecovery: 30,
         wdm: 2,
         targets: {
             style: "single",
             side: "enemy",
             row: "both",
         },
-        description: "Chuck your chaos spear at an enemy.",
+        description: "Chuck your chaos spear at an enemy, dealing increased Occult damage.",
+        damage: {
+            aether: {
+                increased: 0.5,
+            },
+            shadow: {
+                increased: 0.5,
+            },
+            sacred: {
+                increased: 0.5,
+            },
+        }
     }),
 
     chaoticsacrifice: new Attack({
         name: "Chaotic Sacrifice",
         family: ["chaoticspearWeaponAttacks"],
-        initRecovery: 50,
+        initRecovery: 24,
         wdm: 0,
         type: "buff",
         targets: {
@@ -574,11 +598,25 @@ const attacks = {
         name: "Unerring Bolt",
         family: ["chaoticspearWeaponAttacks"],
         wdm: 1.25,
-        initRecovery: 50,
+        initRecovery: 24,
         targets: {
             style: "single",
             side: "enemy",
             row: "both",
+        },
+        damage: {
+            aether: {
+                increased: 1,
+            },
+            sacred: {
+                increased: 0.5,
+            },
+            shadow: {
+                increased: 0.5,
+            },
+            lightning: {
+                increased: 1,
+            }
         },
         description: "Turns your spear into a chaotic bolt, which your opponent cannot deflect.",
         isDeflectable: false,
@@ -587,22 +625,24 @@ const attacks = {
     backlinebolts: new Attack({
         name: "Backline Bolts",
         family: ["chaoticspearWeaponAttacks"],
-        wdm: 0.25,
-        initRecovery: 56,
+        wdm: 0.50,
+        initRecovery: 24,
         targets: {
-            style: "single",
+            style: "row",
             side: "enemy",
             row: "back",
         },
         description: "Hits the enemy backline with a dose of lightning and aether.",
         damage: {
             aether: {
-                min: 4,
-                max: 6,
+                min: 2,
+                max: 4,
+                increased: 1,
             },
             lightning: {
-                min: 4,
-                max: 6,
+                min: 2,
+                max: 4,
+                increased: 1,
             },
         },
     }),
@@ -616,7 +656,7 @@ const attacks = {
     shieldposture: new Attack({
         name: "Posture",
         family: ["swordandshieldWeaponAttacks", "maceandshieldWeaponAttacks", "shieldWeaponAttacks"],
-        initRecovery: 24,
+        initRecovery: 20,
         wdm: 0,
         type: "buff",
         targets: {
@@ -631,7 +671,7 @@ const attacks = {
     shieldbash: new Attack({
         name: "Shield Bash",
         family: ["swordandshieldWeaponAttacks", "maceandshieldWeaponAttacks", "shieldWeaponAttacks"],
-        initRecovery: 29,
+        initRecovery: 22,
         wdm: 1,
         targets: {
             style: "single",
@@ -643,6 +683,7 @@ const attacks = {
             blunt: {
                 min: 3,
                 max: 6,
+                increased: 0.75,
             },
         },
         directChanceBase: 0.06,
@@ -658,7 +699,7 @@ const attacks = {
     swipe: new Attack({
         name: "Swipe",
         family: ["swordandshieldWeaponAttacks"],
-        initRecovery: 29,
+        initRecovery: 22,
         wdm: 1,
         targets: {
             style: "single",
@@ -668,8 +709,8 @@ const attacks = {
         description: "Slash your sword at a target.",
         damage: {
             pierce: {
-                min: 3,
-                max: 6,
+                min: 1,
+                max: 3,
             },
         },
     }),
@@ -677,7 +718,7 @@ const attacks = {
     thrust: new Attack({
         name: "Thrust",
         family: ["swordandshieldWeaponAttacks"],
-        initRecovery: 29,
+        initRecovery: 22,
         wdm: 1,
         targets: {
             style: "single",
@@ -688,8 +729,8 @@ const attacks = {
             "Thrust your sword at the enemy with an increased chance to critically hit, but also easier to deflect.",
         damage: {
             pierce: {
-                min: 3,
-                max: 6,
+                min: 1,
+                max: 3,
             },
         },
         criticalChanceBase: 0.06,
@@ -707,7 +748,7 @@ const attacks = {
     bash: new Attack({
         name: "Bash",
         family: ["maceandshieldWeaponAttacks"],
-        initRecovery: 29,
+        initRecovery: 22,
         wdm: 1,
         targets: {
             style: "single",
@@ -717,8 +758,8 @@ const attacks = {
         description: "Bash your mace at a target, with an increased chance of direct hit.",
         damage: {
             blunt: {
-                min: 3,
-                max: 6,
+                min: 2,
+                max: 3,
             },
         },
         stun: 5,
@@ -729,7 +770,7 @@ const attacks = {
     doublesmash: new Attack({
         name: "Double Smash",
         family: ["maceandshieldWeaponAttacks"],
-        initRecovery: 35,
+        initRecovery: 28,
         wdm: 0.75,
         targets: {
             style: "single",
@@ -739,8 +780,8 @@ const attacks = {
         description: "Smash your target twice.",
         damage: {
             blunt: {
-                min: 2,
-                max: 4,
+                min: 1,
+                max: 2,
             },
         },
         hitnumber: 2,
@@ -755,22 +796,22 @@ const attacks = {
     whirlwind: new Attack({
         name: "Whirlwind",
         family: ["twohandedaxeWeaponAttacks"],
-        initRecovery: 50,
+        initRecovery: 35,
         wdm: 0.25,
         targets: {
             style: "row",
             side: "enemy",
             row: "front",
         },
-        description: "Spin yourself around twice and hit foes multiple times.",
-        hitnumber: 2,
+        description: "Spin yourself around thrice and hit foes multiple times.",
+        hitnumber: 3,
         buffs: [buffs.debuffBleed],
     }),
 
     wideslash: new Attack({
         name: "Wide Slash",
         family: ["twohandedaxeWeaponAttacks"],
-        initRecovery: 30,
+        initRecovery: 22,
         wdm: 0.75,
         targets: {
             style: "row",
@@ -780,8 +821,9 @@ const attacks = {
         description: "Slash at all the enemies in front of you.",
         damage: {
             pierce: {
-                min: 2,
-                max: 4,
+                min: 1,
+                max: 2,
+                increased: 0.25,
             },
         },
         buffs: [buffs.debuffBleed],
@@ -790,7 +832,7 @@ const attacks = {
     overheadchop: new Attack({
         name: "Overhead Chop",
         family: ["twohandedaxeWeaponAttacks"],
-        initRecovery: 45,
+        initRecovery: 32,
         wdm: 2,
         targets: {
             style: "single",
@@ -814,7 +856,7 @@ const attacks = {
     lumberjackstance: new Attack({
         name: "Lumberjack Stance",
         family: ["twohandedaxeWeaponAttacks"],
-        initRecovery: 19,
+        initRecovery: 20,
         wdm: 0,
         type: "buff",
         targets: {
@@ -836,7 +878,7 @@ const attacks = {
     snipe: new Attack({
         name: "Snipe",
         family: ["bowWeaponAttacks"],
-        initRecovery: 58,
+        initRecovery: 32,
         wdm: 2.25,
         targets: {
             style: "single",
@@ -848,6 +890,7 @@ const attacks = {
             pierce: {
                 min: 1,
                 max: 3,
+                increased: .25,
             },
         },
         criticalChanceBase: 0.06,
@@ -857,7 +900,7 @@ const attacks = {
     rainofarrows: new Attack({
         name: "Rain of Arrows",
         family: ["bowWeaponAttacks"],
-        initRecovery: 51,
+        initRecovery: 22,
         wdm: 0.5,
         targets: {
             style: "side",
@@ -867,18 +910,16 @@ const attacks = {
         description: "Rain arrows onto your enemy.",
         damage: {
             pierce: {
-                min: 4,
-                max: 7,
+                min: 1,
+                max: 3,
             },
         },
-        criticalChanceBase: 0.06,
-        criticalChanceMore: 1.3,
     }),
 
     checkquiver: new Attack({
         name: "Check Quver",
         family: ["bowWeaponAttacks"],
-        initRecovery: 21,
+        initRecovery: 20,
         wdm: 0,
         targets: {
             style: "self",
@@ -893,7 +934,7 @@ const attacks = {
     sharptiparrows: new Attack({
         name: "Sharp-Tip Arrows",
         family: ["bowWeaponAttacks"],
-        initRecovery: 27,
+        initRecovery: 24,
         wdm: 0,
         targets: {
             style: "self",
@@ -923,7 +964,7 @@ const attacks = {
     VILE_BITE: new Attack({
         wdm: 2,
         name: "Vile Bite",
-        initRecovery: 21,
+        initRecovery: 22,
         family: ["mommySpider", "Ghoul"],
         targets: {
             style: "single",
@@ -932,12 +973,14 @@ const attacks = {
         },
         damage: {
             pierce: {
-                min: 4,
-                max: 6,
+                min: 1,
+                max: 2,
+                increased: 1.75,
             },
             acid: {
-                min: 4,
-                max: 6,
+                min: 1,
+                max: 2,
+                increased: 1.75,
             },
         },
         buffs: [buffs.debuffPoisoned],
@@ -950,7 +993,7 @@ const attacks = {
         name: "Web Shot",
         type: "spell",
         family: ["mommySpider"],
-        initRecovery: 42,
+        initRecovery: 16,
         targets: {
             style: "side",
             side: "enemy",
@@ -959,11 +1002,11 @@ const attacks = {
         damage: {
             frost: {
                 min: 6,
-                max: 8,
+                max: 9,
             },
             acid: {
                 min: 6,
-                max: 8,
+                max: 9,
             },
         },
         description: "A gooey web that slows down the opponent.",
@@ -971,10 +1014,10 @@ const attacks = {
     }),
 
     EIGHT_LEGGED_RUSH: new Attack({
-        wdm: 0.5,
+        wdm: 2,
         name: "Eight Legged Rush",
         family: ["mommySpider"],
-        initRecovery: 80,
+        initRecovery: 34,
         targets: {
             style: "side",
             side: "enemy",
@@ -982,8 +1025,7 @@ const attacks = {
         },
         damage: {
             blunt: {
-                min: 9,
-                max: 15,
+                increased: 1.25,
             },
         },
         description: "The spider rushes through your party.",
@@ -992,7 +1034,7 @@ const attacks = {
     CREEPY_CRAWLIES: new Attack({
         name: "Creepy Crawlies",
         family: ["babySpider"],
-        initRecovery: 31,
+        initRecovery: 35,
         stun: 1,
         hitnumber: 2,
         targets: {
@@ -1012,7 +1054,7 @@ const attacks = {
     HOG_RUSH: new Attack({
         name: "Hog Rush",
         family: ["Hog"],
-        initRecovery: 60,
+        initRecovery: 22,
         targets: {
             style: "side",
             side: "enemy",
@@ -1020,8 +1062,7 @@ const attacks = {
         },
         damage: {
             blunt: {
-                min: 13,
-                max: 18,
+                increased: 1.25,
             },
         },
         description: "A hog's tackle.",
@@ -1031,7 +1072,7 @@ const attacks = {
         name: "Hog Gore",
         wdm: 1.25,
         family: ["Hog"],
-        initRecovery: 42,
+        initRecovery: 24,
         targets: {
             style: "single",
             side: "enemy",
@@ -1039,8 +1080,7 @@ const attacks = {
         },
         damage: {
             pierce: {
-                min: 11,
-                max: 14,
+                increased: 1.25,
             },
         },
         description: "The hog impales it's enemy with it's tusks, causing bleeding",
@@ -1052,7 +1092,7 @@ const attacks = {
         wdm: 0,
         family: ["Hog"],
         type: "buff",
-        initRecovery: 42,
+        initRecovery: 20,
         targets: {
             style: "self",
             side: null,
@@ -1071,7 +1111,7 @@ const attacks = {
     cuddlebutt: new Attack({
         name: "Cuddle Butt",
         family: ["Carbuncle"],
-        initRecovery: 16,
+        initRecovery: 22,
         targets: {
             style: "single",
             side: "enemy",
@@ -1079,8 +1119,9 @@ const attacks = {
         },
         damage: {
             blunt: {
-                min: 3,
-                max: 5,
+                min: 1,
+                max: 2,
+                increased: 0.5,
             },
         },
         description: "An adorable little attack that inspires awe in its enemies.",
@@ -1092,7 +1133,7 @@ const attacks = {
         name: "Crystal Shot",
         type: "spell",
         family: ["Carbuncle"],
-        initRecovery: 36,
+        initRecovery: 14,
         targets: {
             style: "single",
             side: "enemy",
@@ -1113,7 +1154,7 @@ const attacks = {
         name: "Acid Crystal Shot",
         type: "spell",
         family: [],
-        initRecovery: 34,
+        initRecovery: 14,
         targets: {
             style: "single",
             side: "enemy",
@@ -1134,7 +1175,7 @@ const attacks = {
         name: "Rock Fall",
         type: "spell",
         family: [],
-        initRecovery: 50,
+        initRecovery: 41,
         hitnumber: 3,
         targets: {
             style: "row",
@@ -1157,7 +1198,7 @@ const attacks = {
         name: "Fire Wall",
         type: "spell",
         family: [],
-        initRecovery: 45,
+        initRecovery: 18,
         targets: {
             style: "row",
             side: "enemy",
@@ -1179,7 +1220,7 @@ const attacks = {
         name: "Ice Prison",
         type: "spell",
         family: [],
-        initRecovery: 65,
+        initRecovery: 28,
         targets: {
             style: "single",
             side: "enemy",
@@ -1201,7 +1242,7 @@ const attacks = {
         name: "Flash",
         type: "spell",
         family: [],
-        initRecovery: 25,
+        initRecovery: 28,
         targets: {
             style: "side",
             side: "enemy",
@@ -1214,7 +1255,7 @@ const attacks = {
             },
         },
         description: "A bright light momentarily blinds the enemy..",
-        stun: 5,
+        stun: 7,
     }),
 
     /*
@@ -1228,7 +1269,7 @@ const attacks = {
         name: "Rattle",
         type: "debuff",
         family: ["Skeleton"],
-        initRecovery: 25,
+        initRecovery: 28,
         targets: {
             style: "side",
             side: "enemy",
@@ -1243,7 +1284,7 @@ const attacks = {
         name: "Cackle",
         type: "spell",
         family: ["Skeleton"],
-        initRecovery: 28,
+        initRecovery: 20,
         type: "debuff",
         targets: {
             style: "self",
@@ -1266,7 +1307,7 @@ const attacks = {
         name: "Heal Undead",
         type: "spell",
         family: ["Skeleton"],
-        initRecovery: 32,
+        initRecovery: 28,
         targets: {
             style: "all",
             side: null,
@@ -1287,7 +1328,7 @@ const attacks = {
         name: "Herd Mentor",
         type: "buff",
         family: [],
-        initRecovery: 26,
+        initRecovery: 28,
         targets: {
             style: "side",
             side: "ally",
@@ -1302,11 +1343,16 @@ const attacks = {
         name: "Stampede",
         type: "attack",
         family: ["Centaur"],
-        initRecovery: 46,
+        initRecovery: 26,
         targets: {
             style: "side",
             side: "enemy",
             row: null,
+        },
+        damage: {
+            blunt: {
+                increased: 1.25,
+            }
         },
         description: "Stampede your way through your enemies.",
         stun: 3,
@@ -1317,7 +1363,7 @@ const attacks = {
         name: "Stomp",
         type: "attack",
         family: ["Centaur"],
-        initRecovery: 46,
+        initRecovery: 22,
         targets: {
             style: "single",
             side: "enemy",
@@ -1327,9 +1373,9 @@ const attacks = {
         stun: 3,
         damage: {
             blunt: {
-                min: 3,
-                max: 4,
-                increased: 0.5,
+                min: 1,
+                max: 2,
+                increased: 1.25,
             },
         },
     }),
@@ -1343,7 +1389,7 @@ const attacks = {
     regenerate: new Attack({
         wdm: 0,
         name: "Regenerate",
-        initRecovery: 35,
+        initRecovery: 20,
         family: ["Ghoul"],
         targets: {
             style: "self",
@@ -1357,7 +1403,7 @@ const attacks = {
     ghoulscreech: new Attack({
         name: "Ghoul Screech",
         family: ["Ghoul"],
-        initRecovery: 35,
+        initRecovery: 28,
         wdm: 0,
         targets: {
             style: "side",
@@ -1382,8 +1428,11 @@ const attacks = {
         buffs: [buffs.debuffPoisoned],
         description: "Slash your target with a particularly nasty claw.",
         damage: {
+            pierce: {
+                increased: 0.75,
+            },
             acid: {
-                increased: 0.6,
+                increased: 0.75,
             },
         },
     }),

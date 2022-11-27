@@ -141,11 +141,7 @@
                     <<if $info.current.equippables[_captureArg].name === _equippable.name>>
                         <<set _selectval to _i>>
                     <</if>>
-                    <<if _captureArg === "accessory">>
-                        <option @value="_i">[_equippable.modslots] _equippable.name</option>
-                    <<else>>
-                        <option @value="_i">_equippable.name</option>
-                    <</if>>
+                    <option @value="_i">[_equippable.modslots] _equippable.name</option>
                 <</for>>
             </select>
         <</if>>
@@ -306,7 +302,7 @@
                 for (i = 0; i < svice[captureArg].modslots; i++) {
                     $(`#listbox-${captureArg}Mods[boxnum="${i}"]`).val(selectvalmod[i]);
                 }
-
+                
                 $(`.${st.listboxstr}`).change( function (elm) {
                     /* Change the modslot's mod to the updated mod. */
                     svice[captureArg].mods[$(this).attr("boxnum")] = viableModList[$(this).val()];

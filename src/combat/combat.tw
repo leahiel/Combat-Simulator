@@ -197,7 +197,7 @@ async function processTurns(pp, ep) {
         return processTurns(pp, ep);
     } else if (ci.pp.includes(activeCharacter)) {
         /* Player Turn */
-        $("#notifArea").empty().removeClass().addClass("playerTurn").wiki("Player Turn");
+        $("#notifArea").empty().removeClass().addClass("playerTurn").wiki(`${activeCharacter.name}'s Turn`);
 
         setup.COM.drawCombat();
         /* setup.COM.drawCombat() updates #playerZone, so the player can make a choice there. */

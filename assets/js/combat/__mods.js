@@ -50,7 +50,7 @@ const affixes = {
             return [this.tier * 1.2];
         },
         get description() {
-            return "${this.value[0] * 100}% increased Direct Hit Chance";
+            return `${this.value[0] * 100}% increased Direct Hit Chance`;
         },
 
         slot: "weapon",
@@ -59,21 +59,21 @@ const affixes = {
 
     WEAPON_INCREASED_CRIT_CHANCE: new Affix({
         name: "Increased Crit Chance",
-        affixes: [["criticalChanceIncreased", "+"]],
+        affixes: [["criticalChanceIncreased", "+"], ["criticalChanceBase", "+"]],
 
         tier: 1,
         profiency: 0,
         profiencyNext: 100,
 
         get value() {
-            return [this.tier * 1.2];
+            return [this.tier * 0.9, this.tier * 0.04];
         },
         get description() {
-            return "${this.value[0] * 100}% increased Crit Chance";
+            return `${this.value[0] * 100}% increased Crit Chance\n+${this.value[0] * 100}% base Crit Chance`;
         },
 
         slot: "weapon",
-        tags: ["spear", "axe", "sword", "dagger"],
+        tags: ["spear", "axe", "sword", "dagger", "bow"],
     }),
 
     WEAPON_INCREASED_CRIT_DAMAGE: new Affix({
@@ -88,11 +88,11 @@ const affixes = {
             return [this.tier * 0.65];
         },
         get description() {
-            return "${this.value[0] * 100}% increased Crit Damage";
+            return `${this.value[0] * 100}% increased Crit Damage`;
         },
 
         slot: "weapon",
-        tags: ["spear", "axe", "sword", "dagger"],
+        tags: ["spear", "axe", "sword", "dagger", "bow"],
     }),
 
     WEAPON_INCREASED_DEFLECT_CHANCE: new Affix({
@@ -107,7 +107,7 @@ const affixes = {
             return [this.tier * 1.9];
         },
         get description() {
-            return "${this.value[0] * 100}% increased Deflect Chance";
+            return `${this.value[0] * 100}% increased Deflect Chance`;
         },
 
         slot: "weapon",
@@ -126,7 +126,7 @@ const affixes = {
             return [this.tier * 1.2];
         },
         get description() {
-            return "${this.value[0] * 100}% increased Block Chance";
+            return `${this.value[0] * 100}% increased Block Chance`;
         },
 
         slot: "weapon",
@@ -145,7 +145,7 @@ const affixes = {
             return [this.tier * -1];
         },
         get description() {
-            return "-${this.value[0]} Block Recovery";
+            return `-${this.value[0]} Block Recovery`;
         },
 
         slot: "weapon",
@@ -161,10 +161,10 @@ const affixes = {
         profiencyNext: 100,
 
         get value() {
-            return [this.tier * 1];
+            return [this.tier * 0.8];
         },
         get description() {
-            return "${this.value[0]}% Increased Pierce Damage";
+            return `${this.value[0]}% Increased Pierce Damage`;
         },
 
         slot: "weapon",
@@ -180,10 +180,10 @@ const affixes = {
         profiencyNext: 100,
 
         get value() {
-            return [this.tier * 1];
+            return [this.tier * 0.8];
         },
         get description() {
-            return "${this.value[0]}% Increased Blunt Damage";
+            return `${this.value[0]}% Increased Blunt Damage`;
         },
 
         slot: "weapon",
@@ -199,10 +199,10 @@ const affixes = {
         profiencyNext: 100,
 
         get value() {
-            return [this.tier * 1];
+            return [this.tier * 0.8];
         },
         get description() {
-            return "${this.value[0]}% Increased Acid Damage";
+            return `${this.value[0]}% Increased Acid Damage`;
         },
 
         slot: "weapon",
@@ -221,7 +221,7 @@ const affixes = {
             return [this.tier * 1];
         },
         get description() {
-            return "${this.value[0]}% Increased Fire Damage";
+            return `${this.value[0]}% Increased Fire Damage`;
         },
 
         slot: "weapon",
@@ -240,7 +240,7 @@ const affixes = {
             return [this.tier * 1];
         },
         get description() {
-            return "${this.value[0]}% Increased Frost Damage";
+            return `${this.value[0]}% Increased Frost Damage`;
         },
 
         slot: "weapon",
@@ -259,7 +259,7 @@ const affixes = {
             return [this.tier * 1];
         },
         get description() {
-            return "${this.value[0]}% Increased Lightning Damage";
+            return `${this.value[0]}% Increased Lightning Damage`;
         },
 
         slot: "weapon",
@@ -278,7 +278,7 @@ const affixes = {
             return [this.tier * 1];
         },
         get description() {
-            return "${this.value[0]}% Increased Aether Damage";
+            return `${this.value[0]}% Increased Aether Damage`;
         },
 
         slot: "weapon",
@@ -297,7 +297,7 @@ const affixes = {
             return [this.tier * 1];
         },
         get description() {
-            return "${this.value[0]}% Increased Sacred Damage";
+            return `${this.value[0]}% Increased Sacred Damage`;
         },
 
         slot: "weapon",
@@ -316,7 +316,7 @@ const affixes = {
             return [this.tier * 1];
         },
         get description() {
-            return "${this.value[0]}% Increased Shadow Damage";
+            return `${this.value[0]}% Increased Shadow Damage`;
         },
 
         slot: "weapon",
@@ -335,7 +335,7 @@ const affixes = {
             return [this.tier * -4];
         },
         get description() {
-            return "-${this.value[0]} Init Start";
+            return `-${this.value[0]} Init Start`;
         },
 
         slot: "weapon",
@@ -354,7 +354,7 @@ const affixes = {
             return [this.tier * -0.08];
         },
         get description() {
-            return "${this.value[0]}% Decreased Attack Recovery";
+            return `${this.value[0]}% Decreased Attack Recovery`;
         },
 
         slot: "weapon",
@@ -379,7 +379,7 @@ const affixes = {
             return [this.tier * 22];
         },
         get description() {
-            return "+${this.value[1] * 100} Maximum Health";
+            return `+${this.value[1] * 100} Maximum Health`;
         },
 
         slot: "armor",
@@ -387,7 +387,7 @@ const affixes = {
     }),
 
     ARMOR_INCREASED_MATERIAL_RESISTANCE_PLATE: new Affix({
-        name: "Increased Material Resistance",
+        name: "Plate Increased Material Resistance",
         affixes: [["resistance.material", "+"]],
 
         tier: 1,
@@ -398,7 +398,7 @@ const affixes = {
             return [this.tier * 0.5];
         },
         get description() {
-            return "${this.value[1] * 100}% increased Material Resistance";
+            return `${this.value[1] * 100}% increased Material Resistance`;
         },
 
         slot: "armor",
@@ -407,7 +407,7 @@ const affixes = {
 
     ARMOR_MINUS_MATERIAL_DAMAGE: new Affix({
         name: "Minus Material Damage Taken",
-        affixes: [["resistance.material", "+"]],
+        affixes: [["reduct.material", "+"]],
 
         tier: 1,
         profiency: 0,
@@ -417,7 +417,7 @@ const affixes = {
             return [this.tier * 4];
         },
         get description() {
-            return "-${this.value[1]}% iMaterial Damage Taken";
+            return `-${this.value[1]}% iMaterial Damage Taken`;
         },
 
         slot: "armor",
@@ -425,7 +425,7 @@ const affixes = {
     }),
 
     ARMOR_INCREASED_ELEMENTAL_RESISTANCE_LEATHER: new Affix({
-        name: "Increased Elemental Resistance",
+        name: "Leather Increased Elemental Resistance",
         affixes: [["resistance.elemental", "+"]],
 
         tier: 1,
@@ -436,7 +436,7 @@ const affixes = {
             return [this.tier * 0.4];
         },
         get description() {
-            return "${this.value[1] * 100}% increased Elemental Resistance";
+            return `${this.value[1] * 100}% increased Elemental Resistance`;
         },
 
         slot: "armor",
@@ -455,7 +455,7 @@ const affixes = {
             return [this.tier * 0.3];
         },
         get description() {
-            return "${this.value[1] * 100}% increased Material Resistance";
+            return `${this.value[1] * 100}% increased Material Resistance`;
         },
 
         slot: "armor",
@@ -474,7 +474,7 @@ const affixes = {
             return [this.tier * 0.2];
         },
         get description() {
-            return "${this.value[1] * 100}% increased Elemental Resistance";
+            return `${this.value[1] * 100}% increased Elemental Resistance`;
         },
 
         slot: "armor",
@@ -493,7 +493,7 @@ const affixes = {
             return [this.tier * -1];
         },
         get description() {
-            return "-${this.value[0]} Block Recovery";
+            return `-${this.value[0]} Block Recovery`;
         },
 
         slot: "armor",
@@ -512,7 +512,7 @@ const affixes = {
             return [this.tier * 0.5];
         },
         get description() {
-            return "${this.value[1] * 100}% increased Occult Resistance";
+            return `${this.value[1] * 100}% increased Occult Resistance`;
         },
 
         slot: "armor",
@@ -531,7 +531,7 @@ const affixes = {
             return [this.tier * 0.2];
         },
         get description() {
-            return "+${this.value[1] * 100}% Occult Absorb";
+            return `+${this.value[1] * 100}% Occult Absorb`;
         },
 
         slot: "armor",
@@ -540,7 +540,7 @@ const affixes = {
 
     ARMOR_INCREASED_DEFLECT_CHANCE: new Affix({
         name: "Increased Deflect Chance",
-        affixes: [["directChanceIncreased", "+"]],
+        affixes: [["deflectChanceIncreased", "+"]],
 
         tier: 1,
         profiency: 0,
@@ -550,7 +550,7 @@ const affixes = {
             return [this.tier * 1.2];
         },
         get description() {
-            return "${this.value[1] * 100}% Increased Deflect Chance";
+            return `${this.value[1] * 100}% Increased Deflect Chance`;
         },
 
         slot: "armor",
@@ -569,7 +569,7 @@ const affixes = {
             return [this.tier * 0.12];
         },
         get description() {
-            return "+${this.value[1] * 100}% Action Speed";
+            return `+${this.value[1] * 100}% Action Speed`;
         },
 
         slot: "armor",
@@ -588,7 +588,7 @@ const affixes = {
             return [this.tier * -0.08];
         },
         get description() {
-            return "${this.value[0]}% Decreased Attack Recovery";
+            return `${this.value[0]}% Decreased Attack Recovery`;
         },
 
         slot: "armor",
@@ -607,7 +607,7 @@ const affixes = {
             return [this.tier * -4];
         },
         get description() {
-            return "-${this.value[0]} Init Start";
+            return `-${this.value[0]} Init Start`;
         },
 
         slot: "armor",
@@ -632,7 +632,7 @@ const affixes = {
             return [this.tier * -4];
         },
         get description() {
-            return "-${this.value[0]} Init Start";
+            return `-${this.value[0]} Init Start`;
         },
 
         slot: "accessory",
@@ -651,7 +651,7 @@ const affixes = {
             return [this.tier * -0.08];
         },
         get description() {
-            return "${this.value[0]}% Decreased Attack Recovery";
+            return `${this.value[0]}% Decreased Attack Recovery`;
         },
 
         slot: "accessory",
@@ -660,7 +660,7 @@ const affixes = {
 
     ACCESSORY_INCREASED_DEFLECT_CHANCE: new Affix({
         name: "Increased Deflect Chance",
-        affixes: [["directChanceIncreased", "+"]],
+        affixes: [["deflectChanceIncreased", "+"]],
 
         tier: 1,
         profiency: 0,
@@ -670,7 +670,7 @@ const affixes = {
             return [this.tier * 1.2];
         },
         get description() {
-            return "${this.value[1] * 100}% Increased Deflect Chance";
+            return `${this.value[1] * 100}% Increased Deflect Chance`;
         },
 
         slot: "accessory",
@@ -689,7 +689,7 @@ const affixes = {
             return [this.tier * 0.12];
         },
         get description() {
-            return "+${this.value[1] * 100}% Action Speed";
+            return `+${this.value[1] * 100}% Action Speed`;
         },
 
         slot: "accessory",
@@ -708,7 +708,7 @@ const affixes = {
             return [this.tier * 1.2];
         },
         get description() {
-            return "${this.value[0] * 100}% increased Direct Hit Chance";
+            return `${this.value[0] * 100}% increased Direct Hit Chance`;
         },
 
         slot: "accessory",
@@ -724,10 +724,10 @@ const affixes = {
         profiencyNext: 100,
 
         get value() {
-            return [this.tier * 1.2];
+            return [this.tier * 0.7];
         },
         get description() {
-            return "${this.value[0] * 100}% increased Crit Chance";
+            return `${this.value[0] * 100}% increased Crit Chance`;
         },
 
         slot: "accessory",
@@ -743,10 +743,10 @@ const affixes = {
         profiencyNext: 100,
 
         get value() {
-            return [this.tier * 0.65];
+            return [this.tier * 0.15];
         },
         get description() {
-            return "${this.value[0] * 100}% increased Crit Damage";
+            return `${this.value[0] * 100}% increased Crit Damage`;
         },
 
         slot: "accessory",
@@ -765,7 +765,7 @@ const affixes = {
             return [this.tier * 1.2];
         },
         get description() {
-            return "${this.value[0] * 100}% increased Block Chance";
+            return `${this.value[0] * 100}% increased Block Chance`;
         },
 
         slot: "accessory",
@@ -784,7 +784,7 @@ const affixes = {
             return [this.tier * -1];
         },
         get description() {
-            return "-${this.value[0]} Block Recovery";
+            return `-${this.value[0]} Block Recovery`;
         },
 
         slot: "accessory",
@@ -800,10 +800,10 @@ const affixes = {
         profiencyNext: 100,
 
         get value() {
-            return [this.tier * 0.18];
+            return [this.tier * 18];
         },
         get description() {
-            return "+${this.value[1] * 100} Maximum Health";
+            return `+${this.value[1] * 100} Maximum Health`;
         },
 
         slot: "accessory",
@@ -822,7 +822,7 @@ const affixes = {
             return [this.tier * 0.4];
         },
         get description() {
-            return "${this.value[1] * 100}% increased Elemental Resistance";
+            return `${this.value[1] * 100}% increased Elemental Resistance`;
         },
 
         slot: "accessory",
@@ -841,7 +841,7 @@ const affixes = {
             return [this.tier * 0.3];
         },
         get description() {
-            return "${this.value[1] * 100}% increased Material Resistance";
+            return `${this.value[1] * 100}% increased Material Resistance`;
         },
 
         slot: "accessory",
@@ -860,7 +860,7 @@ const affixes = {
             return [this.tier * 0.5];
         },
         get description() {
-            return "${this.value[1] * 100}% increased Occult Resistance";
+            return `${this.value[1] * 100}% increased Occult Resistance`;
         },
 
         slot: "accessory",

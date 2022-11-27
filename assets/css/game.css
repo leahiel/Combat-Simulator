@@ -639,7 +639,7 @@ body.stowed {
 }
 
 #modSelectionGrid {
-    display: grid;
+    /* display: grid; */
 }
 
 #modSelectionGrid select {

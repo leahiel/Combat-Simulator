@@ -39,15 +39,12 @@ Stats and Growth:
 →  = Currently Working On.
 
     Combat:
-    ☑  Primitive Combat System
-        ☐  Weapon Expertise Modifier [Req: Player Stats!]
-        ☐  Completely Rewrite targeting to be sane and more flexible
     ☑  Buffs
         ☑  On Apply
         ☑  On Reapply
         ☑  Per Init
         ☐  When Targeted
-            ☐  Counter-Attacks
+            ☐  Counter-Attacks [After Taking Damage]
         ☐  When Take Damage
         ☐  On Attack
         ☐  On Spell
@@ -57,6 +54,8 @@ Stats and Growth:
         ☐  When hovering over buff/canvas, it should show buffs info.
     ☐  Triggers
         I need a system whereby when an event buffs, buffs can be applied. For instance, if I have a chance to bleed modifier on an axe, then bleeding should be able to be applied on every attack.
+        REVIEW: But do I really need one? Can`t I just `if (buff.onAttack)...`?
+        ANSWER: No, because buffs are only checked when they`re applied. If they`re not applied, they dont get checked. The trigger system would apply a buff or debuff to either the target or victim.
     ☐  Animations
         ☐  Attack
         ☐  Defense
@@ -68,19 +67,35 @@ Stats and Growth:
         ☐  Buffs
         ☐  Healing
     ☐  Spells
+        ☐  Winds System. [The more people that use the spell, the less powerful it gets.]
         ☐  Spell Casting Time
-        ☐  Spell Syncing [Party memebers with the same spell can cast it together, which makes a more powerful spell.]
+        ☐  Spell Syncing [Party members with the same spell can cast it together, which makes a more powerful spell by increasing winds.]
+        ☐  Spells always have 0 WDM.
     ☐  Miracles
-    ☐  Energy Shield (or do I want divine shield? Having both would be illogical and/or confusing.)
+    ☐  Divine Shield
     ☐  Battle Log
     ☐  Background Images
     ☐  Canvas Stuff
         ☐  Find better modern canvas library that is still simple.
         ☐  Embedded Location and Name
+    ☐  Combat Types
+        ☐  Survival
+        ☐  Waves
+    ☐  Ability to add more monsters in
+    ☐  AI
+        ☐  Implementation
+        ☑  Random Attacks Random Targets
+        ☐  Generalized - Simple [Chooses attacks based on self. e.g. Won`t buff if already buffed with buff.]
+        ☐  Generalized - Normal [Chooses attacks based on self and team. e.g. Won`t buff if team already buffed.]
+        ☐  Generalized - Advanced [Chooses attacks and targets based on self and enemy team.]
+        ☐  Generalized - Brutal [Same as above, but also picks an attack and targets an enemy that would die from that attack, if possible.]
+        ☐  Custom.
+    ☐  Battle Log
         
     Combat Initialization:
     ☐  Setting (Music, Background, ETC) 
     ☐  Reward/Defeat Screen 
+        ☑  Primitive
         ☐  Drops
             ☐  Predetermined
             ☐  From Weighted Array
@@ -89,12 +104,12 @@ Stats and Growth:
     ☐  Enemies use a "prefer backline/frontline" bool
 
     Information Screen:
-    ☐  Battle Log
     ☐  Equipment InformationPlate
         ☐  Information Present
         ☐  CSS
 
     Character Customization:
+    ☐  Weapon Expertise Modifier in Combat [Req: Player Stats!]
     ☐  Leveling and experience
     ☐  Bestiary system that teaches you more about enemies the more you fight them.
     ☐  Passive Skill Tree
@@ -115,9 +130,9 @@ Stats and Growth:
         ☐  More/Increased Material/Elemental/Occult
         
     ☐  Profiency with Gear
+        ☐  Expertise Modifier in Combat
     ☐  Profiency with Attacks
-    ☐  Limit certain mods to certain tags of Equippables?
-        = e.g. "leather" tag on mod only works with armors tagged "leather"
+        ☐  Expertise Modifier in Combat
 
     Refactoering:
     ☐  Passage Tags can decide CSS, a la 

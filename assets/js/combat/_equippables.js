@@ -34,6 +34,9 @@ class Equippable {
                 jQuery.extend(true, this, updateProperty(this, mod.affixes[i][0], mod.value[i], mod.affixes[i][1]));
             }
         }
+
+        /* So that we can chain... */
+        return this;
     }
 
     /**
@@ -215,7 +218,7 @@ const equippables = {
                 max: 7,
             },
         },
-        criticalChanceBase: 0.03,
+        criticalChanceBase: 0.04,
         criticalChanceIncreased: 0.75,
         criticalDamageBase: 0.25,
         criticalDamageIncreased: 0.75,
@@ -224,32 +227,32 @@ const equippables = {
     }),
 
     // Spears
-    woodenspear: new Equippable({
+    nimblespear: new Equippable({
         name: "Nimble Spear",
         slot: "weapon",
-        modslots: 2,
-        attacks: mergeArray(setup.COM.familyAttacks.spearWeaponAttacks),
-        damage: {
-            pierce: {
-                min: 2,
-                max: 6,
-            },
-        },
-        deflectChanceBase: 0.04,
-        deflectChanceIncreased: 0.75,
-        initDecrementModifier: -0.1,
-        tags: ["all", "spear", "two-handed", "pierce", "material"],
-    }),
-
-    woodenspear: new Equippable({
-        name: "Heavy Spear",
-        slot: "weapon",
-        modslots: 2,
+        modslots: 3,
         attacks: mergeArray(setup.COM.familyAttacks.spearWeaponAttacks),
         damage: {
             pierce: {
                 min: 4,
-                max: 9,
+                max: 8,
+            },
+        },
+        deflectChanceBase: 0.04,
+        deflectChanceIncreased: 0.75,
+        initDecrementModifier: 0.1,
+        tags: ["all", "spear", "two-handed", "pierce", "material"],
+    }),
+
+    heavyspear: new Equippable({
+        name: "Heavy Spear",
+        slot: "weapon",
+        modslots: 3,
+        attacks: mergeArray(setup.COM.familyAttacks.spearWeaponAttacks),
+        damage: {
+            pierce: {
+                min: 5,
+                max: 11,
             },
         },
         deflectChanceBase: 0.02,
@@ -306,12 +309,12 @@ const equippables = {
     swordandshield: new Equippable({
         name: "Short Sword and Shield",
         slot: "weapon",
-        modslots: 2,
+        modslots: 3,
         attacks: mergeArray(setup.COM.familyAttacks.swordandshieldWeaponAttacks),
         damage: {
             pierce: {
-                min: 3,
-                max: 8,
+                min: 5,
+                max: 10,
             },
         },
         criticalChanceBase: 0.03,
@@ -327,12 +330,12 @@ const equippables = {
     maceandshield: new Equippable({
         name: "Mace and Shield",
         slot: "weapon",
-        modslots: 2,
+        modslots: 3,
         attacks: mergeArray(setup.COM.familyAttacks.maceandshieldWeaponAttacks),
         damage: {
             blunt: {
-                min: 3,
-                max: 8,
+                min: 6,
+                max: 12,
             },
         },
         directChanceBase: 0.03,
@@ -376,12 +379,12 @@ const equippables = {
         attacks: mergeArray(setup.COM.familyAttacks.twohandedaxeWeaponAttacks),
         damage: {
             pierce: {
-                min: 7,
-                max: 14,
+                min: 5,
+                max: 12,
             },
         },
         criticalChanceBase: 0.02,
-        criticalChanceIncreased: 0.5,
+        criticalChanceIncreased: 0.25,
         initDecrementModifier: 0,
         initRecoveryModifier: -0.1,
         tags: ["all", "axe", "two-handed", "material", "pierce"],
@@ -394,13 +397,13 @@ const equippables = {
         attacks: mergeArray(setup.COM.familyAttacks.twohandedaxeWeaponAttacks),
         damage: {
             pierce: {
-                min: 4,
-                max: 8,
+                min: 3,
+                max: 5,
             },
         },
         criticalChanceBase: 0.2,
-        criticalChanceIncreased: 0.75,
-        initDecrementModifier: -0.1,
+        criticalChanceIncreased: 0.5,
+        initDecrementModifier: -0.15,
         initRecoveryModifier: 0.2,
         tags: ["all", "axe", "two-handed", "material", "pierce"],
     }),
@@ -424,10 +427,11 @@ const equippables = {
             blunt: 2,
             pierce: 4,
         },
+        initStart: 4,
         initDecrementModifier: -0.2,
         initRecoveryModifier: 0.1,
         healthMax: 30,
-        tags: ["plate"],
+        tags: ["all", "plate"],
     }),
 
     chainmail: new Equippable({
@@ -442,23 +446,24 @@ const equippables = {
         reduct: {
             pierce: 1,
         },
+        initStart: 2,
         initDecrementModifier: -0.1,
         initRecoveryModifier: 0.05,
         healthMax: 24,
-        tags: ["plate"],
+        tags: ["all", "plate"],
     }),
 
     leatherarmor: new Equippable({
         name: "Leather Chest Armor",
         slot: "armor",
-        modslots: 3,
+        modslots: 2,
         resistance: {
             material: 0.1,
             elemental: 0.1,
             occult: -0.1,
         },
         healthMax: 16,
-        tags: ["leather"],
+        tags: ["all", "leather"],
     }),
 
     priestvestiges: new Equippable({
@@ -470,7 +475,7 @@ const equippables = {
             occult: 0.3,
         },
         healthMax: 10,
-        tags: ["cloth"],
+        tags: ["all", "cloth"],
     }),
 
     comfortableclothes: new Equippable({
@@ -480,10 +485,11 @@ const equippables = {
         resistance: {
             occult: -0.1,
         },
+        initStart: -3,
         initDecrementModifier: 0.1,
         initRecoveryModifier: -0.1,
         healthMax: 3,
-        tags: ["cloth"],
+        tags: ["all", "cloth", "leather"],
     }),
 
     /**
@@ -510,13 +516,13 @@ const equippables = {
         modslots: 2,
         damage: {
             fire: {
-                increased: 0.1,
+                increased: 0.25,
             },
             frost: {
-                increased: 0.1,
+                increased: 0.25,
             },
             lightning: {
-                increased: 0.1,
+                increased: 0.25,
             },
         },
         resistance: {
@@ -563,10 +569,10 @@ const equippables = {
     sharktoothamulet: new Equippable({
         name: "Sharktooth Amulet",
         slot: "accessory",
-        modslots: 4,
+        modslots: 2,
         damage: {
             pierce: {
-                increased: 0.1,
+                increased: 0.5,
             },
         },
         tags: ["all"],
@@ -575,7 +581,7 @@ const equippables = {
     friendscharm: new Equippable({
         name: "Friend's Charm",
         slot: "accessory",
-        modslots: 4,
+        modslots: 3,
         damage: {
             pierce: {
                 increased: 0.1,
@@ -592,5 +598,6 @@ const equippables = {
         S.COM = {};
     }
 
+    S.COM.Equippable = Equippable;
     S.COM.equippables = equippables;
 })(setup);

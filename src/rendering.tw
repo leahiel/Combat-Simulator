@@ -199,7 +199,6 @@ if (tags().includes(".combat")) {
      */
     $('#playerAttacks .playerAttack').on("mouseenter", function() {
         light_tick.play();
-        console.log("Mouse Entered");
     });
 } else {
     if (State.variables.GameState === "combat") {

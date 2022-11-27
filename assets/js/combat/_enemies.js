@@ -28,7 +28,7 @@ const monsters = {
     EN_MOMMY_SPIDER: new Enemy({
         name: "Momma Spider",
         family: "mommySpider",
-        healthMax: 65,
+        healthMax: 120,
         initStart: 62,
         attacks: setup.COM.familyAttacks.mommySpider,
         description: "A filthy abomination in a larger than acceptable size. Complementary baby spiders come with it.",
@@ -37,25 +37,50 @@ const monsters = {
                 min: 6,
                 max: 12,
             },
+            acid: {
+                min: 4,
+                max: 8,
+            },
+            pierce: {
+                min: 4,
+                max: 8,
+            },
         },
+        directChanceBase: 0.08,
+        directChanceIncreased: 0.25,
+        criticalChanceBase: 0.09,
+        criticalChanceIncreased: 1,
     }),
 
     EN_BABY_SPIDER: new Enemy({
         name: "Baby Spider",
         family: "babySpider",
-        healthMax: 20,
-        initStart: 34,
+        healthMax: 28,
+        initStart: 26,
         initStartVariance: 0.3,
         attacks: setup.COM.familyAttacks.babySpider,
         description: "A small little spider. It's almost kinda cute...",
+        damage: {
+            blunt: {
+                min: 1,
+                max: 3,
+            },
+            acid: {
+                min: 2,
+                max: 2,
+            },
+            pierce: {
+                min: 1,
+                max: 1,
+            },
+        },
     }),
 
-    // NTS: Set up as a miniboss.
     EN_HOG: new Enemy({
         name: "Hog",
         family: "Hog",
         healthMax: 240,
-        initStart: 47,
+        initStart: 28,
         attacks: setup.COM.familyAttacks.Hog,
         description: "A boar, a hog, a whore, they're all the same, and they're all vicious.",
         resistance: {
@@ -64,12 +89,12 @@ const monsters = {
         },
         damage: {
             blunt: {
-                min: 4,
-                max: 6,
+                min: 9,
+                max: 14,
             },
             pierce: {
-                min: 4,
-                max: 6,
+                min: 8,
+                max: 13,
             },
         },
     }),
@@ -84,29 +109,29 @@ const monsters = {
         name: "Carbuncle",
         family: "Carbuncle",
         healthMax: 60,
-        initStart: 34,
+        initStart: 22,
         initStartVariance: 0.24,
         attacks: setup.COM.familyAttacks.Carbuncle,
         description: "An adorable little rabbit with crystals growing on it.",
         damage: {
             acid: {
-                min: 1,
-                max: 2,
+                min: 2,
+                max: 4,
             },
             blunt: {
-                min: 1,
-                max: 2,
+                min: 2,
+                max: 4,
             },
             fire: {
-                min: 1,
-                max: 2,
+                min: 2,
+                max: 4,
             },
             frost: {
-                min: 1,
-                max: 2,
+                min: 2,
+                max: 4,
             },
             lightning: {
-                min: 1,
+                min: 4,
                 max: 2,
             },
         },
@@ -121,15 +146,15 @@ const monsters = {
     EN_EMERALD_CARBUNCLE: new Enemy({
         name: "Emerald Carbuncle",
         family: "Carbuncle",
-        healthMax: 35,
-        initStart: 35,
+        healthMax: 49,
+        initStart: 22,
         initStartVariance: 0.24,
         attacks: mergeArray(setup.COM.familyAttacks.Carbuncle, setup.COM.attacks.acidicshot),
         description: "A magical rabbit focusing on acidic magic.",
         damage: {
             acid: {
-                min: 5,
-                max: 8,
+                min: 8,
+                max: 12,
             },
         },
         resistance: {
@@ -142,15 +167,15 @@ const monsters = {
     EN_OYNX_CARBUNCLE: new Enemy({
         name: "Onyx Carbuncle",
         family: "Carbuncle",
-        healthMax: 67,
-        initStart: 34,
+        healthMax: 72,
+        initStart: 25,
         initStartVariance: 0.24,
         attacks: mergeArray(setup.COM.familyAttacks.Carbuncle, setup.COM.attacks.rockfall),
         description: "A magical rabbit focusing on blunt magic.",
         damage: {
             blunt: {
-                min: 5,
-                max: 8,
+                min: 8,
+                max: 12,
             },
         },
         resistance: {
@@ -163,15 +188,15 @@ const monsters = {
     EN_RUBY_CARBUNCLE: new Enemy({
         name: "Ruby Carbuncle",
         family: "Carbuncle",
-        healthMax: 42,
-        initStart: 34,
+        healthMax: 49,
+        initStart: 22,
         initStartVariance: 0.24,
         attacks: mergeArray(setup.COM.familyAttacks.Carbuncle, setup.COM.attacks.firewall),
         description: "A magical rabbit focusing on fire magic.",
         damage: {
             fire: {
-                min: 6,
-                max: 9,
+                min: 7,
+                max: 14,
             },
         },
         resistance: {
@@ -184,15 +209,15 @@ const monsters = {
     EN_SAPPHIRE_CARBUNCLE: new Enemy({
         name: "Sapphire Carbuncle",
         family: "Carbuncle",
-        healthMax: 42,
-        initStart: 34,
+        healthMax: 49,
+        initStart: 22,
         initStartVariance: 0.24,
         attacks: mergeArray(setup.COM.familyAttacks.Carbuncle, setup.COM.attacks.iceprison),
         description: "A magical rabbit focusing on frost magic.",
         damage: {
             frost: {
-                min: 4,
-                max: 7,
+                min: 7,
+                max: 11,
             },
         },
         resistance: {
@@ -205,15 +230,15 @@ const monsters = {
     EN_TOPAZ_CARBUNCLE: new Enemy({
         name: "Topaz Carbuncle",
         family: "Carbuncle",
-        healthMax: 42,
-        initStart: 34,
+        healthMax: 49,
+        initStart: 22,
         initStartVariance: 0.24,
         attacks: mergeArray(setup.COM.familyAttacks.Carbuncle, setup.COM.attacks.flash),
         description: "A magical rabbit focusing on lightning magic.",
         damage: {
             lightning: {
                 min: 1,
-                max: 13,
+                max: 19,
             },
         },
         resistance: {
@@ -232,16 +257,16 @@ const monsters = {
     EN_UNARMED_SKELETON: new Enemy({
         name: "Unarmed Skeleton",
         family: "Skeleton",
-        healthMax: 38,
-        initStart: 34,
+        healthMax: 43,
+        initStart: 30,
         initStartVariance: 0.24,
         initRecoveryModifier: 2.3, // NYI: initRecoveryModifier
         attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.unarmedAttacks),
         description: "A spoopy skeleton animated out of arcane magicks.",
         damage: {
             blunt: {
-                min: 7,
-                max: 12,
+                min: 9,
+                max: 15,
             },
         },
         resistance: {
@@ -257,16 +282,16 @@ const monsters = {
     EN_SPEAR_SKELETON: new Enemy({
         name: "Skeleton Spearman",
         family: "Skeleton",
-        healthMax: 38,
-        initStart: 37,
+        healthMax: 43,
+        initStart: 32,
         initStartVariance: 0.24,
         initRecoveryModifier: 1.8,
         attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.spearWeaponAttacks),
         description: "A spoopy skeleton spearman animated out of arcane magicks.",
         damage: {
             pierce: {
-                min: 4,
-                max: 8,
+                min: 9,
+                max: 14,
             },
         },
         resistance: {
@@ -282,16 +307,16 @@ const monsters = {
     EN_SWORDSHIELD_SKELETON: new Enemy({
         name: "Skeleton Swordsman",
         family: "Skeleton",
-        healthMax: 38,
-        initStart: 37,
+        healthMax: 43,
+        initStart: 28,
         initStartVariance: 0.24,
         initRecoveryModifier: 1.8,
         attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.swordandshieldWeaponAttacks),
         description: "A spoopy skeleton spearman animated out of arcane magicks.",
         damage: {
             pierce: {
-                min: 4,
-                max: 8,
+                min: 6,
+                max: 10,
             },
         },
         resistance: {
@@ -308,16 +333,16 @@ const monsters = {
         name: "Skeleton Archer",
         family: "Skeleton",
         positionPreferance: "backline", // NYI: positionPreferance. After CI are randomly performed, parties should shuffle for preferances.
-        healthMax: 38,
-        initStart: 37,
+        healthMax: 43,
+        initStart: 28,
         initStartVariance: 0.24,
         initRecoveryModifier: 1.8,
         attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.bowWeaponAttacks),
         description: "A spoopy skeleton spearman animated out of arcane magicks.",
         damage: {
             pierce: {
-                min: 3,
-                max: 9,
+                min: 7,
+                max: 12,
             },
         },
         resistance: {
@@ -331,16 +356,16 @@ const monsters = {
     }),
 
     /*
-     *  dP""b8 888888 88b 88 888888    db    88   88 88""Yb .dP"Y8 
-     * dP   `" 88__   88Yb88   88     dPYb   88   88 88__dP `Ybo." 
-     * Yb      88""   88 Y88   88    dP__Yb  Y8   8P 88"Yb  o.`Y8b 
-     *  YboodP 888888 88  Y8   88   dP""""Yb `YbodP' 88  Yb 8bodP' 
+     *  dP""b8 888888 88b 88 888888    db    88   88 88""Yb .dP"Y8
+     * dP   `" 88__   88Yb88   88     dPYb   88   88 88__dP `Ybo."
+     * Yb      88""   88 Y88   88    dP__Yb  Y8   8P 88"Yb  o.`Y8b
+     *  YboodP 888888 88  Y8   88   dP""""Yb `YbodP' 88  Yb 8bodP'
      */
     EN_CENTAUR_BOWMAN: new Enemy({
         name: "Centaur Bowman",
         family: "Centaur",
         positionPreferance: "backline", // NYI: positionPreferance. After CI are randomly performed, parties should shuffle for preferances.
-        healthMax: 84,
+        healthMax: 104,
         initStart: 19,
         initStartVariance: 0.16,
         initRecoveryModifier: 1.3,
@@ -350,8 +375,12 @@ const monsters = {
         directChanceIncreased: 0.5,
         damage: {
             pierce: {
+                min: 6,
+                max: 11,
+            },
+            blunt: {
                 min: 3,
-                max: 9,
+                max: 4,
             },
         },
         resistance: {
@@ -367,7 +396,11 @@ const monsters = {
         initStart: 26,
         initStartVariance: 0.24,
         initRecoveryModifier: 1.5,
-        attacks: mergeArray(setup.COM.familyAttacks.Centaur, [setup.COM.attacks.herdmentor], setup.COM.familyAttacks.shieldWeaponAttacks),
+        attacks: mergeArray(
+            setup.COM.familyAttacks.Centaur,
+            [setup.COM.attacks.herdmentor],
+            setup.COM.familyAttacks.shieldWeaponAttacks
+        ),
         description: "A shielded veteran centaur.",
         directChanceBase: 5,
         directChanceIncreased: 0.5,
@@ -378,8 +411,8 @@ const monsters = {
         blockChanceMore: 1.2,
         damage: {
             sacred: {
-                min: 1,
-                max: 3,
+                min: 5,
+                max: 8,
             },
         },
         resistance: {
@@ -391,7 +424,7 @@ const monsters = {
     EN_CENTAUR_WARRIOR: new Enemy({
         name: "Centaur Warrior",
         family: "Centaur",
-        healthMax: 120,
+        healthMax: 143,
         initStart: 19,
         initStartVariance: 0.16,
         initRecoveryModifier: 1.3,
@@ -406,8 +439,8 @@ const monsters = {
         blockChanceMore: 1.2,
         damage: {
             blunt: {
-                min: 5,
-                max: 9,
+                min: 8,
+                max: 13,
             },
         },
         resistance: {
@@ -419,11 +452,15 @@ const monsters = {
     EN_CHAOS_CENTAUR: new Enemy({
         name: "Chaos Centaur",
         family: "Centaur",
-        healthMax: 120,
+        healthMax: 143,
         initStart: 19,
         initStartVariance: 0.16,
         initRecoveryModifier: 1.3,
-        attacks: mergeArray(setup.COM.familyAttacks.Centaur, setup.COM.familyAttacks.shieldWeaponAttacks, setup.COM.familyAttacks.chaoticspearWeaponAttacks),
+        attacks: mergeArray(
+            setup.COM.familyAttacks.Centaur,
+            setup.COM.familyAttacks.shieldWeaponAttacks,
+            setup.COM.familyAttacks.chaoticspearWeaponAttacks
+        ),
         description: "An unholy spear wielding centaur, complete with a shield.",
         directChanceBase: 5,
         directChanceIncreased: 0.5,
@@ -433,17 +470,21 @@ const monsters = {
         blockChanceIncreased: 0.5,
         blockChanceMore: 1.2,
         damage: {
+            blunt: {
+                min: 3,
+                max: 4,
+            },
             aether: {
-                min: 1,
-                max: 3,
+                min: 2,
+                max: 5,
             },
             shadow: {
-                min: 1,
-                max: 3,
+                min: 2,
+                max: 5,
             },
             sacred: {
-                min: 1,
-                max: 3,
+                min: 2,
+                max: 5,
             },
         },
         resistance: {
@@ -453,16 +494,16 @@ const monsters = {
     }),
 
     /*
-     *  dP""b8 88  88  dP"Yb  88   88 88     .dP"Y8 
-     * dP   `" 88  88 dP   Yb 88   88 88     `Ybo." 
-     * Yb  "88 888888 Yb   dP Y8   8P 88  .o o.`Y8b 
-     *  YboodP 88  88  YbodP  `YbodP' 88ood8 8bodP' 
+     *  dP""b8 88  88  dP"Yb  88   88 88     .dP"Y8
+     * dP   `" 88  88 dP   Yb 88   88 88     `Ybo."
+     * Yb  "88 888888 Yb   dP Y8   8P 88  .o o.`Y8b
+     *  YboodP 88  88  YbodP  `YbodP' 88ood8 8bodP'
      */
     EN_GHOUL: new Enemy({
         name: "Ghoul",
         family: "Ghoul",
-        healthMax: 36,
-        initStart: 19,
+        healthMax: 84,
+        initStart: 15,
         initStartVariance: 0.12,
         initRecoveryModifier: 1,
         attacks: mergeArray(setup.COM.familyAttacks.Ghoul),
@@ -472,6 +513,10 @@ const monsters = {
         criticalChanceMore: 1.2,
         criticalDamageBase: 1,
         damage: {
+            pierce: {
+                min: 3,
+                max: 5,
+            },
             acid: {
                 min: 5,
                 max: 9,
@@ -483,15 +528,15 @@ const monsters = {
         },
         absorbPercent: {
             material: 0.05,
-        }
+        },
     }),
 
     EN_SAUSON_GHOUL_MASTER: new Enemy({
         name: "Sauson Ghoul Master",
         family: "Sauson",
         positionPreferance: "backline", // NYI: positionPreferance. After CI are randomly performed, parties should shuffle for preferances.
-        healthMax: 88,
-        initStart: 24,
+        healthMax: 64,
+        initStart: 19,
         initStartVariance: 0.12,
         attacks: mergeArray(setup.COM.attacks.healUndead, setup.COM.attacks.flash),
         description: "The oldest of enemies that wish to see everything burn: A Sauson.",

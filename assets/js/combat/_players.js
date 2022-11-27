@@ -48,7 +48,7 @@ const DEFAULTPLAYER = {
 
     healthMax: 100,
 
-    initStart: 45,
+    initStart: 26,
     initStartVariance: 0.12,
     initDecrementModifier: 1,
     initRecoveryModifier: 1,

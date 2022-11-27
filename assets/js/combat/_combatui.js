@@ -311,7 +311,7 @@ function updateCanvas(char, canvasElement) {
 
     // Init indicator.
     if (char.health > 0) {
-        let xpos = Math.min(char.init * 6 + horiBarXPos, 1700);
+        let xpos = Math.min(char.init * 16 + horiBarXPos, 1700);
         let iconimg = "";
         if (char.location.includes("player")) {
             /* Green indicator. */

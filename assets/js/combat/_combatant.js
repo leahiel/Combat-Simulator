@@ -12,8 +12,6 @@ class Combatant {
 
         this.original = cloneDeep(obj);
 
-        this.health = this.healthMax;
-
         let max = this.initStart * (1 + this.initStartVariance);
         let min = this.initStart * (1 - this.initStartVariance);
         this.init = Math.floor(Math.random() * (max - min + 1)) + Math.floor(min);
@@ -29,7 +27,7 @@ class Combatant {
          */
         if (this.equippables) {
             for (let equippable in this.equippables) {
-                let item = this.equippables[equippable];
+                let item = this.equippables[equippable].applyMods();
 
                 // Add attacks to Combatant.
                 if (this.equippables[equippable].attacks) {
@@ -93,6 +91,8 @@ class Combatant {
                 this.deflectChanceMore *= item.deflectChanceMore;
             }
         }
+
+        this.health = this.healthMax;
 
         /**
          * Calculate aggregate defensive properties here.
@@ -340,7 +340,6 @@ class Combatant {
             if (subrealRes === 0 && subflatRes === 0) {
                 isZeroedClass = " infoDarkGrey";
             }
-            console.log(isZeroedClass);
 
             return `class='info${sub.replace(/^\w/, (c) => c.toUpperCase())}${isZeroedClass}'>${sub.replace(
                 /^\w/,

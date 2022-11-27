@@ -5,13 +5,14 @@ You may only edit yourself and your permanent partner. In the full game, the two
 This demo contains 19 enemies, 57 attacks (34 accessible to the player), 19 buffs, 26 items, 44 mods and 6 unique combat instances.
 <br>
 <gridcontainer id="charSelect">
+	<<set $pc.name to "Elaina">>
+	/* 
 	<griditem class="row2">
 		<gridtitle>Basic Settings</gridtitle>
 		<griddescript>
 		<h4><label>Name thyself:   <<textbox "$pc.name" "PCName_TBD">></label></h4>
 		<br>
 		<br> 
-		/*
 		<label>Which set of pronouns do you prefer? 
 			<<cycle "_pronouns" "autoselect">>
 				<<option "she/her/hers" "female">>
@@ -19,20 +20,19 @@ This demo contains 19 enemies, 57 attacks (34 accessible to the player), 19 buff
 				<<option "they/them/theirs" "misc">>
 			<</cycle>>
 		</label>
-		 */
-		/* 
 		<br>
 		<br>
 		<h4>Your body has:</h4>
 		<br><label><<checkbox "$pc.penis" false true autocheck>> A penis.</label>
 		<br><label><<checkbox "$pc.breasts" false true checked>> Breasts.</label>
 		<br><label><<checkbox "$pc.vagina" false true checked>> A vagina.</label> 
-		*/
-		<<set $pc.penis to false>>
-		<<set $pc.breasts to true>>
-		<<set $pc.vagina to true>>
-        </griddescript>
+		
+        </griddescript> 
 	</griditem>
+	*/
+	<<set $pc.penis to false>>
+	<<set $pc.breasts to true>>
+	<<set $pc.vagina to true>>
 	
 	<<include "Party_Preset_Select">>
 </gridcontainer>
@@ -183,12 +183,157 @@ They're roughly ordered from least difficult to most difficult.
 
 
 :: Party_Preset_Select [.helper nostats] {"position":"275,350"}
+<<script>>
+	let sv = State.variables;
+	let st = State.temporary;
+	let Eq = setup.COM.Equippable;
+	let eq = setup.COM.equippables;
+	let af = setup.COM.affixes;
+
+	/* TODO: Make presets. */
+	st.presets = {
+		trickster: new setup.COM.Player({
+			name: "Trickster", 
+			equippables: {
+				weapon: new Eq(eq.swordandshield),
+				armor: new Eq(eq.leatherarmor),
+				accessory: new Eq(eq.trickstersamulet),
+			}
+		}),
+		critmonster: new setup.COM.Player({
+			name: "Crit Tank", 
+			equippables: {
+				weapon: new Eq(eq.executioneraxe),
+				armor: new Eq(eq.knightarmor),
+				accessory: new Eq(eq.sharktoothamulet),
+			}
+		}),
+		cackler: new setup.COM.Player({
+			name: "Abyssal Cackler", 
+			equippables: {
+				weapon: new Eq(eq.abyssalspear),
+				armor: new Eq(eq.priestvestiges),
+				accessory: new Eq(eq.elementalistsamulet),
+			}
+		}),
+		elementalranger: new setup.COM.Player({
+			name: "Elemental Ranger", 
+			equippables: {
+				weapon: new Eq(eq.arcanebow),
+				armor: new Eq(eq.leatherarmor),
+				accessory: new Eq(eq.elementalistsamulet),
+			}
+		}),
+		spearuser: new setup.COM.Player({
+			name: "Spear User", 
+			equippables: {
+				weapon: new Eq(eq.nimblespear),
+				armor: new Eq(eq.leatherarmor),
+				accessory: new Eq(eq.elementalistsamulet),
+			}
+		}),
+	};
+
+	st.presets.trickster.equippables.weapon.mods = [af.WEAPON_DECREASED_INIT_RECOVERY, af.WEAPON_DECREASED_INIT_RECOVERY, af.WEAPON_DECREASED_INIT_RECOVERY];
+	st.presets.trickster.equippables.armor.mods = [af.ARMOR_DECREASED_INIT_RECOVERY, af.ARMOR_DECREASED_INIT_RECOVERY];
+	st.presets.trickster.equippables.accessory.mods = [af.ACCESSORY_DECREASED_INIT_RECOVERY, af.ACCESSORY_DECREASED_INIT_RECOVERY];
+
+	st.presets.critmonster.equippables.weapon.mods = [af.WEAPON_INCREASED_CRIT_CHANCE, af.WEAPON_INCREASED_CRIT_DAMAGE];
+	st.presets.critmonster.equippables.armor.mods = [
+		af.ARMOR_INCREASED_ELEMENTAL_RESISTANCE, 
+		af.ARMOR_INCREASED_MATERIAL_RESISTANCE_PLATE, 
+		af.ARMOR_MINUS_MATERIAL_DAMAGE, 
+		af.ARMOR_ADDED_HEALTH_MAX];
+	st.presets.critmonster.equippables.accessory.mods = [af.ACCESSORY_INCREASED_CRIT_DAMAGE, af.ACCESSORY_INCREASED_CRIT_DAMAGE];
+
+	st.presets.cackler.equippables.weapon.mods = [af.WEAPON_INCREASED_LIGHTNING_DAMAGE, af.WEAPON_INCREASED_AETHER_DAMAGE];
+	st.presets.cackler.equippables.armor.mods = [af.ARMOR_INCREASED_ELEMENTAL_RESISTANCE, af.ARMOR_INCREASED_ELEMENTAL_RESISTANCE, af.ARMOR_INCREASED_OCCULT_RESISTANCE];
+	st.presets.cackler.equippables.accessory.mods = [af.ACCESSORY_MINUS_INIT_START, af.ACCESSORY_MINUS_INIT_START];
+
+	st.presets.elementalranger.equippables.weapon.mods = [af.WEAPON_INCREASED_FIRE_DAMAGE, af.WEAPON_INCREASED_FROST_DAMAGE, af.WEAPON_INCREASED_LIGHTNING_DAMAGE, af.WEAPON_INCREASED_CRIT_CHANCE];
+	st.presets.elementalranger.equippables.armor.mods = [af.ARMOR_INCREASED_ELEMENTAL_RESISTANCE, af.ARMOR_INCREASED_ACTION_SPEED];
+	st.presets.elementalranger.equippables.accessory.mods = [af.ACCESSORY_INCREASED_CRIT_DAMAGE, af.ACCESSORY_INCREASED_CRIT_DAMAGE];
+
+	st.presets.spearuser.equippables.weapon.mods = [af.WEAPON_INCREASED_DEFLECT_CHANCE, af.WEAPON_INCREASED_PIERCE_DAMAGE, af.WEAPON_INCREASED_PIERCE_DAMAGE];
+	st.presets.spearuser.equippables.armor.mods = [af.ARMOR_MINUS_INIT_START, af.ARMOR_DECREASED_INIT_RECOVERY];
+	st.presets.spearuser.equippables.accessory.mods = [af.ARMOR_INCREASED_DEFLECT_CHANCE, af.ARMOR_INCREASED_DEFLECT_CHANCE, af.ARMOR_INCREASED_DEFLECT_CHANCE];
+<</script>>
+
+<<done>>
+<<script>>
+	let sv = State.variables;
+	let st = State.temporary;
+
+	function localUpdateInfoScreen() {
+		sv.info.current = null;
+		$('#infoScreenMiddleMenuButtons').empty();
+		$('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText());
+	}
+
+	setup.fns.waitForElm('#lbpc select').then(() => {
+		$('#lbpc select').on('change', function (event) {
+			event.stopImmediatePropagation();
+
+			sv.pc = setup.fns.cloneDeep(st.presets[sv.pcObj]);
+
+			localUpdateInfoScreen();
+		});
+	});
+
+	setup.fns.waitForElm('#lbpp select').then(() => {
+		$('#lbpp select').on('change', function (event) {
+			event.stopImmediatePropagation();
+
+			if (sv.ppObj.toLowerCase() === "none") {
+				sv.pp = undefined;
+			} else {
+				sv.pp = setup.fns.cloneDeep(st.presets[sv.ppObj]);
+			}
+
+			localUpdateInfoScreen();
+		});
+	});
+
+	setup.fns.waitForElm('#lbtp1 select').then(() => {
+		$('#lbtp1 select').on('change', function (event) {
+			event.stopImmediatePropagation();
+
+			if (sv.tp1Obj.toLowerCase() === "none") {
+				sv.tp1 = undefined;
+			} else {
+				sv.tp1 = setup.fns.cloneDeep(st.presets[sv.tp1Obj]);
+			}
+
+			localUpdateInfoScreen();
+		});
+	});
+
+	setup.fns.waitForElm('#lbtp2 select').then(() => {
+		$('#lbtp2 select').on('change', function (event) {
+			event.stopImmediatePropagation();
+
+			if (sv.tp2Obj.toLowerCase() === "none") {
+				sv.tp2 = undefined;
+			} else {
+				sv.tp2 = setup.fns.cloneDeep(st.presets[sv.tp2Obj]);
+			}
+
+			localUpdateInfoScreen();
+		});
+	});
+<</script>>
+<</done>>
+
 <griditem>
 	<gridtitle>Main Character</gridtitle>
 	<griddescript>
 		<span id="lbpc">
-		<<listbox "_pcObj" autoselect>>
-			<<option "Bruiser">>
+		<<listbox "$pcObj" autoselect>>
+			<<option "Trickster" "trickster">>
+			<<option "Crit Tank" "critmonster">>
+			<<option "Cackler" "cackler">>
+			<<option "Elemental Ranger" "elementalranger">>
+			<<option "Spear User" "spearuser">>
 		<</listbox>>
 		</span>
 	</griddescript>
@@ -198,9 +343,13 @@ They're roughly ordered from least difficult to most difficult.
 	<gridtitle>Permanent Partner</gridtitle>
 	<griddescript>
 		<span id="lbpp">
-		<<listbox "_ppObj" autoselect>>
-			<<option "None">>
-			<<option "Bruiser">>
+		<<listbox "$ppObj">>
+			<<option "None" autoselect>>
+			<<option "Trickster" "trickster">>
+			<<option "Crit Tank" "critmonster">>
+			<<option "Cackler" "cackler">>
+			<<option "Elemental Ranger" "elementalranger">>
+			<<option "Spear User" "spearuser">>
 		<</listbox>>
 		</span>
 	</griddescript>
@@ -210,9 +359,13 @@ They're roughly ordered from least difficult to most difficult.
 	<gridtitle>Temp Partner 1</gridtitle>
 	<griddescript>
 		<span id="lbtp1">
-		<<listbox "_tp1Obj" autoselect>>
+		<<listbox "$tp1Obj" autoselect>>
 			<<option "None">>
-			<<option "Bruiser">>
+			<<option "Trickster" "trickster">>
+			<<option "Crit Tank" "critmonster">>
+			<<option "Cackler" "cackler">>
+			<<option "Elemental Ranger" "elementalranger">>
+			<<option "Spear User" "spearuser">>
 		<</listbox>>
 		</span>
 	</griddescript>
@@ -222,72 +375,16 @@ They're roughly ordered from least difficult to most difficult.
 	<gridtitle>Temp Partner 2</gridtitle>
 	<griddescript>
 		<span id="lbtp2">
-		<<listbox "_tp2Obj" autoselect>>
+		<<listbox "$tp2Obj" autoselect>>
 			<<option "None">>
-			<<option "Bruiser">>
+			<<option "Trickster" "trickster">>
+			<<option "Crit Tank" "critmonster">>
+			<<option "Cackler" "cackler">>
+			<<option "Elemental Ranger" "elementalranger">>
+			<<option "Spear User" "spearuser">>
 		<</listbox>>
 		</span>
 	</griddescript>
 </griditem>
 
-<<done>>
-	<<script>>
-		let sv = State.variables;
-		let st = State.temporary;
 
-		function localUpdateInfoScreen() {
-			sv.info.current = null;
-			$('#infoScreenMiddleMenuButtons').empty();
-			$('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText());
-		}
-
-		/* TODO: Make presets. */
-		let presets = {
-			bruiser: new setup.COM.Player({name: "Bruiser", equippables: {weapon: sv.account.inventory.weapons[5]}}),
-		};
-
-		$('#lbpc select').on('change', function (event) {
-			event.stopImmediatePropagation();
-
-			sv.pc = setup.fns.cloneDeep(presets[st.pcObj.toLowerCase()]);
-
-			localUpdateInfoScreen();
-		});
-
-		$('#lbpp select').on('change', function (event) {
-			event.stopImmediatePropagation();
-
-			if (st.ppObj.toLowerCase() === "none") {
-				sv.pp = undefined;
-			} else {
-				sv.pp = setup.fns.cloneDeep(presets[st.ppObj.toLowerCase()]);
-			}
-
-			localUpdateInfoScreen();
-		});
-
-		$('#lbtp1 select').on('change', function (event) {
-			event.stopImmediatePropagation();
-
-			if (st.tp1Obj.toLowerCase() === "none") {
-				sv.tp1 = undefined;
-			} else {
-				sv.tp1 = setup.fns.cloneDeep(presets[st.tp1Obj.toLowerCase()]);
-			}
-
-			localUpdateInfoScreen();
-		});
-
-		$('#lbtp2 select').on('change', function (event) {
-			event.stopImmediatePropagation();
-
-			if (st.tp2Obj.toLowerCase() === "none") {
-				sv.tp2 = undefined;
-			} else {
-				sv.tp2 = setup.fns.cloneDeep(presets[st.tp2Obj.toLowerCase()]);
-			}
-
-			localUpdateInfoScreen();
-		});
-	<</script>>
-<</done>>
