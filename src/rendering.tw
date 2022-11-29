@@ -183,7 +183,7 @@ $(document).ready(function() {
     });
 });
 
-if (tags().includes(".combat")) {
+if (tags().includes(".combat") ) {
     /* Clear and Stow the InfoScreen */
     $('#infoScreenMiddleMenuButtons').empty();
     $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText());
@@ -191,15 +191,12 @@ if (tags().includes(".combat")) {
     $('#infoScreen').addClass('stowed');
 
     State.variables.GameState = "combat";
-    /*
+    /**
     $('body').css({
         "height": "100%",
         "overflow": "hidden",
     })
      */
-    $('#playerAttacks .playerAttack').on("mouseenter", function() {
-        light_tick.play();
-    });
 } else {
     if (State.variables.GameState === "combat") {
         /* Clear and Unstow the InfoScreen when coming from a combat to a new passage. */

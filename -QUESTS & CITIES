@@ -3,16 +3,26 @@
 →  = Currently Working On.
 
 -= Refactoring =-
+    ☐  Use a state system. Game should only be able to be saved in certain states.
+        ☐  Combat State
+            ☐  Unsaveable
+        ☐  City/Buildings State
+            ☐  Saveable ? [Buildings have specific screens that may be dynamic. They probably shouldn`t be savable.]
+        ☐  TalkBox State
+            ☐  Saveable
+        ☐  Map State
+            ☐  Saveable
+
     ☐  Passage Tags can decide CSS, a la 
-        ☐  #passages[data-tags~="Combat"]
-        ☐  #passages[data-tags~="Dungeon"]
-        ☐  #passages[data-tags~="Overworld"]
-        ☐  #passages[data-tags~="Town"]
+        ☐  #passages[data-tags~=".Combat"]
+        ☐  #passages[data-tags~=".Dungeon"]
+        ☐  #passages[data-tags~=".Overworld"]
+        ☐  #passages[data-tags~=".Town"]
 
     ☐  Passage Tags should be refactored:
         ☐  .tag => Common tags for CSS [classes] e.g. .overworld, .helper, .combat
         ☐  #tag => Unique tags for CSS [IDs] e.g. #CombatOverlord
-        ☐  _tag => Compiler tags e.g. _nostats [Requires Minor Compiler Update]
+        ☑  tag => Functional/Compiler tags e.g. nostats 
 
 
 -= Quests =-
@@ -22,6 +32,7 @@
             ☐  Party Icon Moveable on Map
             ☐  Dialog opens when party icon reaches encounter.
         ☐  Encounters on Map
+        ☐  Maps Rotatable with Aligned Icons (for Portrait/Landscape mode)
 
     ☐  VN Style TalkBox
     ("Dialog" is a term already used by SugarCube.)
@@ -47,11 +58,11 @@
             ☐  Sell Screen
         ☐  Buildings Make Items [These are separate buildings occupying the same slot]
             ☐  Jewelcrafter [Accesories]
-            ☐  Blacksmith [Plate / Certain Weapons]
+            ☐  Blacksmith [Plate / Material-Based Weapons]
             ☐  Leatherworker [Leather]
-            ☐  Church [Cloth / Certain Weapons]
-            ☐  Alchemist (?) [Materials (?)]
-            ☐  Cities
+            ☐  Tailor [Cloth]
+            ☐  Magical Weapons Place [Elemental-Based Weapons]
+            ☐  Shrine [Occult-Based Weapons]
         ☐  Bazaar [Auction House]
             ☐  Search Screen
             ☐  List Screen

@@ -1041,7 +1041,7 @@ input:checked ~ accordionContent {
 }
 
 #notifArea.enemyTurn {
-    background-color: hsl(0, 70%, 10%);;
+    background-color: hsl(0, 70%, 10%);
 }
 
 #MainCombatGrid #targetsZone {
@@ -1737,6 +1737,30 @@ griditem.row2 {
 
 #passagetitleheader:after {
     content: " ~";
+}
+
+/* 
+ * ##     ##    ###    ########  
+ * ###   ###   ## ##   ##     ## 
+ * #### ####  ##   ##  ##     ## 
+ * ## ### ## ##     ## ########  
+ * ##     ## ######### ##        
+ * ##     ## ##     ## ##        
+ * ##     ## ##     ## ##        
+ */
+
+html[data-tags~="#map"] {
+    overflow: hidden;
+}
+
+body[data-tags~="#map"] {
+    width: unset;
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+body[data-tags~="#map"] #infoScreen {
+    display: none;
 }
 
 /* 

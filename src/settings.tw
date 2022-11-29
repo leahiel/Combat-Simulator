@@ -113,7 +113,8 @@ sv.meta.psgsthatsentdb = [];
 setup.promises = {}
 setup.promises.importInit = importScripts(
     "src/assets/js/uuid.min.js",
-    "src/assets/js/jcanvas.min.js",
+    "src/assets/js/jcanvas.min.js", 
+    "https://cdn.jsdelivr.net/npm/fabric",
 ).then(
     () => {
         /* setup.fns.importGameSSR(); */
@@ -130,7 +131,7 @@ setup.promises.importInit = importScripts(
    ###    ##     ## ##     ## #### ##     ## ########  ######## ########  ######  
 */
 
-sv.GameState = "other";
+sv.GameState = "initial";
 
 /* GAME FEATURES */
 sv.ft_knowledge = false;
