@@ -28,9 +28,9 @@
 -= Quests =-
 (For setting up quests, see Guild Hall -> Quest Screen)
     ☐  Random Map
-        ☐  Grid-Based Movement System with Click/Tap to Move.
-            ☐  Party Icon Moveable on Map
-            ☐  Dialog opens when party icon reaches encounter.
+        ☑  Grid-Based Movement System with Click/Tap to Move.
+            ☑  Party Icon Moveable on Map
+            ☑  Dialog opens when party icon reaches encounter.
         ☐  Encounters on Map
         ☐  Maps Rotatable with Aligned Icons (for Portrait/Landscape mode)
 
