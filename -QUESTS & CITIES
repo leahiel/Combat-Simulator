@@ -1,0 +1,61 @@
+☐  = Planned for Implementation
+☑  = Currently Implemented
+→  = Currently Working On.
+
+-= Refactoring =-
+    ☐  Passage Tags can decide CSS, a la 
+        ☐  #passages[data-tags~="Combat"]
+        ☐  #passages[data-tags~="Dungeon"]
+        ☐  #passages[data-tags~="Overworld"]
+        ☐  #passages[data-tags~="Town"]
+
+    ☐  Passage Tags should be refactored:
+        ☐  .tag => Common tags for CSS [classes] e.g. .overworld, .helper, .combat
+        ☐  #tag => Unique tags for CSS [IDs] e.g. #CombatOverlord
+        ☐  _tag => Compiler tags e.g. _nostats [Requires Minor Compiler Update]
+
+
+-= Quests =-
+(For setting up quests, see Guild Hall -> Quest Screen)
+    ☐  Random Map
+        ☐  Grid-Based Movement System with Click/Tap to Move.
+            ☐  Party Icon Moveable on Map
+            ☐  Dialog opens when party icon reaches encounter.
+        ☐  Encounters on Map
+
+    ☐  VN Style TalkBox
+    ("Dialog" is a term already used by SugarCube.)
+        ☐  TalkBox words.
+        ☐  TalkBox portrait?
+        ☐  TalkBox Zone.
+        ... just plan it out and then write what is needed.
+
+
+-= Cities =-
+    ☐  Buildings [A city may not have every building listed.]
+        ☐  Guild Hall [Where you get the quests and switch pawns]
+            ☐  Quest Screen
+                ☐  Randomized Quests based on Guild Rank.
+            ☐  Pawn Screen
+        ☐  Inn [Change Equipment, Magic, and Miracles]
+            ☐  Inn Screen
+                ☐  Equipment Screen
+                ☐  Magic/Miracles Screen
+                ☐  Passive Skills Screen
+        ☐  Item Shop [Buy and Sell Items]
+            ☐  Buy Screen
+            ☐  Sell Screen
+        ☐  Buildings Make Items [These are separate buildings occupying the same slot]
+            ☐  Jewelcrafter [Accesories]
+            ☐  Blacksmith [Plate / Certain Weapons]
+            ☐  Leatherworker [Leather]
+            ☐  Church [Cloth / Certain Weapons]
+            ☐  Alchemist (?) [Materials (?)]
+            ☐  Cities
+        ☐  Bazaar [Auction House]
+            ☐  Search Screen
+            ☐  List Screen
+                ☐  Currently Listed Screen (?)
+            ☐  Receive Screen
+        ☐  Gather Info [Quest Related/Lore]
+        ☐  Tavern [Quest Related/Game Tips]

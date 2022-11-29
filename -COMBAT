@@ -1,0 +1,109 @@
+☐  = Planned for Implementation
+☑  = Currently Implemented
+→  = Currently Working On.
+
+TODO for 0.2-InDev release: [Based on Focus Group]
+    ☐  Canvas
+        ☐  HP number should be shown.
+        ☐  "Init" should be next to init number.
+        ☐  Hovering over the init indicator should do something?
+        ☐  When dead, enemies should be red.
+    ☐  Main Screen
+        ☐  Add a thingy that says "Hover over Attacks to See their Information"
+        ☐  Add a thingy that says "Click to specific equipment."
+
+
+    -= Combat =-
+    ☐  Equipment should governed be like this: State.variables.account[[weapon, numowned], [weapon, numowned]]. Max owned should be 2. [Req to enter Alpha]
+    ☐  A More/Increased stat for Material/Elemental/Occult. [Req to enter Alpha] [REVIEW: Is this really needed?]
+    ☐  More/Increased Health [Req to enter Alpha]
+    ☑  Buffs [Req to enter Alpha]
+        ☑  On Apply
+        ☑  On Reapply
+        ☑  Per Init
+        ☐  When Targeted
+            ☐  Counter-Attacks [After Taking Damage]
+        ☐  When Take Damage
+        ☐  On Attack
+        ☐  On Spell
+        ☐  On Miracle
+        ☐  On Ally Attack
+        ☐  When Ally Hit
+        ☐  When hovering over buff/canvas, it should show buffs info.
+    ☐  Triggers [Req to enter  Alpha]
+        I need a system whereby when an event buffs, buffs can be applied. For instance, if I have a chance to bleed modifier on an axe, then bleeding should be able to be applied on every attack.
+        REVIEW: But do I really need one? Can`t I just `if (buff.onAttack)...`?
+        ANSWER: No, because buffs are only checked when they`re applied. If they`re not applied, they dont get checked. The trigger system would apply a buff or debuff to either the target or victim.
+    ☐  Animations [Tech Req to enter Alpha]
+        ☐  Attack
+        ☐  Defense
+            ☐  Hit
+            ☐  Deflected
+            ☐  Blocked
+    ☐  Primitive Combat Flash Messages [Req to enter Alpha]
+        ☐  Words for Spells
+        ☐  Buffs
+        ☐  Healing
+    ☐  Spells [Req to enter Beta]
+        ☐  Winds System. [The more people that use the spell, the less powerful it gets.]
+        ☐  Spell Casting Time
+        ☐  Spell Syncing [Party members with the same spell can cast it together, which makes a more powerful spell by increasing winds.]
+        ☐  Spells always have 0 WDM.
+    ☐  Miracles [Req for Release]
+    ☐  Divine Shield [Req to enter Beta]
+    ☐  Battle Log [Req to enter Alpha]
+    ☐  Canvas Stuff [Req to enter Alpha]
+        ☐  Find better modern canvas library that is still simple.
+        ☐  Embedded Location and Name
+    ☐  Ability to add more monsters in [Req to enter Alpha]
+    ☐  AI [Tech Req to enter Alpha]
+        ☐  Implementation [Req to enter Alpha]
+        ☑  Random Attacks Random Targets
+        ☐  Generalized - Simple [Req to enter Alpha] [Chooses attacks based on self. e.g. Won`t buff if already buffed with buff.]
+        ☐  Generalized - Normal [Req to enter Alpha] [Chooses attacks based on self and team. e.g. Won`t buff if team already buffed.]
+        ☐  Generalized - Advanced [Req to enter Alpha] [Chooses attacks and targets based on self and enemy team.]
+        ☐  Generalized - Brutal [Req to enter Alpha] [Same as above, but also picks an attack and targets an enemy that would die from that attack, if possible.]
+        ☐  Custom.
+    ☐  Battle Log [Req to enter Alpha]
+        
+
+    -= Combat Initialization =-
+    ☐  Setting [Tech Req to enter Alpha]
+        ☐  Background Images
+        ☐  Music
+    ☐  Reward/Defeat Screen  [Req to enter Alpha]
+        ☑  Primitive
+        ☐  Drops
+            ☐  Predetermined
+            ☐  From Weighted Array
+            ☐  From Enemy Drop Table
+    ☐  Monster Rarity and Affix System [Req for Beta]
+    ☐  Enemies use a "prefer backline/frontline" bool [Req to enter Alpha]
+    ☐  Combat Types [Req to enter Beta]
+        ☐  Survival
+        ☐  Extermination [Waves]
+
+    -= Information Screen =-
+    ☐  Equipment InformationPlate [Req to enter Alpha]
+        ☐  Information Present
+        ☐  CSS
+
+
+-= Balancing =-
+    Monsters` innate stats have to make up for their lack of equipment.
+    Mods are what makes humans stronger than monsters, not equipment.
+    That means that all equipment should be relatively equal in strength, if in different ways.
+    Attacks should be focused more on WDM and increasing/more, and not flat damage.
+    Spells should be focused on flat damage.
+
+
+-= Implicit Weapon Balancing =-
+    Two Handed Weapons hit Area and Single, less defense.
+    X and Shield hit Single, more block.
+    Unarmed/Dual Weild attacks faster and has deflect.
+    Pierce type weapons crit more.
+    Blunt type weapons stun and direct more.
+    Elemental and Occult damage types have less implicit attacks, but pierce through more damage.
+        Lightning has higher damage ranges, crits for more, and has a less direct modifier.
+    Staves/Occult Tools are useful for their builds due to basic affixes and special mods.
+        While they have attacks, attacks are not the central focus of them.

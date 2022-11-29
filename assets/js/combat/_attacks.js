@@ -917,7 +917,7 @@ const attacks = {
     }),
 
     checkquiver: new Attack({
-        name: "Check Quver",
+        name: "Check Quiver",
         family: ["bowWeaponAttacks"],
         initRecovery: 20,
         wdm: 0,

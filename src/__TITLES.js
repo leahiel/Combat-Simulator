@@ -1,5 +1,5 @@
 // LINK: assets\js\_setup.js#TITLES
-let version = "0.1.0 InDev";
+let version = "0.1.1 InDev";
 
 // Chapter Title Names
 let TITLES = {
