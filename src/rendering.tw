@@ -207,7 +207,6 @@ if (tags().includes(".combat") ) {
         $('#infoScreen').removeClass('stowed');
     }
 
-    State.variables.GameState = "other";
     $('body').css({
         "height": "initial",
         "overflow": "initial",

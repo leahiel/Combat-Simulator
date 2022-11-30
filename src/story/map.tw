@@ -1,4 +1,4 @@
-:: MapTesting [#map]
+:: MapTesting [#map nostats]
 <<set $GameState = "map">>
 /** 
  *  TODO: If canvas already exists, don't make it again... 
@@ -8,10 +8,13 @@
 
 <<done>>
 <<script>>
+    let sv = State.variables;
+    let st = State.temporary;
+
     /* For zoom/resize detection */
     let px_ratio = window.devicePixelRatio || window.screen.availWidth / document.documentElement.clientWidth;
 
-    /* TODO add callback function to resize canvas. */
+    /* TODO add callback to resize canvas. */
     function isZooming() {
         var newPx_ratio = window.devicePixelRatio || window.screen.availWidth / document.documentElement.clientWidth;
         if (newPx_ratio !== px_ratio) {
@@ -67,7 +70,8 @@
     /* Put canvas element where it belongs. */
     /* REVIEW: Should I just do this in StoryInterface? */
     setup.fns.waitForElm('.canvas-container').then(() => {
-        $('.canvas-container').prependTo('html');
+        $('.canvas-container').prependTo('body');
+        $('.canvas-container').css('position', 'unset');
     });
 
     /* Stand in for the player. */
@@ -143,12 +147,10 @@
         lockMovementY: true,
         lockRotation: true,
         moveCursor: 'default',
-        hoverCursor: 'defaut',
+        hoverCursor: 'default',
         selectable: false,
         intersecting: function() {
-            Dialog.setup(`redrect1`);
-            Dialog.wiki('redrect1');
-            Dialog.open();
+            new setup.tb.TextBox(setup.tb.redrecttb1);
         },
     });
     canvas.add(redrect1);
@@ -166,12 +168,10 @@
         lockMovementY: true,
         lockRotation: true,
         moveCursor: 'default',
-        hoverCursor: 'defaut',
+        hoverCursor: 'default',
         selectable: false,
         intersecting: function() {
-            Dialog.setup(`redrect2`);
-            Dialog.wiki('redrect2');
-            Dialog.open();
+            new setup.tb.TextBox(setup.tb.redrecttb2);
         },
     });
     canvas.add(redrect2);
@@ -189,46 +189,73 @@
         lockMovementY: true,
         lockRotation: true,
         moveCursor: 'default',
-        hoverCursor: 'defaut',
+        hoverCursor: 'default',
         selectable: false,
         intersecting: function() {
-            Dialog.setup(`redrect3`);
-            Dialog.wiki('redrect3');
-            Dialog.open();
+            new setup.tb.TextBox(setup.tb.redrecttb3);
         },
     });
     canvas.add(redrect3);
     interactableGroup.add(redrect3);
 
+    const redrect4 = new fabric.Rect({
+        top: gF * 15,
+        left: gF * 21,
+        width: gF,
+        height: gF,
+        fill: 'red',
+        hasControls: false,
+        hasBorders: false,
+        lockMovementX: true,
+        lockMovementY: true,
+        lockRotation: true,
+        moveCursor: 'default',
+        hoverCursor: 'default',
+        selectable: false,
+        intersecting: function() {
+            new setup.tb.TextBox(setup.tb.redrecttb4);
+        },
+    });
+    canvas.add(redrect4);
+    interactableGroup.add(redrect4);
+
 
     /* Pathfinding for player. */
     canvas.on('mouse:down', function(options) {
-        fabric.runningAnimations.cancelByTarget(bluetri1);
-        fabric.runningAnimations.cancelAll();
+        if (sv.GameState === "map") {
+            fabric.runningAnimations.cancelByTarget(bluetri1);
+            fabric.runningAnimations.cancelAll();
 
-        let oldCoords = getGFCoords([bluetri1.aCoords.tl.x, bluetri1.aCoords.tl.y]);
-        let newCoords = getGFCoords([options.e.clientX, options.e.clientY]);
-        let horiDuration = Math.abs(newCoords[0] - oldCoords[0]) * 100;
-        let vertiDuration = Math.abs(newCoords[1] - oldCoords[1]) * 100;
+            let oldCoords = getGFCoords([bluetri1.aCoords.tl.x, bluetri1.aCoords.tl.y]);
+            let newCoords = getGFCoords([options.e.clientX, options.e.clientY]);
 
-        bluetri1.animate('left', newCoords[0] * gF, {
-            onChange: canvas.renderAll.bind(canvas),
-            duration: horiDuration,
-            easing: null,
-        });
-        bluetri1.animate('top', newCoords[1] * gF, {
-            onChange: canvas.renderAll.bind(canvas),
-            duration: vertiDuration,
-            easing: null,
-        });
+            /* Don't do anything if user clicks the GF box the player is in. */
+            if (oldCoords.toString() === newCoords.toString()) {
+                return;
+            }
 
-        /* Angle doesn't matter. In reality, I only want the onComplete handler to run when both left and top animations are finished. So I set the duration of this animate to be equal to the longer duration. This means it gets run when the longer duration is finished. */
-        bluetri1.animate('angle', 0, {
-            duration: horiDuration >= vertiDuration ? horiDuration : vertiDuration,
-            onComplete: function() {
-                isPlayerIntersecting (bluetri1);
-            },
-        });
+            let horiDuration = Math.abs(newCoords[0] - oldCoords[0]) * 80;
+            let vertiDuration = Math.abs(newCoords[1] - oldCoords[1]) * 80;
+
+            bluetri1.animate('left', newCoords[0] * gF, {
+                onChange: canvas.renderAll.bind(canvas),
+                duration: horiDuration,
+                easing: null,
+            });
+            bluetri1.animate('top', newCoords[1] * gF, {
+                onChange: canvas.renderAll.bind(canvas),
+                duration: vertiDuration,
+                easing: null,
+            });
+
+            /* Angle doesn't matter. In reality, I only want the onComplete handler to run when both left and top animations are finished. So I set the duration of this animate to be equal to the longer duration. This means it gets run when the longer duration is finished. */
+            bluetri1.animate('angle', 0, {
+                duration: horiDuration >= vertiDuration ? horiDuration : vertiDuration,
+                onComplete: function() {
+                    isPlayerIntersecting (bluetri1);
+                },
+            });
+        }
     });
 <</script>>
 <</done>>
@@ -257,3 +284,68 @@
         ☑ overflow: hidden
 
  */
+
+
+:: MapTestingTextBoxArr [.helper script]
+const redrecttb1 = {
+    lines: [{
+            line: "No portrait here!",
+        },
+        {
+            line: "String 2",
+        },
+    ],
+};
+
+const redrecttb2 = {
+    showPortrait: true,
+    lines: [{
+            line: "The portrait should be showing here.",
+        },
+        {
+            line: "String 2",
+        },
+    ],
+};
+
+const redrecttb3 = {
+    showSpeakerName: true,
+    showPortrait: true,
+    lines: [{
+            line: "An unknown speaker should be here.",
+        },
+        { 
+            portrait: "src/assets/img/png/turn_icon_pl.png",
+            speaker: "redrect3",
+            line: "The portrait and name should be showing here.",
+        },
+        {
+            line: "The same name should sitll be here",
+        },
+        {
+            portrait: "src/assets/img/png/turn_icon.png",
+            speaker: "new name",
+            line: "A new name should now appear.",
+        },
+    ],
+};
+
+const redrecttb4 = {
+    showBackground: true,
+    backgroundSrc: "src/assets/img/png/tavern1.png",
+    lines: [{
+            line: "background image testing.",
+        },
+    ],
+};
+
+(function (S) {
+    if (!S.tb) {
+        S.tb = {};
+    }
+
+    S.tb.redrecttb1 = redrecttb1;
+    S.tb.redrecttb2 = redrecttb2;
+    S.tb.redrecttb3 = redrecttb3;
+    S.tb.redrecttb4 = redrecttb4;
+})(setup);

@@ -1764,6 +1764,84 @@ body[data-tags~="#map"] #infoScreen {
 }
 
 /* 
+ * ######## ######## ##     ## ######## ########   #######  ##     ## 
+ *    ##    ##        ##   ##     ##    ##     ## ##     ##  ##   ##  
+ *    ##    ##         ## ##      ##    ##     ## ##     ##   ## ##   
+ *    ##    ######      ###       ##    ########  ##     ##    ###    
+ *    ##    ##         ## ##      ##    ##     ## ##     ##   ## ##   
+ *    ##    ##        ##   ##     ##    ##     ## ##     ##  ##   ##  
+ *    ##    ######## ##     ##    ##    ########   #######  ##     ## 
+ */
+
+#textbox-container {    
+    /* TODO: Transition opacity. */
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    background: hsla(0, 0%, 0%, 20%);
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+#textbox-container.showbackground {
+    background-size: contain;
+}
+
+#textbox-container #textbox {
+    display: grid;
+
+    grid-template-columns: min-content auto;
+    grid-template-rows: 1fr 10fr;
+
+    /* TODO: Make it slide upwards. */
+    z-index: 101;
+    width: 98vw;
+    height: 30vh;
+    background: hsla(0, 0%, 0%, 100%);
+    bottom: 0;
+    position: fixed;
+
+    left: 1vw;
+    
+}
+
+#textbox-container #textbox #textbox-portrait {
+    display: none;
+}
+
+#textbox-container.showportrait #textbox #textbox-portrait {
+    display: block;
+    grid-row: span 2;
+    background-size: contain;
+    margin: auto 0 auto 1em;
+    width: max(15vh, 15vw);
+    height: max(15vh, 15vw);
+    border: 1px solid goldenrod;
+}
+
+#textbox-container #textbox #textbox-speaker {
+    display: none;
+}
+
+#textbox-container.showspeakername #textbox #textbox-speaker {
+    display: inline;
+    height: min-content;
+    padding-left: 1em;
+
+    margin-top: 1em;
+
+    border-bottom: 2px solid rgb(88, 32, 218);
+}
+
+#textbox-container #textbox #textbox-text {
+    padding: 1em;
+    grid-column: 2;
+    grid-row: span 2;
+}
+
+
+/* 
  *  ######  ##     ##  ######  ########  #######  ##     ##    ######## ######## ####  ######  
  * ##    ## ##     ## ##    ##    ##    ##     ## ###   ###       ##       ##    #### ##    ## 
  * ##       ##     ## ##          ##    ##     ## #### ####       ##       ##     ##  ##       

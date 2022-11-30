@@ -1,4 +1,11 @@
 :: StoryInterface [.ui nostats] {"position":"0,150"}
+<div id="textbox-container" class="hidden">
+    <span id="textbox" class="hidden">
+        <span id="textbox-portrait"></span>
+        <span id="textbox-speaker"></span>
+        <span id="textbox-text"></span>
+    </span>
+</div>
 <div id="infoScreen" class="">
     <span id="infoScreenTitle">
         Info Screen Title
@@ -34,6 +41,7 @@
 </div>
 
 <div id="databaseInfoTab" data-passage="uiDatabaseInfo"></div>
+
 
 
 
