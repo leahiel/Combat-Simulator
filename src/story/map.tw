@@ -1,15 +1,11 @@
 :: MapTesting [#map nostats]
 <<set $GameState = "map">>
-/** 
- *  TODO: If canvas already exists, don't make it again... 
- *  And it should normally exist, but it won't if a save is being loaded. 
- */
-<canvas id="map"></canvas>
+<<run $('#map').removeClass('hidden');>>
+<<run $('.canvas-container').removeClass('hidden');>>
 
 <<done>>
 <<script>>
     let sv = State.variables;
-    let st = State.temporary;
 
     /* For zoom/resize detection */
     let px_ratio = window.devicePixelRatio || window.screen.availWidth / document.documentElement.clientWidth;
@@ -31,20 +27,25 @@
         isZooming();
     });
 
-    /** "Grid Fidelity" The distance, in px, between the lines in the grid. */
-    const gF = window.outerWidth * .02;
+    /** 
+     * "Grid Fidelity" 
+     * The distance, in px, between the lines in the grid.
+     * 
+     * 3.125% is 32 grid boxes along the greater length.  
+     */
+    const gF = window.outerWidth >= window.outerHeight ? (window.outerWidth * .03125) : (window.outerHeight * .03125);
 
     /** Returns the top + left intersection in number of fidelity units. */
     /* TODO: Refactor into obj with x and y fields to match native fabric.js objects. */
     function getGFCoords(pos, fidelity = gF) {
         return [
-            (pos[0] - (pos[0] % fidelity)) / fidelity, 
+            (pos[0] - (pos[0] % fidelity)) / fidelity,
             (pos[1] - (pos[1] % fidelity)) / fidelity
         ];
     }
 
     /** Determine if player is interacting with any interactables. */
-    function isPlayerIntersecting (player) {
+    function isPlayerIntersecting(player) {
         interactableGroup.forEachObject((obj) => {
             if (getGFCoords([bluetri1.aCoords.tl.x, bluetri1.aCoords.tl.y]).toString() === getGFCoords([obj.aCoords.tl.x, obj.aCoords.tl.y]).toString()) {
                 obj.intersecting();
@@ -70,71 +71,87 @@
     /* Put canvas element where it belongs. */
     /* REVIEW: Should I just do this in StoryInterface? */
     setup.fns.waitForElm('.canvas-container').then(() => {
-        $('.canvas-container').prependTo('body');
         $('.canvas-container').css('position', 'unset');
     });
 
-    /* Stand in for the player. */
-    const bluetri1 = new fabric.Triangle({
-        top: 0,
-        left: 0,
-        width: gF,
-        height: gF,
-        fill: 'blue',
-        hasControls: false,
-        hasBorders: false,
-        lockMovementX: true,
-        lockMovementY: true,
-        lockRotation: true,
-        moveCursor: 'default',
-        hoverCursor: 'defaut',
-        selectable: false,
-    });
-    canvas.add(bluetri1);
+    /** DEBUG FEATURE: Grid lines. */
+    if (true) {
+        /* Initialize Grid Group */
+        let gridGroup = new fabric.Group();
 
-    /* Initialize Grid Group */
-    let gridGroup = new fabric.Group();
+        /* Draw Vertical Lines */
+        for (let i = 0; i <= (window.outerWidth / gF); i++) {
+            let temp = new fabric.Line([(gF * i), 0, (gF * i), window.outerHeight, ], {
+                stroke: 'rgb(80,80,80)',
+                hasControls: false,
+                hasBorders: false,
+                lockMovementX: true,
+                lockMovementY: true,
+                lockRotation: true,
+                moveCursor: 'default',
+                hoverCursor: 'defaut',
+                selectable: false,
+            });
 
-    /* Draw Vertical Lines */
-    for (let i = 0; i <= (window.outerWidth / gF); i++) {
-        let temp =  new fabric.Line([(gF * i), 0, (gF * i), window.outerHeight,], {
-            stroke: 'rgb(80,80,80)',
-            hasControls: false,
-            hasBorders: false,
-            lockMovementX: true,
-            lockMovementY: true,
-            lockRotation: true,
-            moveCursor: 'default',
-            hoverCursor: 'defaut',
-            selectable: false,
-        });
+            canvas.add(temp);
+            gridGroup.add(temp);
+        }
 
-        canvas.add(temp);
-        gridGroup.add(temp);
-    }
+        /* Draw Horizontal Lines */
+        for (let i = 0; i <= (window.outerHeight / gF); i++) {
+            let temp = new fabric.Line([0, (gF * i), window.outerWidth, (gF * i), ], {
+                stroke: 'rgb(80,80,80)',
+                hasControls: false,
+                hasBorders: false,
+                lockMovementX: true,
+                lockMovementY: true,
+                lockRotation: true,
+                moveCursor: 'default',
+                hoverCursor: 'defaut',
+                selectable: false,
+            });
 
-    /* Draw Horizontal Lines */
-    for (let i = 0; i <= (window.outerHeight / gF); i++) {
-        let temp =  new fabric.Line([0, (gF * i), window.outerWidth, (gF * i),], {
-            stroke: 'rgb(80,80,80)',
-            hasControls: false,
-            hasBorders: false,
-            lockMovementX: true,
-            lockMovementY: true,
-            lockRotation: true,
-            moveCursor: 'default',
-            hoverCursor: 'defaut',
-            selectable: false,
-        });
-
-        canvas.add(temp);
-        gridGroup.add(temp);
+            canvas.add(temp);
+            gridGroup.add(temp);
+        }
     }
 
     /* Initialize Interactable Group */
     let interactableGroup = new fabric.Group();
 
     /* Stand in for the interactables. */
+    const img1 = new fabric.Image.fromURL(
+        'src/assets/img/png/turn_icon_pl.png', 
+        function (img) {
+            console.log(img);
+            img.setOptions({
+                top: gF * 3,
+                left: gF * 3,
+                hasControls: false,
+                hasBorders: false,
+                lockMovementX: true,
+                lockMovementY: true,
+                lockRotation: true,
+                moveCursor: 'default',
+                hoverCursor: 'default',
+                selectable: false,
+                intersecting: function() {
+                    $('.canvas-container').addClass('hidden');
+                    Engine.play("Inbetween");
+                },
+            });
+
+            if (img.width >= img.height) {
+                img.scaleToWidth(gF);
+            } else {
+                img.scaleToHeight(gF);
+            }
+
+            canvas.add(img);
+            interactableGroup.add(img);
+        }
+    );
+
     const redrect1 = new fabric.Rect({
         top: gF * 4,
         left: gF * 4,
@@ -219,6 +236,23 @@
     canvas.add(redrect4);
     interactableGroup.add(redrect4);
 
+    /* Stand in for the player. */
+    const bluetri1 = new fabric.Triangle({
+        top: 0,
+        left: 0,
+        width: gF,
+        height: gF,
+        fill: 'blue',
+        hasControls: false,
+        hasBorders: false,
+        lockMovementX: true,
+        lockMovementY: true,
+        lockRotation: true,
+        moveCursor: 'default',
+        hoverCursor: 'defaut',
+        selectable: false,
+    });
+    canvas.add(bluetri1);
 
     /* Pathfinding for player. */
     canvas.on('mouse:down', function(options) {
@@ -252,7 +286,7 @@
             bluetri1.animate('angle', 0, {
                 duration: horiDuration >= vertiDuration ? horiDuration : vertiDuration,
                 onComplete: function() {
-                    isPlayerIntersecting (bluetri1);
+                    isPlayerIntersecting(bluetri1);
                 },
             });
         }
@@ -270,20 +304,18 @@
             ☑ Then Moves character horizontally/vertically.
 
         If Box has encounter, save position and load encounter.
+            Create interactable class.
+            ☐ Combat
+                Go to already completed combat interface. Reward screen should return to map.
             ☐ City
                 Open city screen as a dialog-esque screen. Implement via widget to dynamically load city data from JSON. This should probably be HTML elements overlaid on the map.
-            ☐ Combat
-                Go to already completed combat interface. Reward screen should return to map. In order to prevent re-rendering of the map, pin it to $(html) and hide it during combat, and return it back to normal. The cost should be minimal enough even on phones, but rendering it is expected to take half a second, so benefit should be worthwhile.
-            ☐ Talkbox
-                Open up as-of-yet-planned talkbox. This should probably be HTML elements overlaid on the map.
-            ☐ Item Get:
-                Process retrieving a material. This should probably be HTML elements overlaid on the map.
-
+            ☑ TextBox
+            ☐ Item Get
     Fabric Canvas Implementation:
         ☑ Canvas 100vw/vh  [actually, window.outerWidth and window.outerHeight]
         ☑ overflow: hidden
-
  */
+
 
 
 :: MapTestingTextBoxArr [.helper script]
@@ -314,7 +346,7 @@ const redrecttb3 = {
     lines: [{
             line: "An unknown speaker should be here.",
         },
-        { 
+        {
             portrait: "src/assets/img/png/turn_icon_pl.png",
             speaker: "redrect3",
             line: "The portrait and name should be showing here.",
@@ -334,12 +366,11 @@ const redrecttb4 = {
     showBackground: true,
     backgroundSrc: "src/assets/img/png/tavern1.png",
     lines: [{
-            line: "background image testing.",
-        },
-    ],
+        line: "background image testing.",
+    }, ],
 };
 
-(function (S) {
+(function(S) {
     if (!S.tb) {
         S.tb = {};
     }
@@ -349,3 +380,4 @@ const redrecttb4 = {
     S.tb.redrecttb3 = redrecttb3;
     S.tb.redrecttb4 = redrecttb4;
 })(setup);
+

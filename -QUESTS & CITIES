@@ -8,7 +8,7 @@
             ☐  Unsaveable
         ☐  City/Buildings State
             ☐  Saveable ? [Buildings have specific screens that may be dynamic. They probably shouldn`t be savable.]
-        ☐  TalkBox State
+        ☐  TextBox State
             ☐  Saveable
         ☐  Map State
             ☐  Saveable
@@ -31,15 +31,8 @@
         ☑  Grid-Based Movement System with Click/Tap to Move.
             ☑  Party Icon Moveable on Map
             ☑  Dialog opens when party icon reaches encounter.
-        ☐  Encounters on Map
-        ☐  Maps Rotatable with Aligned Icons (for Portrait/Landscape mode)
-
-    ☐  VN Style TalkBox
-    ("Dialog" is a term already used by SugarCube.)
-        ☐  TalkBox words.
-        ☐  TalkBox portrait?
-        ☐  TalkBox Zone.
-        ... just plan it out and then write what is needed.
+        ☑  Encounters on Map
+        ☐  Maps Rotatable with Aligned Icons (for Portrait/Landscape mode) [Req for Mobile Release]
 
 
 -= Cities =-

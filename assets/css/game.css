@@ -1773,7 +1773,7 @@ body[data-tags~="#map"] #infoScreen {
  *    ##    ######## ##     ##    ##    ########   #######  ##     ## 
  */
 
-#textbox-container {    
+#textbox-container {
     /* TODO: Transition opacity. */
     z-index: 100;
     width: 100vw;
@@ -1803,7 +1803,6 @@ body[data-tags~="#map"] #infoScreen {
     position: fixed;
 
     left: 1vw;
-    
 }
 
 #textbox-container #textbox #textbox-portrait {
@@ -1839,7 +1838,6 @@ body[data-tags~="#map"] #infoScreen {
     grid-column: 2;
     grid-row: span 2;
 }
-
 
 /* 
  *  ######  ##     ##  ######  ########  #######  ##     ##    ######## ######## ####  ######  

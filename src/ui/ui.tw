@@ -1,4 +1,6 @@
 :: StoryInterface [.ui nostats] {"position":"0,150"}
+<canvas id="map" class="hidden"></canvas>
+
 <div id="textbox-container" class="hidden">
     <span id="textbox" class="hidden">
         <span id="textbox-portrait"></span>
@@ -6,6 +8,7 @@
         <span id="textbox-text"></span>
     </span>
 </div>
+
 <div id="infoScreen" class="">
     <span id="infoScreenTitle">
         Info Screen Title

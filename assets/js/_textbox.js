@@ -1,6 +1,3 @@
-// 1. create talkbox and set gamestate to "talkbox"
-// x. exit talkbox and set gamestate to what it previously was (city, map, combat, etc.)
-
 let DEFAULTTEXTBOX = {
     showBackground: false,
     backgroundSrc: "",
@@ -9,6 +6,8 @@ let DEFAULTTEXTBOX = {
     showSpeakerName: false,
     lines: [{ line: "Default TextBox Line 1." }],
 };
+
+/** REVIEW: Do I want to make a line class? lol */
 
 /**
  *
@@ -34,12 +33,19 @@ class TextBox {
         this.start();
     }
 
-    /** Update the TextBox. */
+    /** Add event listeners and initialize the TextBox's style. */
     start() {
         $("#textbox-container").click(() => {
             /* REVIEW: Stop Propagation? */
             this.next();
         });
+
+        /* Technically speaking, you can't show dimmer and background at the same time due to how the CSS is written. Should this happen, the background will show while the dimmer will be deactivated. */
+        if (this.showDimmer) {
+            $("#textbox-container").removeClass("hidden");
+        } else {
+            $("#textbox-container").addClass("hidden");
+        }
 
         if (this.showBackground) {
             $("#textbox-container").addClass("showbackground");
@@ -61,16 +67,12 @@ class TextBox {
             $("#textbox-container").removeClass("showportrait");
         }
 
-        if (this.showDimmer) {
-            $("#textbox-container").removeClass("hidden");
-        } else {
-            $("#textbox-container").addClass("hidden");
-        }
         $("#textbox").removeClass("hidden");
 
         this.display(0);
     }
 
+    /** Update the TextBox to show names, text, and portraits. */
     display(lineIdx) {
         if (this.showSpeakerName) {
             if (this.lines[lineIdx].speaker) {
@@ -116,7 +118,7 @@ class TextBox {
         }
     }
 
-    /** Close the TextBox. */
+    /** Uninitialize and close the TextBox. */
     close() {
         let sv = State.variables;
 
@@ -132,6 +134,8 @@ class TextBox {
         // We have to dereference everything that points to `this` instance in order for JS's garbage collector to collect it.
         $("#textbox-container").off("click");
     }
+
+    /** NYI: Saving and loading during a textbox is completely untested and honestly, probably unsupported. */
 
     /** Required for SC Saving and loading. */
     clone() {
