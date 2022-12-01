@@ -40,14 +40,14 @@
         ☐  Set background.
         ☐  Set player location.
         ☐  Set interactables.
-    ☐  Ability to clear canvas.
+        ☐  Has kill() method.
     ☐  Ability to swap between maps.
     ☐  Fix player movement and make it always a steady x and y translation speed.
 
 -= Cities =-
-    ☐  Buildings [A city may not have every building listed.]
+    ☑  Buildings [A city may not have every building listed.]
         ☐  Guild Hall [Where you get the quests and switch pawns]
-            ☐  Quest Screen
+            ☐  Quest Screen [Req for Alpha]
                 ☐  Randomized Quests based on Guild Rank.
             ☐  Pawn Screen
         ☐  Inn [Change Equipment, Magic, and Miracles]
@@ -55,20 +55,26 @@
                 ☐  Equipment Screen
                 ☐  Magic/Miracles Screen
                 ☐  Passive Skills Screen
-        ☐  Item Shop [Buy and Sell Items]
+        ☐  Item Shop [Req for Alpha]
             ☐  Buy Screen
             ☐  Sell Screen
-        ☐  Buildings Make Items [These are separate buildings occupying the same slot]
+        ☐  Buildings Make Items [Req for Alpha]
             ☐  Jewelcrafter [Accesories]
             ☐  Blacksmith [Plate / Material-Based Weapons]
             ☐  Leatherworker [Leather]
             ☐  Tailor [Cloth]
             ☐  Magical Weapons Place [Elemental-Based Weapons]
             ☐  Shrine [Occult-Based Weapons]
-        ☐  Bazaar [Auction House]
+        ☐  Bazaar [Auction House] [Req for Beta]
             ☐  Search Screen
             ☐  List Screen
                 ☐  Currently Listed Screen (?)
             ☐  Receive Screen
-        ☑  Gather Info [Quest Related/Lore]
-        ☑  Tavern [Quest Related/Game Tips]
+        ☑  Gather Info
+        ☑  Tavern
+
+
+-= Structure of Quest =-
+A Quest is a collection of Maps:
+    Maps should be procedurally generated with a collection of Interactables:
+        Interactables can be combat, talkboxes, or cities.

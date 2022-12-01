@@ -52,12 +52,16 @@ class CityMenu {
             solHTML += `<span id='cityInn' class='noBuilding'></span>`;
         }
 
+        /** NYI */
+        this.hasShop = false;
         if (this.hasShop) {
             solHTML += `<span id='cityShop' class='cityButton'>Shop</span>`;
         } else {
             solHTML += `<span id='cityShop' class='noBuilding'></span>`;
         }
 
+        /** NYI */
+        this.hasBazaar = false;
         if (this.hasBazaar) {
             solHTML += `<span id='cityBazaar' class='cityButton'>Bazaar</span>`
         } else {
@@ -78,6 +82,8 @@ class CityMenu {
             solHTML += `<span id='cityTavern' class='noBuilding'></span>`;
         }
 
+        /** NYI */
+        this.craftingType = "false";
         switch (this.craftingType.toLowerCase()) {
             case "jewelcrafter":
                 solHTML += `<span id='cityCrafting' class='cityButton cityJewelcrafter'>Visit Jeweler</span>`;
@@ -123,26 +129,36 @@ class CityMenu {
         /* REVIEW: Do I want to wait for the elements to load? */
 
         if (this.hasGuildHall) {
-            // TODO
+            $(`#cityGuildHall`).click(function () {
+                if (sv.GameState === "citymenu") {
+                    // TODO
+                    // never has dialog, just create new guildhall instance and gogo 
+                }
+            });
         }
 
         if (this.hasInn) {
-            // TODO
+            $(`#cityInnl`).click(function () {
+                if (sv.GameState === "citymenu") {
+                    // TODO
+                    // Always has dialog before opening up innmenu. Should be able to have unique dialog, but normally will use a shuffled dialog array.
+                }
+            });
         }
 
         if (this.hasShop) {
-            // TODO
+            // NYI: Need items and currency.
         }
 
         if (this.hasBazaar) {
-            // TODO
+            // NYI: Need items, currency, economy, and server.
         }
 
         if (this.hasGatherInfo) {
             $(`#cityGatherInfo`).click(function () {
                 if (sv.GameState === "citymenu") {
                     menu.timesVisitedGatheredInfo += 1;
-                    menu.gatherInfoHandler(menu.timesVisitedGatheredInfo);
+                    menu.gatherInfoHandler(menu);
                 }
             });
         }
@@ -151,13 +167,13 @@ class CityMenu {
             $(`#cityTavern`).click(function () {
                 if (sv.GameState === "citymenu") {
                     menu.timesVisitedTavern += 1;
-                    menu.tavernHandler(menu.timesVisitedTavern);
+                    menu.tavernHandler(menu);
                 }
             });
         }
 
         if (this.craftingType.toLowerCase() !== "none") {
-            // TODO
+            // NYI: Need items and currency.
         }
 
         $(`#exitCity.${this.shortenedName}`).click(function () {

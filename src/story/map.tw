@@ -133,7 +133,20 @@
         intersecting: function() {
             $('.canvas-container').addClass('hidden');
             sv.canvas = undefined;
-            Engine.play("Start");
+
+            State.variables.ci = new setup.COM.CombatInstance({
+			winPassage: "MapTesting",
+			losePassage: "MapTesting",
+                ep: [
+                    "EN_BABY_SPIDER",
+                    "EN_MOMMY_SPIDER",
+                    "EN_BABY_SPIDER",
+                    "EN_BABY_SPIDER",
+                    "EN_BABY_SPIDER",
+                ],
+            });
+
+            Engine.play("Combat_Overlord");
         },
     });
 
@@ -308,7 +321,7 @@ const tarverntb = {
 const citymenutesting = new setup.map.CityMenu({
     name: "Testing City c:",
     hasTavern: true,
-    tavernHandler: function(numOfVisits) {
+    tavernHandler: function(menu) {
         new setup.tb.TextBox(setup.tb.tarverntb);
     },
 });
