@@ -46,8 +46,8 @@
 
     /** Determine if player is interacting with any interactables. */
     function isPlayerIntersecting(player) {
-        interactableGroup.forEachObject((obj) => {
-            if (getGFCoords([bluetri1.aCoords.tl.x, bluetri1.aCoords.tl.y]).toString() === getGFCoords([obj.aCoords.tl.x, obj.aCoords.tl.y]).toString()) {
+        sv.canvas.interactableGroup.forEachObject((obj) => {
+            if (getGFCoords([player.aCoords.tl.x, player.aCoords.tl.y]).toString() === getGFCoords([obj.aCoords.tl.x, obj.aCoords.tl.y]).toString()) {
                 obj.intersecting();
             }
         });
@@ -55,21 +55,21 @@
 
     /** Setup fabric Canvas. */
     /* http://fabricjs.com/articles/ */
-    const canvas = new fabric.Canvas('map', {
+    sv.canvas = new fabric.Canvas('map', {
         width: window.outerWidth,
         height: window.outerHeight,
         backgroundColor: 'rbg(0,0,0)',
         selection: false,
     });
-    canvas.setDimensions({
+    sv.canvas.setDimensions({
         width: 1280,
         height: 720
     }, {
         cssOnly: true
     });
+    sv.canvas.gF = gF; /* So that we can use gF in the Interactable class. */
 
-    /* Put canvas element where it belongs. */
-    /* REVIEW: Should I just do this in StoryInterface? */
+    /* Update element css to what we need. */
     setup.fns.waitForElm('.canvas-container').then(() => {
         $('.canvas-container').css('position', 'unset');
     });
@@ -93,7 +93,7 @@
                 selectable: false,
             });
 
-            canvas.add(temp);
+            sv.canvas.add(temp);
             gridGroup.add(temp);
         }
 
@@ -111,156 +111,86 @@
                 selectable: false,
             });
 
-            canvas.add(temp);
+            sv.canvas.add(temp);
             gridGroup.add(temp);
         }
     }
 
+    
+
+    /**
+     * Interactables
+     * 
+     * It is a bit unintuitive, but Interactables are added to the 
+     * interactableGroup by default, so we don't need to assign these 
+     * as variables.
+     */
+
     /* Initialize Interactable Group */
-    let interactableGroup = new fabric.Group();
+    sv.canvas.interactableGroup = new fabric.Group();
+    
+    new setup.map.Interactable('src/assets/img/png/turn_icon_en.png', { 
+        top: gF * 3,
+        left: gF * 3,
+        intersecting: function() {
+            $('.canvas-container').addClass('hidden');
+            sv.canvas = undefined;
+            Engine.play("Start");
+        },
+    });
 
-    /* Stand in for the interactables. */
-    const img1 = new fabric.Image.fromURL(
-        'src/assets/img/png/turn_icon_pl.png', 
-        function (img) {
-            console.log(img);
-            img.setOptions({
-                top: gF * 3,
-                left: gF * 3,
-                hasControls: false,
-                hasBorders: false,
-                lockMovementX: true,
-                lockMovementY: true,
-                lockRotation: true,
-                moveCursor: 'default',
-                hoverCursor: 'default',
-                selectable: false,
-                intersecting: function() {
-                    $('.canvas-container').addClass('hidden');
-                    Engine.play("Inbetween");
-                },
-            });
-
-            if (img.width >= img.height) {
-                img.scaleToWidth(gF);
-            } else {
-                img.scaleToHeight(gF);
-            }
-
-            canvas.add(img);
-            interactableGroup.add(img);
-        }
-    );
-
-    const redrect1 = new fabric.Rect({
+    new setup.map.Interactable('src/assets/img/png/turn_icon.png', { 
         top: gF * 4,
         left: gF * 4,
-        width: gF,
-        height: gF,
-        fill: 'red',
-        hasControls: false,
-        hasBorders: false,
-        lockMovementX: true,
-        lockMovementY: true,
-        lockRotation: true,
-        moveCursor: 'default',
-        hoverCursor: 'default',
-        selectable: false,
         intersecting: function() {
             new setup.tb.TextBox(setup.tb.redrecttb1);
         },
     });
-    canvas.add(redrect1);
-    interactableGroup.add(redrect1);
 
-    const redrect2 = new fabric.Rect({
+    new setup.map.Interactable('src/assets/img/png/turn_icon.png', { 
         top: gF * 8,
         left: gF * 12,
-        width: gF,
-        height: gF,
-        fill: 'red',
-        hasControls: false,
-        hasBorders: false,
-        lockMovementX: true,
-        lockMovementY: true,
-        lockRotation: true,
-        moveCursor: 'default',
-        hoverCursor: 'default',
-        selectable: false,
         intersecting: function() {
             new setup.tb.TextBox(setup.tb.redrecttb2);
         },
     });
-    canvas.add(redrect2);
-    interactableGroup.add(redrect2);
 
-    const redrect3 = new fabric.Rect({
+    new setup.map.Interactable('src/assets/img/png/turn_icon.png', { 
         top: gF * 6,
         left: gF * 22,
-        width: gF,
-        height: gF,
-        fill: 'red',
-        hasControls: false,
-        hasBorders: false,
-        lockMovementX: true,
-        lockMovementY: true,
-        lockRotation: true,
-        moveCursor: 'default',
-        hoverCursor: 'default',
-        selectable: false,
         intersecting: function() {
             new setup.tb.TextBox(setup.tb.redrecttb3);
         },
     });
-    canvas.add(redrect3);
-    interactableGroup.add(redrect3);
 
-    const redrect4 = new fabric.Rect({
+    new setup.map.Interactable('src/assets/img/png/turn_icon.png', { 
         top: gF * 15,
         left: gF * 21,
-        width: gF,
-        height: gF,
-        fill: 'red',
-        hasControls: false,
-        hasBorders: false,
-        lockMovementX: true,
-        lockMovementY: true,
-        lockRotation: true,
-        moveCursor: 'default',
-        hoverCursor: 'default',
-        selectable: false,
         intersecting: function() {
             new setup.tb.TextBox(setup.tb.redrecttb4);
         },
     });
-    canvas.add(redrect4);
-    interactableGroup.add(redrect4);
 
-    /* Stand in for the player. */
-    const bluetri1 = new fabric.Triangle({
-        top: 0,
-        left: 0,
-        width: gF,
-        height: gF,
-        fill: 'blue',
-        hasControls: false,
-        hasBorders: false,
-        lockMovementX: true,
-        lockMovementY: true,
-        lockRotation: true,
-        moveCursor: 'default',
-        hoverCursor: 'defaut',
-        selectable: false,
+    /* Initialize Player Group */
+    sv.canvas.playerGroup = new fabric.Group();
+
+    /* Stand in for the player.*/
+    new setup.map.Interactable('src/assets/img/png/turn_icon_pl.png', { 
+        top: gF * 18,
+        left: gF * 6,
+        interactable: false,
+        player: true,
     });
-    canvas.add(bluetri1);
 
     /* Pathfinding for player. */
-    canvas.on('mouse:down', function(options) {
+    sv.canvas.on('mouse:down', function(options) {
         if (sv.GameState === "map") {
-            fabric.runningAnimations.cancelByTarget(bluetri1);
+            let player = sv.canvas.playerGroup.getObjects()[0];
+
+            fabric.runningAnimations.cancelByTarget(player);
             fabric.runningAnimations.cancelAll();
 
-            let oldCoords = getGFCoords([bluetri1.aCoords.tl.x, bluetri1.aCoords.tl.y]);
+            let oldCoords = getGFCoords([player.aCoords.tl.x, player.aCoords.tl.y]);
             let newCoords = getGFCoords([options.e.clientX, options.e.clientY]);
 
             /* Don't do anything if user clicks the GF box the player is in. */
@@ -271,22 +201,22 @@
             let horiDuration = Math.abs(newCoords[0] - oldCoords[0]) * 80;
             let vertiDuration = Math.abs(newCoords[1] - oldCoords[1]) * 80;
 
-            bluetri1.animate('left', newCoords[0] * gF, {
-                onChange: canvas.renderAll.bind(canvas),
+            player.animate('left', newCoords[0] * gF, {
+                onChange: sv.canvas.renderAll.bind(sv.canvas),
                 duration: horiDuration,
                 easing: null,
             });
-            bluetri1.animate('top', newCoords[1] * gF, {
-                onChange: canvas.renderAll.bind(canvas),
+            player.animate('top', newCoords[1] * gF, {
+                onChange: sv.canvas.renderAll.bind(sv.canvas),
                 duration: vertiDuration,
                 easing: null,
             });
 
             /* Angle doesn't matter. In reality, I only want the onComplete handler to run when both left and top animations are finished. So I set the duration of this animate to be equal to the longer duration. This means it gets run when the longer duration is finished. */
-            bluetri1.animate('angle', 0, {
+            player.animate('angle', 0, {
                 duration: horiDuration >= vertiDuration ? horiDuration : vertiDuration,
                 onComplete: function() {
-                    isPlayerIntersecting(bluetri1);
+                    isPlayerIntersecting(player);
                 },
             });
         }
@@ -298,11 +228,6 @@
 
 /**
     Box Based Coordinate System
-        If user clicks in Box:
-            ☑ Sets Pathfinding to center of box.
-            ☑ Then Moves character diagonally first at 1:1 x/y ratio.
-            ☑ Then Moves character horizontally/vertically.
-
         If Box has encounter, save position and load encounter.
             Create interactable class.
             ☐ Combat
@@ -311,9 +236,6 @@
                 Open city screen as a dialog-esque screen. Implement via widget to dynamically load city data from JSON. This should probably be HTML elements overlaid on the map.
             ☑ TextBox
             ☐ Item Get
-    Fabric Canvas Implementation:
-        ☑ Canvas 100vw/vh  [actually, window.outerWidth and window.outerHeight]
-        ☑ overflow: hidden
  */
 
 

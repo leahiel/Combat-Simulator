@@ -34,6 +34,15 @@
         ☑  Encounters on Map
         ☐  Maps Rotatable with Aligned Icons (for Portrait/Landscape mode) [Req for Mobile Release]
 
+-= Map =-
+    ☑  Primitive Setup
+    ☐  Map Class so we can make instances based on JSON data.
+        ☐  Set background.
+        ☐  Set player location.
+        ☐  Set interactables.
+    ☐  Ability to clear canvas.
+    ☐  Ability to swap between maps.
+    ☐  Fix player movement and make it always a steady x and y translation speed.
 
 -= Cities =-
     ☐  Buildings [A city may not have every building listed.]

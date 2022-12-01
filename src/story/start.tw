@@ -32,5 +32,7 @@ Words
 	<<set $pc.breasts to true>>
 	<<set $pc.vagina to true>>
 </gridcontainer>
-
-<<link [["Map Testing"|"MapTesting"]]>><</link>>
+<br>
+<<link [["Combat Testing"|Inbetween]]>><</link>>
+<br>
+<<link [["Map Testing"|MapTesting]]>><</link>>

@@ -83,7 +83,6 @@ class TextBox {
         }
 
         if (this.showPortrait) {
-            console.log($("#textbox #textbox-portrait").css('background-image'));
             if (this.lines[lineIdx].portrait) {
                 $("#textbox #textbox-portrait").css('background-image', `url(${this.lines[lineIdx].portrait})`);
             } else if ($("#textbox #textbox-portrait").css('background-image') === "none") {
@@ -93,7 +92,6 @@ class TextBox {
 
         if (this.lines[lineIdx].wasSeen === true) {
             /* We used the `previous()` method. */
-            console.log("REPEAT");
             $("#textbox #textbox-text").text(this.lines[lineIdx].line);
         } else {
             this.lines[lineIdx].wasSeen = true;
