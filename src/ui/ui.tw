@@ -1,4 +1,8 @@
 :: StoryInterface [.ui nostats] {"position":"0,150"}
+<div id="city-menu-container" class="hidden">
+    <span id="city-menu"></span>
+</div>
+
 <canvas id="map" class="hidden"></canvas>
 
 <div id="textbox-container" class="hidden">

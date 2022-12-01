@@ -35,7 +35,7 @@
         ☐  Maps Rotatable with Aligned Icons (for Portrait/Landscape mode) [Req for Mobile Release]
 
 -= Map =-
-    ☑  Primitive Setup
+    ☑  Primitive Set up
     ☐  Map Class so we can make instances based on JSON data.
         ☐  Set background.
         ☐  Set player location.
@@ -70,5 +70,5 @@
             ☐  List Screen
                 ☐  Currently Listed Screen (?)
             ☐  Receive Screen
-        ☐  Gather Info [Quest Related/Lore]
-        ☐  Tavern [Quest Related/Game Tips]
+        ☑  Gather Info [Quest Related/Lore]
+        ☑  Tavern [Quest Related/Game Tips]

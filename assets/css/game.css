@@ -1764,6 +1764,132 @@ body[data-tags~="#map"] #infoScreen {
 }
 
 /* 
+ *  ######  #### ######## ##    ##    ##     ## ######## ##    ## ##     ## 
+ * ##    ##  ##     ##     ##  ##     ###   ### ##       ###   ## ##     ## 
+ * ##        ##     ##      ####      #### #### ##       ####  ## ##     ## 
+ * ##        ##     ##       ##       ## ### ## ######   ## ## ## ##     ## 
+ * ##        ##     ##       ##       ##     ## ##       ##  #### ##     ## 
+ * ##    ##  ##     ##       ##       ##     ## ##       ##   ### ##     ## 
+ *  ######  ####    ##       ##       ##     ## ######## ##    ##  #######  
+ */
+
+#city-menu-container {
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    background-color: hsla(0, 0%, 0%, 0.5);
+    width: 100vw;
+    height: 100vh;
+}
+
+#city-menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto 1fr 1fr 1fr;
+    padding: 2em;
+    grid-gap: 0.75em;
+    position: relative;
+    margin: auto;
+    height: 60vh;
+    width: 60vw;
+    top: 15vh;
+
+    background-image: url("src/assets/img/png/browncanvas.jpeg");
+    background-size: cover;
+}
+
+#city-menu #cityImage {
+    display: block;
+    width: 100%;
+    height: 100%;
+    grid-column: 1;
+    grid-row: span 4;
+    visibility: hidden;
+    border: 1px solid white;
+    background-color: darkblue;
+}
+
+#city-menu #cityName {
+    color: lightgray;
+    text-indent: 1em;
+    font-size: 2em;
+    font-family: backslash;
+    grid-row: 1;
+    grid-column: 2 / span 4;
+
+    user-select: none;
+}
+
+#city-menu #cityGuildHall {
+    grid-column: 2;
+    grid-row: span 3;
+}
+
+#city-menu #cityInn {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+#city-menu #cityShop {
+    grid-column: 3 / span 2;
+    grid-row: 3;
+}
+
+#city-menu #cityTavern {
+    grid-column: 3;
+    grid-row: 4;
+}
+
+#city-menu #cityBazaar {
+    grid-column: 5;
+    grid-row: 3;
+}
+
+#city-menu #cityGatherInfo {
+    grid-column: 4;
+    grid-row: 4;
+}
+
+#city-menu #cityCrafting {
+    grid-column: 4 / span 2;
+    grid-row: 2;
+}
+
+#city-menu #exitCity {
+    text-align: center;
+    height: 50%;
+    align-self: end;
+    grid-column: 5;
+    grid-row: 4;
+}
+
+#city-menu .noBuilding {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 1px solid white;
+    background-color: rgba(119, 107, 39, 0.5);
+
+    cursor: default;
+    user-select: none;
+}
+
+#city-menu .cityButton {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 1px solid white;
+    background-color: darkblue;
+    cursor: pointer;
+    user-select: none;
+}
+
+#city-menu .cityButton:hover {
+    background-color: blue;
+}
+
+/* 
  * ######## ######## ##     ## ######## ########   #######  ##     ## 
  *    ##    ##        ##   ##     ##    ##     ## ##     ##  ##   ##  
  *    ##    ##         ## ##      ##    ##     ## ##     ##   ## ##   
@@ -1775,7 +1901,7 @@ body[data-tags~="#map"] #infoScreen {
 
 #textbox-container {
     /* TODO: Transition opacity. */
-    z-index: 100;
+    z-index: 200;
     width: 100vw;
     height: 100vh;
     background: hsla(0, 0%, 0%, 20%);
@@ -1795,7 +1921,7 @@ body[data-tags~="#map"] #infoScreen {
     grid-template-rows: 1fr 10fr;
 
     /* TODO: Make it slide upwards. */
-    z-index: 101;
+    z-index: 201;
     width: 98vw;
     height: 30vh;
     background: hsla(0, 0%, 0%, 100%);

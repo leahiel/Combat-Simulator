@@ -4,7 +4,11 @@ let DEFAULTTEXTBOX = {
     showDimmer: true,
     showPortrait: false,
     showSpeakerName: false,
-    lines: [{ line: "Default TextBox Line 1." }],
+    lines: [{ 
+        portrait: "src/assets/img/png/turn_icon_pl.png",
+        speaker: "Speaker Name",
+        line: "Default TextBox Line 1.",
+     }],
 };
 
 /** REVIEW: Do I want to make a line class? lol */

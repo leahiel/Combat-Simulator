@@ -116,8 +116,6 @@
         }
     }
 
-    
-
     /**
      * Interactables
      * 
@@ -171,6 +169,14 @@
         },
     });
 
+    new setup.map.Interactable('src/assets/img/png/init_icon_pl.png', {
+        top: gF * 15,
+        left: gF * 15,
+        intersecting: function() {
+            setup.tb.citymenutesting.display();
+        },
+    });
+
     /* Initialize Player Group */
     sv.canvas.playerGroup = new fabric.Group();
 
@@ -198,8 +204,8 @@
                 return;
             }
 
-            let horiDuration = Math.abs(newCoords[0] - oldCoords[0]) * 80;
-            let vertiDuration = Math.abs(newCoords[1] - oldCoords[1]) * 80;
+            let horiDuration = Math.abs(newCoords[0] - oldCoords[0]) * 150;
+            let vertiDuration = Math.abs(newCoords[1] - oldCoords[1]) * 150;
 
             player.animate('left', newCoords[0] * gF, {
                 onChange: sv.canvas.renderAll.bind(sv.canvas),
@@ -224,8 +230,6 @@
 <</script>>
 <</done>>
 
-
-
 /**
     Box Based Coordinate System
         If Box has encounter, save position and load encounter.
@@ -241,6 +245,7 @@
 
 
 :: MapTestingTextBoxArr [.helper script]
+/* NOTE: I don't actually want this to run until the map calls for it, tbh. */
 const redrecttb1 = {
     lines: [{
             line: "No portrait here!",
@@ -292,6 +297,22 @@ const redrecttb4 = {
     }, ],
 };
 
+const tarverntb = {
+    showBackground: true,
+    backgroundSrc: "src/assets/img/png/tavern1.png",
+    lines: [{
+        line: "We've at the tavern!",
+    },],
+};
+
+const citymenutesting = new setup.map.CityMenu({
+    name: "Testing City c:",
+    hasTavern: true,
+    tavernHandler: function(numOfVisits) {
+        new setup.tb.TextBox(setup.tb.tarverntb);
+    },
+});
+
 (function(S) {
     if (!S.tb) {
         S.tb = {};
@@ -301,5 +322,7 @@ const redrecttb4 = {
     S.tb.redrecttb2 = redrecttb2;
     S.tb.redrecttb3 = redrecttb3;
     S.tb.redrecttb4 = redrecttb4;
+    S.tb.tarverntb = tarverntb;
+    S.tb.citymenutesting = citymenutesting;
 })(setup);
 
