@@ -318,8 +318,24 @@ const tarverntb = {
     },],
 };
 
+const gatherinfotb = {
+    showBackground: true,
+    backgroundSrc: "src/assets/img/png/tavern1.png",
+    lines: [{
+        line: "We're gathering info!",
+    },],
+};
+
 const citymenutesting = new setup.map.CityMenu({
     name: "Testing City c:",
+    hasGuildHall: true,
+
+
+
+    hasGatherInfo: true,
+    gatherInfoHandler: function(menu) {
+        new setup.tb.TextBox(setup.tb.gatherinfotb);
+    },
     hasTavern: true,
     tavernHandler: function(menu) {
         new setup.tb.TextBox(setup.tb.tarverntb);
@@ -335,6 +351,7 @@ const citymenutesting = new setup.map.CityMenu({
     S.tb.redrecttb2 = redrecttb2;
     S.tb.redrecttb3 = redrecttb3;
     S.tb.redrecttb4 = redrecttb4;
+    setup.tb.gatherinfotb = gatherinfotb;
     S.tb.tarverntb = tarverntb;
     S.tb.citymenutesting = citymenutesting;
 })(setup);

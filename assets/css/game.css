@@ -1791,9 +1791,9 @@ body[data-tags~="#map"] #infoScreen {
     grid-gap: 0.75em;
     position: relative;
     margin: auto;
-    height: 60vh;
-    width: 60vw;
-    top: 15vh;
+    height: 70vh;
+    width: 70vw;
+    top: 10vh;
 
     background-image: url("src/assets/img/png/browncanvas.jpeg");
     background-size: cover;
@@ -1864,6 +1864,11 @@ body[data-tags~="#map"] #infoScreen {
     grid-row: 4;
 }
 
+#city-menu #exitCity.swapMembers {
+    grid-column: 4;
+    grid-row: 4;
+}
+
 #city-menu .noBuilding {
     display: block;
     width: 100%;
@@ -1888,6 +1893,58 @@ body[data-tags~="#map"] #infoScreen {
 #city-menu .cityButton:hover {
     background-color: blue;
 }
+
+#city-menu #guildHallImage {
+    display: block;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    border: 1px solid white;
+    background-color: darkblue;
+
+    grid-row: 1 / span 3;
+    grid-column: 1 / span 4;
+}
+
+#city-menu #guildHallQuests {
+    grid-row: 4;
+    grid-column: 1 / span 4;
+}
+
+#city-menu #guildHallSwapMembers {
+    grid-row: span 3;
+    grid-column: 5;
+}
+
+#city-menu #tp1swap {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+}
+
+#city-menu #tp1swapcharplate {
+    grid-column: 2;
+    grid-row: 1 / span 4;
+}
+
+#city-menu #tp2swapcharplate {
+    overflow-y: scroll;
+    width: min-content;
+    grid-column: 3;
+    grid-row: 1 / span 4;
+}
+
+#city-menu #tp2swap {
+    overflow-y: scroll;
+    width: min-content;
+    grid-column: 4;
+    grid-row: 1 / span 3;
+}
+
+#city-menu #CombatantInformationPlate {
+    line-height: 1;
+    width: 18vw;
+}
+
 
 /* 
  * ######## ######## ##     ## ######## ########   #######  ##     ## 

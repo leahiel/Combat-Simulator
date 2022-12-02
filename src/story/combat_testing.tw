@@ -3,10 +3,6 @@ This passage exists so that you can change your party configuration and items in
 <br>
 I hope you're enjoying my simulator! 
 <br>
-<gridcontainer id="charSelect2">
-	<<include "Party_Preset_Select">>
-</gridcontainer>
-<br>
 Click a button to generate a Combat Instance.
 <br>
 They're roughly ordered from least difficult to most difficult.
@@ -153,6 +149,10 @@ They're roughly ordered from least difficult to most difficult.
 
 
 
+
+
+
+
 :: Party_Preset_Select [.helper nostats] {"position":"275,350"}
 <<script>>
 	let sv = State.variables;
@@ -229,72 +229,7 @@ They're roughly ordered from least difficult to most difficult.
 	st.presets.spearuser.equippables.armor.mods = [af.ARMOR_MINUS_INIT_START, af.ARMOR_DECREASED_INIT_RECOVERY];
 	st.presets.spearuser.equippables.accessory.mods = [af.ARMOR_INCREASED_DEFLECT_CHANCE, af.ARMOR_INCREASED_DEFLECT_CHANCE, af.ARMOR_INCREASED_DEFLECT_CHANCE];
 <</script>>
-
-<<done>>
-<<script>>
-	let sv = State.variables;
-	let st = State.temporary;
-
-	function localUpdateInfoScreen() {
-		sv.info.current = null;
-		$('#infoScreenMiddleMenuButtons').empty();
-		$('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText());
-	}
-
-	setup.fns.waitForElm('#lbpc select').then(() => {
-		$('#lbpc select').on('change', function (event) {
-			event.stopImmediatePropagation();
-
-			sv.pc = setup.fns.cloneDeep(st.presets[sv.pcObj]);
-
-			localUpdateInfoScreen();
-		});
-	});
-
-	setup.fns.waitForElm('#lbpp select').then(() => {
-		$('#lbpp select').on('change', function (event) {
-			event.stopImmediatePropagation();
-
-			if (sv.ppObj.toLowerCase() === "none") {
-				sv.pp = undefined;
-			} else {
-				sv.pp = setup.fns.cloneDeep(st.presets[sv.ppObj]);
-			}
-
-			localUpdateInfoScreen();
-		});
-	});
-
-	setup.fns.waitForElm('#lbtp1 select').then(() => {
-		$('#lbtp1 select').on('change', function (event) {
-			event.stopImmediatePropagation();
-
-			if (sv.tp1Obj.toLowerCase() === "none") {
-				sv.tp1 = undefined;
-			} else {
-				sv.tp1 = setup.fns.cloneDeep(st.presets[sv.tp1Obj]);
-			}
-
-			localUpdateInfoScreen();
-		});
-	});
-
-	setup.fns.waitForElm('#lbtp2 select').then(() => {
-		$('#lbtp2 select').on('change', function (event) {
-			event.stopImmediatePropagation();
-
-			if (sv.tp2Obj.toLowerCase() === "none") {
-				sv.tp2 = undefined;
-			} else {
-				sv.tp2 = setup.fns.cloneDeep(st.presets[sv.tp2Obj]);
-			}
-
-			localUpdateInfoScreen();
-		});
-	});
-<</script>>
-<</done>>
-
+<!--
 <griditem>
 	<gridtitle>Main Character</gridtitle>
 	<griddescript>
@@ -309,7 +244,8 @@ They're roughly ordered from least difficult to most difficult.
 		</span>
 	</griddescript>
 </griditem>
-
+-->
+<!--
 <griditem>
 	<gridtitle>Permanent Partner</gridtitle>
 	<griddescript>
@@ -325,8 +261,17 @@ They're roughly ordered from least difficult to most difficult.
 		</span>
 	</griddescript>
 </griditem>
+-->
 
-<griditem>
+<span id="tp1swapcharplate">
+	<<if ($tp1)>>
+		<<print new setup.COM.Combatant($tp1).getInfo()>>
+	<<else>>
+		<<print new setup.COM.Combatant(new setup.COM.Player()).getInfo()>>
+	<</if>>
+</span>
+
+<griditem id="tp1swap">
 	<gridtitle>Temp Partner 1</gridtitle>
 	<griddescript>
 		<span id="lbtp1">
@@ -342,7 +287,7 @@ They're roughly ordered from least difficult to most difficult.
 	</griddescript>
 </griditem>
 
-<griditem>
+<griditem id="tp2swap">
 	<gridtitle>Temp Partner 2</gridtitle>
 	<griddescript>
 		<span id="lbtp2">
@@ -357,3 +302,87 @@ They're roughly ordered from least difficult to most difficult.
 		</span>
 	</griddescript>
 </griditem>
+
+<span id="tp2swapcharplate">
+	<<if ($tp2)>>
+		<<print new setup.COM.Combatant($tp2).getInfo()>>
+	<<else>>
+		<<print new setup.COM.Combatant(new setup.COM.Player()).getInfo()>>
+	<</if>>
+</span>
+
+<<done>>
+<<script>>
+	let sv = State.variables;
+	let st = State.temporary;
+
+	function localUpdateInfoScreen() {
+		sv.info.current = null;
+		$('#infoScreenMiddleMenuButtons').empty();
+		$('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText());
+	}
+
+	/*
+	setup.fns.waitForElm('#lbpc select').then(() => {
+		$('#lbpc select').on('change', function (event) {
+			event.stopImmediatePropagation();
+
+			sv.pc = setup.fns.cloneDeep(st.presets[sv.pcObj]);
+
+			localUpdateInfoScreen();
+		});
+	});
+	*/
+
+	/*
+	setup.fns.waitForElm('#lbpp select').then(() => {
+		$('#lbpp select').on('change', function (event) {
+			event.stopImmediatePropagation();
+
+			if (sv.ppObj.toLowerCase() === "none") {
+				sv.pp = undefined;
+			} else {
+				sv.pp = setup.fns.cloneDeep(st.presets[sv.ppObj]);
+			}
+
+			localUpdateInfoScreen();
+		});
+	});
+	*/
+
+	setup.fns.waitForElm('#lbtp1 select').then(() => {
+		$('#lbtp1 select').on('change', function (event) {
+			event.stopImmediatePropagation();
+
+			if (sv.tp1Obj.toLowerCase() === "none") {
+				sv.tp1 = undefined;
+				$(`#tp1swapcharplate`).html("");
+				$(`#tp1swapcharplate`).wiki(new setup.COM.Combatant(new setup.COM.Player()).getInfo());
+			} else {
+				sv.tp1 = setup.fns.cloneDeep(st.presets[sv.tp1Obj]);
+				$(`#tp1swapcharplate`).html("");
+				$(`#tp1swapcharplate`).wiki(new setup.COM.Combatant(sv.tp1).getInfo());
+			}
+			/* localUpdateInfoScreen(); */
+		});
+	});
+
+	setup.fns.waitForElm('#lbtp2 select').then(() => {
+		$('#lbtp2 select').on('change', function (event) {
+			event.stopImmediatePropagation();
+
+			if (sv.tp2Obj.toLowerCase() === "none") {
+				sv.tp2 = undefined;
+				$(`#tp2swapcharplate`).html("");
+				$(`#tp2swapcharplate`).wiki(new setup.COM.Combatant(new setup.COM.Player()).getInfo());
+			} else {
+				sv.tp2 = setup.fns.cloneDeep(st.presets[sv.tp2Obj]);
+				$(`#tp2swapcharplate`).html("");
+				$(`#tp2swapcharplate`).wiki(new setup.COM.Combatant(sv.tp2).getInfo());
+			}
+
+			/* localUpdateInfoScreen(); */
+		});
+	});
+<</script>>
+<</done>>

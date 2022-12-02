@@ -29,7 +29,7 @@ class CityMenu {
             console.error("City lacks a name.");
         }
 
-        /** This HTML will become the children of `#city-menu-container` when it is time to show the menu. */
+        /** This HTML will become the children of `#city-menu` when it is time to show the menu. */
         let solHTML = "";
 
         /* Add the city img. */
@@ -131,8 +131,8 @@ class CityMenu {
         if (this.hasGuildHall) {
             $(`#cityGuildHall`).click(function () {
                 if (sv.GameState === "citymenu") {
-                    // TODO
-                    // never has dialog, just create new guildhall instance and gogo 
+                    let guildhall = new GuildHall(menu);
+                    guildhall.display();
                 }
             });
         }

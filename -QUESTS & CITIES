@@ -49,7 +49,7 @@
         ☐  Guild Hall [Where you get the quests and switch pawns]
             ☐  Quest Screen [Req for Alpha]
                 ☐  Randomized Quests based on Guild Rank.
-            ☐  Pawn Screen
+            ☑  Pawn Screen
         ☐  Inn [Change Equipment, Magic, and Miracles]
             ☐  Inn Screen
                 ☐  Equipment Screen
@@ -75,6 +75,8 @@
 
 
 -= Structure of Quest =-
-A Quest is a collection of Maps:
+A Quest is a collection of information that gives meaning to Maps, determining which interactables are visible at which time. 
+They should load all required data at the start of them. Expected quest time is 15 to 30 minutes.
+They also collect maps:
     Maps should be procedurally generated with a collection of Interactables:
-        Interactables can be combat, talkboxes, or cities.
+        Interactables can be combat, talkboxes, or cities. [Later, also places that give items.]
