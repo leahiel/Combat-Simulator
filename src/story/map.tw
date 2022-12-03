@@ -330,7 +330,10 @@ const citymenutesting = new setup.map.CityMenu({
     name: "Testing City c:",
     hasGuildHall: true,
 
+    hasInn: true,
+    innHandler: function(menu) {
 
+    },
 
     hasGatherInfo: true,
     gatherInfoHandler: function(menu) {

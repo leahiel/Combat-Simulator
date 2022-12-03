@@ -3,15 +3,7 @@
 →  = Currently Working On.
 
 -= Refactoring =-
-    ☐  Use a state system. Game should only be able to be saved in certain states.
-        ☐  Combat State
-            ☐  Unsaveable
-        ☐  City/Buildings State
-            ☐  Saveable ? [Buildings have specific screens that may be dynamic. They probably shouldn`t be savable.]
-        ☐  TextBox State
-            ☐  Saveable
-        ☐  Map State
-            ☐  Saveable
+    ☐  Refactor CONSTS to be SCREAMING_SNAKE_CASE
 
     ☐  Passage Tags can decide CSS, a la 
         ☐  #passages[data-tags~=".Combat"]
@@ -46,15 +38,15 @@
 
 -= Cities =-
     ☑  Buildings [A city may not have every building listed.]
-        ☐  Guild Hall [Where you get the quests and switch pawns]
+        ☑  Guild Hall [Where you get the quests and switch pawns]
             ☐  Quest Screen [Req for Alpha]
                 ☐  Randomized Quests based on Guild Rank.
             ☑  Pawn Screen
-        ☐  Inn [Change Equipment, Magic, and Miracles]
-            ☐  Inn Screen
-                ☐  Equipment Screen
-                ☐  Magic/Miracles Screen
-                ☐  Passive Skills Screen
+        ☑  Inn [Change Equipment, Magic, and Miracles]
+            ☑  Inn Screen
+                ☑  Equipment Screen
+                ☐  Magic/Miracles Screen [Req for Alpha]
+                ☐  Passive Skills Screen [Req for Beta]
         ☐  Item Shop [Req for Alpha]
             ☐  Buy Screen
             ☐  Sell Screen

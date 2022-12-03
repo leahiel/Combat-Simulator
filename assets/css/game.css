@@ -935,18 +935,6 @@ input:checked ~ accordionContent {
     display: none;
 }
 
-.itemPlate {
-    display: block;
-    width: 18vw;
-    /* height: 15vh; */
-
-    padding: 0.5rem 1rem;
-    border: 1px solid hsl(312deg 74% 16% / 0%);
-    border-radius: 8px;
-    box-shadow: var(--boxShadow);
-    background-color: var(--backgroundplus1);
-}
-
 /**
  *  ######   #######  ##     ## ########     ###    ######## 
  * ##    ## ##     ## ###   ### ##     ##   ## ##      ##    
@@ -1945,6 +1933,23 @@ body[data-tags~="#map"] #infoScreen {
     width: 18vw;
 }
 
+.itemPlate, /* remove class */
+#city-menu .itemPlate {
+    display: block;
+    width: 15vw;
+    /* height: 15vh; */
+
+    padding: 0.5rem 1rem;
+    border: 1px solid hsl(312deg 74% 16% / 0%);
+    border-radius: 8px;
+    box-shadow: var(--boxShadow);
+    background-color: var(--backgroundplus1);
+}
+
+#city-menu .itemPlateButtonHolder {
+    display: block;
+    margin-top: .5rem;
+}
 
 /* 
  * ######## ######## ##     ## ######## ########   #######  ##     ## 

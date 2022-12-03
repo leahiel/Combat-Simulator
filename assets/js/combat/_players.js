@@ -44,6 +44,8 @@ const DEFAULTPLAYER = {
         accessory: equippables.unequippedaccessory,
     },
 
+    temp: true,
+
     buffs: [],
 
     healthMax: 100,

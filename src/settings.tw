@@ -147,7 +147,7 @@ sv.ft_warning = [];
     "tp1" == Temporary Partner 1
     "tp2" == Temporary Partner 2
 */
-sv.pc = new setup.COM.Player();
+sv.pc = new setup.COM.Player({temp: false,});
 sv.pc.nude = false;
 sv.pc.topless = false;
 sv.pc.panties = false;

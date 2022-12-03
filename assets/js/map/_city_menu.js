@@ -138,8 +138,11 @@ class CityMenu {
         }
 
         if (this.hasInn) {
-            $(`#cityInnl`).click(function () {
+            $(`#cityInn`).click(function () {
                 if (sv.GameState === "citymenu") {
+                    let inn = new Inn(menu);
+                    inn.display();
+
                     // TODO
                     // Always has dialog before opening up innmenu. Should be able to have unique dialog, but normally will use a shuffled dialog array.
                 }

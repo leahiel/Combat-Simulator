@@ -2,6 +2,7 @@
 <<widget EquipmentButtonInInfoScreen>>
     /** Normally I would write error the following error, but since this widget won't ever be used again, who cares:
      *  WriteError: _args[0] should be "weapon" || "armor" || "accessory" 
+     *  _args[1] should be $pc, $pp, $tp1, $tp2
      */
      
     /* We capture because the <<but>> macro has its own _args. */
@@ -13,13 +14,13 @@
 
         /* Create the item plate. */
         <span @id="_tempstr"></span>
-        <<run $info.current.equippables[_captureArg].itemplate(`#${_tempstr}`);>>
+        <<run _args[1].equippables[_captureArg].itemplate(`#${_tempstr}`);>>
 
         /* Create "Swap" and "Mod" buttons, disabling them if the player object doesn't exist. */
         <<capture _captureArg>>
             <<set _tempstr to _captureArg + "InfoScreenButtons">>
             <span @id="_tempstr">
-                <<if $info.current === $tp1 || $info.current === $tp2>>
+                <<if _args[1].temp>>
                     <<set _butname = "View Equip">>
                 <<else>>
                     <<set _butname = "Equip">>
@@ -49,12 +50,12 @@
                         Dialog.open();
                     <</script>>
                 <</but>>
-                <<if $info.current === $tp1 || $info.current === $tp2>>
+                <<if _args[1].temp>>
                     <<set _butname = "View Mods">>
                 <<else>>
                     <<set _butname = "Mods">>
                 <</if>>
-                <<if $info.current.equippables[_captureArg].type === "unequipped">>
+                <<if _args[1].equippables[_captureArg].type === "unequipped">>
                     <<but _butname class "disabled">>
                     <</but>>
                 <<else>>
@@ -112,6 +113,7 @@
 
     /* Set tempvars. */
     <<set _captureArg to _args[0]>>
+    <<set _capturePlayer to _args[1]>>
     <<set _listboxstr to "listbox-" + _args[0]>>
     <<script>>
         switch (State.temporary.args[0]) {
@@ -127,18 +129,19 @@
         }
     <</script>>
 
-    <<capture _captureArg _listboxstr>>
+    <<capture _captureArg _listboxstr _capturePlayer>>
         /* Create listbox. */
-        <<if $info.current === $tp1 || $info.current === $tp2>>
+        <<run console.log(_capturePlayer.temp)>>
+        <<if _capturePlayer.temp>>
             <select @id="_listboxstr" class="macro-listbox" @name="_listboxstr" tabindex="0" autocomplete="off" size="2">
-                <option value="0">$info.current.equippables[_captureArg].name</option>
+                <option value="0">_capturePlayer.equippables[_captureArg].name</option>
             </select>
         <<else>>
             <select @id="_listboxstr" class="macro-listbox" @name="_listboxstr" tabindex="0" autocomplete="off" @size="$account.inventory[_strplural].length"> 
                 <<for _i, _equippable range $account.inventory[_strplural]>>
                     /* NYI: add the `disabled` attribute if we don't own the equippable */
                     /* TODO: $account.inventory.weapons should probably be: [[weapon, bool], [weapon, bool]], where weapon as obj and bool is "obtained", which will allow disabled. */
-                    <<if $info.current.equippables[_captureArg].name === _equippable.name>>
+                    <<if _capturePlayer.equippables[_captureArg].name === _equippable.name>>
                         <<set _selectval to _i>>
                     <</if>>
                     <option @value="_i">[_equippable.modslots] _equippable.name</option>
@@ -150,11 +153,12 @@
         <<if _captureArg === "weapon">>
             <span id="attackButtons"></span>
             <span id="attackInfoDescription" style="display: block"></span>
+            <<set $info.current to _capturePlayer>>
             <<run setup.fns.waitForElm("#attackButtons").then(() => {$.wiki(`<<replace '#attackButtons'>><<include "Show_Attacks">><</replace>>`)});>>
         <</if>>
 
         /* The place to show the character stats. */
-        <span id="equipmentCharacterStats"><<print new setup.COM.Combatant($info.current).getInfo()>></span>
+        <span id="equipmentCharacterStats"><<print new setup.COM.Combatant(_capturePlayer).getInfo()>></span>
 
         <<script>>
             let st = State.temporary;
@@ -162,26 +166,35 @@
             /* We do this because by the time the async runs, the State changes. */
             let tmpstr = st.listboxstr;
             let captureArg = st.captureArg;
+            let capturePlayer = st.capturePlayer;
             
             setup.fns.waitForElm(`#${tmpstr}`).then(()=> {
                 /* Set the value of the listbox to the equipped item. */
                 $(`#${tmpstr}`).val(st.selectval);
 
                 /* Make listbox selection change related vars. */
-                $(`#${tmpstr}`).change( function () {
-                    sv.info.current.equippables[captureArg] = sv.account.inventory[st.strplural][$(`#${tmpstr}`).val()];
+                if (!capturePlayer.temp) {
+                    $(`#${tmpstr}`).change( function () {
+                        
+                            
 
-                    /* Update Info Screen Buttons with proper names. */
-                    $('#infoScreenMiddleMenuButtons').empty().wiki(Story.get("Info_Description").processText());
+                        sv.info.current.equippables[captureArg] = sv.account.inventory[st.strplural][$(`#${tmpstr}`).val()];
 
-                    /* Update character stats. */
-                    $('#equipmentCharacterStats').empty().wiki(new setup.COM.Combatant(sv.info.current).getInfo());
+                        /* Update Inn Instance with new equipment names. */
+                        sv.innInstance.genMenu();
+                        sv.innInstance.display();
 
-                    /* Replace attacks with attacks from new weapon. */
-                    if (captureArg === "weapon") {
-                        $.wiki(`<<replace '#attackButtons'>><<include "Show_Attacks">><</replace>>`);
-                    }
-                });
+                        /* Update character stats. */
+                        $('#equipmentCharacterStats').empty().wiki(new setup.COM.Combatant(sv.info.current).getInfo());
+
+                        /* Replace attacks with attacks from new weapon. */
+                        if (captureArg === "weapon") {
+                            
+                            sv.info.current = capturePlayer;
+                            $.wiki(`<<replace '#attackButtons'>><<include "Show_Attacks">><</replace>>`);
+                        }
+                    });
+                }
 
                 $(`#${tmpstr}`).on('mouseenter', 'option', function (elm) {
                     var $target = $(elm.target); 
@@ -207,8 +220,9 @@
 
     /* Set tempvars. */
     <<set _captureArg to _args[0]>>
+    <<set _capturePlayer to _args[1]>>
     <<set _listboxstr to "listbox-" + _captureArg + "Mods">>
-    <<capture _captureArg>>
+    <<capture _captureArg _capturePlayer>>
         <<script>>
             let st = State.temporary;
             let svaim = State.variables.account.inventory.mods;
@@ -244,26 +258,26 @@
 
         /* Create listbox. */
         <span id="modSelectionGrid">
-            <<if $info.current === $tp1 || $info.current === $tp2>>
+            <<if _capturePlayer.temp>>
                 /* View Mods on Temporary Characters */
-                <<for _i = 0; _i < $info.current.equippables[_captureArg].modslots; _i++>>
+                <<for _i = 0; _i < _capturePlayer.equippables[_captureArg].modslots; _i++>>
                     <span class="modSlotTitle">Slot _i</span>
                     <select @id="_listboxstr" class="macro-listbox" @name="_listboxstr" tabindex="0" autocomplete="off" size="2">
-                        <option value="0">$info.current.equippables[_captureArg].mods[_i].name</option>
+                        <option value="0">_capturePlayer.equippables[_captureArg].mods[_i].name</option>
                     </select>
                     <br>
                 <</for>>
             <<else>>
                 /* Swap Mods on Main Characters */
-                <<for _i = 0; _i < $info.current.equippables[_captureArg].modslots; _i++>>
+                <<for _i = 0; _i < _capturePlayer.equippables[_captureArg].modslots; _i++>>
                     <span class="modSlotTitle">Slot _i</span>
-                    <select @id="_listboxstr" @class="_listboxstr" @name="_listboxstr" tabindex="0" @boxnum=_i @size="$info.current.equippables[_captureArg].modslots">
+                    <select @id="_listboxstr" @class="_listboxstr" @name="_listboxstr" tabindex="0" @boxnum=_i @size="_capturePlayer.equippables[_captureArg].modslots">
                         <<for _j, _mod range _viableModList>>
-                            <<if _mod.name === $info.current.equippables[_captureArg].mods[_i].name>>
+                            <<if _mod.name === _capturePlayer.equippables[_captureArg].mods[_i].name>>
                                 <<set _selectvalmod[_i] to _j>>
                             <</if>>
                             /* Check if at least one tag matches between mod and equipment. */
-                            <<if _mod.tags.some(tag => $info.current.equippables[_captureArg].tags.includes(tag))>>
+                            <<if _mod.tags.some(tag => _capturePlayer.equippables[_captureArg].tags.includes(tag))>>
                                 <option @value=_j>_mod.name t._mod.tier</option>
                             <<else>>
                                 /* Don't show anything. */
@@ -285,7 +299,7 @@
         <</if>> */
 
         /* The place to show the character stats. */
-        <span id="equipmentCharacterStats"><<print new setup.COM.Combatant($info.current).getInfo()>></span>
+        <span id="equipmentCharacterStats"><<print new setup.COM.Combatant(_capturePlayer).getInfo()>></span>
 
         /* Make listbox selection change related vars. */
         <<script>>
@@ -327,7 +341,11 @@
 
 :: Show_Attacks [.infoscreen .helper nostats] {"position":"600,875"}
 <span id="infoScreenAttacks"></span>
-<<run setup.fns.waitForElm("#infoScreenAttacks").then((elm) => {$(elm).wiki(Story.get("Show_Attacks_Helper").processText())});>>
+<<script>>
+setup.fns.waitForElm("#infoScreenAttacks").then((elm) => {
+    $(elm).wiki(Story.get("Show_Attacks_Helper").processText());
+});
+<</script>>
 
 
 :: Show_Attacks_Helper [.infoscreen .helper nostats] {"position":"600,850"}
@@ -367,7 +385,6 @@ if (!tags().includes(".combat")) {
     /* Create the character button that brings up that character's equipment. */
     <<if _args[0]>>
         <<but _args[0].name class "bottomInfoButton">>
-            <<set $info.current = _args[0]>>
             <<run $('#infoScreenMiddleMenuButtons').empty().wiki(Story.get("Info_Description").processText());>>
         <</but>>
     <<else>>
@@ -379,21 +396,16 @@ if (!tags().includes(".combat")) {
 
 
 :: Info_Description [.infoscreen .helper nostats] {"position":"1000,550"}
-<<if $info.current === null>>
-    Info Screen Description.
-<<else>>
-    <<EquipmentButtonInInfoScreen "weapon">>
-    <<EquipmentButtonInInfoScreen "armor">>
-    <<EquipmentButtonInInfoScreen "accessory">>
+<<EquipmentButtonInInfoScreen "weapon" $pc>>
+<<EquipmentButtonInInfoScreen "armor" $pc>>
+<<EquipmentButtonInInfoScreen "accessory" $pc>>
 
-    <<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Info_Button_Back").processText());>>
-<</if>>
+<<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Info_Button_Back").processText());>>
 
 
 
 :: Info_Button_Back [.infoscreen .helper nostats] {"position":"1000,675"}
 <<but "Back" id "infoBack" class "bottomInfoButton">>
-    <<set $info.current = null>>
     <<run $('#infoScreenMiddleMenuButtons').empty()>>
     <<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText())>>
 <</but>>

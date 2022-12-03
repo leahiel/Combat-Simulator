@@ -1,5 +1,5 @@
 /**
- * REVIEW: Does this really need to be another class? Couldn't this be in city menu?
+ * REVIEW: Since there is no custom information, does this really need to be another class? Couldn't this be in city menu?
  */
 class GuildHall {
     constructor(cityMenu) {
