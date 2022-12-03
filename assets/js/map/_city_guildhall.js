@@ -1,5 +1,10 @@
 /**
- * REVIEW: Since there is no custom information, does this really need to be another class? Couldn't this be in city menu?
+ * REVIEW: Since there is no custom information, does this really need 
+ * to be another class? Couldn't this be in city menu?
+ * 
+ * Answer: Perhaps it could be, but it could also be part of a quest 
+ * to visit a guild hall, so we'd need to accept a talkbox for those 
+ * situations.
  */
 class GuildHall {
     constructor(cityMenu) {
@@ -33,8 +38,6 @@ class GuildHall {
 
     /** Displays the city menu. */
     display() {
-        let sv = State.variables;
-
         /** We should refer to `menu` instead of `this` because we have some async & changing scope stuff going on. */
         let menu = this;
 
@@ -56,8 +59,6 @@ class GuildHall {
 
     /** Displays the pawn swap menu. */
     displaySwap() {
-        let sv = State.variables;
-
         /** We should refer to `menu` instead of `this` because we have some async & changing scope stuff going on. */
         let menu = this;
 

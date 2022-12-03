@@ -13,22 +13,6 @@
     </span>
 </div>
 
-<div id="infoScreen" class="">
-    <span id="infoScreenTitle">
-        Info Screen Title
-    </span>
-    <span id="infoScreenDescription">
-        Info Screen Description.
-    </span>
-    <!-- TODO: Make side button for equipment. -->
-    <span id="infoScreenMiddleMenuButtons">
-        Info Screen Middle Buttons
-    </span>
-    <span id="infoScreenBottomMenuButtons">
-        Info Screen Bottom Buttons
-    </span>
-</div>
-
 <div id="mainwrapper">
     <div id="passages"></div>
     <div id="wrapperBottomText" data-passage="uiBottomText"></div>
@@ -43,7 +27,6 @@
         <!-- <li id="savesTab" data-passage="uiSaves"></li> -->
         <li id="creditsTab" data-passage="uiCredits"></li>
         <li id="devTab" data-passage="uiDev"></li>
-        <!-- <li id="stowTab" data-passage="uiStow"></li> -->
     </ul>
 </div>
 
@@ -128,28 +111,6 @@ $("li#peopleTab").click(() => {
     Dialog.setup("Person Base");
     Dialog.wiki(Story.get("PeopleText").processText());
     Dialog.open();
-});
-<</script>>
-
-:: uiStow [.ui nostats] {"position":"0,400"}
-📚
-<<script>>
-$("li#stowTab").click((event) => {
-    event.stopPropagation();
-    event.stopImmediatePropagation();
-
-    let $body = $( 'body' );
-    if ($body.attr('class').split(' ').includes("stowed")) {
-        $body.removeClass('stowed');
-    } else {
-        $body.addClass('stowed');
-    }
-
-    if ($('#infoScreen').attr('class').split(' ').includes("stowed")) {
-        $('#infoScreen').removeClass('stowed');
-    } else {
-        $('#infoScreen').addClass('stowed');
-    }
 });
 <</script>>
 

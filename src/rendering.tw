@@ -41,11 +41,6 @@ It's intended for actual rendering stuff. */
 <span id="passagetitleheader">Passage Header Text</span>
 
 
-<<run $('#infoScreenDescription').empty().wiki(Story.get("Info_Description").processText())>>
-<<run $('#infoScreenMiddleMenuButtons').empty()>>
-<<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText())>>
-
-
 
 :: PassageFooter [.rendering] {"position":"500,75"}
 /* Everything here is rendered at the end of every passage rendering.
@@ -184,12 +179,6 @@ $(document).ready(function() {
 });
 
 if (tags().includes(".combat") ) {
-    /* Clear and Stow the InfoScreen */
-    $('#infoScreenMiddleMenuButtons').empty();
-    $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText());
-    $('body').addClass('stowed');
-    $('#infoScreen').addClass('stowed');
-
     State.variables.GameState = "combat";
     /**
     $('body').css({
@@ -198,15 +187,6 @@ if (tags().includes(".combat") ) {
     })
      */
 } else {
-    if (State.variables.GameState === "combat") {
-        /* Clear and Unstow the InfoScreen when coming from a combat to a new passage. */
-        /* TODO: This should be a passage. */
-        $('#infoScreenMiddleMenuButtons').empty();
-        $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText());
-        $('body').removeClass('stowed');
-        $('#infoScreen').removeClass('stowed');
-    }
-
     $('body').css({
         "height": "initial",
         "overflow": "initial",

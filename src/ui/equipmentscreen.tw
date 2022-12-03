@@ -1,109 +1,3 @@
-:: Info_Description_Widget [widget .infoscreen .helper nostats] {"position":"1100,625"}
-<<widget EquipmentButtonInInfoScreen>>
-    /** Normally I would write error the following error, but since this widget won't ever be used again, who cares:
-     *  WriteError: _args[0] should be "weapon" || "armor" || "accessory" 
-     *  _args[1] should be $pc, $pp, $tp1, $tp2
-     */
-     
-    /* We capture because the <<but>> macro has its own _args. */
-    <<set _captureArg to _args[0]>>
-    <<set _tempstr to "equippableInfoScreen" + _args[0]>>
-    
-    <span class="equippableInfoScreen" @id="_tempstr">
-        <<set _tempstr to _args[0] + "Here">>
-
-        /* Create the item plate. */
-        <span @id="_tempstr"></span>
-        <<run _args[1].equippables[_captureArg].itemplate(`#${_tempstr}`);>>
-
-        /* Create "Swap" and "Mod" buttons, disabling them if the player object doesn't exist. */
-        <<capture _captureArg>>
-            <<set _tempstr to _captureArg + "InfoScreenButtons">>
-            <span @id="_tempstr">
-                <<if _args[1].temp>>
-                    <<set _butname = "View Equip">>
-                <<else>>
-                    <<set _butname = "Equip">>
-                <</if>>
-                <<but _butname>>
-                    <<script>>
-                        let tempstr2;
-                        let tempstr3;
-
-                        switch (State.temporary.captureArg) {
-                            case "weapon":
-                                tempstr2 = "Weapons";
-                                tempstr3 = "Weapon";
-                                break;
-                            case "armor":
-                                tempstr2 = "Armors";
-                                tempstr3 = "Armor";
-                                break;
-                            case "accessory":
-                                tempstr2 = "Accessories";
-                                tempstr3 = "Accessory";
-                                break;
-                        }
-
-                        Dialog.setup(`${tempstr2}`, "dialogEquipmentSwap");
-                        Dialog.wiki(`<<SlotMenuInfo ${State.temporary.captureArg}>>`);
-                        Dialog.open();
-                    <</script>>
-                <</but>>
-                <<if _args[1].temp>>
-                    <<set _butname = "View Mods">>
-                <<else>>
-                    <<set _butname = "Mods">>
-                <</if>>
-                <<if _args[1].equippables[_captureArg].type === "unequipped">>
-                    <<but _butname class "disabled">>
-                    <</but>>
-                <<else>>
-                    <<but _butname>>
-                        <<script>>
-                            let tempstr2;
-                            let tempstr3;
-
-                            switch (State.temporary.captureArg) {
-                                case "weapon":
-                                    tempstr2 = "Weapons";
-                                    tempstr3 = "Weapon";
-                                    break;
-                                case "armor":
-                                    tempstr2 = "Armors";
-                                    tempstr3 = "Armor";
-                                    break;
-                                case "accessory":
-                                    tempstr2 = "Accessories";
-                                    tempstr3 = "Accessory";
-                                    break;
-                            }
-
-                            Dialog.setup(`${tempstr2} Mods`, "dialogEquipmentMod");
-                            Dialog.wiki(`<<SlotModMenuInfo ${State.temporary.captureArg}>>`);
-                            Dialog.open();
-                        <</script>>
-                    <</but>>
-
-                <</if>>
-            </span>
-        <</capture>>
-        /* Position "Swap" and "Mod" buttons. */
-        <<script>>
-            /* We do this because by the time the async runs, the State changes. */
-            let tmpstr = State.temporary.captureArg;
-
-            setup.fns.waitForElm(`span.itemPlate.${tmpstr}`).then(() => {
-                setup.fns.waitForElm(`#${tmpstr}InfoScreenButtons`).then(() => {
-                    $(`span.itemPlate.${tmpstr}`).append($(`#${tmpstr}InfoScreenButtons`));
-                });
-            });
-        <</script>>
-    </span>
-<</widget>>
-
-
-
 :: Slot_Menu_Info_Widget [widget .infoscreen .helper nostats] {"position":"1100,575"}
 <<widget SlotMenuInfo>>
     /** Normally I would write error the following error, but since this widget won't ever be used again, who cares:
@@ -131,7 +25,6 @@
 
     <<capture _captureArg _listboxstr _capturePlayer>>
         /* Create listbox. */
-        <<run console.log(_capturePlayer.temp)>>
         <<if _capturePlayer.temp>>
             <select @id="_listboxstr" class="macro-listbox" @name="_listboxstr" tabindex="0" autocomplete="off" size="2">
                 <option value="0">_capturePlayer.equippables[_captureArg].name</option>
@@ -175,13 +68,10 @@
                 /* Make listbox selection change related vars. */
                 if (!capturePlayer.temp) {
                     $(`#${tmpstr}`).change( function () {
-                        
-                            
-
                         sv.info.current.equippables[captureArg] = sv.account.inventory[st.strplural][$(`#${tmpstr}`).val()];
 
                         /* Update Inn Instance with new equipment names. */
-                        sv.innInstance.genMenu();
+                        sv.innInstance.generateMenu();
                         sv.innInstance.display();
 
                         /* Update character stats. */
@@ -305,31 +195,33 @@
         <<script>>
             let st = State.temporary;
             let sv = State.variables;
-            let svice = State.variables.info.current.equippables;
             let captureArg = st.captureArg;
+            let capturePlayer = st.capturePlayer;
+            let cpe = st.capturePlayer.equippables;
             let selectvalmod = st.selectvalmod;
             let viableModList = st.viableModList;
 
             /* Wait for all .listbox-slotMods to be done */
-            setup.fns.waitForNumberOfElm(`.${st.listboxstr}`, svice[captureArg].modslots).then(() => {
+            setup.fns.waitForNumberOfElm(`.${st.listboxstr}`, cpe[captureArg].modslots).then(() => {
                 /* Set the value of the listboxes to the equipped item. */
-                for (i = 0; i < svice[captureArg].modslots; i++) {
+                for (i = 0; i < cpe[captureArg].modslots; i++) {
                     $(`#listbox-${captureArg}Mods[boxnum="${i}"]`).val(selectvalmod[i]);
                 }
                 
                 $(`.${st.listboxstr}`).change( function (elm) {
                     /* Change the modslot's mod to the updated mod. */
-                    svice[captureArg].mods[$(this).attr("boxnum")] = viableModList[$(this).val()];
+                    cpe[captureArg].mods[$(this).attr("boxnum")] = viableModList[$(this).val()];
 
                     /* Update the Equippable */
-                    svice[captureArg].applyMods();
+                    cpe[captureArg].applyMods();
 
                     /* Update character stats. */
-                    $('#equipmentCharacterStats').empty().wiki(new setup.COM.Combatant(sv.info.current).getInfo());
+                    $('#equipmentCharacterStats').empty().wiki(new setup.COM.Combatant(capturePlayer).getInfo());
 
                     /* Reload this dialogue so that viableModList is updated. */
+                    st.capturePlayer = capturePlayer;
                     Dialog.setup(`${st.strcap} Mods`, "dialogEquipmentMod");
-                    Dialog.wiki(`<<SlotModMenuInfo ${captureArg}>>`);
+                    Dialog.wiki(`<<SlotModMenuInfo ${captureArg} _capturePlayer>>`);
                     Dialog.open();
                 });
             });
@@ -355,57 +247,3 @@ setup.fns.waitForElm("#infoScreenAttacks").then((elm) => {
         <<run setup.fns.displayToInfoScreenOnMouseover(`#PlayerAttack${_int + 1}`, _attack, new setup.COM.Combatant($info.current));>>
     <</capture>>
 <</for>>
-
-
-
-:: Players_Info [.infoscreen .helper nostats] {"position":"1000,650"}
-<<script>>
-if (!tags().includes(".combat")) {
-    $('#infoScreenBottomMenuButtons').empty();
-    let solstr = "";
-    solstr += `<<PlayerInfo $pc>>`;           
-    solstr += `<<PlayerInfo $pp>>`;           
-    solstr += `<<PlayerInfo $tp1>>`;           
-    solstr += `<<PlayerInfo $tp2>>`;           
-
-    $('#infoScreenBottomMenuButtons').wiki(solstr);
-} else {
-    $('#infoScreenMiddleMenuButtons').empty()
-}
-<</script>>
-
-
-
-:: Player_Info_Widget [widget .infoscreen .helper nostats] {"position":"1000,600"}
-<<widget PlayerInfo>>
-    /** Normally I would write error the following error, but since this widget won't ever be used again, who cares:
-     *  WriteError: _args[0] should be $pc || $pp || $tp1 || $tp2 
-     */
-
-    /* Create the character button that brings up that character's equipment. */
-    <<if _args[0]>>
-        <<but _args[0].name class "bottomInfoButton">>
-            <<run $('#infoScreenMiddleMenuButtons').empty().wiki(Story.get("Info_Description").processText());>>
-        <</but>>
-    <<else>>
-        <<but "Char Not Present" class "bottomInfoButton disabled">>
-        <</but>>
-    <</if>>
-<</widget>>
-
-
-
-:: Info_Description [.infoscreen .helper nostats] {"position":"1000,550"}
-<<EquipmentButtonInInfoScreen "weapon" $pc>>
-<<EquipmentButtonInInfoScreen "armor" $pc>>
-<<EquipmentButtonInInfoScreen "accessory" $pc>>
-
-<<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Info_Button_Back").processText());>>
-
-
-
-:: Info_Button_Back [.infoscreen .helper nostats] {"position":"1000,675"}
-<<but "Back" id "infoBack" class "bottomInfoButton">>
-    <<run $('#infoScreenMiddleMenuButtons').empty()>>
-    <<run $('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText())>>
-<</but>>

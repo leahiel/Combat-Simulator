@@ -1,3 +1,5 @@
+/** TODO I want INN to use an InnHandler like GatherInfo and Taverns, and then have it call the proper inn screen after. */
+
 const DEFAULTINNTB = {
     showBackground: true,
     backgroundSrc: "src/assets/img/png/tavern1.png",
@@ -34,18 +36,19 @@ class Inn {
         // TODO Inn textbox.
         this.textbox = {};
 
-        this.genMenu();
+        this.generateMenu();
 
         sv.innInstance = this;
     }
 
     /** Generate the menu HTML and event listeners. */
-    genMenu() {
+    generateMenu() {
         let sv = State.variables;
-        
+
         /** This HTML will become the children of `#city-menu` when it is time to show the inn. */
         let solHTML = "";
 
+        /** Returns an array, [Str, [func, func, func...]]. The array of functions are all event listeners to be called later. */
         function writeEquipmentButtons(char, varName) {
             if (char === undefined) {
                 return [
@@ -180,8 +183,6 @@ class Inn {
 
     /** Displays the inn menu. */
     display() {
-        let sv = State.variables;
-
         /** We should refer to `menu` instead of `this` because we have some async & changing scope stuff going on. */
         let menu = this;
 
@@ -192,7 +193,7 @@ class Inn {
         /** Add the requisite event listeners to the buttons. */
         /* REVIEW: Do I want to wait for the elements to load? */
 
-        /* Add all the event listeners we made when we made the equipment buttons. */
+        /* Add all the event listeners we made with Inn.generateMenu() we made the equipment buttons. */
         for (let charEL of this.menuEL) {
             charEL();
         }

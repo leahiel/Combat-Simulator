@@ -332,7 +332,7 @@ const citymenutesting = new setup.map.CityMenu({
 
     hasInn: true,
     innHandler: function(menu) {
-
+        
     },
 
     hasGatherInfo: true,

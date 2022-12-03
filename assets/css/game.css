@@ -83,11 +83,10 @@ body {
     /* background-color: hsla(0, 0%, 0%, 0); */ /* Overwrites default SC css. */
 
     /* height: min(calc(100% - 2rem), 80%); */
-    width: 65vw;
+    width: 80vw;
 
-    margin-top: 2.5rem;
     margin-left: auto;
-    margin-right: 6vw;
+    margin-right: auto;
 
     box-shadow: var(--boxShadow);
     border-radius: 20px;
@@ -224,29 +223,6 @@ tpi {
  * #### ##    ## ##        #######      ######   ######  ##     ## ######## ######## ##    ## 
  */
 
-#infoScreen {
-    display: block;
-    position: fixed;
-
-    left: -5vw;
-    top: 0;
-
-    height: 100vh;
-    width: 20vw;
-
-    /* padding-top: calc(5vh + 1rem); */
-    padding-left: calc(5vw + 1rem);
-    /* padding-bottom: calc(5vh + 1rem); */
-    padding-right: 1rem;
-
-    background-color: var(--background);
-
-    box-shadow: var(--boxShadow);
-
-    font-size: 20px;
-    text-shadow: 1px 1px 3px black;
-}
-
 #infoScreenAttacks {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -255,43 +231,6 @@ tpi {
 
     padding-top: 1rem;
     padding-bottom: 1rem;
-}
-
-body.stowed {
-    width: unset;
-    margin-left: 10vw;
-    margin-right: 10vw;
-}
-
-#infoScreen.stowed {
-    display: none;
-}
-
-#infoScreenTitle {
-    display: block;
-
-    padding: 1rem 0;
-
-    color: rgb(80, 80, 80);
-    font-size: 2.5rem;
-    font-family: backslash;
-
-    transition: var(--chapter-text-transition);
-
-    text-align: center;
-    line-height: 3rem;
-}
-
-#infoScreenDescription {
-    /* display: block; */
-    display: none;
-
-    padding: 1rem;
-
-    border: 1px solid hsl(312deg 74% 16% / 0%);
-    box-shadow: var(--boxShadow);
-    border-radius: 20px;
-    background-color: hsl(0, 0%, 40%);
 }
 
 #AttackInformationPlate,
@@ -568,40 +507,6 @@ body.stowed {
     line-height: 16px;
 
     text-transform: uppercase;
-}
-
-#infoScreenMiddleMenuButtons {
-    display: block;
-    position: fixed;
-    width: 20vw;
-
-    padding-bottom: 5vh;
-}
-
-#infoScreenBottomMenuButtons {
-    display: block;
-    position: fixed;
-    width: 20vw;
-    bottom: 0;
-
-    padding-bottom: 5vh;
-}
-
-.bottomInfoButton {
-    display: block;
-    width: 100%;
-    margin: 0.35rem 0;
-}
-
-.equippableInfoScreen {
-    display: block;
-
-    margin-top: 0.5rem;
-}
-
-.equippableInfoScreen button {
-    width: 30%;
-    font-size: 1rem;
 }
 
 #weaponInfoScreenButtons,
@@ -917,10 +822,6 @@ input:checked ~ accordionContent {
 
 #storyTabs li#creditsTab:after {
     content: " Credits";
-}
-
-#storyTabs li#stowTab:after {
-    content: " Stow";
 }
 
 #storyTabs li#devTab {

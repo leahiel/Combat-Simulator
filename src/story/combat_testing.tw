@@ -318,8 +318,6 @@ They're roughly ordered from least difficult to most difficult.
 
 	function localUpdateInfoScreen() {
 		sv.info.current = null;
-		$('#infoScreenMiddleMenuButtons').empty();
-		$('#infoScreenBottomMenuButtons').empty().wiki(Story.get("Players_Info").processText());
 	}
 
 	/*

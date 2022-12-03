@@ -48,12 +48,6 @@ sugarcube-2:
       name: flash
       container: true
 
-
-    # A custom widget to DRY
-    EquipmentButtonInInfoScreen:
-      name: EquipmentButtonInInfoScreen
-      container: false
-
     # A custom widget to DRY
     SlotMenuInfo:
       name: SlotMenuInfo
@@ -62,9 +56,4 @@ sugarcube-2:
     # A custom widget to DRY
     SlotModMenuInfo:
       name: SlotModMenuInfo
-      container: false
-
-    # A custom widget to DRY
-    PlayerInfo:
-      name: PlayerInfo
       container: false
