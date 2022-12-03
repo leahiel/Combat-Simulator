@@ -1,7 +1,7 @@
 // LINK: assets/js/_setup.js#IMPORTS
 function importGameSSR() {
     /* Useful if you have server-side stuff that you're doing. */
-    importScripts("src/assets/js/game_ssr.min.js")
+    importScripts("project/imported_assets/js/game_ssr.min.js")
         /* NOTE: You have to manually copy over the game_ssr.js webpack. A symlink doesn't work for some reason. This is done automatically in the build.bat. ...Strictly speaking, I don't need to import the above, but they give a promise and I have to have them loaded to do things, so... */
         .then(() => {
             /* Ensure we are logged in every time. */

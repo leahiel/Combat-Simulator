@@ -5,7 +5,7 @@ let DEFAULTTEXTBOX = {
     showPortrait: false,
     showSpeakerName: false,
     lines: [{ 
-        portrait: "src/assets/img/png/turn_icon_pl.png",
+        portrait: "project/imported_assets/img/png/turn_icon_pl.png",
         speaker: "Speaker Name",
         line: "Default TextBox Line 1.",
      }],
@@ -90,7 +90,7 @@ class TextBox {
             if (this.lines[lineIdx].portrait) {
                 $("#textbox #textbox-portrait").css('background-image', `url(${this.lines[lineIdx].portrait})`);
             } else if ($("#textbox #textbox-portrait").css('background-image') === "none") {
-                $("#textbox #textbox-portrait").css('background-image', `url("src/assets/img/png/turn_icon_en.png")`);
+                $("#textbox #textbox-portrait").css('background-image', `url("project/imported_assets/img/png/turn_icon_en.png")`);
             }
         }
 

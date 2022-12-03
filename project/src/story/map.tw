@@ -48,6 +48,7 @@
     function isPlayerIntersecting(player) {
         sv.canvas.interactableGroup.forEachObject((obj) => {
             if (getGFCoords([player.aCoords.tl.x, player.aCoords.tl.y]).toString() === getGFCoords([obj.aCoords.tl.x, obj.aCoords.tl.y]).toString()) {
+                obj.timesVisited += 1;
                 obj.intersecting();
             }
         });
@@ -127,7 +128,7 @@
     /* Initialize Interactable Group */
     sv.canvas.interactableGroup = new fabric.Group();
     
-    new setup.map.Interactable('src/assets/img/png/turn_icon_en.png', { 
+    new setup.map.Interactable('project/imported_assets/img/png/turn_icon_en.png', { 
         top: gF * 3,
         left: gF * 3,
         intersecting: function() {
@@ -150,7 +151,7 @@
         },
     });
 
-    new setup.map.Interactable('src/assets/img/png/turn_icon.png', { 
+    new setup.map.Interactable('project/imported_assets/img/png/turn_icon.png', { 
         top: gF * 4,
         left: gF * 4,
         intersecting: function() {
@@ -158,7 +159,7 @@
         },
     });
 
-    new setup.map.Interactable('src/assets/img/png/turn_icon.png', { 
+    new setup.map.Interactable('project/imported_assets/img/png/turn_icon.png', { 
         top: gF * 8,
         left: gF * 12,
         intersecting: function() {
@@ -166,7 +167,7 @@
         },
     });
 
-    new setup.map.Interactable('src/assets/img/png/turn_icon.png', { 
+    new setup.map.Interactable('project/imported_assets/img/png/turn_icon.png', { 
         top: gF * 6,
         left: gF * 22,
         intersecting: function() {
@@ -174,7 +175,7 @@
         },
     });
 
-    new setup.map.Interactable('src/assets/img/png/turn_icon.png', { 
+    new setup.map.Interactable('project/imported_assets/img/png/turn_icon.png', { 
         top: gF * 15,
         left: gF * 21,
         intersecting: function() {
@@ -182,7 +183,7 @@
         },
     });
 
-    new setup.map.Interactable('src/assets/img/png/init_icon_pl.png', {
+    new setup.map.Interactable('project/imported_assets/img/png/init_icon_pl.png', {
         top: gF * 15,
         left: gF * 15,
         intersecting: function() {
@@ -194,7 +195,7 @@
     sv.canvas.playerGroup = new fabric.Group();
 
     /* Stand in for the player.*/
-    new setup.map.Interactable('src/assets/img/png/turn_icon_pl.png', { 
+    new setup.map.Interactable('project/imported_assets/img/png/turn_icon_pl.png', { 
         top: gF * 18,
         left: gF * 6,
         interactable: false,
@@ -287,7 +288,7 @@ const redrecttb3 = {
             line: "An unknown speaker should be here.",
         },
         {
-            portrait: "src/assets/img/png/turn_icon_pl.png",
+            portrait: "project/imported_assets/img/png/turn_icon_pl.png",
             speaker: "redrect3",
             line: "The portrait and name should be showing here.",
         },
@@ -295,7 +296,7 @@ const redrecttb3 = {
             line: "The same name should sitll be here",
         },
         {
-            portrait: "src/assets/img/png/turn_icon.png",
+            portrait: "project/imported_assets/img/png/turn_icon.png",
             speaker: "new name",
             line: "A new name should now appear.",
         },
@@ -304,7 +305,7 @@ const redrecttb3 = {
 
 const redrecttb4 = {
     showBackground: true,
-    backgroundSrc: "src/assets/img/png/tavern1.png",
+    backgroundSrc: "project/imported_assets/img/png/tavern1.png",
     lines: [{
         line: "background image testing.",
     }, ],
@@ -312,7 +313,7 @@ const redrecttb4 = {
 
 const tarverntb = {
     showBackground: true,
-    backgroundSrc: "src/assets/img/png/tavern1.png",
+    backgroundSrc: "project/imported_assets/img/png/tavern1.png",
     lines: [{
         line: "We've at the tavern!",
     },],
@@ -320,7 +321,7 @@ const tarverntb = {
 
 const gatherinfotb = {
     showBackground: true,
-    backgroundSrc: "src/assets/img/png/tavern1.png",
+    backgroundSrc: "project/imported_assets/img/png/tavern1.png",
     lines: [{
         line: "We're gathering info!",
     },],
@@ -358,4 +359,3 @@ const citymenutesting = new setup.map.CityMenu({
     S.tb.tarverntb = tarverntb;
     S.tb.citymenutesting = citymenutesting;
 })(setup);
-

@@ -2,7 +2,7 @@
 
 const DEFAULTINNTB = {
     showBackground: true,
-    backgroundSrc: "src/assets/img/png/tavern1.png",
+    backgroundSrc: "project/imported_assets/img/png/tavern1.png",
     lines: [
         {
             line: "Welcome to ${name}!",

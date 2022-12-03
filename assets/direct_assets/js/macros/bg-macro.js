@@ -4,7 +4,7 @@
 
 // Essentially adds this:
 // html[data-tags~="start"] {
-//     background-image: linear-gradient(rgba(0, 0, 0, 0.70), rgba(0, 0, 0, 0.70)), url("src/assets/img/mangroves.jpeg");
+//     background-image: linear-gradient(rgba(0, 0, 0, 0.70), rgba(0, 0, 0, 0.70)), url("project/imported_assets/img/mangroves.jpeg");
 //     background-size: cover;
 //     height: 100vh;
 // }

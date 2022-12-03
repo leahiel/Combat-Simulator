@@ -112,8 +112,8 @@ sv.meta.psgsthatsentdb = [];
 
 setup.promises = {}
 setup.promises.importInit = importScripts(
-    "src/assets/js/uuid.min.js",
-    "src/assets/js/jcanvas.min.js", 
+    "project/imported_assets/js/uuid.min.js",
+    "project/imported_assets/js/jcanvas.min.js", 
     "https://cdn.jsdelivr.net/npm/fabric",
 ).then(
     () => {
@@ -291,7 +291,7 @@ Setting.save();
 ##     ## ##     ## ##     ##  ##  ##     ## 
 ##     ##  #######  ########  ####  #######  
 */
-<<cacheaudio "light_tick" "src/assets/audio/light_tick.mp3">>
+<<cacheaudio "light_tick" "project/imported_assets/audio/light_tick.mp3">>
 
 <<script>>
     

@@ -1,4 +1,6 @@
 let INTERACTABLEOPTIONS = {
+    timesVisited: 0,
+
     hasControls: false,
     hasBorders: false,
     lockMovementX: true,
