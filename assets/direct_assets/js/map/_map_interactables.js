@@ -19,7 +19,8 @@ let INTERACTABLEOPTIONS = {
  */
 class Interactable {
     constructor(url, options) {
-        let canvas = State.variables.canvas;
+        let map = State.variables.map;
+        let canvas = State.variables.map.canvas;
         // Merge our obj onto default, then merge those onto this.
         let trueOptions = jQuery.extend(true, {}, INTERACTABLEOPTIONS, options);
 
@@ -28,16 +29,24 @@ class Interactable {
             var obj = new fabric.Image(img, trueOptions);
 
             if (obj.width >= obj.height) {
-                obj.scaleToWidth(canvas.gF);
+                obj.scaleToWidth(map.gF);
             } else {
-                obj.scaleToHeight(canvas.gF);
+                obj.scaleToHeight(map.gF);
             }
 
             canvas.add(obj);
+            /** Initialize the interactableGroup if needed. */
+            if (canvas.interactableGroup === undefined) {
+                canvas.interactableGroup = new fabric.Group();
+            }
             if (trueOptions.interactable) {
                 canvas.interactableGroup.add(obj);
             }
 
+            /* Initialize Player Group */
+            if (canvas.playerGroup === undefined) {
+                canvas.playerGroup = new fabric.Group();
+            }
             if (options.player) {
                 canvas.playerGroup.add(obj);
             }

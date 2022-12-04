@@ -17,6 +17,24 @@
         ☑  tag => Functional/Compiler tags e.g. nostats 
 
 
+-= Map =-
+    ☑  Make map class.
+        ☐  Maps should be able to take a set number of interactables.
+            ☑  Interactables are not randomly generated here, instead that occurs at the Quest level.
+            ☐  Interactables are only displayed when a sequence is met.
+                ☐  Sequences start at 0 and go up. If n >= Sequence, show Interactable.
+            ☐  Interactables can be disabled.
+            ☐  Map should generate placement of said Interactables randomly.
+                ☐  Placement of Interactables should be within screen width and height.
+    ☐  Map Class so Quests can make instances based on JSON data.
+        ☐  Set background.
+        ☐  Set player location.
+        ☐  Set interactables.
+        ☐  Has kill() method.
+    ☑  Primitive Set up
+    ☐  Ability to swap between maps.
+    ☐  Fix player movement and make it always a steady x and y translation speed.
+
 -= Quests =-
 (For setting up quests, see Guild Hall -> Quest Screen)
     ☐  Random Map
@@ -25,16 +43,6 @@
             ☑  Dialog opens when party icon reaches encounter.
         ☑  Encounters on Map
         ☐  Maps Rotatable with Aligned Icons (for Portrait/Landscape mode) [Req for Mobile Release]
-
--= Map =-
-    ☑  Primitive Set up
-    ☐  Map Class so we can make instances based on JSON data.
-        ☐  Set background.
-        ☐  Set player location.
-        ☐  Set interactables.
-        ☐  Has kill() method.
-    ☐  Ability to swap between maps.
-    ☐  Fix player movement and make it always a steady x and y translation speed.
 
 -= Cities =-
     ☑  Buildings [A city may not have every building listed.]
