@@ -1,7 +1,7 @@
-// Add the quests to setup.
+// IIFE needed to add the quests to setup.
 (function (S) {
-    if (!S.quests) {
-        S.quests = {};
+    if (!S.maps) {
+        S.maps = {};
     }
 
     /** Interactables */
@@ -27,7 +27,7 @@
     };
 
     /** Compile into object. */
-    let questTest2 = {
+    let map = {
         sequence: 0,
 
         interactables: [
@@ -36,5 +36,5 @@
         ],
     };
 
-    S.quests.questTest2 = questTest2;
+    S.maps.questTest2 = map
 })(setup);

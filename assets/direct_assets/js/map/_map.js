@@ -39,7 +39,10 @@ class Map {
          *
          * 3.125% is 32 grid boxes along the greater length.
          */
-        this.gF = window.outerWidth >= window.outerHeight ? window.outerWidth * 0.03125 : window.outerHeight * 0.03125;
+        let boxValue = 0.03125;
+        this.maxgFWidth = window.outerWidth * boxValue;
+        this.maxgFHeight = window.outerHeight * boxValue;
+        this.gF = this.maxgFWidth >= this.maxgFHeight ? this.maxgFWidth : this.maxgFHeight;
 
         /** Required due to async programming. */
         let map = this;
@@ -50,10 +53,17 @@ class Map {
 
             map.drawGridlines();
 
-            /* Draw party icon. */
+            /* Determine location of party icon. */
+            let playerTop = 0;
+            let playerLeft = 0;
+            if (sv.playerLoc) {
+                playerTop = sv.quest.playerLoc[0];
+                playerLeft = sv.quest.playerLoc[1];
+            }
+
             new setup.map.Interactable("assets/imported/img/png/turn_icon_pl.png", {
-                top: sv.map.gF * 18,
-                left: sv.map.gF * 6,
+                top: sv.map.gF * playerTop,
+                left: sv.map.gF * playerLeft,
                 interactable: false,
                 player: true,
             });
@@ -82,8 +92,18 @@ class Map {
         return [(pos[0] - (pos[0] % fidelity)) / fidelity, (pos[1] - (pos[1] % fidelity)) / fidelity];
     }
 
-    updateSequence(num) {
+    updateSequence() {
         let svq = State.variables.quest;
+        let canvas = State.variables.map.canvas;
+
+        /** Destroy the objects in the interactableGroup. */
+        if (canvas.interactableGroup) {
+            canvas.interactableGroup.forEachObject(function(obj) {
+                obj.dispose();
+            });
+        }
+        
+        // Add new interactables
         for (let interactable of svq.interactables[svq.sequence]) {
             interactable();
         }
@@ -150,11 +170,11 @@ class Map {
 
     /** Determine if player is interacting with any interactables. */
     isPlayerIntersecting(player) {
+        let svq = State.variables.quest;
+        svq.playerLoc = this.getGFCoords([player.aCoords.tl.x, player.aCoords.tl.y]);
+
         this.canvas.interactableGroup.forEachObject((obj) => {
-            if (
-                this.getGFCoords([player.aCoords.tl.x, player.aCoords.tl.y]).toString() ===
-                this.getGFCoords([obj.aCoords.tl.x, obj.aCoords.tl.y]).toString()
-            ) {
+            if (svq.playerLoc.toString() === this.getGFCoords([obj.aCoords.tl.x, obj.aCoords.tl.y]).toString()) {
                 obj.timesVisited += 1;
                 obj.intersecting();
             }

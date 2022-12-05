@@ -1,13 +1,30 @@
 let DEFAULTCITYMENU = {
     name: "Unknown City",
+    generateCity: true,
 
     /* buildings */
     hasGuildHall: false,
-    hasInn: false,
+    hasInn: true,
+    innHandler: function (menu) {
+        new setup.tb.TextBox(setup.tbs.inn_tbs[0]);
+
+        $(document).one(":textboxclosed", function () {
+            let inn = new Inn(menu);
+            inn.display();
+        });
+    },
     hasShop: false,
     hasBazaar: false,
-    hasGatherInfo: false,
-    hasTavern: false,
+    hasGatherInfo: true,
+    gatherInfoHandler: function (menu, uuid) {
+        // TODO: Use menu.timesVisited and uuid to make an array of gatherinfo_tbs and progress through it.
+        new setup.tb.TextBox(setup.tbs.gatherinfo_tbs[0]);
+    },
+    hasTavern: true,
+    tavernHandler: function (menu, uuid) {
+        // TODO: Use menu.timesVisited and uuid to make an array of gatherinfo_tbs and progress through it.
+        new setup.tb.TextBox(setup.tbs.tarvern_tbs[0]);
+    },
     hasCrafting: false, // Unused
     craftingType: "none", // "None", "Jewelcrafter", "Blacksmith", "Leatherworker", "Tailor", "Shrine", "Alchemist"
 };
@@ -17,6 +34,17 @@ let DEFAULTCITYMENU = {
  */
 class CityMenu {
     constructor(obj) {
+        if (!State.variables.quest.citiesMade) {
+            State.variables.quest.citiesMade = 0;
+        } else {
+            State.variables.quest.citiesMade += 1;
+        }
+        
+        if (obj.generateCity) {
+            // TODO Use sv.quest.uuid to deterministically generate city, if desired, before merging everyhing onto `this`.
+            // Also use the integer State.variables.quest.citiesMade so we don't make duplicate cities.
+        }
+
         // Merge our obj onto default, then merge those onto this.
         jQuery.extend(true, this, DEFAULTCITYMENU, obj);
 
@@ -63,21 +91,21 @@ class CityMenu {
         /** NYI */
         this.hasBazaar = false;
         if (this.hasBazaar) {
-            solHTML += `<span id='cityBazaar' class='cityButton'>Bazaar</span>`
+            solHTML += `<span id='cityBazaar' class='cityButton'>Bazaar</span>`;
         } else {
             solHTML += `<span id='cityBazaar' class='noBuilding'></span>`;
         }
 
         if (this.hasGatherInfo) {
             this.timesVisitedGatheredInfo = 0;
-            solHTML += `<span id='cityGatherInfo' class='cityButton'>Gather Info</span>`
+            solHTML += `<span id='cityGatherInfo' class='cityButton'>Gather Info</span>`;
         } else {
             solHTML += `<span id='cityGatherInfo' class='noBuilding'></span>`;
         }
 
         if (this.hasTavern) {
             this.timesVisitedTavern = 0;
-            solHTML += `<span id='cityTavern' class='cityButton'>Visit Tavern</span>`
+            solHTML += `<span id='cityTavern' class='cityButton'>Visit Tavern</span>`;
         } else {
             solHTML += `<span id='cityTavern' class='noBuilding'></span>`;
         }
@@ -140,11 +168,7 @@ class CityMenu {
         if (this.hasInn) {
             $(`#cityInn`).click(function () {
                 if (sv.GameState === "citymenu") {
-                    let inn = new Inn(menu);
-                    inn.display();
-
-                    // TODO
-                    // Always has dialog before opening up innmenu. Should be able to have unique dialog, but normally will use a shuffled dialog array.
+                    menu.innHandler(menu);
                 }
             });
         }
@@ -161,7 +185,7 @@ class CityMenu {
             $(`#cityGatherInfo`).click(function () {
                 if (sv.GameState === "citymenu") {
                     menu.timesVisitedGatheredInfo += 1;
-                    menu.gatherInfoHandler(menu);
+                    menu.gatherInfoHandler(menu, uuid);
                 }
             });
         }
@@ -170,7 +194,7 @@ class CityMenu {
             $(`#cityTavern`).click(function () {
                 if (sv.GameState === "citymenu") {
                     menu.timesVisitedTavern += 1;
-                    menu.tavernHandler(menu);
+                    menu.tavernHandler(menu, uuid);
                 }
             });
         }

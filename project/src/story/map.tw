@@ -3,7 +3,7 @@
 
 <<done>>
 <<script>>
-    State.variables.quest = setup.quests.questTest1;
+    jQuery.extend(true, State.variables.quest, setup.maps.questTest1);
     State.variables.map = new setup.map.Map('', );
 <</script>>
 <</done>>

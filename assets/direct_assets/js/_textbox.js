@@ -11,8 +11,6 @@ let DEFAULTTEXTBOX = {
      }],
 };
 
-/** REVIEW: Do I want to make a line class? lol */
-
 /**
  *
  */
@@ -39,6 +37,8 @@ class TextBox {
 
     /** Add event listeners and initialize the TextBox's style. */
     start() {
+        $(document).trigger(":textboxopened");
+
         $("#textbox-container").click(() => {
             /* REVIEW: Stop Propagation? */
             this.next();
@@ -135,6 +135,8 @@ class TextBox {
 
         // We have to dereference everything that points to `this` instance in order for JS's garbage collector to collect it.
         $("#textbox-container").off("click");
+
+        $(document).trigger(":textboxclosed");
     }
 
     /** NYI: Saving and loading during a textbox is completely untested and honestly, probably unsupported. */

@@ -1,5 +1,6 @@
 let INTERACTABLEOPTIONS = {
     timesVisited: 0,
+    randomPosition: true,
 
     hasControls: false,
     hasBorders: false,
@@ -21,6 +22,11 @@ class Interactable {
     constructor(url, options) {
         let map = State.variables.map;
         let canvas = State.variables.map.canvas;
+
+        if (options.randomPosition) {
+            // TODO manipulate options.top and options.left with sv.quests.uuid. If gfcoords of a place overlap with another interactable in canvas.interactableGroup, make new coords.
+        }
+
         // Merge our obj onto default, then merge those onto this.
         let trueOptions = jQuery.extend(true, {}, INTERACTABLEOPTIONS, options);
 
