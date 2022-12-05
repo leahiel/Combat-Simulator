@@ -1,6 +1,6 @@
 :: Link-Replace-Prepend [@ex nostats] {"position":"750,25"}
 /* Showing how to use Link Replaces to go through all options, and then showing a final text block. */
-<<bg "project/imported_assets/img/desolatecity.jpeg" 0.70>>
+<<bg "assets/imported/img/desolatecity.jpeg" 0.70>>
 <<set _loc to "#1_resp">>
 Here, I want to show off using an event handler to show text, and then show the text block afterwards. ?Mr
 <br>

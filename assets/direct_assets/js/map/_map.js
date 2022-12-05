@@ -3,11 +3,20 @@ const DEFAULTMAP = {
 };
 
 class Map {
-    constructor(obj) {
+    constructor(bgImgSrc, obj) {
+        let sv = State.variables;
+
         // Merge the canvas into our obj, then onto default, then, onto this.
         jQuery.extend(true, this, DEFAULTMAP, obj);
 
+        /* If a canvas already exists from another map instance, dispose of it before making a new one. */
+        if (sv.map) {
+            sv.map.canvas.dispose();
+            sv.map = undefined;
+        }
+
         /* Initialize Canvas */
+        /* http://fabricjs.com/articles/ */
         this.canvas = new fabric.Canvas("map", {
             width: window.outerWidth,
             height: window.outerHeight,
@@ -38,9 +47,31 @@ class Map {
             $("#map").removeClass("hidden");
             $(".upper-canvas").removeClass("hidden");
             $(".canvas-container").removeClass("hidden").css("position", "unset");
+
             map.drawGridlines();
+
+            /* Draw party icon. */
+            new setup.map.Interactable("assets/imported/img/png/turn_icon_pl.png", {
+                top: sv.map.gF * 18,
+                left: sv.map.gF * 6,
+                interactable: false,
+                player: true,
+            });
+
             map.loadEventListeners();
+
+            /** Load initial Interactables. */
+            /** TODO: This needs to load all interactabls up to and including the number in sv.quest.sequence. */
+            map.updateSequence();
         });
+
+        /** Load custom trigger notice thing */
+        $(document).on(":sequenceupdated", function () {
+            sv.quest.sequence += 1;
+            map.updateSequence(sv.quest.sequence);
+        });
+
+        this.drawBackground(bgImgSrc);
 
         return this;
     }
@@ -49,6 +80,26 @@ class Map {
     /* TODO: Refactor into obj with x and y fields to match native fabric.js objects. */
     getGFCoords(pos, fidelity = this.gF) {
         return [(pos[0] - (pos[0] % fidelity)) / fidelity, (pos[1] - (pos[1] % fidelity)) / fidelity];
+    }
+
+    updateSequence(num) {
+        let svq = State.variables.quest;
+        for (let interactable of svq.interactables[svq.sequence]) {
+            interactable();
+        }
+    }
+
+    /** Draws a background image to the canvas. Removes the previous background before redrawing. */
+    drawBackground(imgSrc) {
+        if (imgSrc === undefined) {
+            imgSrc = "assets/imported/img/png/browncanvas.jpeg";
+        }
+
+        this.canvas.setBackgroundImage(imgSrc, this.canvas.renderAll.bind(this.canvas), {
+            // Needed to position backgroundImage at (0,0).
+            originX: "left",
+            originY: "top",
+        });
     }
 
     /** Load Event Listeners. */
@@ -154,11 +205,37 @@ class Map {
         }
     }
 
+    resize() {
+        /* I don't know where to put this or how to deal with it, but it's for resizing the map. */
+
+        /* For zoom/resize detection */
+        let px_ratio = window.devicePixelRatio || window.screen.availWidth / document.documentElement.clientWidth;
+
+        /* TODO add callback to resize canvas. */
+        function isZooming() {
+            var newPx_ratio =
+                window.devicePixelRatio || window.screen.availWidth / document.documentElement.clientWidth;
+            if (newPx_ratio !== px_ratio) {
+                px_ratio = newPx_ratio;
+                /* console.log("zooming"); */
+                return true;
+            } else {
+                /* console.log("just resizing"); */
+                return false;
+            }
+        }
+
+        $(window).resize(function () {
+            isZooming();
+        });
+    }
+
     /** TODO: Test saving and loading on a map. */
 
     /** Required for SC Saving and loading. */
     clone() {
-        return new this.constructor(this);
+        // BUG: There is a fabric clone() method already, but it seems incompatible with SC [naturally].
+        // return new this.constructor(this);
     }
 
     /** Required for SC Saving and loading. */

@@ -268,15 +268,15 @@ function updateCanvas(char, canvasElement) {
     let linecolor = "";
     if (char.location.includes("player") && char.init <= 0) {
         /* Green rhombus and line. */
-        rhombusimg = "project/imported_assets/img/png/turn_icon_pl.png";
+        rhombusimg = "assets/imported/img/png/turn_icon_pl.png";
         linecolor = "#2EFF23";
     } else if (char.location.includes("enemy") && char.init <= 0) {
         /* Red rhombus and line. */
-        rhombusimg = "project/imported_assets/img/png/turn_icon_en.png";
+        rhombusimg = "assets/imported/img/png/turn_icon_en.png";
         linecolor = "#FF0000";
     } else {
         /* Yellow rhombus and line. */
-        rhombusimg = "project/imported_assets/img/png/turn_icon.png";
+        rhombusimg = "assets/imported/img/png/turn_icon.png";
         linecolor = "#FFFF00";
     }
     canvasElement.drawImage({
@@ -315,10 +315,10 @@ function updateCanvas(char, canvasElement) {
         let iconimg = "";
         if (char.location.includes("player")) {
             /* Green indicator. */
-            iconimg = "project/imported_assets/img/png/init_icon_pl.png";
+            iconimg = "assets/imported/img/png/init_icon_pl.png";
         } else if (char.location.includes("enemy")) {
             /* Red indicator. */
-            iconimg = "project/imported_assets/img/png/init_icon_en.png";
+            iconimg = "assets/imported/img/png/init_icon_en.png";
         }
 
         canvasElement.drawImage({
@@ -339,10 +339,10 @@ function updateCanvas(char, canvasElement) {
             let iconimg = "";
             if (buff.type === "buff") {
                 /* Green indicator. */
-                iconimg = "project/imported_assets/img/png/turn_icon_pl.png";
+                iconimg = "assets/imported/img/png/turn_icon_pl.png";
             } else if (buff.type === "debuff") {
                 /* Red indicator. */
-                iconimg = "project/imported_assets/img/png/turn_icon_en.png";
+                iconimg = "assets/imported/img/png/turn_icon_en.png";
             }
 
             canvasElement.drawImage({

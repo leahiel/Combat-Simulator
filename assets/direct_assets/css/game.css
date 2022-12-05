@@ -1684,7 +1684,7 @@ body[data-tags~="#map"] #infoScreen {
     width: 70vw;
     top: 10vh;
 
-    background-image: url("project/imported_assets/img/png/browncanvas.jpeg");
+    background-image: url("assets/imported/img/png/browncanvas.jpeg");
     background-size: cover;
 }
 

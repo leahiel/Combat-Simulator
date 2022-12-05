@@ -193,8 +193,6 @@ if (tags().includes(".combat") ) {
     });
 }
 
-/* TODO: Don't allow equipment changing during combat. Equipment changing will be a side tab eventually. */
-
 /**
  *  If we delete the session, then we can't load from it: We'll only 
  * be able to load from the autosave. This is important because we 

@@ -1,4 +1,5 @@
-https://tauri.app/v1/guides/building/cross-platform
+https://github.com/tauri-apps/tauri-action
+https://tauri.app/v1/guides/distribution/updater/
 
 # Hot Rebuild on Change:
 <!-- `-t` enables test mode. Delete if desired. -->
@@ -20,7 +21,7 @@ https://github.com/tmedwards/tweego
 # Butler Commands
 <!-- Not Yet Implemented at all. -->
 butler upgrade
-butlet login
+butler login
 
 
 
