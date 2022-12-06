@@ -5,7 +5,6 @@ const DEFAULTMAP = {
 class Map {
     constructor(bgImgSrc, obj) {
         let sv = State.variables;
-        sv.quest.uuid = setup.uuid_v4();
 
         // Merge the canvas into our obj, then onto default, then, onto this.
         jQuery.extend(true, this, DEFAULTMAP, obj);

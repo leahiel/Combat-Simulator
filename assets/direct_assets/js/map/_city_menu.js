@@ -41,7 +41,7 @@ class CityMenu {
         }
         
         if (obj.generateCity) {
-            // TODO Use sv.quest.uuid to deterministically generate city, if desired, before merging everyhing onto `this`.
+            // TODO Use sv.uuid to deterministically generate city, if desired, before merging everyhing onto `this`.
             // Also use the integer State.variables.quest.citiesMade so we don't make duplicate cities.
         }
 
@@ -185,7 +185,7 @@ class CityMenu {
             $(`#cityGatherInfo`).click(function () {
                 if (sv.GameState === "citymenu") {
                     menu.timesVisitedGatheredInfo += 1;
-                    menu.gatherInfoHandler(menu, sv.quest.uuid);
+                    menu.gatherInfoHandler(menu, sv.uuid);
                 }
             });
         }
@@ -194,7 +194,7 @@ class CityMenu {
             $(`#cityTavern`).click(function () {
                 if (sv.GameState === "citymenu") {
                     menu.timesVisitedTavern += 1;
-                    menu.tavernHandler(menu, sv.quest.uuid);
+                    menu.tavernHandler(menu, sv.uuid);
                 }
             });
         }

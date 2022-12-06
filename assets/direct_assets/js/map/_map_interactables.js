@@ -23,14 +23,13 @@ class Interactable {
     constructor(url, options) {
         let map = State.variables.map;
         let canvas = State.variables.map.canvas;
-        let svq = State.variables.quest;
 
         // Merge our obj onto default, then merge those onto this.
         let trueOptions = jQuery.extend(true, {}, INTERACTABLEOPTIONS, options);
 
         // Set the random position of an interactable.
         if (trueOptions.randomPosition) {
-            let value = uuidToNum(svq.uuid);
+            let value = uuidToNum(State.variables.uuid);
             let left = value % map.maxgFWidth;
             let top = value % map.maxgFHeight;
             let strValue = `[${left}, ${top}]`;

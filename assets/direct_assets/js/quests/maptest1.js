@@ -5,6 +5,7 @@
     let svq = State.variables.quest;
 
     function map() {
+        // TODO: Player Location should be functional. Atm it is random.
         svq.playerLoc = [5, 5];
         State.temporary.interactableLocs = [[svq.playerLoc[0], svq.playerLoc[1]]];
 
@@ -15,7 +16,7 @@
             function () {
                 new setup.map.Interactable("assets/imported/img/png/turn_icon_en.png", {
                     intersecting: function () {
-                        new setup.tb.TextBox(i0_1tb);
+                        new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
 
                         $(document).one(":textboxclosed", function () {
                             // TODO: :combatwon, :combatlost
@@ -31,8 +32,10 @@
             function () {
                 new setup.map.Interactable("assets/imported/img/png/turn_icon.png", {
                     intersecting: function () {
-                        // NYI This should result in the same flavorTB every time.
-                        let flavortb = setup.tbs.flavor_tbs.random();
+                        // Give the same flavor text box every time.
+                        // TODO: It should be different from every other flavor textbox.
+                        let value = uuidToNum(State.variables.uuid);
+                        let flavortb = setup.tbs.flavor_tbs[value % setup.tbs.flavor_tbs.length];
 
                         new setup.tb.TextBox(flavortb);
                     },
@@ -92,5 +95,5 @@
         svq = {};
     }
 
-    S.maps.questTest1 = map; // This should be map, not questTest1.
+    S.maps.questTest1 = map;
 })(setup);
