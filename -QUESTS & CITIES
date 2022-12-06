@@ -20,9 +20,6 @@
 -= Map =-
     ☑  Make map class.
         ☐  Maps should be able to take a set number of interactables.
-            ☐  Map should generate placement of said Interactables randomly.
-                ☐  Placement of Interactables should be within screen width and height.
-        ☐  Has kill() method.
     ☑  Primitive Set up
     ☐  Fix player movement and make it always a steady x and y translation speed.
 

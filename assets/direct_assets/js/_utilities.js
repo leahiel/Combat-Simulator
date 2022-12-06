@@ -354,12 +354,23 @@ function updateProperty(obj, path, value, updateWith) {
 
 /** Wait for arbitrary amount of time in miliseconds. */
 function waitFor(ms) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         setTimeout(() => {
-            resolve('');
+            resolve("");
         }, ms);
     });
-};
+}
+
+/** Returns the first 12 digits of the Decimal value of a UUID. */
+function uuidToNum(uuid) {
+    return Number(String(BigInt("0x" + uuid.replace(/-/g, ""))).slice(0, 12));
+}
+
+/** Shifts the first digit of the number to the last, then subtracts it by 1.  */
+function shiftNumber(number) {
+    let solNumber = parseInt(`${String(number).substring(1)}${number.toString()[0]}`);
+    return solNumber - 1;
+}
 
 // Add the required utility functions to setup.
 (function (S) {
@@ -418,4 +429,12 @@ function waitFor(ms) {
     S.fns.waitFor = function (ms) {
         return waitFor(ms);
     };
+
+    // S.fns.uuidToNum = function (uuid) {
+    //     return uuidToNum(uuid);
+    // };
+
+    // S.fns.shiftNumber = function (number) {
+    //     return shiftNumber(number);
+    // };
 })(setup);

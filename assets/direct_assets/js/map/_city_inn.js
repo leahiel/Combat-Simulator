@@ -1,20 +1,5 @@
-/** TODO I want INN to use an InnHandler like GatherInfo and Taverns, and then have it call the proper inn screen after. */
-
-const DEFAULTINNTB = {
-    showBackground: true,
-    backgroundSrc: "assets/imported/img/png/tavern1.png",
-    lines: [
-        {
-            line: "Welcome to ${name}!",
-        },
-    ],
-};
-
 const DEFAULTINN = {
     name: "Unknown Name",
-    textbox: {
-        DEFAULTINNTB,
-    },
 };
 
 /**
@@ -32,9 +17,6 @@ class Inn {
 
         /** Add the swappable menu partners. */
         this.potentialPartners = [];
-
-        // TODO Inn textbox.
-        this.textbox = {};
 
         this.generateMenu();
 

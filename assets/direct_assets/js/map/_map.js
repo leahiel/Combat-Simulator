@@ -1,10 +1,11 @@
 const DEFAULTMAP = {
-    debug: true,
+    debug: false,
 };
 
 class Map {
     constructor(bgImgSrc, obj) {
         let sv = State.variables;
+        sv.quest.uuid = setup.uuid_v4();
 
         // Merge the canvas into our obj, then onto default, then, onto this.
         jQuery.extend(true, this, DEFAULTMAP, obj);
@@ -37,12 +38,21 @@ class Map {
          * "Grid Fidelity"
          * The distance, in px, between the lines in the grid.
          *
-         * 3.125% is 32 grid boxes along the greater length.
+         * 5% is 25 grid boxes along the greater length.
          */
-        let boxValue = 0.03125;
-        this.maxgFWidth = window.outerWidth * boxValue;
-        this.maxgFHeight = window.outerHeight * boxValue;
-        this.gF = this.maxgFWidth >= this.maxgFHeight ? this.maxgFWidth : this.maxgFHeight;
+        let boxValue = 0.0525;
+        this.maxgFWidth = Math.floor(window.outerWidth * boxValue);
+        this.maxgFHeight = Math.floor(window.outerHeight * boxValue);
+
+        if (this.maxgFWidth <= this.maxgFHeight) {
+            this.gF = this.maxgFWidth;
+            this.maxgFHeight = Math.floor(window.outerHeight / this.gF) - 1;
+            this.maxgFWidth = Math.floor(window.outerWidth / this.gF) - 1;
+        } else {
+            this.gF = this.maxgFHeight;
+            this.maxgFHeight = Math.floor(window.outerHeight / this.gF) - 1;
+            this.maxgFWidth = Math.floor(window.outerWidth / this.gF) - 1;
+        }
 
         /** Required due to async programming. */
         let map = this;
@@ -81,7 +91,7 @@ class Map {
             map.updateSequence(sv.quest.sequence);
         });
 
-        this.drawBackground(bgImgSrc);
+        this.drawBackground(sv.quest.mapBackground[sv.quest.sequence]);
 
         return this;
     }
@@ -96,13 +106,19 @@ class Map {
         let svq = State.variables.quest;
         let canvas = State.variables.map.canvas;
 
-        /** Destroy the objects in the interactableGroup. */
+        // Destroy the objects in the interactableGroup.
         if (canvas.interactableGroup) {
-            canvas.interactableGroup.forEachObject(function(obj) {
-                obj.dispose();
+            canvas.interactableGroup.forEachObject(function (obj) {
+                // Don't kill objects I want to keep in the same place.
+                if (!obj.keepLoc) {
+                    obj.dispose();
+                }
             });
         }
-        
+
+        // Draw New Background
+        this.drawBackground(svq.mapBackground[svq.sequence]);
+
         // Add new interactables
         for (let interactable of svq.interactables[svq.sequence]) {
             interactable();

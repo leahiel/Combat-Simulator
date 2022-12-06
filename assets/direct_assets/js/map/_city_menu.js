@@ -6,7 +6,7 @@ let DEFAULTCITYMENU = {
     hasGuildHall: false,
     hasInn: true,
     innHandler: function (menu) {
-        new setup.tb.TextBox(setup.tbs.inn_tbs[0]);
+        new setup.tb.TextBox(setup.tbs.inn_tbs.random());
 
         $(document).one(":textboxclosed", function () {
             let inn = new Inn(menu);
@@ -23,7 +23,7 @@ let DEFAULTCITYMENU = {
     hasTavern: true,
     tavernHandler: function (menu, uuid) {
         // TODO: Use menu.timesVisited and uuid to make an array of gatherinfo_tbs and progress through it.
-        new setup.tb.TextBox(setup.tbs.tarvern_tbs[0]);
+        new setup.tb.TextBox(setup.tbs.tavern_tbs[0]);
     },
     hasCrafting: false, // Unused
     craftingType: "none", // "None", "Jewelcrafter", "Blacksmith", "Leatherworker", "Tailor", "Shrine", "Alchemist"
@@ -185,7 +185,7 @@ class CityMenu {
             $(`#cityGatherInfo`).click(function () {
                 if (sv.GameState === "citymenu") {
                     menu.timesVisitedGatheredInfo += 1;
-                    menu.gatherInfoHandler(menu, uuid);
+                    menu.gatherInfoHandler(menu, sv.quest.uuid);
                 }
             });
         }
@@ -194,7 +194,7 @@ class CityMenu {
             $(`#cityTavern`).click(function () {
                 if (sv.GameState === "citymenu") {
                     menu.timesVisitedTavern += 1;
-                    menu.tavernHandler(menu, uuid);
+                    menu.tavernHandler(menu, sv.quest.uuid);
                 }
             });
         }

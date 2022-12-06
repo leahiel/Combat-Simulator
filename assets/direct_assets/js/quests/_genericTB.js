@@ -12,6 +12,34 @@
                 },
             ],
         },
+        {
+            lines: [
+                {
+                    line: "Oh, a visitor! Welcome!",
+                },
+            ],
+        },
+        {
+            lines: [
+                {
+                    line: "We got rooms available, feel free to stay the night!",
+                },
+            ],
+        },
+        {
+            lines: [
+                {
+                    line: "Welcome to our- Oh, how cute! We'll give you the best bed!",
+                },
+            ],
+        },
+        {
+            lines: [
+                {
+                    line: "First time here? There's an extra fee involved.",
+                },
+            ],
+        },
     ];
 
     let flavor_tbs = [
@@ -69,6 +97,7 @@
         },
     ];
 
+    /** Gathering Info should show quest specific information. */
     let gatherinfo_tbs = [
         {
             showBackground: true,
@@ -81,13 +110,14 @@
         },
     ];
 
-    let tarvern_tbs = [
+    /** The tavern is for generic information about the game. Enemies, spells, items... */
+    let tavern_tbs = [
         {
             showBackground: true,
             backgroundSrc: "assets/imported/img/png/tavern1.png",
             lines: [
                 {
-                    line: "We've at the tavern!",
+                    line: "Stay awhile and listen.",
                 },
             ],
         },
@@ -96,5 +126,5 @@
     S.tbs.inn_tbs = inn_tbs;
     S.tbs.flavor_tbs = flavor_tbs;
     S.tbs.gatherinfo_tbs = gatherinfo_tbs;
-    S.tbs.tarvern_tbs = tarvern_tbs;
+    S.tbs.tavern_tbs = tavern_tbs;
 })(setup);
