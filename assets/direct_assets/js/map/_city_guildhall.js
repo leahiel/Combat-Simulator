@@ -3,7 +3,7 @@
  * to be another class? Couldn't this be in city menu?
  * 
  * Answer: Perhaps it could be, but it could also be part of a quest 
- * to visit a guild hall, so we'd need to accept a talkbox for those 
+ * to visit a guild hall, so we'd need to accept a textbox for those 
  * situations.
  */
 class GuildHall {

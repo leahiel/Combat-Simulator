@@ -1,3 +1,21 @@
+:: passageinit [.rendering script]
+/** 
+ * Don't let the map object be added to moments in the history and 
+ * hide the map.
+ */
+$(document).on(":passageinit", function() {
+    let sv = State.variables;
+
+    if (sv.map) {
+        sv.map = undefined;
+    }
+    
+    $(".canvas-container").replaceWith(`<canvas id="map" class="hidden"></canvas>`).addClass("hidden");
+    $(document).off(":sequenceupdated");
+});
+
+
+
 :: PassageReady [.rendering] {"position":"500,25"}
 /* Everything here is done before every passage begins rendering.
 Best for checking variables and whatnot. */
@@ -45,7 +63,6 @@ It's intended for actual rendering stuff. */
 :: PassageFooter [.rendering] {"position":"500,75"}
 /* Everything here is rendered at the end of every passage rendering.
 It's intended for actual rendering stuff. */
-
 <span id='flash-notifs-here'></span>
 
 

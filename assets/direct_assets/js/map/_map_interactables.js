@@ -2,6 +2,7 @@ let INTERACTABLEOPTIONS = {
     timesVisited: 0,
     randomPosition: true,
     keepLoc: false,
+    stopShowingSequence: undefined, // If keepLoc, then keepLoc == false when sequence === this.
 
     hasControls: false,
     hasBorders: false,
@@ -35,7 +36,7 @@ class Interactable {
             let strValue = `[${left}, ${top}]`;
 
             // If gFCoords of an interactable overlap, shift UUID and try again.
-            while (State.temporary.interactableLocs.includes(strValue)) {
+            while (State.variables.canvas.interactableLocs.includes(strValue)) {
                 value = shiftNumber(value);
 
                 left = value % map.maxgFWidth;
@@ -47,7 +48,7 @@ class Interactable {
             trueOptions.left = left * map.gF;
             trueOptions.top = top * map.gF;
 
-            State.temporary.interactableLocs.push(strValue);
+            State.variables.canvas.interactableLocs.push(strValue);
         }
 
         let img = new Image();
@@ -80,21 +81,17 @@ class Interactable {
         img.src = url;
     }
 
-    /** TODO: Test saving and loading on a map. */
-
-    /** Required for SC Saving and loading. */
-    clone() {
-        return new this.constructor(this);
+    setPosition() {
+        
     }
 
-    /** Required for SC Saving and loading. */
-    toJSON() {
-        const ownData = {};
-        Object.keys(this).forEach(function (pn) {
-            ownData[pn] = clone(this[pn]);
-        }, this);
-        return JSON.reviveWrapper(`new ${this.constructor.name}($ReviveData$)`, ownData);
-    }
+    /**
+     * Ineractables itself is not saved, but they should be. I'm not 
+     * sure how to handle this yet.
+     *
+     * This means that we do not need the clone() and toJSON() methods
+     * that most classes need for SugarCube compatibility.
+     */
 }
 
 // Add the required interactable functions to setup.

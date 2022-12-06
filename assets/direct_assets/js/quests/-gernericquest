@@ -7,7 +7,7 @@
     function map() {
         // TODO: Player Location should be functional. Atm it is random.
         svq.playerLoc = [5, 5];
-        State.temporary.interactableLocs = [[svq.playerLoc[0], svq.playerLoc[1]]];
+        State.variables.canvas.interactableLocs = [[svq.playerLoc[0], svq.playerLoc[1]]];
 
         /** Interactables */
         // Sequence 0

@@ -3,17 +3,17 @@ const DEFAULTMAP = {
 };
 
 class Map {
-    constructor(bgImgSrc, obj) {
+    constructor(obj) {
         let sv = State.variables;
 
         // Merge the canvas into our obj, then onto default, then, onto this.
         jQuery.extend(true, this, DEFAULTMAP, obj);
 
         /* If a canvas already exists from another map instance, dispose of it before making a new one. */
-        if (sv.map) {
-            sv.map.canvas.dispose();
-            sv.map = undefined;
-        }
+        // if (sv.map) {
+        //     sv.map.canvas.dispose();
+        //     sv.map = undefined;
+        // }
 
         /* Initialize Canvas */
         /* http://fabricjs.com/articles/ */
@@ -80,17 +80,16 @@ class Map {
             map.loadEventListeners();
 
             /** Load initial Interactables. */
-            /** TODO: This needs to load all interactabls up to and including the number in sv.quest.sequence. */
-            map.updateSequence();
+            // NOTE: This also sets the background.
+            map.updateSequence(sv.quest.sequence)
         });
 
         /** Load custom trigger notice thing */
         $(document).on(":sequenceupdated", function () {
             sv.quest.sequence += 1;
+
             map.updateSequence(sv.quest.sequence);
         });
-
-        this.drawBackground(sv.quest.mapBackground[sv.quest.sequence]);
 
         return this;
     }
@@ -101,25 +100,40 @@ class Map {
         return [(pos[0] - (pos[0] % fidelity)) / fidelity, (pos[1] - (pos[1] % fidelity)) / fidelity];
     }
 
-    updateSequence() {
+    updateSequence(seqNum) {
         let svq = State.variables.quest;
         let canvas = State.variables.map.canvas;
+
+        if (seqNum === undefined) {
+            seqNum = svq.sequence;
+        }
 
         // Destroy the objects in the interactableGroup.
         if (canvas.interactableGroup) {
             canvas.interactableGroup.forEachObject(function (obj) {
                 // Don't kill objects I want to keep in the same place.
-                if (!obj.keepLoc) {
+                if (!obj.keepLoc || (obj.keepLoc && seqNum >= obj.stopShowingSequence)) {
                     obj.dispose();
                 }
             });
         }
 
+        /**
+         * TODO:
+         * If we load up the map again (say after coming from combat), 
+         * then we lose the canvas.interactableGroup. Therefore, we 
+         * should go through each interactable and replace the
+         * interactables that exist.
+         * 
+         * In reality, we should be storing just these interactables 
+         * somewhere, and then calling them when they are needed.
+         */ 
+
         // Draw New Background
-        this.drawBackground(svq.mapBackground[svq.sequence]);
+        this.drawBackground(svq.mapBackground[seqNum]);
 
         // Add new interactables
-        for (let interactable of svq.interactables[svq.sequence]) {
+        for (let interactable of svq.interactables[seqNum]) {
             interactable();
         }
     }
@@ -191,7 +205,7 @@ class Map {
         this.canvas.interactableGroup.forEachObject((obj) => {
             if (svq.playerLoc.toString() === this.getGFCoords([obj.aCoords.tl.x, obj.aCoords.tl.y]).toString()) {
                 obj.timesVisited += 1;
-                obj.intersecting();
+                obj.intersecting(obj);
             }
         });
     }
@@ -265,22 +279,15 @@ class Map {
         });
     }
 
-    /** TODO: Test saving and loading on a map. */
-
-    /** Required for SC Saving and loading. */
-    clone() {
-        // BUG: There is a fabric clone() method already, but it seems incompatible with SC [naturally].
-        // return new this.constructor(this);
-    }
-
-    /** Required for SC Saving and loading. */
-    toJSON() {
-        const ownData = {};
-        Object.keys(this).forEach(function (pn) {
-            ownData[pn] = clone(this[pn]);
-        }, this);
-        return JSON.reviveWrapper(`new ${this.constructor.name}($ReviveData$)`, ownData);
-    }
+    /**
+     * The map instance itself is not saved. Instead, we delete it
+     * with a `:passageinit` Event Listener. Particular details of the
+     * map should be in State.variables.quest, and that should be used
+     * to decide map interactables and whatnot.
+     *
+     * This means that we do not need the clone() and toJSON() methods
+     * that most classes need for SugarCube compatibility.
+     */
 }
 
 // Add the required map functions to setup.

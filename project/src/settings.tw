@@ -113,7 +113,7 @@ sv.meta.psgsthatsentdb = [];
 setup.promises = {}
 setup.promises.importInit = importScripts(
     "assets/imported/js/jcanvas.min.js", 
-    "https://cdn.jsdelivr.net/npm/fabric",
+    "assets/imported/js/fabric.js",
 ).then(
     () => {
         /* setup.fns.importGameSSR(); */

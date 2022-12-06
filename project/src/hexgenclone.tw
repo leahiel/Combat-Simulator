@@ -1,0 +1,66 @@
+:: Hexgen
+/* This is an attempt to make a clone of: https://noerskov.net/#/hexgen */
+
+/**
+    Functionality:
+        Randomly generate hexes with matching edgelines. Edgelines include:
+            Road
+            River
+            Lake
+            Forest
+            Plains
+
+        A regular hexagon has 60 degree angles.
+
+        Thus, we need to take these arrays and arrange them to make a logical sequence, and then turn them into a map.
+        Create a hexagon class, and each instance will provide the number of edge-types it has.
+
+        If the hexes are made in a row, then the creation process will specify only 0, 1, 2, or 3 edgelines in a row, which means compatiable edgelines aren't terribly difficult, espicially since we can rotate and invert them.
+
+        If Original Array is [1, 2, 3, 4, 5, 6] then:
+            Rotate clockwise: [6, 1, 2, 3, 4, 5]
+            Rotate anti-clockwise: [2, 3, 4, 5, 6, 1]
+            Invert: [6, 5, 4, 3, 2, 1]
+
+        To make the grid, we'd use an md array:
+        [
+        [hex, hex, hex, hex, hex, hex]
+          [hex, hex, hex, hex, hex]         // Half hex correction needed
+        [hex, hex,  1 , 2  , hex, hex]
+          [hex,   6,  0,  3  , hex]          // Half hex correction needed
+        [hex, hex,  5 , 4  , hex, hex]
+          [hex, hex, hex, hex, hex]         // Half hex correction needed
+        [hex, hex, hex, hex, hex, hex]
+          [hex, hex, hex, hex, hex]         // Half hex correction needed
+        [hex, hex, hex, hex, hex, hex]
+        ]
+
+        Each hex would have to store what each edgeline is.
+        When we need to make the next hex, we just use simple math to determine the edges of the hexes that are already placed.
+
+        So we need this data in the class:
+        Original Order [1, 2, 3, 4, 5, 6]
+        Every Possible Order we can get:
+            [
+                [1, 2, 3, 4, 5, 6] // Default
+                [2, 3, 4, 5, 6, 1] // Rotate Once
+                [3, 4, 5, 6, 1, 2] // Rotate Twice
+                [4, 5, 6, 1, 2, 3] // Rotate Thrice
+                [5, 6, 1, 2, 3, 4] // Rotate Quarce
+                [6, 1, 2, 3, 4, 5] // Rotate Quince
+                [6, 5, 4, 3, 2, 1] // Invert
+                [1, 6, 5, 4, 3, 2] // Invert Rotate Once
+                [2, 1, 6, 5, 4, 3] // Invert Rotate Twice
+                [3, 4, 5, 6, 1, 2] // Invert Rotate Thrice
+                [4, 5, 6, 1, 2, 3] // Invert Rotate Quarce
+                [5, 6, 1, 2, 3, 4] // Invert Rotate Quince
+            ]
+
+        We can check for a sub array like this:
+            let arr = [1, 2, 3, 4, 5, 6]
+            let subarr = [1, 2, 3]
+
+            arr.join().includes(subarr.join()) // Bool
+
+        We'll have to make sure we're only check the correct items in the master array, for instance, indices 4, 5, 6, if those are what are needed.
+ */

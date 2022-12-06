@@ -58,4 +58,4 @@ A Quest is a collection of information that gives meaning to Maps, determining w
 They should load all required data at the start of them. Expected quest time is 15 to 30 minutes.
 They also collect maps:
     Maps should be procedurally generated with a collection of Interactables:
-        Interactables can be combat, talkboxes, or cities. [Later, also places that give items.]
+        Interactables can be combat, textboxes, or cities. [Later, also places that give items.]

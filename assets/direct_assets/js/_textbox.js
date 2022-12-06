@@ -29,7 +29,7 @@ class TextBox {
 
         let sv = State.variables;
         sv.PrevGameState = sv.GameState;
-        sv.GameState = "talkbox";
+        sv.GameState = "textbox";
 
         this.currentLine = 0;
         this.start();
@@ -156,7 +156,7 @@ class TextBox {
     }
 }
 
-// Add the required talkbox functions to setup.
+// Add the required textbox functions to setup.
 (function (S) {
     if (!S.tb) {
         S.tb = {};
