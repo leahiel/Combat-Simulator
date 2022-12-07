@@ -12,11 +12,13 @@
 // IIFE needed to add the quests to setup.
 (function (S) {
     let svq = State.variables.quest;
+    
 
     function map() {
         // TODO: Player Location should be functional. Atm it is random.
         svq.playerLoc = [5, 5];
         State.variables.canvas.interactableLocs = [[svq.playerLoc[0], svq.playerLoc[1]]];
+        svq.subquest = 0;
 
         /**
          *  Reused Assets
@@ -55,18 +57,22 @@
 
         let spiders = function () {
             new setup.map.Interactable("assets/imported/img/png/turn_icon_en.png", {
-                intersecting: function () {
+                intersecting: function (spiderInteractable) {
                     new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
 
-                    // $(document).one(":textboxclosed", function () {
-                    //     // TODO: :combatwon, :combatlost
-                    //     setup.combats.CI_SPIDERS();
-                    // });
+                    $(document).one(":textboxclosed", function () {
+                        // TODO: :combatwon, :combatlost
+                        setup.combats.CI_SPIDERS();
+                    });
 
                     console.log(this);
 
                     $(document).one(":combatwon", function () {
-                        this.dispose();
+                        spiderInteractable.dispose();
+                        svq.subquest += 1;
+                        if (svq.subquest >= 5) {
+                            $(document).trigger(":sequenceupdated");
+                        }
                     });
 
                     $(document).one(":combatlost", function () {
@@ -151,6 +157,24 @@
                             ],
                         };
 
+                        let burkvin2 = {
+                            showBackground: false, // TODO: Set True
+                            backgroundSrc: "", // TODO: Image Src
+                            showDimmer: true,
+                            showPortrait: false,
+                            showSpeakerName: true,
+                            lines: [
+                                {
+                                    speaker: "Narrator",
+                                    line: "Upon reaching Burkvinville, you head to the mayor and report your battle against the daddy spider.",
+                                },
+                                {
+                                    speaker: "Mayor",
+                                    line: "Yeah! We were able to see it from here. But now we also found the location of the momma spider. Can ya take it out for us? That'll stop the breeding of the spiders.",
+                                },
+                            ],
+                        };
+
                         // TODO: Make this CityMenu based on UUID instead of scripting it manually.
                         let city = new setup.map.CityMenu({
                             name: "Burkvinville",
@@ -163,19 +187,57 @@
                             $(document).trigger(":sequenceupdated");
                         }
 
+                        if (svq.sequence === 3) {
+                            new setup.tb.TextBox(burkvin2);
+                            $(document).trigger(":sequenceupdated");
+                        }
+
                         city.display();
                     },
                 });
             },
         ];
 
+        // Sequence 2
         let sequence2 = [spiders, spiders, spiders, spiders, spiders];
+
+        // Sequence 3
+        let sequence3 = [
+            // Combat Interactable
+            function () {
+                new setup.map.Interactable("assets/imported/img/png/turn_icon_en.png", {
+                    intersecting: function () {
+                        new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
+
+                        $(document).one(":textboxclosed", function () {
+                            $(document).one(":combatwon", function () {
+                                State.variables.quest.sequence += 1;
+                            });
+
+                            $(document).one(":combatlost", function () {
+                                $(document).off(":combatwon");
+                            });
+
+                            setup.combats.CI_DADDYSPIDER();
+                        });
+
+                        // TODO Make ":combatwon" and ":combatlost" events so that I can update sequence on win.
+                    },
+                });
+            },
+        ];
+
+        // Sequence 4
+        let sequence4 = []; // Return back to town.
+
+        // Sequence 5
+        let sequence5 = []; // Return back to town.
 
         /** Compile into object. */
         let map = {
             sequence: 0,
 
-            interactables: [sequence0, sequence1, sequence2],
+            interactables: [sequence0, sequence1, sequence2, sequence3, sequence4, sequence5],
 
             mapBackground: [
                 // Sequence 0
@@ -183,6 +245,12 @@
                 // Sequence 1
                 "assets/imported/img/png/browncanvas.jpeg",
                 // Sequence 2
+                "assets/imported/img/png/browncanvas.jpeg",
+                // Sequence 3
+                "assets/imported/img/png/browncanvas.jpeg",
+                // Sequence 4
+                "assets/imported/img/png/browncanvas.jpeg",
+                // Sequence 5
                 "assets/imported/img/png/browncanvas.jpeg",
             ],
         };

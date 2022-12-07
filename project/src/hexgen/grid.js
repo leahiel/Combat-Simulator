@@ -84,6 +84,7 @@ class Grid {
             scale = this.height;
         }
 
+        // DESIRED: Convert to standard loop. `let idx in ...` is the slowest way to loop through arrays.
         for (let row in this.grid) {
             let columnOffset = 0;
             if (row % 2 === 1) {

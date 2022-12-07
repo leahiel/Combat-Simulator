@@ -12,6 +12,13 @@ class Hex {
 
         /** If we don't have all the configurations for the hex, print to console some code that we can copy and paste in to make the configurations. */
         if (this.edgelines.rOnce === undefined || this.edgelines.inverted === undefined) {
+            /** Returns an array that non-destructively moved the first item in the given array into the last place, effectively rotating it. */
+            function rotate(arr) {
+                let solarr = [...arr];
+                solarr.push(solarr.shift());
+                return solarr;
+            }
+
             /** Turn the array into a string that can be copy and pasted. */
             function reportEdgelines(configuration) {
                 let solStr = "";
@@ -25,40 +32,21 @@ class Hex {
                 return solStr;
             }
 
-            this.edgelines.rOnce = [...this.edgelines.default];
-            this.edgelines.rOnce.push(this.edgelines.rOnce.shift());
-
-            this.edgelines.rTwice = [...this.edgelines.rOnce];
-            this.edgelines.rTwice.push(this.edgelines.rTwice.shift());
-
-            this.edgelines.rThrice = [...this.edgelines.rTwice];
-            this.edgelines.rThrice.push(this.edgelines.rThrice.shift());
-
-            this.edgelines.rQuarce = [...this.edgelines.rThrice];
-            this.edgelines.rQuarce.push(this.edgelines.rQuarce.shift());
-
-            this.edgelines.rQuince = [...this.edgelines.rQuarce];
-            this.edgelines.rQuince.push(this.edgelines.rQuince.shift());
+            this.edgelines.rOnce = rotate(this.edgelines.default);
+            this.edgelines.rTwice = rotate(this.edgelines.rOnce);
+            this.edgelines.rThrice = rotate(this.edgelines.rTwice);
+            this.edgelines.rQuarce = rotate(this.edgelines.rThrice);
+            this.edgelines.rQuince = rotate(this.edgelines.rQuarce);
 
             this.edgelines.inverted = [...this.edgelines.default].reverse();
-
-            this.edgelines.irOnce = [...this.edgelines.inverted];
-            this.edgelines.irOnce.push(this.edgelines.irOnce.shift());
-
-            this.edgelines.irTwice = [...this.edgelines.irOnce];
-            this.edgelines.irTwice.push(this.edgelines.irTwice.shift());
-
-            this.edgelines.irThrice = [...this.edgelines.irTwice];
-            this.edgelines.irThrice.push(this.edgelines.irThrice.shift());
-
-            this.edgelines.irQuarce = [...this.edgelines.irThrice];
-            this.edgelines.irQuarce.push(this.edgelines.irQuarce.shift());
-
-            this.edgelines.irQuince = [...this.edgelines.irQuarce];
-            this.edgelines.irQuince.push(this.edgelines.irQuince.shift());
+            this.edgelines.irOnce = rotate(this.edgelines.inverted);
+            this.edgelines.irTwice = rotate(this.edgelines.irOnce);
+            this.edgelines.irThrice = rotate(this.edgelines.irTwice);
+            this.edgelines.irQuarce = rotate(this.edgelines.irThrice);
+            this.edgelines.irQuince = rotate(this.edgelines.irQuarce);
 
             console.error(
-                `This hex does not display the correct values in all possible configurations. Please copy and paste this code into the hex information for ${this.src}:`
+                `This hex does not have the values in all possible configurations. Please copy and paste this code into the <Hex>.edgelines array for ${this.src}:`
             );
             console.log(
                 `rOnce: [${reportEdgelines(this.edgelines.rOnce)}],`,
@@ -130,6 +118,7 @@ class Hex {
 
     /** Rotate the hexagon's edgelines. */
     rotate() {
+        // NOTE: This should be correct, but it would be wise to double check this experimentally.
         switch (this.configuration) {
             case "default":
                 this.configuration = "rOnce";

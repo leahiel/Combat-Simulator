@@ -52,6 +52,33 @@ const monsters = {
         criticalChanceIncreased: 1,
     }),
 
+    EN_DADDY_SPIDER: new Enemy({
+        name: "Daddy Spider",
+        family: "mommySpider",
+        healthMax: 94,
+        initStart: 56,
+        attacks: setup.COM.familyAttacks.mommySpider,
+        description: "It's hard to believe that this one spider caused the birth of so many others.",
+        damage: {
+            blunt: {
+                min: 3,
+                max: 9,
+            },
+            acid: {
+                min: 2,
+                max: 5,
+            },
+            pierce: {
+                min: 2,
+                max: 5,
+            },
+        },
+        directChanceBase: 0.08,
+        directChanceIncreased: 0.25,
+        criticalChanceBase: 0.09,
+        criticalChanceIncreased: 1,
+    }),
+
     EN_BABY_SPIDER: new Enemy({
         name: "Baby Spider",
         family: "babySpider",
@@ -72,6 +99,30 @@ const monsters = {
             pierce: {
                 min: 1,
                 max: 1,
+            },
+        },
+    }),
+
+    EN_SPIDER: new Enemy({
+        name: "Spider",
+        family: "babySpider",
+        healthMax: 38,
+        initStart: 28,
+        initStartVariance: 0.24,
+        attacks: setup.COM.familyAttacks.babySpider,
+        description: "A large spider. Not very cute.",
+        damage: {
+            blunt: {
+                min: 2,
+                max: 4,
+            },
+            acid: {
+                min: 3,
+                max: 3,
+            },
+            pierce: {
+                min: 2,
+                max: 3,
             },
         },
     }),

@@ -21,7 +21,6 @@
             Engine.play("Combat_Overlord");
         },
 
-        // TODO: This should also have adult spiders.
         CI_SPIDERS: function () {
             State.variables.ci = new setup.COM.CombatInstance({
                 winPassage: "Map",
@@ -33,11 +32,11 @@
             Engine.play("Combat_Overlord");
         },
 
-        // TODO: This should be daddy spider instead of mommy spider.
         CI_DADDYSPIDER: function () {
             State.variables.ci = new setup.COM.CombatInstance({
                 winPassage: "Map",
                 losePassage: "Map",
+                // TODO Make EP randomized, with a daddy spiderthough only baby spiders and spiders will be in it.
                 ep: ["EN_BABY_SPIDER", "EN_DADDY_SPIDER", "EN_BABY_SPIDER", "EN_BABY_SPIDER", "EN_BABY_SPIDER"],
             });
 
