@@ -111,9 +111,11 @@ sv.meta = {};
 sv.meta.psgsthatsentdb = [];
 
 setup.promises = {}
+/* REQUIRED: Remove pixi.js and other hexgenclone stuff for distribution. */
 setup.promises.importInit = importScripts(
     "assets/imported/js/jcanvas.min.js", 
     "assets/imported/js/fabric.js",
+    "https://pixijs.download/release/pixi.js",
 ).then(
     () => {
         /* setup.fns.importGameSSR(); */

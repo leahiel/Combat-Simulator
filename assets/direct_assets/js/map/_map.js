@@ -132,9 +132,13 @@ class Map {
         // Draw New Background
         this.drawBackground(svq.mapBackground[seqNum]);
 
+        svq.temparr = [];
+
+        // NYI Add old interactables.
+
         // Add new interactables
         for (let interactable of svq.interactables[seqNum]) {
-            interactable();
+            svq.temparr.push(interactable());
         }
     }
 

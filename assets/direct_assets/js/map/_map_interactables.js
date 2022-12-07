@@ -2,7 +2,7 @@ let INTERACTABLEOPTIONS = {
     timesVisited: 0,
     randomPosition: true,
     keepLoc: false,
-    stopShowingSequence: undefined, // If keepLoc, then keepLoc == false when sequence === this.
+    stopShowingSequence: undefined, // If keepLoc, then keepLoc === false when sequence === this.
 
     hasControls: false,
     hasBorders: false,
@@ -81,13 +81,9 @@ class Interactable {
         img.src = url;
     }
 
-    setPosition() {
-        
-    }
-
     /**
-     * Ineractables itself is not saved, but they should be. I'm not 
-     * sure how to handle this yet.
+     * Interactables are not saved, but they should be. I'm not sure
+     * how to handle this yet.
      *
      * This means that we do not need the clone() and toJSON() methods
      * that most classes need for SugarCube compatibility.

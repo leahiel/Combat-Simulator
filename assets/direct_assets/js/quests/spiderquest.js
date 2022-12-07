@@ -23,7 +23,7 @@
          */
         // Quest Interactable
         let ittybittyman = function () {
-            new setup.map.Interactable("assets/imported/img/png/turn_icon.png", {
+            let interactableInstance = new setup.map.Interactable("assets/imported/img/png/turn_icon.png", {
                 keepLoc: true, // This will always show.
                 stopShowingSequence: 2,
                 intersecting: function () {
@@ -49,6 +49,8 @@
                     new setup.tb.TextBox(seq1_tb);
                 },
             });
+
+            return interactableInstance;
         };
 
         let spiders = function () {
@@ -158,11 +160,10 @@
 
                         if (obj.timesVisited === 1) {
                             new setup.tb.TextBox(burkvin1);
+                            $(document).trigger(":sequenceupdated");
                         }
 
                         city.display();
-
-                        $(document).trigger(":sequenceupdated");
                     },
                 });
             },

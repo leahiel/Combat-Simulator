@@ -1,0 +1,46 @@
+:: Hexgen
+/* This is an attempt to make a clone of: https://noerskov.net/#/hexgen */
+<<button "Make Grid">>
+<<script>>
+    let st = State.temporary;
+    st.grid = new setup.hex.Grid();
+<</script>>
+<</button>>
+<br>
+<<button "Show Grid">>
+<<script>>
+    let st = State.temporary;
+
+    st.grid.displayGrid(st.pixi);
+
+    /* Amount of time in seconds since our demo has been running. */
+    let elapsed = 0.0;
+
+    /* Tell the application to run a callback every frame. */
+    st.pixi.ticker.add((delta)=> {
+        elapsed += delta;
+    })
+    
+<</script>>
+<</button>>
+<<done>>
+<<script>>
+    let st = State.temporary;
+
+    st.pixi = new PIXI.Application({width: 960, height: 540});
+    $(`#passage-hexgen`).append(st.pixi.view);
+<</script>>
+<</done>>
+
+/**
+    Remaining work to be done:
+        If the hexes are made in a row, then the creation process will specify only 0, 1, 2, or 3 edgelines in a row, which means compatiable edgelines aren't terribly difficult, espicially since we can rotate and invert them.
+
+        We can check for a sub array like this:
+            let arr = [1, 2, 3, 4, 5, 6]    // Hex.configuration to be placed
+            let subarr = [1, 2, 3]          // Required edgelines to be fulfilled.
+
+            arr.join().includes(subarr.join()) // Bool
+
+        We'll have to make sure we're only check the correct items in the master array, for instance, indices 4, 5, 6, if those are what are needed.
+ */
