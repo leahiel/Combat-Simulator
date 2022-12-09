@@ -26,7 +26,7 @@
                 winPassage: "Map",
                 losePassage: "Map",
                 // TODO Make EP randomized, though only baby spiders and spiders will be in it.
-                ep: ["EN_BABY_SPIDER", "EN_SPIDER", "EN_SPIDER", "EN_BABY_SPIDER", "EN_SPIDER"],
+                ep: ["EN_BABY_SPIDER", ], // "EN_SPIDER", "EN_SPIDER", "EN_BABY_SPIDER", "EN_SPIDER"],
             });
 
             Engine.play("Combat_Overlord");

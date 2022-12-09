@@ -19,6 +19,7 @@
         svq.playerLoc = [5, 5];
         State.variables.canvas.interactableLocs = [[svq.playerLoc[0], svq.playerLoc[1]]];
         svq.subquest = 0;
+        console.log(svq.subquest);
 
         /**
          *  Reused Assets
@@ -58,6 +59,21 @@
         let spiders = function () {
             new setup.map.Interactable("assets/imported/img/png/turn_icon_en.png", {
                 intersecting: function (spiderInteractable) {
+                    let big_spider_tb = {
+                        showBackground: false,
+                        backgroundSrc: "",
+                        showDimmer: true,
+                        showPortrait: false,
+                        showSpeakerName: true,
+                        lines: [
+                            {
+                                portrait: "assets/imported/img/png/turn_icon_pl.png",
+                                speaker: "Narrator",
+                                line: "In the distance you see a bigger spider along with its family moving about. Curious about the size of the beast, you decide to check it out.",
+                            },
+                        ],
+                    };
+
                     new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
 
                     $(document).one(":textboxclosed", function () {
@@ -65,13 +81,11 @@
                         setup.combats.CI_SPIDERS();
                     });
 
-                    console.log(this);
-
                     $(document).one(":combatwon", function () {
-                        spiderInteractable.dispose();
                         svq.subquest += 1;
                         if (svq.subquest >= 5) {
                             $(document).trigger(":sequenceupdated");
+                            new setup.tb.TextBox(big_spider_tb);
                         }
                     });
 
@@ -175,12 +189,28 @@
                             ],
                         };
 
+                        let burkvin3 = {
+                            showBackground: false, // TODO: Set True
+                            backgroundSrc: "", // TODO: Image Src
+                            showDimmer: true,
+                            showPortrait: false,
+                            showSpeakerName: true,
+                            lines: [
+                                {
+                                    speaker: "Narrator",
+                                    line: "Congratulations! This marks the end of the demo. Thank you for playing! ~LeahPeach",
+                                },
+                            ],
+                        };
+
                         // TODO: Make this CityMenu based on UUID instead of scripting it manually.
                         let city = new setup.map.CityMenu({
                             name: "Burkvinville",
                             hasGuildHall: true,
                             hasInn: true,
                         });
+
+                        city.display();
 
                         if (obj.timesVisited === 1) {
                             new setup.tb.TextBox(burkvin1);
@@ -192,7 +222,10 @@
                             $(document).trigger(":sequenceupdated");
                         }
 
-                        city.display();
+                        if (svq.sequence === 6) {
+                            new setup.tb.TextBox(burkvin3);
+                            $(document).trigger(":sequenceupdated");
+                        }
                     },
                 });
             },
@@ -239,6 +272,24 @@
 
             interactables: [sequence0, sequence1, sequence2, sequence3, sequence4, sequence5],
 
+            // NYI
+            objectives: [
+                // Sequence 0
+                "Find the city.",
+                // Sequence 1
+                "Talk to mayor.",
+                // Sequence 2
+                "Exterminate five groups of spiders.",
+                // Sequence 3
+                "Exterminate the bigger spider.",
+                // Sequence 4
+                "Report back to the mayor.",
+                // Sequence 5
+                "Exterminate the momma spider",
+                // Sequence 6
+                "Mission complete: Report to the guild hall.",
+            ],
+
             mapBackground: [
                 // Sequence 0
                 "assets/imported/img/png/browncanvas.jpeg",
@@ -251,6 +302,8 @@
                 // Sequence 4
                 "assets/imported/img/png/browncanvas.jpeg",
                 // Sequence 5
+                "assets/imported/img/png/browncanvas.jpeg",
+                // Sequence 6
                 "assets/imported/img/png/browncanvas.jpeg",
             ],
         };

@@ -1,7 +1,7 @@
 :: Start [@start] {"position":"275,250"}
 <<set _pronouns to "female">>
 <span id="mali-copy" style="display: grid;width: max-content;align-items: center;justify-items: center;">
-	<span id="mali-title" style="display: block;border-left: 2px solid white;border-right: 2px solid white;width: min-content;padding: 0 0.5em;border-radius: 16px;margin-bottom: -0.8em;background: var(--background);z-index: 1;">Maliface</span>
+	<span id="mali-title" style="display: block;border-left: 2px solid white;border-right: 2px solid white;width: min-content;padding: 0 0.5em;border-radius: 16px;margin-bottom: -0.8em;background: var(--background);z-index: 1;">Cute-Puppy</span>
 	<span id="mali-descript" style="display: block;border: 2px solid white;padding: 1em;border-radius: 16px;text-align: center;">
 		I'm nibbling on your ear... 
 	</span> 

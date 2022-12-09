@@ -190,6 +190,7 @@ class Grid {
 
     /** Sets the hex at the coordinate pair. */
     setHexAtCoord(coordArr, hex) {
+        // NTS: We only invert the coordinate pair when we access the multidimensional array.
         this.grid[coordArr[1]][coordArr[0]] = hex;
     }
 
@@ -205,6 +206,7 @@ class Grid {
             return 0;
         }
 
+        // NTS: We only invert the coordinate pair when we access the multidimensional array.
         return this.grid[coordArr[1]][coordArr[0]];
     }
 

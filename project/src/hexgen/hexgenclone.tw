@@ -1,4 +1,21 @@
 :: Hexgen
+/**
+    Hexgen TODO List:
+        Logic is finished!
+        Rendering:
+            Ensure that SVG images can be used exactly like the PNG images have been used so far.
+
+        Image Creation:
+            Research into the following capabilities in GIMP and Inkscape:
+
+            1) <manually> Make plains/forest/lake regions. // If I can make squiggly lines, and map regions, then this could be done automatically too. 
+            2) <automatically> Make plain/forest/lake regions draw cute lines in them to symbolize hills, trees, or waves.
+            3) <manually> Add buildings, roads, or rivers.
+
+            also research to see if I could add roads or rivers with 1/2. 
+ */
+
+
 /* This is an attempt to make a clone of: https://noerskov.net/#/hexgen */
 <<button "Make Grid">>
 <<script>>
@@ -33,16 +50,3 @@
     $(`#passage-hexgen`).append(st.pixi.view);
 <</script>>
 <</done>>
-
-/**
-    Remaining work to be done:
-        If the hexes are made in a row, then the creation process will specify only 0, 1, 2, or 3 edgelines in a row, which means compatiable edgelines aren't terribly difficult, espicially since we can rotate and invert them.
-
-        We can check for a sub array like this:
-            let arr = [1, 2, 3, 4, 5, 6]    // Hex.configuration to be placed
-            let subarr = [1, 2, 3]          // Required edgelines to be fulfilled.
-
-            arr.join().includes(subarr.join()) // Bool
-
-        We'll have to make sure we're only check the correct items in the master array, for instance, indices 4, 5, 6, if those are what are needed.
- */
