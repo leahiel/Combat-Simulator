@@ -114,7 +114,7 @@ setup.promises = {}
 /* REQUIRED: Remove pixi.js and other hexgenclone stuff for distribution. */
 setup.promises.importInit = importScripts(
     "assets/imported/js/jcanvas.min.js", 
-    "assets/imported/js/fabric.js",
+    /* "assets/imported/js/fabric.js", */
     "https://pixijs.download/release/pixi.js",
 ).then(
     () => {
@@ -139,6 +139,7 @@ sv.ft_knowledge = false;
 sv.ft_people = false;
 sv.ft_disable = [];
 sv.ft_warning = [];
+sv.quest = {};
 
 /* STATE/STATUS  */
 /* Information about your current state or status.  */

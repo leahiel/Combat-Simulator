@@ -1637,7 +1637,6 @@ griditem.row2 {
  * ##     ## ##     ## ##        
  * ##     ## ##     ## ##        
  */
-
 html[data-tags~="#map"] {
     overflow: hidden;
 }
@@ -1646,6 +1645,12 @@ body[data-tags~="#map"] {
     width: unset;
     margin-left: 10vw;
     margin-right: 10vw;
+}
+
+html[data-tags~="#map"] #passage-map canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 body[data-tags~="#map"] #infoScreen {
@@ -1849,7 +1854,7 @@ body[data-tags~="#map"] #infoScreen {
 
 #city-menu .itemPlateButtonHolder {
     display: block;
-    margin-top: .5rem;
+    margin-top: 0.5rem;
 }
 
 /* 
