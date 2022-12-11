@@ -35,7 +35,7 @@
 
 const DEFAULTMAP = {
     debug: true,
-    sequence: -1,  // The map sequence is what is actually on the map.
+    sequence: -1, // The map sequence is what is actually on the map.
 };
 
 class Map {
@@ -233,11 +233,19 @@ class Map {
              * Check the sequence.
              */
             if (sv.quest.sequence !== sv.map.sequence) {
+                // TODO: Make this a loop from sv.map.sequence to sv.quest.sequence
+                console.log(sv.quest.sequence)
                 sv.map.sequence = sv.quest.sequence;
-                // TODO: Something to remove interactables.
-                sv.quest.sequences[sv.map.sequence].forEach(interactable => {
-                    sv.quest.interactables.push(interactable());
-                });
+
+                if (!sv.quest.sequenceLoaded) {
+                    sv.quest.sequences[sv.map.sequence].forEach((interactable) => {
+                        sv.quest.interactables.push(interactable());
+                    });
+
+                    // TODO: Something to remove interactables.
+
+                    sv.quest.sequenceLoaded = true;
+                }
             }
 
             /**

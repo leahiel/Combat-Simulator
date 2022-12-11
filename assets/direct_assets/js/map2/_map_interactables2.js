@@ -11,32 +11,30 @@ let DEFAULT_INTERACTABLE = {
  *
  */
 class Interactable {
-    constructor(imgSrc, options, clone = false) {
+    constructor(options, clone = false) {
         // Merge our obj onto default, then merge those onto this.
         jQuery.extend(true, this, DEFAULT_INTERACTABLE, options);
         
         this.position = this.setPosition();
         if (!clone) {
-            this.icon = this.prepareInteractable(imgSrc);
+            this.icon = this.prepareInteractable();
         }
 
         return this;
     }
 
     /** Prepares the interactable icon for the canvas. */
-    prepareInteractable(imgSrc) {
-        if (imgSrc === "") {
-            imgSrc = "assets/imported/img/png/turn_icon_pl.png";
+    prepareInteractable() {
+        if (this.imgSrc === "") {
+            this.imgSrc = "assets/imported/img/png/turn_icon_pl.png";
         }
 
-        let interactable = PIXI.Sprite.from(imgSrc);
+        let interactable = PIXI.Sprite.from(this.imgSrc);
 
         interactable.width = Map.getGridFidelity();
         interactable.height = Map.getGridFidelity();
         interactable.x = Map.getGridFidelity() * this.position.x;
         interactable.y = Map.getGridFidelity() * this.position.y;
-
-        console.log(interactable.x)
 
         return interactable;
     }
@@ -76,15 +74,24 @@ class Interactable {
 
     /** Required for SC Saving and loading. */
     clone() {
+        // REVIEW: Do I want to delete <Interactable>.icon data here?
         return new this.constructor(this, {}, true);
     }
 
     /** Required for SC Saving and loading. */
     toJSON() {
         const ownData = {};
+
         Object.keys(this).forEach(function (pn) {
+            if (pn === 'icon') {
+                // We don't want dedicated PIXI data. Instead, we 
+                // regenerate that from scratch.
+                return;
+            }
+
             ownData[pn] = clone(this[pn]);
         }, this);
+
         return JSON.reviveWrapper(`new ${this.constructor.name}($ReviveData$)`, ownData);
     }
 }

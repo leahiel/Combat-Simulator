@@ -30,16 +30,16 @@
 
         if ($(ev.target).attr('class') === "dialogCombatWon") {
             $(document).off(':dialogclosing');
+            $(document).trigger(":combatwon");
             loc = State.variables.ci.winPassage;
             State.variables.ci = undefined;
             Engine.play(loc);
-            $(document).trigger(":combatwon");
         } else if ($(ev.target).attr('class') === "dialogCombatLoss") {
             $(document).off(':dialogclosing');
+            $(document).trigger(":combatlost");
             loc = State.variables.ci.losePassage;
             State.variables.ci = undefined;
             Engine.play(loc);
-            $(document).trigger(":combatlost");
         }
     });
 

@@ -139,7 +139,7 @@ sv.ft_knowledge = false;
 sv.ft_people = false;
 sv.ft_disable = [];
 sv.ft_warning = [];
-sv.quest = {};
+sv.quest = null;
 
 /* STATE/STATUS  */
 /* Information about your current state or status.  */
@@ -177,7 +177,7 @@ for (let equippable in setup.COM.equippables) {
 
 State.variables.initDecrementAmount = .25;
 
-sv.pc.equippables.weapon = svai.weapons[7];
+sv.pc.equippables.weapon = svai.weapons[0];
 sv.pc.equippables.armor = svai.armors[3];
 sv.pc.equippables.accessory = svai.accessories[1];
 

@@ -24,7 +24,8 @@
          */
         // Quest Interactable
         let ittybittyman = function () {
-            let interactableInstance = new setup.quest.Interactable("assets/imported/img/png/turn_icon.png", {
+            let interactableInstance = new setup.quest.Interactable({
+                imgSrc: "assets/imported/img/png/turn_icon.png",
                 intersecting: function () {
                     let seq1_tb = {
                         showBackground: false,
@@ -53,7 +54,8 @@
         };
 
         let spiders = function () {
-            let interactable = new setup.quest.Interactable("assets/imported/img/png/turn_icon_en.png", {
+            let interactable = new setup.quest.Interactable({
+                imgSrc: "assets/imported/img/png/turn_icon_en.png",
                 intersecting: function () {
                     let big_spider_tb = {
                         showBackground: false,
@@ -78,9 +80,9 @@
                     });
 
                     $(document).one(":combatwon", function () {
-                        svq.subquest += 1;
-                        if (svq.subquest >= 5) {
-                            $(document).trigger(":sequenceupdated");
+                        sv.quest.subquest += 1;
+                        if (sv.quest.subquest >= 5) {
+                            sv.quest.sequence += 1;
                             new setup.tb.TextBox(big_spider_tb);
                         }
                     });
@@ -106,7 +108,8 @@
             [
                 // Combat Interactable
                 function () {
-                    let interactable = new setup.quest.Interactable("assets/imported/img/png/turn_icon_en.png", {
+                    let interactable = new setup.quest.Interactable({
+                        imgSrc: "assets/imported/img/png/turn_icon_en.png",
                         position: {x: 3, y: 6},
                         intersecting: function () {
                             new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
@@ -117,7 +120,11 @@
                                 $('#passage-map canvas').remove();
 
                                 $(document).one(":combatwon", function () {
+                                    // NOTE: These two lines should be a quest method
+                                    console.log(sv.quest.sequence);
                                     sv.quest.sequence += 1;
+                                    console.log(sv.quest.sequence);
+                                    sv.quest.sequenceLoaded = false;
                                 });
 
                                 $(document).one(":combatlost", function () {
@@ -146,7 +153,8 @@
         let sequence3 = [
             // Combat Interactable
             function () {
-                new setup.quest.Interactable("assets/imported/img/png/turn_icon_en.png", {
+                new setup.quest.Interactable({
+                    imgSrc: "assets/imported/img/png/turn_icon_en.png", 
                     intersecting: function () {
                         new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
 
@@ -224,5 +232,6 @@
         S.quests = {};
     }
 
+    // TODO Make this an object which takes the map parameter and an info parameter, for guild quest information.
     S.quests.spiderQuest = map;
 })(setup);

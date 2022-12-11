@@ -120,16 +120,22 @@ class Equippable {
  * Proficiency should be a player stat. Player and their Main Pawn can gain it, while other pawns cannot.
  */
 const equippables = {
-    // // DEBUG
-    // debugweapon: new Equippable({
-    //     name: "Debug Weapon",
-    //     slot: "weapon",
-    //     type: "unequipped",
-    //     attacks: mergeArray(setup.COM.familyAttacks.debugAttacks),
-    //     deflectChanceBase: 1,
-    //     blockChanceBase: 1,
-    //     tag: ["all", "unequipped"],
-    // }),
+    // DEBUG
+    debugweapon: new Equippable({
+        name: "Debug Weapon",
+        slot: "weapon",
+        type: "unequipped",
+        attacks: mergeArray(setup.COM.familyAttacks.debugAttacks),
+        deflectChanceBase: 1,
+        blockChanceBase: 1,
+        tag: ["all", "unequipped"],
+        damage: {
+            blunt: {
+                min: 2000,
+                max: 3000,
+            },
+        },
+    }),
 
     // UNEQUIPPED
     unequippedweapon: new Equippable({
