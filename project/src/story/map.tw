@@ -4,17 +4,11 @@
 <<done>>
 <<script>>
     let sv = State.variables;
-    sv.quest.playerLoc = {x: 2, y: 6};
+    sv.quest = setup.quests.spiderQuest();
 
     let st = State.temporary;
     st.pixi = new PIXI.Application({width: window.innerWidth, height: window.innerHeight});
-    /* Amount of time in seconds since our demo has been running. */
-    st.pixi.elapsed = 0.0;
 
-    /* Tell the application to run a callback every frame. */
-    st.pixi.ticker.add((delta) => {
-        st.pixi.elapsed += delta;
-    });
     $(`#passage-map`).append(st.pixi.view);
 
     sv.map = new setup.map.Map({debug: true});

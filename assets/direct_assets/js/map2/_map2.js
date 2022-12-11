@@ -35,6 +35,7 @@
 
 const DEFAULTMAP = {
     debug: true,
+    sequence: -1,  // The map sequence is what is actually on the map.
 };
 
 class Map {
@@ -46,7 +47,7 @@ class Map {
         jQuery.extend(true, this, DEFAULTMAP, obj);
 
         // Set the scale of the canvas.
-        this.gridFidelity = Map.getGF();
+        this.gridFidelity = Map.getGridFidelity();
 
         // Prepare the player icon.
         this.playerIcon = "";
@@ -63,7 +64,6 @@ class Map {
         // this.drawPlayer(pixiApp, this.player);
 
         // Start the animation!
-        // This currently draws the player.
         Map.gameLoop(pixiApp);
 
         return this;
@@ -75,7 +75,7 @@ class Map {
      *
      * 5% is 25 grid boxes along the greater length.
      */
-    static getGF() {
+    static getGridFidelity() {
         let boxValue = 0.0525;
         let maxgFWidth = Math.floor(window.innerWidth * boxValue);
         let maxgFHeight = Math.floor(window.innerHeight * boxValue);
@@ -95,7 +95,7 @@ class Map {
     }
 
     /** Returns the top + left intersection in number of fidelity units. */
-    static getGFCoords(pos, fidelity) {
+    static getGridFidelityCoords(pos, fidelity) {
         return { x: (pos.x - (pos.x % fidelity)) / fidelity, y: (pos.y - (pos.y % fidelity)) / fidelity };
     }
 
@@ -115,14 +115,20 @@ class Map {
             background.on("click", function (event) {
                 console.log(
                     `GF Coord: [${
-                        Map.getGFCoords({ x: event.data.global.x, y: event.data.global.y }, canvas.gridFidelity)["x"]
+                        Map.getGridFidelityCoords(
+                            { x: event.data.global.x, y: event.data.global.y },
+                            canvas.gridFidelity
+                        )["x"]
                     }, ${
-                        Map.getGFCoords({ x: event.data.global.x, y: event.data.global.y }, canvas.gridFidelity)["y"]
+                        Map.getGridFidelityCoords(
+                            { x: event.data.global.x, y: event.data.global.y },
+                            canvas.gridFidelity
+                        )["y"]
                     }]`
                 );
-                canvas.movePlayer(
+                Map.movePlayer(
                     canvas.player,
-                    Map.getGFCoords({ x: event.data.global.x, y: event.data.global.y }, canvas.gridFidelity)
+                    Map.getGridFidelityCoords({ x: event.data.global.x, y: event.data.global.y }, canvas.gridFidelity)
                 );
             });
         }
@@ -158,10 +164,6 @@ class Map {
         }
     }
 
-    /** Draw noninteractable object. */
-
-    /** Draw interactable objects. */
-
     /** Prepare the player. */
     preparePlayer(imgSrc) {
         if (imgSrc === "") {
@@ -183,26 +185,14 @@ class Map {
         app.stage.addChild(playerObj);
     }
 
-    /** 
+    /**
      * Set the location the player should arrive at.
-     * 
+     *
      * Actual movement is done in `Map.gameLoop`
      */
-    movePlayer(playerObj, endLocation) {
+    static movePlayer(playerObj, endLocation) {
         playerObj.endx = endLocation.x;
         playerObj.endy = endLocation.y;
-    }
-
-    /** Determine if player is interacting with any interactables. */
-    isPlayerIntersecting(player) {
-        // let svq = State.variables.quest;
-        // svq.playerLoc = this.getGFCoords([player.aCoords.tl.x, player.aCoords.tl.y]);
-        // this.canvas.interactableGroup.forEachObject((obj) => {
-        //     if (svq.playerLoc.toString() === this.getGFCoords([obj.aCoords.tl.x, obj.aCoords.tl.y]).toString()) {
-        //         obj.timesVisited += 1;
-        //         obj.intersecting(obj);
-        //     }
-        // });
     }
 
     resize() {
@@ -234,6 +224,22 @@ class Map {
         let sv = State.variables;
 
         app.ticker.add((delta) => {
+            if (sv.map === null) {
+                // Map was intentionally erased.
+                return;
+            }
+
+            /**
+             * Check the sequence.
+             */
+            if (sv.quest.sequence !== sv.map.sequence) {
+                sv.map.sequence = sv.quest.sequence;
+                // TODO: Something to remove interactables.
+                sv.quest.sequences[sv.map.sequence].forEach(interactable => {
+                    sv.quest.interactables.push(interactable());
+                });
+            }
+
             /**
              * Move the player.
              */
@@ -242,7 +248,7 @@ class Map {
             // Set x velocity.
             if (sv.map.player.endx * sv.map.gridFidelity < sv.map.player.x) {
                 // Ensure the velocity is always negative.
-                sv.map.player.vx = - Math.abs(playerVelocity);
+                sv.map.player.vx = -Math.abs(playerVelocity);
             } else if (sv.map.player.endx * sv.map.gridFidelity > sv.map.player.x) {
                 // Ensure the velocity is always positive.
                 sv.map.player.vx = Math.abs(playerVelocity);
@@ -253,7 +259,7 @@ class Map {
             // Set y velocity.
             if (sv.map.player.endy * sv.map.gridFidelity < sv.map.player.y) {
                 // Ensure the velocity is always negative.
-                sv.map.player.vy = - Math.abs(playerVelocity);
+                sv.map.player.vy = -Math.abs(playerVelocity);
             } else if (sv.map.player.endy * sv.map.gridFidelity > sv.map.player.y) {
                 // Ensure the velocity is always positive.
                 sv.map.player.vy = Math.abs(playerVelocity);
@@ -262,7 +268,10 @@ class Map {
             }
 
             // Determine x position.
-            if (playerVelocity * 1.05 >= Math.abs(Math.abs(sv.map.player.endx * sv.map.gridFidelity) - sv.map.player.x)) {
+            if (
+                playerVelocity * 1.05 >=
+                Math.abs(Math.abs(sv.map.player.endx * sv.map.gridFidelity) - sv.map.player.x)
+            ) {
                 // Don't move on x axis if we're within 5% of playerVelocity.
                 sv.map.player.x = sv.map.player.endx * sv.map.gridFidelity;
                 sv.map.player.vx = 0;
@@ -271,7 +280,10 @@ class Map {
             }
 
             // Determine y position.
-            if (playerVelocity * 1.05 >= Math.abs(Math.abs(sv.map.player.endy * sv.map.gridFidelity) - sv.map.player.y)) {
+            if (
+                playerVelocity * 1.05 >=
+                Math.abs(Math.abs(sv.map.player.endy * sv.map.gridFidelity) - sv.map.player.y)
+            ) {
                 // Don't move on y axis if we're within 5% of playerVelocity.
                 sv.map.player.y = sv.map.player.endy * sv.map.gridFidelity;
                 sv.map.player.vy = 0;
@@ -280,10 +292,53 @@ class Map {
             }
 
             // Log closest player grid fidelity coords.
-            sv.quest.playerLoc = Map.getGFCoords({ y: sv.map.player.y, x: sv.map.player.x });
+            sv.quest.playerLoc = Map.getGridFidelityCoords(
+                { y: sv.map.player.y, x: sv.map.player.x },
+                sv.map.gridFidelity
+            );
 
+            /**
+             * Render NonInteractables
+             */
+            // TODO: Rending NonInteractables.
+
+            /**
+             * Render Interactables.
+             */
+            sv.quest.interactables.forEach((interactable) => {
+                app.stage.addChild(interactable.icon);
+            });
+
+            /**
+             * Render Stuff
+             */
             // Render the player.
             sv.map.drawPlayer(app, sv.map.player);
+
+            /**
+             * Check if there are any intersections.
+             */
+            sv.quest.interactables.forEach((interactable) => {
+                // Compare grid fidelity coordinates.
+                if (
+                    interactable.position.x === sv.quest.playerLoc.x &&
+                    interactable.position.y === sv.quest.playerLoc.y
+                ) {
+                    // We don't want the callback to be called 60 times a second, so we just check if we have already interacted without moving away first.
+                    if (!interactable.isInteracting) {
+                        interactable.isInteracting = true;
+
+                        // Interrupt the movement of the player to force them to interact with the interactable they've intersected with.
+                        // DESIRED: This functionality should be based on a bool in the interactable.
+                        Map.movePlayer(sv.map.player, interactable.position);
+
+                        interactable.timesVisited += 1;
+                        interactable.intersecting();
+                    }
+                } else {
+                    interactable.isInteracting = false;
+                }
+            });
         });
     }
 

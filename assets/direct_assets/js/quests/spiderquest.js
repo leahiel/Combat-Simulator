@@ -1,3 +1,5 @@
+// TODO: Get this quest functional, then make a quest class with this as a base.
+
 /**
  * Exterminate a spider infestion.
  *
@@ -11,24 +13,18 @@
 
 // IIFE needed to add the quests to setup.
 (function (S) {
-    let svq = State.variables.quest;
-    
-
     function map() {
-        // TODO: Player Location should be functional. Atm it is random.
-        svq.playerLoc = [5, 5];
-        State.variables.canvas.interactableLocs = [[svq.playerLoc[0], svq.playerLoc[1]]];
-        svq.subquest = 0;
-        console.log(svq.subquest);
+        let sv = State.variables;
 
         /**
-         *  Reused Assets
+         * 88""Yb 888888 88   88 .dP"Y8 888888 8888b.         db    .dP"Y8 .dP"Y8 888888 888888 .dP"Y8
+         * 88__dP 88__   88   88 `Ybo." 88__    8I  Yb       dPYb   `Ybo." `Ybo." 88__     88   `Ybo."
+         * 88"Yb  88""   Y8   8P o.`Y8b 88""    8I  dY      dP__Yb  o.`Y8b o.`Y8b 88""     88   o.`Y8b
+         * 88  Yb 888888 `YbodP' 8bodP' 888888 8888Y"      dP""""Yb 8bodP' 8bodP' 888888   88   8bodP'
          */
         // Quest Interactable
         let ittybittyman = function () {
-            let interactableInstance = new setup.map.Interactable("assets/imported/img/png/turn_icon.png", {
-                keepLoc: true, // This will always show.
-                stopShowingSequence: 2,
+            let interactableInstance = new setup.quest.Interactable("assets/imported/img/png/turn_icon.png", {
                 intersecting: function () {
                     let seq1_tb = {
                         showBackground: false,
@@ -57,8 +53,8 @@
         };
 
         let spiders = function () {
-            new setup.map.Interactable("assets/imported/img/png/turn_icon_en.png", {
-                intersecting: function (spiderInteractable) {
+            let interactable = new setup.quest.Interactable("assets/imported/img/png/turn_icon_en.png", {
+                intersecting: function () {
                     let big_spider_tb = {
                         showBackground: false,
                         backgroundSrc: "",
@@ -94,141 +90,53 @@
                     });
                 },
             });
+
+            return interactable;
         };
 
         /**
-         * Sequences
+         * .dP"Y8 888888  dP"Yb  88   88 888888 88b 88  dP""b8 888888 .dP"Y8
+         * `Ybo." 88__   dP   Yb 88   88 88__   88Yb88 dP   `" 88__   `Ybo."
+         * o.`Y8b 88""   Yb b dP Y8   8P 88""   88 Y88 Yb      88""   o.`Y8b
+         * 8bodP' 888888  `"YoYo `YbodP' 888888 88  Y8  YboodP 888888 8bodP'
          */
-        // Sequence 0
-        let sequence0 = [
-            // Combat Interactable
-            function () {
-                new setup.map.Interactable("assets/imported/img/png/turn_icon_en.png", {
-                    intersecting: function () {
-                        new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
 
-                        $(document).one(":textboxclosed", function () {
-                            $(document).one(":combatwon", function () {
-                                State.variables.quest.sequence += 1;
+        let sequences = [
+            // Sequence 0
+            [
+                // Combat Interactable
+                function () {
+                    let interactable = new setup.quest.Interactable("assets/imported/img/png/turn_icon_en.png", {
+                        position: {x: 3, y: 6},
+                        intersecting: function () {
+                            new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
+
+                            $(document).one(":textboxclosed", function () {
+                                sv.map = null;
+                                State.variables.pixi = null;
+                                $('#passage-map canvas').remove();
+
+                                $(document).one(":combatwon", function () {
+                                    sv.quest.sequence += 1;
+                                });
+
+                                $(document).one(":combatlost", function () {
+                                    $(document).off(":combatwon");
+                                });
+
+                                setup.combats.CI_BABYSPIDER1();
                             });
+                        },
+                    });
 
-                            $(document).one(":combatlost", function () {
-                                $(document).off(":combatwon");
-                            });
+                    return interactable;
+                },
 
-                            setup.combats.CI_BABYSPIDER1();
-                        });
+                ittybittyman,
+            ],
 
-                        // TODO Make ":combatwon" and ":combatlost" events so that I can update sequence on win.
-                    },
-                });
-            },
-
-            ittybittyman,
-        ];
-
-        // Sequence 1
-        let sequence1 = [
-            // Flavor Interactable
-            function () {
-                new setup.map.Interactable("assets/imported/img/png/turn_icon.png", {
-                    intersecting: function () {
-                        // Give the same flavor text box every time.
-                        // TODO: It should be different from every other flavor textbox.
-                        let value = uuidToNum(State.variables.uuid);
-                        let flavortb = setup.tbs.flavor_tbs[value % setup.tbs.flavor_tbs.length];
-
-                        new setup.tb.TextBox(flavortb);
-                    },
-                });
-            },
-
-            // City Interactable
-            function () {
-                new setup.map.Interactable("assets/imported/img/png/init_icon_pl.png", {
-                    keepLoc: true,
-
-                    intersecting: function (obj) {
-                        let burkvin1 = {
-                            showBackground: false, // TODO: Set True
-                            backgroundSrc: "", // TODO: Image Src
-                            showDimmer: true,
-                            showPortrait: false,
-                            showSpeakerName: true,
-                            lines: [
-                                {
-                                    speaker: "Narrator",
-                                    line: "Upon reaching Burkvinville, you and your party decide to head to the mayor's and see whats going on with all the spiders.",
-                                },
-                                {
-                                    speaker: "Mayor",
-                                    line: "Oh you're help to help us with our spider problem? Well it's quite simple, there are a lot of spiders! Can ya thin them out for us? We're still looking for their nest.",
-                                },
-                                {
-                                    speaker: "Narrator",
-                                    line: "You nod and leave the mayor's building.",
-                                },
-                            ],
-                        };
-
-                        let burkvin2 = {
-                            showBackground: false, // TODO: Set True
-                            backgroundSrc: "", // TODO: Image Src
-                            showDimmer: true,
-                            showPortrait: false,
-                            showSpeakerName: true,
-                            lines: [
-                                {
-                                    speaker: "Narrator",
-                                    line: "Upon reaching Burkvinville, you head to the mayor and report your battle against the daddy spider.",
-                                },
-                                {
-                                    speaker: "Mayor",
-                                    line: "Yeah! We were able to see it from here. But now we also found the location of the momma spider. Can ya take it out for us? That'll stop the breeding of the spiders.",
-                                },
-                            ],
-                        };
-
-                        let burkvin3 = {
-                            showBackground: false, // TODO: Set True
-                            backgroundSrc: "", // TODO: Image Src
-                            showDimmer: true,
-                            showPortrait: false,
-                            showSpeakerName: true,
-                            lines: [
-                                {
-                                    speaker: "Narrator",
-                                    line: "Congratulations! This marks the end of the demo. Thank you for playing! ~LeahPeach",
-                                },
-                            ],
-                        };
-
-                        // TODO: Make this CityMenu based on UUID instead of scripting it manually.
-                        let city = new setup.map.CityMenu({
-                            name: "Burkvinville",
-                            hasGuildHall: true,
-                            hasInn: true,
-                        });
-
-                        city.display();
-
-                        if (obj.timesVisited === 1) {
-                            new setup.tb.TextBox(burkvin1);
-                            $(document).trigger(":sequenceupdated");
-                        }
-
-                        if (svq.sequence === 3) {
-                            new setup.tb.TextBox(burkvin2);
-                            $(document).trigger(":sequenceupdated");
-                        }
-
-                        if (svq.sequence === 6) {
-                            new setup.tb.TextBox(burkvin3);
-                            $(document).trigger(":sequenceupdated");
-                        }
-                    },
-                });
-            },
+            // Sequence 1
+            [spiders],
         ];
 
         // Sequence 2
@@ -238,7 +146,7 @@
         let sequence3 = [
             // Combat Interactable
             function () {
-                new setup.map.Interactable("assets/imported/img/png/turn_icon_en.png", {
+                new setup.quest.Interactable("assets/imported/img/png/turn_icon_en.png", {
                     intersecting: function () {
                         new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
 
@@ -266,11 +174,11 @@
         // Sequence 5
         let sequence5 = []; // Return back to town.
 
-        /** Compile into object. */
-        let map = {
+        let quest = {
+            playerLoc: { x: 2, y: 6 },
+            interactables: [],
             sequence: 0,
-
-            interactables: [sequence0, sequence1, sequence2, sequence3, sequence4, sequence5],
+            sequences: sequences,
 
             // NYI
             objectives: [
@@ -290,6 +198,7 @@
                 "Mission complete: Report to the guild hall.",
             ],
 
+            // NYI
             mapBackground: [
                 // Sequence 0
                 "assets/imported/img/png/browncanvas.jpeg",
@@ -308,16 +217,12 @@
             ],
         };
 
-        return map;
+        return quest;
     }
 
-    if (!S.maps) {
-        S.maps = {};
+    if (!S.quests) {
+        S.quests = {};
     }
 
-    if (!svq) {
-        svq = {};
-    }
-
-    S.maps.spiderQuest = map;
+    S.quests.spiderQuest = map;
 })(setup);
