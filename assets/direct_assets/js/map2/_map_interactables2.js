@@ -14,8 +14,9 @@ class Interactable {
     constructor(options, clone = false) {
         // Merge our obj onto default, then merge those onto this.
         jQuery.extend(true, this, DEFAULT_INTERACTABLE, options);
-        
+
         this.position = this.setPosition();
+
         if (!clone) {
             this.icon = this.prepareInteractable();
         }
@@ -39,27 +40,66 @@ class Interactable {
         return interactable;
     }
 
-    /** Sets the position of the interactable. */
-    setPosition() {
-        // Set x
-        let x;
-        if (typeof this.position.x === "number") {
-            x = this.position.x;
-        } else {
-            let x_maxGF = (window.innerWidth * Map.getGridFidelity()) - 1
-            x = 4; // TODO Random Number.
+    /**
+     * Randomly sets the position of the interactable, ensuring it does not overlap with any other interactable.
+     */
+    setPosition(attempt = 0) {
+        // Ensure that the interactable doesn't already have a position. If it does, return it.
+        if (typeof this.position.x === "number" && typeof this.position.y === "number") {
+            return { x: this.position.x, y: this.position.y };
         }
 
-        let y;
-        // Set y
-        if (typeof this.position.y === "number") {
-            y = this.position.y;
-        } else {
-            let y_maxGF = (window.innerHeight * Map.getGridFidelity()) - 1
-            y = 4; // TODO Random Number.
+        // Initialize
+        let sv = State.variables;
+
+        // Convert the UUID into a useable psuedo random number.
+        let RNG = uuidToNum(sv.quest.uuid);
+        for (let i = 0; i < attempt; i++) {
+            RNG = shiftNumber(RNG);
         }
 
-        return { x: x, y: y };
+        /**
+         * Set x
+         */
+        let x_minGF = 1;
+        let x_maxGF = window.innerWidth / Map.getGridFidelity() - 1;
+
+        // Get first 6 digits then divide it by the max number of those digits to get a percentage.
+        let x_percent = Number(String(RNG).slice(0, 6)) / 999999;
+        let x = Math.round((x_maxGF - x_minGF) * x_percent + x_minGF);
+
+        /**
+         * Set y
+         */
+        let y_minGF = 1;
+        let y_maxGF = window.innerHeight / Map.getGridFidelity() - 1;
+
+        // Get last 6 digits then divide it by the max number of those digits to get a percentage.
+        let y_percent = Number(String(RNG).slice(6, 12)) / 999999;
+        let y = Math.round((y_maxGF - y_minGF) * y_percent + y_minGF);
+
+        /**
+         * Check if this position already exists in the list of 
+         * interactables. 
+         * 
+         * Since we already checked for this object's position 
+         * specifically, we don't need to be concerned about finding 
+         * that in this list.
+         */
+        let exists = false;
+        for (let interactable of sv.quest.interactables) {
+            if (x === interactable.position.x && y === interactable.position.y) {
+                exists = true;
+                break;
+            }
+        }
+
+        // If the position already exists, then try again. Else, return the position.
+        if (exists) {
+            return this.setPosition(attempt + 1);
+        } else {
+            return { x: x, y: y };
+        }
     }
 
     /**
@@ -83,8 +123,8 @@ class Interactable {
         const ownData = {};
 
         Object.keys(this).forEach(function (pn) {
-            if (pn === 'icon') {
-                // We don't want dedicated PIXI data. Instead, we 
+            if (pn === "icon") {
+                // We don't want dedicated PIXI data. Instead, we
                 // regenerate that from scratch.
                 return;
             }

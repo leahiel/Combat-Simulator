@@ -119,17 +119,8 @@
                                 State.variables.pixi = null;
                                 $('#passage-map canvas').remove();
 
-                                $(document).one(":combatwon", function () {
-                                    // NOTE: These two lines should be a quest method
-                                    console.log(sv.quest.sequence);
-                                    sv.quest.sequence += 1;
-                                    console.log(sv.quest.sequence);
-                                    sv.quest.sequenceLoaded = false;
-                                });
-
-                                $(document).one(":combatlost", function () {
-                                    $(document).off(":combatwon");
-                                });
+                                // NOTE: This should be in a Quest method.
+                                sv.quest.afterCombatSequence = 1;
 
                                 setup.combats.CI_BABYSPIDER1();
                             });

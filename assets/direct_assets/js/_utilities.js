@@ -361,15 +361,29 @@ function waitFor(ms) {
     });
 }
 
-/** Returns the first 12 digits of the Decimal value of a UUID. */
+/** 
+ * Returns the first 12 digits of the Decimal value of a UUID.
+ * 
+ * ```
+ * uuidToNum("3b8cf62d-ec2a-4b86-87b7-625aa87fb2c9") // => 791563664226
+ * ```
+ */
 function uuidToNum(uuid) {
-    return Number(String(BigInt("0x" + uuid.replace(/-/g, ""))).slice(0, 12));
+    // So that we don't alter the original string using <String>.replace().
+    let tempUUID = uuid;
+
+    return Number(String(BigInt("0x" + tempUUID.replace(/-/g, ""))).slice(0, 12));
 }
 
-/** Shifts the first digit of the number to the last, then subtracts it by 1.  */
+/** 
+ * Shifts the first digit of the number to the last, then subtracts it by 1.
+ *
+ * ```
+ * shiftNumber(17541) // => 75410
+ * ```
+ */
 function shiftNumber(number) {
-    let solNumber = parseInt(`${String(number).substring(1)}${number.toString()[0]}`);
-    return solNumber - 1;
+    return parseInt(`${String(number).substring(1)}${number.toString()[0]}`) -1;
 }
 
 // Add the required utility functions to setup.

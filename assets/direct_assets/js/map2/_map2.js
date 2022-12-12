@@ -232,20 +232,17 @@ class Map {
             /**
              * Check the sequence.
              */
-            if (sv.quest.sequence !== sv.map.sequence) {
+            if (sv.map.sequence !== sv.quest.sequence && !sv.quest.sequenceLoaded) {
                 // TODO: Make this a loop from sv.map.sequence to sv.quest.sequence
-                console.log(sv.quest.sequence)
                 sv.map.sequence = sv.quest.sequence;
+                
+                sv.quest.sequences[sv.map.sequence].forEach((interactable) => {
+                    sv.quest.interactables.push(interactable());
+                });
 
-                if (!sv.quest.sequenceLoaded) {
-                    sv.quest.sequences[sv.map.sequence].forEach((interactable) => {
-                        sv.quest.interactables.push(interactable());
-                    });
+                // TODO: Something to remove interactables.
 
-                    // TODO: Something to remove interactables.
-
-                    sv.quest.sequenceLoaded = true;
-                }
+                sv.quest.sequenceLoaded = true;
             }
 
             /**
