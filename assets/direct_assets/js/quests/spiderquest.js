@@ -101,7 +101,7 @@
                     let interactable = new setup.quest.Interactable({
                         imgSrc: "assets/imported/img/png/turn_icon_en.png",
                         position: { x: 4, y: 6 },
-                        removeAfterSequenceUpdate: true, 
+                        removeAfterSequenceUpdate: true,
                         intersecting: function () {
                             new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
 
@@ -178,6 +178,32 @@
                                 new setup.tb.TextBox(city_tb);
                             }
 
+                            if (sv.quest.sequence === 4) {
+                                sv.quest.sequence += 1;
+                                sv.quest.sequenceLoaded = false;
+
+                                let city_tb2 = {
+                                    showBackground: false,
+                                    backgroundSrc: "",
+                                    showDimmer: true,
+                                    showPortrait: false,
+                                    showSpeakerName: true,
+                                    lines: [
+                                        {
+                                            portrait: "assets/imported/img/png/turn_icon_pl.png",
+                                            speaker: "Mayor",
+                                            line: "Momma Spider time.",
+                                        },
+                                        {
+                                            speaker: "Narrator",
+                                            line: "You thank the man and move on.",
+                                        },
+                                    ],
+                                };
+
+                                new setup.tb.TextBox(city_tb2);
+                            }
+
                             city.display();
                         },
                     });
@@ -187,31 +213,93 @@
             ],
 
             // Sequence 2
+            // Fight 5 spiders.
             [spiders, spiders, spiders, spiders, spiders],
 
             // Sequence 3
+            // Fight Daddy Spider
             [
                 // Combat Interactable
                 function () {
-                    new setup.quest.Interactable({
+                    let interactable = new setup.quest.Interactable({
                         imgSrc: "assets/imported/img/png/turn_icon_en.png",
+                        removeAfterSequenceUpdate: true,
                         intersecting: function () {
                             new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
 
                             $(document).one(":textboxclosed", function () {
+                                let sv = State.variables;
+
+                                // TODO Turn these three lines into Map.dispose()
+                                sv.map = null;
+                                sv.pixi = null;
+                                $("#passage-map canvas").remove();
+
+                                sv.quest.afterCombatWinFunction = function () {
+                                    let sv = State.variables;
+
+                                    // NOTE: This should be in a Quest method.
+                                    sv.quest.sequence += 1;
+                                    sv.quest.sequenceLoaded = false;
+
+                                    sv.quest.afterCombatWinFunction = undefined;
+                                };
+
                                 setup.combats.CI_DADDYSPIDER();
                             });
                         },
                     });
+
+                    return interactable;
                 },
             ],
 
             // Sequence 4
-            [], // Return back to town.
-        ];
+            // Return back to town. We already put the code there.
+            [],
 
-        // Sequence 5
-        let sequence5 = []; // Return back to town.
+            // Sequence 5
+            // Fight Momma Spider
+            [
+                // Combat Interactable
+                function () {
+                    let interactable = new setup.quest.Interactable({
+                        imgSrc: "assets/imported/img/png/turn_icon_en.png",
+                        removeAfterSequenceUpdate: true,
+                        intersecting: function () {
+                            new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
+
+                            $(document).one(":textboxclosed", function () {
+                                let sv = State.variables;
+
+                                // TODO Turn these three lines into Map.dispose()
+                                sv.map = null;
+                                sv.pixi = null;
+                                $("#passage-map canvas").remove();
+
+                                sv.quest.afterCombatWinFunction = function () {
+                                    let sv = State.variables;
+
+                                    // NOTE: This should be in a Quest method.
+                                    sv.quest.sequence += 1;
+                                    sv.quest.sequenceLoaded = false;
+
+                                    sv.quest.afterCombatWinFunction = undefined;
+                                };
+
+                                setup.combats.CI_MOMMASPIDER();
+                            });
+                        },
+                    });
+
+                    return interactable;
+                },
+            ],
+
+            // Sequence 6
+            // Quest complete! Return to town.
+            [],
+        ];
 
         let quest = {
             playerLoc: { x: 2, y: 6 },
@@ -235,7 +323,6 @@
                 // Sequence 2
                 function () {
                     let sv = State.variables;
-                    console.log(`subquest value: ${sv.quest.subquest}`);
 
                     if (sv.quest.subquest >= 5) {
                         sv.quest.sequence += 1;
@@ -272,6 +359,10 @@
                 function () {
                     return;
                 },
+                // Sequence 6
+                function () {
+                    return;
+                },
             ],
 
             // NYI
@@ -293,6 +384,7 @@
             ],
 
             // NYI
+            // REVIEW: Is this idea bad? Should I switch it to quest? I can update it when a sequence is updated instead.
             mapBackground: [
                 // Sequence 0
                 "assets/imported/img/png/browncanvas.jpeg",

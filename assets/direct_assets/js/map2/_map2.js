@@ -268,18 +268,16 @@ class Map {
             }
 
             // ...Combat win.
-            if (sv.quest.currentInteractableIdx) {
-                console.log(sv.quest.interactables[sv.quest.currentInteractableIdx].removeAfterCombatWin)
-            }
-
             if (
                 sv.quest.currentInteractableIdx &&
                 sv.quest.interactables[sv.quest.currentInteractableIdx].removeAfterCombatWin &&
                 sv.quest.combatOutcome === "win"
             ) {
-                console.log(`removing ${sv.quest.currentInteractableIdx}`)
                 sv.quest.interactables[sv.quest.currentInteractableIdx].removeFromCanvas();
                 sv.quest.combatOutcome = undefined;
+
+                sv.quest.interactables.splice(sv.quest.currentInteractableIdx, 1);
+                sv.quest.currentInteractableIdx = undefined;
             }
 
             // ...Combat loss.
@@ -290,6 +288,9 @@ class Map {
             ) {
                 sv.quest.interactables[sv.quest.currentInteractableIdx].removeFromCanvas();
                 sv.quest.combatOutcome = undefined;
+
+                sv.quest.interactables.splice(sv.quest.currentInteractableIdx, 1);
+                sv.quest.currentInteractableIdx = undefined;
             }
 
             // Check conditionals for this sequence.
@@ -379,9 +380,9 @@ class Map {
                     interactable.position.x === sv.quest.playerLoc.x &&
                     interactable.position.y === sv.quest.playerLoc.y
                 ) {
+                    // Track the interactable that the player is intersecting with.
                     sv.quest.currentInteractable = interactable;
                     sv.quest.currentInteractableIdx = idx;
-                    console.log(sv.quest.currentInteractableIdx)
 
                     // We don't want the callback to be called 60 times a second, so we just check if we have already interacted without moving away first.
                     if (!interactable.isInteracting) {

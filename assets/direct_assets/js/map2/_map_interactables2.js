@@ -12,8 +12,8 @@ let DEFAULT_INTERACTABLE = {
     /* Removals */
     removeAfterInteracting: false,
     removeAfterSequenceUpdate: false,
-    removeAfterCombatWin: false, // NYI
-    removeAfterCombatLoss: false, // NYI
+    removeAfterCombatWin: false,
+    removeAfterCombatLoss: false,
 };
 
 /**
