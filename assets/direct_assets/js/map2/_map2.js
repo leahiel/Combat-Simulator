@@ -51,6 +51,12 @@ class Map {
         this.playerIcon = "";
         this.player = this.preparePlayer(this.playerIcon);
 
+        // If the sequence is already loaded, we don't need to manipulate it.
+        // This occurs most often after combat, when we need to remake the map.
+        if (State.variables.quest.sequenceLoaded) {
+            this.sequence = State.variables.quest.sequence;
+        }
+
         // Prepare and draw the background.
         this.drawBackground(pixiApp, "");
         if (this.debug) {
@@ -193,6 +199,19 @@ class Map {
         playerObj.endy = endLocation.y;
     }
 
+    /**
+     * Destroys the map data, PIXI app, and <canvas>. This should be called before passage transition.
+     *
+     * REVIEW: Do I want to automatically this in rendering.tw?
+     */
+    static destroyMap() {
+        let sv = State.variables;
+
+        sv.map = null;
+        sv.pixi = null;
+        $("#passage-map canvas").remove();
+    }
+
     resize() {
         /* I don't know where to put this or how to deal with it, but it's for resizing the map. */
 
@@ -232,12 +251,14 @@ class Map {
              */
             // Figure out which Interactactables to render.
             if (sv.map.sequence !== sv.quest.sequence && !sv.quest.sequenceLoaded) {
-                // TODO: Make this a loop from sv.map.sequence to sv.quest.sequence
+                // TODO: Make this a loop from sv.map.sequence to sv.quest.sequence. This will let us add old things on canvas reload.
                 sv.map.sequence = sv.quest.sequence;
 
                 // Remove interactables.
                 for (let i = 0; i < sv.quest.interactables.length; i++) {
                     if (sv.quest.interactables[i].removeAfterSequenceUpdate) {
+                        sv.quest.interactables[i].removeFromCanvas();
+
                         sv.quest.interactables.splice(i, 1);
 
                         // Since we removed an index, we need to recheck the new value in this index.
@@ -246,7 +267,7 @@ class Map {
                 }
 
                 // Add interactables.
-                sv.quest.sequences[sv.map.sequence].forEach((interactable) => {
+                sv.quest.sequences[sv.map.sequence].interactables.forEach((interactable) => {
                     sv.quest.interactables.push(interactable());
                 });
 
@@ -254,47 +275,62 @@ class Map {
             }
 
             /**
-             * Remove Interactables after...
+             * Removes the current interactable if one of many conditions are met.
              */
-            // ...Interaction.
-            if (
-                sv.quest.currentInteractableIdx &&
-                sv.quest.interactables[sv.quest.currentInteractableIdx].removeAfterInteracting
-            ) {
-                sv.quest.interactables[sv.quest.currentInteractableIdx].removeFromCanvas();
+            function removeInteractableIfRequested() {
+                let sv = State.variables;
+                
+                if (sv.quest.currentInteractable === undefined) {
+                    return;
+                }
 
-                sv.quest.interactables.splice(sv.quest.currentInteractableIdx, 1);
-                sv.quest.currentInteractableIdx = undefined;
+                if (sv.quest.currentInteractableIdx === undefined) {
+                    return;
+                }
+
+                // ...Interaction.
+                if (sv.quest.currentInteractable.isInteracting && sv.quest.currentInteractable.removeAfterInteracting) {
+                    sv.quest.currentInteractable.removeFromCanvas();
+
+                    sv.quest.interactables.splice(sv.quest.currentInteractableIdx, 1);
+                    sv.quest.currentInteractableIdx = undefined;
+                    sv.quest.currentInteractable = undefined;
+                    return;
+                }
+
+                // ...Combat win.
+                if (
+                    sv.quest.currentInteractable.isInteracting &&
+                    sv.quest.combatOutcome === "win" &&
+                    sv.quest.currentInteractable.removeAfterCombatWin
+                ) {
+                    sv.quest.currentInteractable.removeFromCanvas();
+                    sv.quest.combatOutcome = undefined;
+
+                    sv.quest.interactables.splice(sv.quest.currentInteractableIdx, 1);
+                    sv.quest.currentInteractableIdx = undefined;
+                    return;
+                }
+
+                // ...Combat loss.
+                if (
+                    sv.quest.currentInteractable.isInteracting &&
+                    sv.quest.combatOutcome === "loss" &&
+                    sv.quest.currentInteractable.removeAfterCombatLoss
+                ) {
+                    sv.quest.currentInteractable.removeFromCanvas();
+                    sv.quest.combatOutcome = undefined;
+
+                    sv.quest.interactables.splice(sv.quest.currentInteractableIdx, 1);
+                    sv.quest.currentInteractableIdx = undefined;
+                    return;
+                }
             }
 
-            // ...Combat win.
-            if (
-                sv.quest.currentInteractableIdx &&
-                sv.quest.interactables[sv.quest.currentInteractableIdx].removeAfterCombatWin &&
-                sv.quest.combatOutcome === "win"
-            ) {
-                sv.quest.interactables[sv.quest.currentInteractableIdx].removeFromCanvas();
-                sv.quest.combatOutcome = undefined;
-
-                sv.quest.interactables.splice(sv.quest.currentInteractableIdx, 1);
-                sv.quest.currentInteractableIdx = undefined;
-            }
-
-            // ...Combat loss.
-            if (
-                sv.quest.currentInteractableIdx &&
-                sv.quest.interactables[sv.quest.currentInteractableIdx].removeAfterCombatLoss &&
-                sv.quest.combatOutcome === "loss"
-            ) {
-                sv.quest.interactables[sv.quest.currentInteractableIdx].removeFromCanvas();
-                sv.quest.combatOutcome = undefined;
-
-                sv.quest.interactables.splice(sv.quest.currentInteractableIdx, 1);
-                sv.quest.currentInteractableIdx = undefined;
-            }
+            removeInteractableIfRequested();
 
             // Check conditionals for this sequence.
-            sv.quest.conditionals[sv.quest.sequence]();
+            sv.quest.sequences[sv.quest.sequence].conditional();
 
             /**
              * Move the player.
@@ -374,7 +410,9 @@ class Map {
             /**
              * Check if there are any intersections.
              */
-            sv.quest.interactables.forEach((interactable, idx) => {
+            for (let idx = 0; idx < sv.quest.interactables.length; idx++) {
+                let interactable = sv.quest.interactables[idx];
+
                 // Compare grid fidelity coordinates.
                 if (
                     interactable.position.x === sv.quest.playerLoc.x &&
@@ -398,10 +436,10 @@ class Map {
                     }
                 } else {
                     interactable.isInteracting = false;
-                    sv.quest.currentInteractable = undefined;
-                    sv.quest.currentInteractableIdx = undefined;
+                    // sv.quest.currentInteractable = undefined;
+                    // sv.quest.currentInteractableIdx = undefined;
                 }
-            });
+            }
         });
     }
 

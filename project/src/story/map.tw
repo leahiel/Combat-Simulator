@@ -7,7 +7,7 @@
     if (sv.quest === null ) {
         /* TODO: Eventually, this should be like a tutorial quest if its the first quest, or just lead to the guild hall.  */
 
-        sv.quest = setup.quests.spiderQuest();
+        sv.quest = setup.quests.spiderQuest2;
         sv.quest.uuid = setup.uuid_v4();
         sv.quest.sequenceLoaded = false;
     }

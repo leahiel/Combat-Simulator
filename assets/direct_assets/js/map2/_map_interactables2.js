@@ -51,6 +51,12 @@ class Interactable {
 
     /** Removes the interactable's icon from the canvas. */
     removeFromCanvas() {
+        if (this.icon === undefined) {
+            // REVIEW: Is this ever going to get called?
+            console.log("Cannot remove what does not exist.")
+            return;
+        }
+
         let app = State.temporary.pixi;
 
         app.stage.removeChild(this.icon);
