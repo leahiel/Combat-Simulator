@@ -20,12 +20,35 @@
         State.variables.audio.sfx.light_tick.play();
     });
 
+    $(document).on(':dialogopening', function (ev) {
+        let sv = State.variables; 
+
+        if ($(ev.target).attr('class') === "dialogCombatWon") {
+            $(document).off(':dialogopening');
+
+            sv.quest.combatOutcome = "win";
+            
+            if (sv.quest.afterCombatWinFunction) {
+                sv.quest.afterCombatWinFunction();
+            }
+
+        } else if ($(ev.target).attr('class') === "dialogCombatLoss") {
+            $(document).off(':dialogopening');
+
+            sv.quest.combatOutcome = "loss";
+
+            if (sv.quest.afterCombatLossFunction) {
+                sv.quest.afterCombatLossFunction();
+            }
+        }
+    });
+
     /**
      * This is required here. If you have anything after the 
      * `Engine.play()` call, the game recurvisely loops forever for
      * some reason.
      */
-    $(document).one(':dialogclosing', function (ev) {
+    $(document).on(':dialogclosing', function (ev) {
         let sv = State.variables;
         let loc;
 
@@ -33,24 +56,14 @@
             $(document).off(':dialogclosing');
             
             loc = State.variables.ci.winPassage;
-
-            /* TODO: This code block should be a quest method. */
-            if (sv.quest.afterCombatSequence && sv.quest.sequence !== sv.quest.afterCombatSequence) {
-                sv.quest.sequence = sv.quest.afterCombatSequence;
-                sv.quest.afterCombatSequence = undefined;
-                sv.quest.sequenceLoaded = false;
-            }
-            
             State.variables.ci = undefined;
             Engine.play(loc);
-            $(document).trigger(":combatwon");
         } else if ($(ev.target).attr('class') === "dialogCombatLoss") {
             $(document).off(':dialogclosing');
             
             loc = State.variables.ci.losePassage;
             State.variables.ci = undefined;
             Engine.play(loc);
-            $(document).trigger(":combatlost");
         }
     });
 

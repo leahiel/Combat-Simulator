@@ -14,8 +14,6 @@
 // IIFE needed to add the quests to setup.
 (function (S) {
     function map() {
-        let sv = State.variables;
-
         /**
          * 88""Yb 888888 88   88 .dP"Y8 888888 8888b.         db    .dP"Y8 .dP"Y8 888888 888888 .dP"Y8
          * 88__dP 88__   88   88 `Ybo." 88__    8I  Yb       dPYb   `Ybo." `Ybo." 88__     88   `Ybo."
@@ -25,6 +23,7 @@
         // Quest Interactable
         let ittybittyman = function () {
             let interactableInstance = new setup.quest.Interactable({
+                removeAfterInteracting: true,
                 imgSrc: "assets/imported/img/png/turn_icon.png",
                 intersecting: function () {
                     let seq1_tb = {
@@ -56,39 +55,29 @@
         let spiders = function () {
             let interactable = new setup.quest.Interactable({
                 imgSrc: "assets/imported/img/png/turn_icon_en.png",
-                intersecting: function () {
-                    let big_spider_tb = {
-                        showBackground: false,
-                        backgroundSrc: "",
-                        showDimmer: true,
-                        showPortrait: false,
-                        showSpeakerName: true,
-                        lines: [
-                            {
-                                portrait: "assets/imported/img/png/turn_icon_pl.png",
-                                speaker: "Narrator",
-                                line: "In the distance you see a bigger spider along with its family moving about. Curious about the size of the beast, you decide to check it out.",
-                            },
-                        ],
-                    };
+                removeAfterCombatWin: true,
+                removeAfterSequenceUpdate: true,
 
+                intersecting: function () {
                     new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
 
                     $(document).one(":textboxclosed", function () {
-                        // TODO: :combatwon, :combatlost
+                        let sv = State.variables;
+
+                        // TODO: This should be in a quest method.
+                        sv.map = null;
+                        State.variables.pixi = null;
+                        $("#passage-map canvas").remove();
+
+                        sv.quest.afterCombatWinFunction = function () {
+                            let sv = State.variables;
+                            // NOTE: This should be in a Quest method.
+                            sv.quest.subquest += 1;
+
+                            sv.quest.afterCombatWinFunction = undefined;
+                        };
+
                         setup.combats.CI_SPIDERS();
-                    });
-
-                    $(document).one(":combatwon", function () {
-                        sv.quest.subquest += 1;
-                        if (sv.quest.subquest >= 5) {
-                            sv.quest.sequence += 1;
-                            new setup.tb.TextBox(big_spider_tb);
-                        }
-                    });
-
-                    $(document).one(":combatlost", function () {
-                        $(document).off(":combatwon");
                     });
                 },
             });
@@ -105,22 +94,33 @@
 
         let sequences = [
             // Sequence 0
+            // Traveling to city, but encounters smol spooder.
             [
                 // Combat Interactable
                 function () {
                     let interactable = new setup.quest.Interactable({
                         imgSrc: "assets/imported/img/png/turn_icon_en.png",
-                        position: {x: 3, y: 6},
+                        position: { x: 4, y: 6 },
+                        removeAfterSequenceUpdate: true, 
                         intersecting: function () {
                             new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
 
                             $(document).one(":textboxclosed", function () {
-                                sv.map = null;
-                                State.variables.pixi = null;
-                                $('#passage-map canvas').remove();
+                                let sv = State.variables;
 
-                                // NOTE: This should be in a Quest method.
-                                sv.quest.afterCombatSequence = 1;
+                                sv.map = null;
+                                sv.pixi = null;
+                                $("#passage-map canvas").remove();
+
+                                sv.quest.afterCombatWinFunction = function () {
+                                    let sv = State.variables;
+
+                                    // NOTE: This should be in a Quest method.
+                                    sv.quest.sequence += 1;
+                                    sv.quest.sequenceLoaded = false;
+
+                                    sv.quest.afterCombatWinFunction = undefined;
+                                };
 
                                 setup.combats.CI_BABYSPIDER1();
                             });
@@ -134,41 +134,81 @@
             ],
 
             // Sequence 1
-            [spiders],
-        ];
+            // Continue on to the city and talk to the mayor.
+            [
+                // City Interactable
+                function () {
+                    let sv = State.variables;
 
-        // Sequence 2
-        let sequence2 = [spiders, spiders, spiders, spiders, spiders];
+                    let town = new setup.quest.Interactable({
+                        imgSrc: "assets/imported/img/png/init_icon_pl.png",
 
-        // Sequence 3
-        let sequence3 = [
-            // Combat Interactable
-            function () {
-                new setup.quest.Interactable({
-                    imgSrc: "assets/imported/img/png/turn_icon_en.png", 
-                    intersecting: function () {
-                        new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
+                        intersecting: function () {
+                            // TODO: Make this CityMenu based on UUID instead of scripting it manually.
+                            let city = new setup.map.CityMenu({
+                                name: "Testing City c:",
+                                hasGuildHall: true,
 
-                        $(document).one(":textboxclosed", function () {
-                            $(document).one(":combatwon", function () {
-                                State.variables.quest.sequence += 1;
+                                hasInn: true,
                             });
 
-                            $(document).one(":combatlost", function () {
-                                $(document).off(":combatwon");
+                            if (sv.quest.sequence === 1) {
+                                sv.quest.sequence += 1;
+                                sv.quest.sequenceLoaded = false;
+
+                                let city_tb = {
+                                    showBackground: false,
+                                    backgroundSrc: "",
+                                    showDimmer: true,
+                                    showPortrait: false,
+                                    showSpeakerName: true,
+                                    lines: [
+                                        {
+                                            portrait: "assets/imported/img/png/turn_icon_pl.png",
+                                            speaker: "Mayor",
+                                            line: "There sure are a lot of spiders around. Why do you go to the guild and get some buddies and slay some of them for us.",
+                                        },
+                                        {
+                                            speaker: "Narrator",
+                                            line: "You thank the man and move on.",
+                                        },
+                                    ],
+                                };
+
+                                new setup.tb.TextBox(city_tb);
+                            }
+
+                            city.display();
+                        },
+                    });
+
+                    return town;
+                },
+            ],
+
+            // Sequence 2
+            [spiders, spiders, spiders, spiders, spiders],
+
+            // Sequence 3
+            [
+                // Combat Interactable
+                function () {
+                    new setup.quest.Interactable({
+                        imgSrc: "assets/imported/img/png/turn_icon_en.png",
+                        intersecting: function () {
+                            new setup.tb.TextBox(setup.tbs.flavor_tbs.random());
+
+                            $(document).one(":textboxclosed", function () {
+                                setup.combats.CI_DADDYSPIDER();
                             });
+                        },
+                    });
+                },
+            ],
 
-                            setup.combats.CI_DADDYSPIDER();
-                        });
-
-                        // TODO Make ":combatwon" and ":combatlost" events so that I can update sequence on win.
-                    },
-                });
-            },
+            // Sequence 4
+            [], // Return back to town.
         ];
-
-        // Sequence 4
-        let sequence4 = []; // Return back to town.
 
         // Sequence 5
         let sequence5 = []; // Return back to town.
@@ -178,6 +218,61 @@
             interactables: [],
             sequence: 0,
             sequences: sequences,
+
+            // TODO Make sequence an object that holds all of the below things. Maybe even make it its own class as it has a lot of default values it needs.
+
+            // This is run every canvas loop.
+            conditionals: [
+                // Sequence 0
+                function () {
+                    return;
+                },
+                // Sequence 1
+                function () {
+                    State.variables.quest.subquest = 0;
+                    return;
+                },
+                // Sequence 2
+                function () {
+                    let sv = State.variables;
+                    console.log(`subquest value: ${sv.quest.subquest}`);
+
+                    if (sv.quest.subquest >= 5) {
+                        sv.quest.sequence += 1;
+                        sv.quest.subquest = 0;
+                        sv.quest.sequenceLoaded = false;
+
+                        let big_spider_tb = {
+                            showBackground: false,
+                            backgroundSrc: "",
+                            showDimmer: true,
+                            showPortrait: false,
+                            showSpeakerName: true,
+                            lines: [
+                                {
+                                    portrait: "assets/imported/img/png/turn_icon_pl.png",
+                                    speaker: "Narrator",
+                                    line: "In the distance you see a bigger spider along with its family moving about. Curious about the size of the beast, you decide to check it out.",
+                                },
+                            ],
+                        };
+
+                        new setup.tb.TextBox(big_spider_tb);
+                    }
+                },
+                // Sequence 3
+                function () {
+                    return;
+                },
+                // Sequence 4
+                function () {
+                    return;
+                },
+                // Sequence 5
+                function () {
+                    return;
+                },
+            ],
 
             // NYI
             objectives: [

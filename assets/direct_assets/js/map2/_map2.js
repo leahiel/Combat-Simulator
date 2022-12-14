@@ -1,14 +1,5 @@
 /**
- * https://pixijs.download/release/docs/index.html
- *
- * In order to run PIXI, I need a passage with:
- *      let st = State.temporary;
- *      st.pixi = new PIXI.Application({width: 960, height: 540});
- *      $(`#passage-hexgen`).append(st.pixi.view);
- */
-
-/**
- * The map should just be canvas. It will ONLY draw already existing objects.
+ * The map is only the canvas. It will ONLY draw already existing objects.
  * The canvas will be stored in sv.canvas.
  * The quest objects will be stored in sv.quest.
  *
@@ -22,7 +13,7 @@
  *      The GameState.
  *
  *  These related objects should be 95% separated from the map:
- *      Interactbles, which can call these 100% separated objects:
+ *      Interactables, which can call these 100% separated objects:
  *          Textboxes
  *          City Menu
  *          Combat
@@ -30,7 +21,14 @@
  *  In effect, the map should be 95% read only. The only input it takes is to move the player.
  *
  *  In theory, _city_inn, _city_guildhall, and _city_menu don't need to be rewritten.
- *
+ */
+
+/* TODO: Move <Map>.preparePlayer() into <Quest>, and Map.movePlayer() into Quest.movePlayer().
+
+/**
+ * PIXI Documentation
+ * 
+ * https://pixijs.download/release/docs/index.html
  */
 
 const DEFAULTMAP = {
@@ -232,23 +230,75 @@ class Map {
             /**
              * Check the sequence.
              */
+            // Figure out which Interactactables to render.
             if (sv.map.sequence !== sv.quest.sequence && !sv.quest.sequenceLoaded) {
                 // TODO: Make this a loop from sv.map.sequence to sv.quest.sequence
                 sv.map.sequence = sv.quest.sequence;
-                
+
+                // Remove interactables.
+                for (let i = 0; i < sv.quest.interactables.length; i++) {
+                    if (sv.quest.interactables[i].removeAfterSequenceUpdate) {
+                        sv.quest.interactables.splice(i, 1);
+
+                        // Since we removed an index, we need to recheck the new value in this index.
+                        i -= 1;
+                    }
+                }
+
+                // Add interactables.
                 sv.quest.sequences[sv.map.sequence].forEach((interactable) => {
                     sv.quest.interactables.push(interactable());
                 });
-
-                // TODO: Something to remove interactables.
 
                 sv.quest.sequenceLoaded = true;
             }
 
             /**
+             * Remove Interactables after...
+             */
+            // ...Interaction.
+            if (
+                sv.quest.currentInteractableIdx &&
+                sv.quest.interactables[sv.quest.currentInteractableIdx].removeAfterInteracting
+            ) {
+                sv.quest.interactables[sv.quest.currentInteractableIdx].removeFromCanvas();
+
+                sv.quest.interactables.splice(sv.quest.currentInteractableIdx, 1);
+                sv.quest.currentInteractableIdx = undefined;
+            }
+
+            // ...Combat win.
+            if (sv.quest.currentInteractableIdx) {
+                console.log(sv.quest.interactables[sv.quest.currentInteractableIdx].removeAfterCombatWin)
+            }
+
+            if (
+                sv.quest.currentInteractableIdx &&
+                sv.quest.interactables[sv.quest.currentInteractableIdx].removeAfterCombatWin &&
+                sv.quest.combatOutcome === "win"
+            ) {
+                console.log(`removing ${sv.quest.currentInteractableIdx}`)
+                sv.quest.interactables[sv.quest.currentInteractableIdx].removeFromCanvas();
+                sv.quest.combatOutcome = undefined;
+            }
+
+            // ...Combat loss.
+            if (
+                sv.quest.currentInteractableIdx &&
+                sv.quest.interactables[sv.quest.currentInteractableIdx].removeAfterCombatLoss &&
+                sv.quest.combatOutcome === "loss"
+            ) {
+                sv.quest.interactables[sv.quest.currentInteractableIdx].removeFromCanvas();
+                sv.quest.combatOutcome = undefined;
+            }
+
+            // Check conditionals for this sequence.
+            sv.quest.conditionals[sv.quest.sequence]();
+
+            /**
              * Move the player.
              */
-            let playerVelocity = 4;
+            let playerVelocity = 5;
 
             // Set x velocity.
             if (sv.map.player.endx * sv.map.gridFidelity < sv.map.player.x) {
@@ -305,7 +355,7 @@ class Map {
             /**
              * Render NonInteractables
              */
-            // TODO: Rending NonInteractables.
+            // TODO: Rendering NonInteractables.
 
             /**
              * Render Interactables.
@@ -323,12 +373,16 @@ class Map {
             /**
              * Check if there are any intersections.
              */
-            sv.quest.interactables.forEach((interactable) => {
+            sv.quest.interactables.forEach((interactable, idx) => {
                 // Compare grid fidelity coordinates.
                 if (
                     interactable.position.x === sv.quest.playerLoc.x &&
                     interactable.position.y === sv.quest.playerLoc.y
                 ) {
+                    sv.quest.currentInteractable = interactable;
+                    sv.quest.currentInteractableIdx = idx;
+                    console.log(sv.quest.currentInteractableIdx)
+
                     // We don't want the callback to be called 60 times a second, so we just check if we have already interacted without moving away first.
                     if (!interactable.isInteracting) {
                         interactable.isInteracting = true;
@@ -338,10 +392,13 @@ class Map {
                         Map.movePlayer(sv.map.player, interactable.position);
 
                         interactable.timesVisited += 1;
+
                         interactable.intersecting();
                     }
                 } else {
                     interactable.isInteracting = false;
+                    sv.quest.currentInteractable = undefined;
+                    sv.quest.currentInteractableIdx = undefined;
                 }
             });
         });

@@ -1,10 +1,19 @@
 let DEFAULT_INTERACTABLE = {
-    imgSrc: "",
-    timesVisited: 0,
-    interactable: true,
-    position: { x: null, y: null },
+    /* Initialize */
     isInteracting: false,
     hasInteracted: false,
+    timesVisited: 0,
+    position: { x: null, y: null },
+
+    /* Specifics */
+    imgSrc: "",
+    interactable: true,
+
+    /* Removals */
+    removeAfterInteracting: false,
+    removeAfterSequenceUpdate: false,
+    removeAfterCombatWin: false, // NYI
+    removeAfterCombatLoss: false, // NYI
 };
 
 /**
@@ -40,11 +49,19 @@ class Interactable {
         return interactable;
     }
 
+    /** Removes the interactable's icon from the canvas. */
+    removeFromCanvas() {
+        let app = State.temporary.pixi;
+
+        app.stage.removeChild(this.icon);
+    }
+
     /**
      * Randomly sets the position of the interactable, ensuring it does not overlap with any other interactable.
      */
     setPosition(attempt = 0) {
         // Ensure that the interactable doesn't already have a position. If it does, return it.
+        // REVIEW: Should I ensure that the interable is within max/min bounds of the grid? Might be important when I write the resizing code.
         if (typeof this.position.x === "number" && typeof this.position.y === "number") {
             return { x: this.position.x, y: this.position.y };
         }
@@ -79,11 +96,11 @@ class Interactable {
         let y = Math.round((y_maxGF - y_minGF) * y_percent + y_minGF);
 
         /**
-         * Check if this position already exists in the list of 
-         * interactables. 
-         * 
-         * Since we already checked for this object's position 
-         * specifically, we don't need to be concerned about finding 
+         * Check if this position already exists in the list of
+         * interactables.
+         *
+         * Since we already checked for this object's position
+         * specifically, we don't need to be concerned about finding
          * that in this list.
          */
         let exists = false;
@@ -110,7 +127,11 @@ class Interactable {
      * that most classes need for SugarCube compatibility.
      */
 
-    /** TODO: Test saving and loading. */
+    /**
+     * TODO: Test saving and loading.
+     *
+     * NOTE: Passage navigation appears to work flawlessly.
+     */
 
     /** Required for SC Saving and loading. */
     clone() {
