@@ -1,39 +1,23 @@
 /**
- * The map is only the canvas. It will ONLY draw already existing objects.
- * The canvas will be stored in sv.canvas.
- * The quest objects will be stored in sv.quest.
- *
- * Quest objects includes:
- *      UUID, which will only be changed when a quest is made.
- *      The player object.
- *      Every interactable on the screen.
- *          Including the their location on the screen.
- *      Objectives.
- *      Sequence.
- *      The GameState.
- *
- *  These related objects should be 95% separated from the map:
- *      Interactables, which can call these 100% separated objects:
- *          Textboxes
- *          City Menu
- *          Combat
- *
- *  In effect, the map should be 95% read only. The only input it takes is to move the player.
- *
- *  In theory, _city_inn, _city_guildhall, and _city_menu don't need to be rewritten.
- */
-
-/* TODO: Move <Map>.preparePlayer() into <Quest>, and Map.movePlayer() into Quest.movePlayer().
-
-/**
- * PIXI Documentation
- * 
+ * PIXI Documentation:
  * https://pixijs.download/release/docs/index.html
+ * 
+ * The map is only the canvas. It will ONLY draw already existing objects.
+ * The PIXI app is stored in sv.pixi.
+ *
+ *  In effect, the map should be 95% read only. The only time it can effect other things is with inputs, such as when the user clicks the map, and the map then calls Map.movePlayer().
  */
+
+// TODO: Move <Map>.preparePlayer() into <Quest>, and Map.movePlayer() into Quest.movePlayer().
 
 const DEFAULTMAP = {
     debug: true,
-    sequence: -1, // The map sequence is what is actually on the map.
+    /** 
+     * The map sequence is what is actually on the map. Since we're 
+     * making a new map, the sequence has to be less than the Quest 
+     * sequence. 
+     */
+    sequence: -1, // 
 };
 
 class Map {
@@ -62,10 +46,6 @@ class Map {
         if (this.debug) {
             this.drawGridlines(pixiApp);
         }
-
-        // this.drawNonInteractbles(pixiApp, []);
-        // this.drawInteractables(pixiApp, []);
-        // this.drawPlayer(pixiApp, this.player);
 
         // Start the animation!
         Map.gameLoop(pixiApp);

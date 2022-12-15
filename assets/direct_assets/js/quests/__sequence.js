@@ -1,7 +1,5 @@
 const DEFAULT_SEQUENCE = {
     interactables: [],
-
-    // Available, but not as a field of sequence.
     conditional: function () {
         return;
     },
@@ -12,6 +10,11 @@ const DEFAULT_SEQUENCE = {
     mapBackground: "", // NYI "assets/imported/img/png/browncanvas.jpeg",
 };
 
+/**
+ * Sequences are a collection of interactables with some additional 
+ * data stored to give them functionality as well as interplay with
+ * the Quest.
+ */
 class Sequence {
     constructor(obj) {
         // Merge the obj onto default, then, onto this.

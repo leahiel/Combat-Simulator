@@ -17,7 +17,7 @@ let DEFAULT_INTERACTABLE = {
 };
 
 /**
- *
+ * This Class holds the interactables that players interact with, as well as what they do and where they go.
  */
 class Interactable {
     constructor(options, clone = false) {
@@ -77,6 +77,7 @@ class Interactable {
 
         // Convert the UUID into a useable psuedo random number.
         let RNG = uuidToNum(sv.quest.uuid);
+        // TODO: attempt might need to be global, otherwise if I delete an interaction, the next one will always be placed in it.
         for (let i = 0; i < attempt; i++) {
             RNG = shiftNumber(RNG);
         }

@@ -1,33 +1,8 @@
 /**
- * The map is only the canvas. It will ONLY draw already existing objects.
- * The canvas will be stored in sv.canvas.
- * The quest objects will be stored in sv.quest.
- *
- * Quest objects includes:
- *      UUID, which will only be changed when a quest is made.
- *      The player object.
- *      Every interactable on the screen.
- *          Including the their location on the screen.
- *      Objectives.
- *      Sequence.
- *      The GameState.
- *
- *  These related objects should be 95% separated from the map:
- *      Interactables, which can call these 100% separated objects:
- *          Textboxes
- *          City Menu
- *          Combat
- *
- *  In effect, the map should be 95% read only. The only input it takes is to move the player.
- *
- *  In theory, _city_inn, _city_guildhall, and _city_menu don't need to be rewritten.
+ * The quest object is stored as sv.quest.
  */
 
 /* TODO: Move <Map>.preparePlayer() into <Quest>, and Map.movePlayer() into Quest.movePlayer(). */
-
-/**
- * Quests are a collection of sequences with some additional data stored to combine and transverse them.
- */
 
 const DEFAULT_QUEST = {
     debug: true,
@@ -40,6 +15,10 @@ const DEFAULT_QUEST = {
     sequenceLoaded: false,
 };
 
+/**
+ * Quests are a collection of sequences with some additional data 
+ * stored to combine and transverse them.
+ */
 class Quest {
     constructor(obj) {
         // Merge the obj onto default, then, onto this.
