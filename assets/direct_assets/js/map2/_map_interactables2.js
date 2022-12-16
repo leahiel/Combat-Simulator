@@ -14,6 +14,10 @@ let DEFAULT_INTERACTABLE = {
     removeAfterSequenceUpdate: false,
     removeAfterCombatWin: false,
     removeAfterCombatLoss: false,
+
+    /* Icon Stuff */
+    scaleX: 1,
+    scaleY: 1,
 };
 
 /**
@@ -39,21 +43,45 @@ class Interactable {
             this.imgSrc = "assets/imported/img/png/turn_icon_pl.png";
         }
 
-        let interactable = PIXI.Sprite.from(this.imgSrc);
+        let gridFidelity = Map.getGridFidelity();
 
-        interactable.width = Map.getGridFidelity();
-        interactable.height = Map.getGridFidelity();
-        interactable.x = Map.getGridFidelity() * this.position.x;
-        interactable.y = Map.getGridFidelity() * this.position.y;
+        // Is this an SVG?
+        let isSvg = false;
+        if (this.imgSrc.substring(this.imgSrc.length - 3).toLowerCase() === "svg") {
+            isSvg = true;
+        }
 
-        return interactable;
+        // Create the interactable icon
+        let interactableIcon;
+        if (isSvg) {
+            /**
+             * DESIRED: Currently I have to manually add a width and
+             * height attribute to SVGs for PIXI to display them
+             * properly, but I want to do this automatically because
+             * I'm lazy. That would be done here.
+             *
+             * // Edit resource to add width="512" height="512" if it doesn't exist.
+             */
+
+            interactableIcon = PIXI.Sprite.from(new PIXI.SVGResource(this.imgSrc, { scale: 1 }));
+        } else {
+            interactableIcon = PIXI.Sprite.from(this.imgSrc);
+        }
+
+        // Correctly size and place the interactable icon.
+        interactableIcon.width = gridFidelity * this.scaleX;
+        interactableIcon.height = gridFidelity * this.scaleY;
+        interactableIcon.x = gridFidelity * this.position.x - (gridFidelity * (this.scaleX - 1)) / 2;
+        interactableIcon.y = gridFidelity * this.position.y - (gridFidelity * (this.scaleY - 1)) / 2;
+
+        return interactableIcon;
     }
 
     /** Removes the interactable's icon from the canvas. */
     removeFromCanvas() {
         if (this.icon === undefined) {
             // REVIEW: Is this ever going to get called?
-            console.log("Cannot remove what does not exist.")
+            console.log("Cannot remove what does not exist.");
             return;
         }
 

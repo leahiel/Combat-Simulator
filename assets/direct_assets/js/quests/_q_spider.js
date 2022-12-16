@@ -1,36 +1,4 @@
 /**
- * Art Asset TODO List:
- * * Background Map (which should be randomized)
- *
- * * Image/Icons
- * City Building-Not-Accessible Icon
- * City Building Buttons
- * City Background Partial Image
- * City Guild Hall Receptionist Partial Image
- *
- * Baby Spider/Spider Icon
- * Dadding Spider Icon
- * Momma Spider Icon
- * Player Icon
- * City Icon
- * Old Man/Villager Icon
- *
- * Old Man/Villager Dialog Image
- * Mayor Dialog Image
- * Narrator Shaded Out Image
- * Tavern BG Image
- * Inn BG Image
- *
- * * CSS Stuff
- * Textbox portrait
- * Textbox dialog
- * City Buttons
- *
- * * Guild Stuff
- * Guild Poster Picture?
- */
-
-/**
  * Exterminate a spider infestion.
  *
  * Part A: Fight spiders on path to city.
@@ -55,7 +23,7 @@ let ittybittyman = function () {
     return new setup.quest.Interactable({
         removeAfterSequenceUpdate: true,
         removeAfterInteracting: true,
-        imgSrc: "assets/imported/img/png/turn_icon.png",
+        imgSrc: "assets/imported/img/svg/icons/beard.svg",
         intersecting: function () {
             let seq1_tb = {
                 showBackground: false,
@@ -104,7 +72,7 @@ let spider_intersection = function () {
 
 let spiders = function () {
     return new setup.quest.Interactable({
-        imgSrc: "assets/imported/img/png/turn_icon_en.png",
+        imgSrc: "assets/imported/img/svg/icons/masked-spider.svg",
         removeAfterCombatWin: true,
         removeAfterSequenceUpdate: true,
 
@@ -151,7 +119,7 @@ let sequence0a_intersecting = function () {
 
 let sequence0a = function () {
     return new setup.quest.Interactable({
-        imgSrc: "assets/imported/img/png/turn_icon_en.png",
+        imgSrc: "assets/imported/img/svg/icons/hanging-spider.svg",
         position: { x: 4, y: 6 },
         removeAfterSequenceUpdate: true,
         intersecting: sequence0a_intersecting,
@@ -185,7 +153,7 @@ let city_seq1_interaction = function () {
             {
                 portrait: "assets/imported/img/png/turn_icon_pl.png",
                 speaker: "Mayor",
-                line: "There sure are a lot of spiders around. Why do you go to the guild and get some buddies and slay some of them for us.",
+                line: "There sure are a lot of spiders around. Why don't ya go to the guild and get some buddies and slay some of them for us.",
             },
             {
                 speaker: "Narrator",
@@ -224,7 +192,9 @@ let city_seq4_interaction = function () {
 
 let city = function () {
     return new setup.quest.Interactable({
-        imgSrc: "assets/imported/img/png/init_icon_pl.png",
+        imgSrc: "assets/imported/img/svg/icons/village.svg",
+        scaleX: 1.75,
+        scaleY: 1.75,
 
         intersecting: function () {
             let sv = State.variables;
@@ -329,7 +299,7 @@ let daddyinteraction = function () {
 
 let daddyspider = function () {
     return new setup.quest.Interactable({
-        imgSrc: "assets/imported/img/png/turn_icon_en.png",
+        imgSrc: "assets/imported/img/svg/icons/spider-alt.svg",
         removeAfterSequenceUpdate: true,
         intersecting: function () {
             daddyinteraction();

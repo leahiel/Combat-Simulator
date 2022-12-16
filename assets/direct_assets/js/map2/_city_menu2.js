@@ -61,7 +61,7 @@ class CityMenu {
         let solHTML = "";
 
         /* Add the city img. */
-        solHTML += `<span id='cityImage'>IMAGE</span>`;
+        solHTML += `<span id='cityImage'></span>`;
 
         /* Add the city name. */
         solHTML += `<span id='cityName'>${this.name}</span>`;

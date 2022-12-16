@@ -1695,22 +1695,25 @@ body[data-tags~="#map"] #infoScreen {
 
 #city-menu #cityImage {
     display: block;
-    width: 100%;
+    width: 300%;
     height: 100%;
     grid-column: 1;
     grid-row: span 4;
-    visibility: hidden;
-    border: 1px solid white;
-    background-color: darkblue;
+
+    /* background-image: url(assets/imported/img/png/no_building.png); */
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 #city-menu #cityName {
-    color: lightgray;
+    color: hsl(50, 75%, 55%);
     text-indent: 1em;
-    font-size: 2em;
+    font-size: 2.25em;
     font-family: backslash;
     grid-row: 1;
     grid-column: 2 / span 4;
+    text-shadow: 2px 2px 3px #000;
+    text-decoration: underline hsl(50, 75%, 55%) solid 0.1rem;
 
     user-select: none;
 }
@@ -1751,7 +1754,7 @@ body[data-tags~="#map"] #infoScreen {
 }
 
 #city-menu #exitCity {
-    text-align: center;
+    padding-top: 15%;
     height: 50%;
     align-self: end;
     grid-column: 5;
@@ -1767,25 +1770,64 @@ body[data-tags~="#map"] #infoScreen {
     display: block;
     width: 100%;
     height: 100%;
-    border: 1px solid white;
-    background-color: rgba(119, 107, 39, 0.5);
+
+    border: 0.3rem dashed hsl(50, 70%, 15%);
+    border-radius: 2rem;
+
+    background-color: hsla(0, 0%, 20%, 0.2);
+    background-position: left bottom;
+    background-image: url(assets/imported/img/png/no_building.png);
+    background-size: contain;
+    background-repeat: no-repeat;
 
     cursor: default;
     user-select: none;
+}
+
+#city-menu .noBuilding:after {
+    content: "Not Available";
+    display: block;
+
+    padding-top: 5rem;
+    box-sizing: border-box;
+
+    text-align: center;
+    width: 100%;
+    height: 100%;
+
+    font-size: 1.25em;
+    font-family: backslash;
+    color: hsl(50, 65%, 45%);
+    text-shadow: 2px 2px 3px black;
+    text-decoration: underline hsl(50, 65%, 45%) solid 0.1rem;
 }
 
 #city-menu .cityButton {
     display: block;
     width: 100%;
     height: 100%;
-    border: 1px solid white;
-    background-color: darkblue;
+    padding-top: 30%;
+    padding-bottom: 30%;
+    box-sizing: border-box;
+    border: 0.2rem solid hsl(0, 00%, 70%);
+    border-radius: 1.5rem;
+
+    background-image: url(assets/imported/img/png/rhombii.png);
+    background-size: 20px;
+    background-color: hsl(240, 100%, 40%, .5);
     cursor: pointer;
     user-select: none;
+
+    font-size: 1.5em;
+    font-family: backslash;
+    font-style: italic;
+    text-align: center;
+    color: hsl(0, 10%, 90%);
+    text-decoration: underline hsl(0, 10%, 90%) solid 0.1rem;
 }
 
 #city-menu .cityButton:hover {
-    background-color: blue;
+    background-color: hsl(240, 100%, 0%);
 }
 
 #city-menu #guildHallImage {
@@ -1892,7 +1934,7 @@ body[data-tags~="#map"] #infoScreen {
     z-index: 201;
     width: 98vw;
     height: 30vh;
-    background: hsla(0, 0%, 0%, 100%);
+    background: hsl(30, 33%, 46%);
     bottom: 0;
     position: fixed;
 
@@ -1924,13 +1966,22 @@ body[data-tags~="#map"] #infoScreen {
 
     margin-top: 1em;
 
-    border-bottom: 2px solid rgb(88, 32, 218);
+    border-bottom: 3px solid rgb(88, 32, 218);
+
+    font-size: 2.25em;
+    font-family: backslash;
+    color: black;
+    text-shadow: none;
 }
 
 #textbox-container #textbox #textbox-text {
     padding: 1em;
     grid-column: 2;
     grid-row: span 2;
+    font-size: 2.25em;
+    line-height: 1.25em;
+    color: black;
+    text-shadow: none;
 }
 
 /* 

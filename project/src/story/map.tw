@@ -9,6 +9,7 @@
 
         sv.quest = setup.quests.spiderQuest2;
         sv.quest.uuid = setup.uuid_v4();
+        sv.quest.sequence = 1;
         sv.quest.sequenceLoaded = false;
     }
     
@@ -16,6 +17,6 @@
     st.pixi = new PIXI.Application({width: window.innerWidth, height: window.innerHeight});
     $(`#passage-map`).append(st.pixi.view);
 
-    sv.map = new setup.map.Map({debug: true});
+    sv.map = new setup.map.Map({debug: false});
 <</script>>
 <</done>>

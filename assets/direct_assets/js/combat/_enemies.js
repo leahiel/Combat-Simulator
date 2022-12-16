@@ -26,6 +26,7 @@ const monsters = {
      *  88     dP""""Yb `YbodP' 88  Y8 dP""""Yb
      */
     EN_MOMMY_SPIDER: new Enemy({
+        imgSrc: "assets/imported/img/png/turn_icon_en.png",
         name: "Momma Spider",
         family: "mommySpider",
         healthMax: 120,
@@ -53,6 +54,7 @@ const monsters = {
     }),
 
     EN_DADDY_SPIDER: new Enemy({
+        imgSrc: "assets/imported/img/svg/icons/spider-alt.svg",
         name: "Daddy Spider",
         family: "mommySpider",
         healthMax: 94,
@@ -80,6 +82,7 @@ const monsters = {
     }),
 
     EN_BABY_SPIDER: new Enemy({
+        imgSrc: "assets/imported/img/svg/icons/hanging-spider.svg",
         name: "Baby Spider",
         family: "babySpider",
         healthMax: 28,
@@ -104,6 +107,7 @@ const monsters = {
     }),
 
     EN_SPIDER: new Enemy({
+        imgSrc: "assets/imported/img/svg/icons/masked-spider.svg",
         name: "Spider",
         family: "babySpider",
         healthMax: 38,

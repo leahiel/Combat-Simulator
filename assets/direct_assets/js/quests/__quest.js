@@ -1,5 +1,8 @@
 /**
  * The quest object is stored as sv.quest.
+ * 
+ * Consider integrating something like this for quest objects themselves:
+ * <https://discord.com/channels/389867840406159362/389868418855075840/1053405178243584111>
  */
 
 /* TODO: Move <Map>.preparePlayer() into <Quest>, and Map.movePlayer() into Quest.movePlayer(). */

@@ -19,12 +19,11 @@
 
 -= Map =-
     ☑  Make map class.
-        ☐  Maps should be able to take a set number of interactables.
-    ☑  Primitive Set up
-    ☐  Fix player movement and make it always a steady x and y translation speed.
 
 -= Quests =-
 (For setting up quests, see Guild Hall -> Quest Screen)
+    ☑  Quest class.
+        ☑  Sequence class.
     ☐  Random Map
         ☐  Maps Rotatable with Aligned Icons (for Portrait/Landscape mode) [Req for Mobile Release]
 

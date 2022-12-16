@@ -32,7 +32,7 @@ class Map {
         this.gridFidelity = Map.getGridFidelity();
 
         // Prepare the player icon.
-        this.playerIcon = "";
+        this.playerIcon = "assets/imported/img/svg/icons/private.svg";
         this.player = this.preparePlayer(this.playerIcon);
 
         // If the sequence is already loaded, we don't need to manipulate it.
@@ -85,9 +85,9 @@ class Map {
 
     /** Draws the background of the canvas. */
     drawBackground(app, background) {
-        if (this.debug) {
+        // if (this.debug) {
             background = new PIXI.Sprite(PIXI.Texture.WHITE);
-        }
+        // }
 
         background.width = app.screen.width;
         background.height = app.screen.height;
@@ -110,6 +110,14 @@ class Map {
                         )["y"]
                     }]`
                 );
+                Map.movePlayer(
+                    canvas.player,
+                    Map.getGridFidelityCoords({ x: event.data.global.x, y: event.data.global.y }, canvas.gridFidelity)
+                );
+            });
+        } else {
+            background.interactive = true;
+            background.on("click", function (event) {
                 Map.movePlayer(
                     canvas.player,
                     Map.getGridFidelityCoords({ x: event.data.global.x, y: event.data.global.y }, canvas.gridFidelity)

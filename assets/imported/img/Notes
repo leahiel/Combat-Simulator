@@ -1,0 +1,32 @@
+Doors and Gates: https://game-icons.net/tags/door.html
+
+/**
+ * Art Asset TODO List:
+ * * Background Map (which should be randomized)
+ *
+ * * Image/Icons
+ * ☑ City Building-Not-Available Image
+ * ☐ City Background Partial Image
+ * ☐ City Background Canvas
+ * ☐ City Guild Hall Receptionist Partial Image
+ *
+ * ☑ Baby Spider/Spider Icon   ☐ Combat
+ * ☑ Daddy Spider Icon         ☐ Combat
+ * ☑ Momma Spider Icon         ☐ Combat
+ * ☑ Player Icon               ☐ Combat
+ * ☑ Party Icons               ☐ Combat
+ * ☑ City Icon
+ * ☑ Old Man/Villager Icon
+ *
+ * ☐ Old Man/Villager Dialog Image
+ * ☐ Mayor Dialog Image
+ * ☐ Narrator Shaded Out Image
+ * ☐ Tavern BG Images
+ * ☐ Inn BG Images
+ *
+ * * CSS Stuff
+ * ☐ Textbox portrait
+ * ☐ Textbox dialog
+ * ☑ City Buttons [ Not great, but good enough ]
+ */
+ 
