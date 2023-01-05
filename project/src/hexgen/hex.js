@@ -3,7 +3,63 @@ let DEFAULT_HEX = {
 };
 
 /**
+ * A Hex is associated with a background image, and stores that
+ * background image's edge types and configuration.
  *
+ * #### `<Hex>`.getFaces()
+ * You can get the edges of a Hex in it's current configuration by
+ * using `<Hex>.getFaces()`:
+ * ```js
+ * <Hex>.getFaces(); // => ["forest", "forest", "plains", "lake", "lake", "road"]
+ * ```
+ * Hexagon edges are laid out like this:
+ *
+ *            0 1
+ *           5 ⬡ 2
+ *            4 3
+ *
+ * #### Configuration
+ * Hexes can be configured by being rotated or inverted. This changes
+ * the associated background image by rotating [clockwise] or
+ * inverting it [along the x-axis], and the Hex keeps track of these 
+ * edge types. This allows us to make a grid of Hexes in various 
+ * configurations, meaning we can use less art assets to make more 
+ * backgrounds.
+ *
+ *   Rotated x1   Inverted
+ *
+ *      A B          E D
+ *     F ⬡ C        F ⬡ C
+ *      E D          A B
+ *
+ * TODO: Double check inversion.
+ *
+ * #### Automated Configuration
+ * Hexes should be made from an object that contain all possible
+ * configuration of edges in a field object named `edgelines`. That
+ * is, the object should have an `edgelines` field that contains
+ * something like:
+ * ```js
+ * edgelines: {
+ *     default: ["forest", "forest", "plains", "lake", "lake", "road"],
+ *     rOnce: ["road", "forest", "forest", "plains", "lake", "lake"],
+ *     rTwice: ["lake", "road", "forest", "forest", "plains", "lake"],
+ *     rThrice: ["lake", "lake", "road", "forest", "forest", "plains"],
+ *     rQuarce: ["plains", "lake", "lake", "road", "forest", "forest"],
+ *     rQuince: ["forest", "plains", "lake", "lake", "road", "forest"],
+ *     inverted: ["forest", "forest", "road", "lake", "lake", "plains"],
+ *     irOnce: ["plains", "forest", "forest", "road", "lake", "lake"],
+ *     irTwice: ["lake", "plains", "forest", "forest", "road", "lake"],
+ *     irThrice: ["lake", "lake", "plains", "forest", "forest", "road"],
+ *     irQuarce: ["road", "lake", "lake", "plains", "forest", "forest"],
+ *     irQuince: ["forest", "road", "lake", "lake", "plains", "forest"],
+ * }
+ * ```
+ * This prevents uneccesary computation at the cost of ROM memory.
+ * Should a Hex not have these fields, then when it is created, the
+ * Hex will output the required configurations possible, based on the
+ * `default` configuration, so that you can copy and paste them into
+ * the hex object used to create the Hex.
  */
 class Hex {
     constructor(hexSrc) {
@@ -25,9 +81,9 @@ class Hex {
             this.edgelines.rQuarce = rotate(this.edgelines.rThrice);
             this.edgelines.rQuince = rotate(this.edgelines.rQuarce);
 
-            // Default: [1, 2, 3, 4, 5, 6]
-            // Inverted: [5, 4, 3, 2, 1, 6]  // [6, 1, 2, 3, 4, 5]
-            // That's just how the inversion should be since we invert on the x-axis.
+            // Default: [A, B, C, D, E, F]
+            // Inverted: [E, D, C, B, A, F]
+            // Note: We invert Hexes among the x-axis.
             this.edgelines.inverted = [...this.edgelines.rQuarce].reverse();
             this.edgelines.irOnce = rotate(this.edgelines.inverted);
             this.edgelines.irTwice = rotate(this.edgelines.irOnce);
@@ -36,7 +92,7 @@ class Hex {
             this.edgelines.irQuince = rotate(this.edgelines.irQuarce);
 
             console.error(
-                `This hex does not have the values in all possible configurations. Please copy and paste this code into the <Hex>.edgelines array for ${this.src}:`
+                `This hex does not have the values in all possible configurations. Please copy and paste this code into the <Hex>.edgelines field object for ${this.src}:`
             );
             console.log(
                 `rOnce: [${Hex.reportEdgelines(this.edgelines.rOnce)}],`,
@@ -57,11 +113,57 @@ class Hex {
     }
 
     /** Return the current order of the edgelines. */
+    // DESIRED: Make Getter.
     getFaces() {
         return this.edgelines[this.configuration];
     }
 
-    /** Invert the edgelines. */
+    /** Rotate the hexagon's edges clockwise once. */
+    // REVIEW: Make private?
+    rotate() {
+        switch (this.configuration) {
+            case "default":
+                this.configuration = "rOnce";
+                break;
+            case "rOnce":
+                this.configuration = "rTwice";
+                break;
+            case "rTwice":
+                this.configuration = "rThrice";
+                break;
+            case "rThrice":
+                this.configuration = "rQuarce";
+                break;
+            case "rQuarce":
+                this.configuration = "rQuince";
+                break;
+            case "rQuince":
+                this.configuration = "default";
+                break;
+            case "inverted":
+                this.configuration = "irOnce";
+                break;
+            case "irOnce":
+                this.configuration = "irTwice";
+                break;
+            case "irTwice":
+                this.configuration = "irThrice";
+                break;
+            case "irThrice":
+                this.configuration = "irQuarce";
+                break;
+            case "irQuarce":
+                this.configuration = "irQuince";
+                break;
+            case "irQuince":
+                this.configuration = "inverted";
+                break;
+        }
+    }
+
+    /** Invert the edges along the x-axis. */
+    // REVIEW: This isn't used. Keep it?
+    // REVIEW: Make private?
     invert() {
         switch (this.configuration) {
             case "default":
@@ -103,51 +205,11 @@ class Hex {
         }
     }
 
-    /** Rotate the hexagon's edgelines. */
-    rotate() {
-        switch (this.configuration) {
-            case "default":
-                this.configuration = "rOnce";
-                break;
-            case "rOnce":
-                this.configuration = "rTwice";
-                break;
-            case "rTwice":
-                this.configuration = "rThrice";
-                break;
-            case "rThrice":
-                this.configuration = "rQuarce";
-                break;
-            case "rQuarce":
-                this.configuration = "rQuince";
-                break;
-            case "rQuince":
-                this.configuration = "default";
-                break;
-            case "inverted":
-                this.configuration = "irOnce";
-                break;
-            case "irOnce":
-                this.configuration = "irTwice";
-                break;
-            case "irTwice":
-                this.configuration = "irThrice";
-                break;
-            case "irThrice":
-                this.configuration = "irQuarce";
-                break;
-            case "irQuarce":
-                this.configuration = "irQuince";
-                break;
-            case "irQuince":
-                this.configuration = "inverted";
-                break;
-        }
-
-        console.log(this.getFaces());
-    }
-
-    /** Turn the array into a string that can be copy and pasted. */
+    /** 
+     * Turn the edges Array of a Hex into a string. This will let us 
+     * copy and paste it, so that we don't have to manually compute 
+     * each possible configuration of edges for a Hex.
+     */
     static reportEdgelines(configuration) {
         let solStr = "";
         solStr += `"${configuration[0]}", `;
@@ -158,7 +220,7 @@ class Hex {
         solStr += `"${configuration[5]}"`;
 
         return solStr;
-    };
+    }
 }
 
 (function (S) {

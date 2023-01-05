@@ -1,3 +1,16 @@
+/** 
+ * TODO: 
+ *  Finalize the textbox design. They should ideally look like Evincle 1's textboxes.
+ *  There should be a different textbox for speakers and thoughts/descriptions.
+ *  A TB should be able to lead to another TB. This will allow textboxs to turn off speaker names and whatnot.
+ *  
+ * DESIRED
+ *  Red text if seen Line (not TB).
+ *  Ability to fast-forward text by holding a button.
+ *  Ability to fast-forward text that has already been seen.
+ *  Ability to scroll backwards to see history.
+ */
+
 let DEFAULTTEXTBOX = {
     showBackground: false,
     backgroundSrc: "",
@@ -12,7 +25,7 @@ let DEFAULTTEXTBOX = {
 };
 
 /**
- *
+ * Textboxes are the popups that show dialogue to the player.
  */
 class TextBox {
     constructor(obj) {

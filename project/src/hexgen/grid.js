@@ -3,11 +3,21 @@ let DEFAULT_GRID = {
     width: 4,
     // Number of Rows
     height: 4,
-    debug: true,
+    debug: false,
 };
 
 /**
- *
+ * 
+ * Be aware that due to how hexagons tile, a grid will have odd 
+ * numbered rows indented. Consider the x-positions of each hex in a 
+ * 5x7 grid:
+ * ```
+ *    0 1 2 3 4 5 6    // Non-Indented
+ *     0 1 2 3 4 5     // Indented
+ *    0 1 2 3 4 5 6    // Non-Indented
+ *     0 1 2 3 4 5     // Indented
+ *    0 1 2 3 4 5 6    // Non-Indented
+ * ```
  */
 class Grid {
     constructor(gridOptions) {
@@ -20,21 +30,28 @@ class Grid {
             for (let hex of hexii) {
                 new Hex(hex);
             }
-            console.debug("All hexii have been checked.");
+            console.debug("All hexii have been verified.");
         }
 
         this.generateEmptyGrid();
         this.generatePopulatedGrid();
 
+        if (this.debug) {
+            console.log("Populated Grid successfully created.")
+        }
+
         return this;
     }
 
-    /** Generates an empty grid based on the built-in width and height values. */
+    /** 
+     * Generates an empty grid based on the built-in width and height values. 
+     */
+    // REVIEW: Make Private?
     generateEmptyGrid() {
         // Width dictates the length of each row.
         // Height dictates the number of rows.
 
-        // REVIEW: Do I want to fill the Arrays with `0` or with `'empty'` or with an empty/special `<Hex>`? Currently they are filled with `0`.
+        // REVIEW: Do I want to fill the Arrays with `0` or with `'empty'` or with an empty/special `Hex`? Currently they are filled with `0`.
 
         // Make Rows
         this.grid = Array(this.height).fill(0);
@@ -49,15 +66,13 @@ class Grid {
         });
     }
 
-    /** Populates an empty grid with hexes. */
+    /** Populates an empty grid with Hexes. */
+    // REVIEW: Make Private?
     generatePopulatedGrid() {
-        /* Of note, hexagon edgelines are laid out like this:
-         *
-         *              1       2
-         *
-         *          6      hex       3
-         *
-         *              5       4
+        /* Hexagon edges are laid out like this:
+         *            0 1
+         *           5 ⬡ 2
+         *            4 3
          */
 
         // Go through each coord and assign them a value.
@@ -74,6 +89,14 @@ class Grid {
                 // Get array of hexes with their configurations that fulfill the adjacentEdgelines conditions.
                 let potentialHexii = this.getPotentialHexii(adjacentEdgelines);
 
+                // If there are no viable solutions for a hex, potentialHexii can return nothing.
+                if (potentialHexii.length === 0) {
+                    if (this.debug) {
+                        console.log("Reattempting...");
+                    }
+                    return this.generatePopulatedGrid();
+                }
+
                 // Pick Hex.
                 let chosenHex = potentialHexii.random(); // TODO: Add weights to the hexii.
                 let hex = new Hex(chosenHex.hex);
@@ -86,21 +109,34 @@ class Grid {
     }
 
     /**
-     * Returns an array of objects.
+     * Returns an Array of Objects containing information on every 
+     * Hex that could potentially be placed next.
      *
-     * The objects are formatted like:
+     * The individual Objects in the Array are formatted like:
+     * ```
      * obj = {
      *      hex: <Hex>,
      *      configuration: "configuration",
      *      required: edgelineArray,
-     *      weight: 10, // NYI
+     *      weight: 10, // NYI: Determine the rarity weight of a Hex.
      * }
+     * ```
+     * 
+     * WARNING: The Array's length can be of any size, including 0. 
+     * 0 occurs when there are no potential Hexes that can be placed.
      */
+    // REVIEW: Make private?
+    // NOTE: This method can become computationally heavy. This is 
+    // because it checked every single possible Hex, so if there are 
+    // a lot of Hexes to check, then it could take some time. As such,
+    // it is highly desired to optimize this method.
     getPotentialHexii(edgelineArray) {
         // [ "lake", "lake", "none", "none", "none", "plains" ]
         let solarr = [];
 
+        // DESIRED: Convert to standard loop. `let idx of ...` is the slowest way to loop through arrays.
         for (let hex of hexii) {
+            // DESIRED: Convert to standard loop. `let idx in ...` is the slowest way to loop through arrays.
             for (let configuration in hex.edgelines) {
 
                 let isUsable = true;
@@ -134,67 +170,84 @@ class Grid {
             }
         }
 
-        // Bare minimal error checking.
-        if (solarr.length === 0) {
-            throw `No viable hex solutions were found for [${Hex.reportEdgelines(edgelineArray)}].`;
+        // Log to console if no viable hex solutions were found.
+        if (solarr.length === 0 && this.debug) {
+            console.debug(`No viable hex solutions were found for [${Hex.reportEdgelines(edgelineArray)}].`);
         }
 
         return solarr;
     }
 
-    /** Returns an array with the adjacent edgelines. */
+    /** 
+     * Returns an array with the adjacent edges. 
+     */
+    // REVIEW: Make private?
     getAdjacentEdgelines(coordArr) {
+        /** 
+         * Because of how Hexagons tile, we need to be aware of whether
+         * a row is indented or not. If it is, we need to offset its
+         * column.
+         * 
+         * Consider the x-positions of each hex in a 5x7 hexagon grid:
+         * ```
+         *    0 1 2 3 4 5 6    // Non-Indented
+         *     0 1 2 3 4 5     // Indented
+         *    0 1 2 3 4 5 6    // Non-Indented
+         *     0 1 2 3 4 5     // Indented
+         *    0 1 2 3 4 5 6    // Non-Indented
+         * ```
+         */
         let columnOffset = 0;
         if (coordArr[1] % 2 === 0) {
-            // Account for the row offset.
             columnOffset = 1;
         }
 
         /**
-         *              1       2
-         *
-         *          6      hex       3
-         *
-         *              5       4
+         * Hexagon edges are laid out like this:
+         *            0 1
+         *           5 ⬡ 2
+         *            4 3
          */
 
-        // ☑ Non-Indented: [-1, -1] Indented [0 , -1]
-        let hex1 = { loc: [coordArr[0] - columnOffset, coordArr[1] - 1] };
-        // ☑ Non-Indented: [0, -1] Indented [1 , -1]
-        let hex2 = { loc: [coordArr[0] + 1 - columnOffset, coordArr[1] - 1] };
-        // ☑ Either: [1, 0]
-        let hex3 = { loc: [coordArr[0] + 1, coordArr[1]] };
-        // ☑ Non-Indented: [0, 1] Indented [1 , 1]
-        let hex4 = { loc: [coordArr[0] + 1 - columnOffset, coordArr[1] + 1] };
-        // ☑ Non-Indented: [-1, 1] Indented [1 , 1]
-        let hex5 = { loc: [coordArr[0] - columnOffset, coordArr[1] + 1] };
-        // ☑ Either: [-1, 0]
-        let hex6 = { loc: [coordArr[0] - 1, coordArr[1]] };
+        // Non-Indented: [-1, -1] Indented [0 , -1]
+        let hex0 = { loc: [coordArr[0] - columnOffset, coordArr[1] - 1] };
+        // Non-Indented: [0, -1] Indented [1 , -1]
+        let hex1 = { loc: [coordArr[0] + 1 - columnOffset, coordArr[1] - 1] };
+        // Either: [1, 0]
+        let hex2 = { loc: [coordArr[0] + 1, coordArr[1]] };
+        // Non-Indented: [0, 1] Indented [1 , 1]
+        let hex3 = { loc: [coordArr[0] + 1 - columnOffset, coordArr[1] + 1] };
+        // Non-Indented: [-1, 1] Indented [1 , 1]
+        let hex4 = { loc: [coordArr[0] - columnOffset, coordArr[1] + 1] };
+        // Either: [-1, 0]
+        let hex5 = { loc: [coordArr[0] - 1, coordArr[1]] };
 
+        hex0.hex = this.getHexAtCoord(hex0.loc);
         hex1.hex = this.getHexAtCoord(hex1.loc);
         hex2.hex = this.getHexAtCoord(hex2.loc);
         hex3.hex = this.getHexAtCoord(hex3.loc);
         hex4.hex = this.getHexAtCoord(hex4.loc);
         hex5.hex = this.getHexAtCoord(hex5.loc);
-        hex6.hex = this.getHexAtCoord(hex6.loc);
 
-        hex1.edgeline = hex1.hex === 0 ? "none" : hex1.hex.getFaces()[3];
-        hex2.edgeline = hex2.hex === 0 ? "none" : hex2.hex.getFaces()[4];
-        hex3.edgeline = hex3.hex === 0 ? "none" : hex3.hex.getFaces()[5];
-        hex4.edgeline = hex4.hex === 0 ? "none" : hex4.hex.getFaces()[0];
-        hex5.edgeline = hex5.hex === 0 ? "none" : hex5.hex.getFaces()[1];
-        hex6.edgeline = hex6.hex === 0 ? "none" : hex6.hex.getFaces()[2];
+        hex0.edgeline = hex0.hex === 0 ? "none" : hex0.hex.getFaces()[3];
+        hex1.edgeline = hex1.hex === 0 ? "none" : hex1.hex.getFaces()[4];
+        hex2.edgeline = hex2.hex === 0 ? "none" : hex2.hex.getFaces()[5];
+        hex3.edgeline = hex3.hex === 0 ? "none" : hex3.hex.getFaces()[0];
+        hex4.edgeline = hex4.hex === 0 ? "none" : hex4.hex.getFaces()[1];
+        hex5.edgeline = hex5.hex === 0 ? "none" : hex5.hex.getFaces()[2];
 
-        return [hex1.edgeline, hex2.edgeline, hex3.edgeline, hex4.edgeline, hex5.edgeline, hex6.edgeline];
+        return [hex0.edgeline, hex1.edgeline, hex2.edgeline, hex3.edgeline, hex4.edgeline, hex5.edgeline];
     }
 
-    /** Sets the hex at the coordinate pair. */
+    /** Sets the Hex at the coordinate pair. */
+    // REVIEW: Make private?
     setHexAtCoord(coordArr, hex) {
         // NTS: We only invert the coordinate pair when we access the multidimensional array.
         this.grid[coordArr[1]][coordArr[0]] = hex;
     }
 
-    /** Returns the hex at the request coordinate pair. */
+    /** Returns the Hex at the requested coordinate pair. */
+    // REVIEW: Make private?
     getHexAtCoord(coordArr) {
         if (this.grid[coordArr[1]] === undefined) {
             // Uninitialized hexes are 0, so if the hex can't exist, then return 0.
@@ -210,9 +263,22 @@ class Grid {
         return this.grid[coordArr[1]][coordArr[0]];
     }
 
+    /**
+     * Graphically display the Hexagon grid with its Hex images onto a
+     * PIXI application.
+     * 
+     * ```
+     * let st = State.temporary;
+     * st.pixi = new PIXI.Application({width: 960, height: 540});
+     * 
+     * st.grid = new setup.hex.Grid({width: 6, height: 4});
+     * st.grid.displayGrid(st.pixi);
+     * // Grid is now displayed to the PIXI application.
+     * ```
+     */
     displayGrid(pixiApp) {
         /** Get the scale of each image, so we know the grid can fully fit on the PIXI app. */
-        /** BUG: Not scaling to smaller of two values. */
+        // BUG: Not scaling to smaller of two values.
         let scale;
         if (pixiApp.renderer.width / this.width <= pixiApp.renderer.height / this.height) {
             scale = this.width;
@@ -236,11 +302,14 @@ class Grid {
                 // Set the image to be used.
                 let sprite = PIXI.Sprite.from(hex.src);
 
+                // Scale the image appropriately.
                 // TODO: Scaling currently weird.
                 sprite.width = sprite.width / scale;
                 sprite.height = sprite.height / scale;
 
-                // Center the anchor point of the sprite to the middle of the image so we can easily place each cell of the grid.
+                // Center the anchor point of the sprite to the 
+                // middle of the image so we can easily place each 
+                // cell of the grid.
                 sprite.anchor.set(0.5, 0.5);
 
                 // Determine the exact coordinate pair of each cell.
@@ -287,14 +356,15 @@ class Grid {
                         break;
                 }
 
-                function debugcallback() {
+                // Set up some debug information.
+                function debugCallback() {
                     console.log(`Following Hex ${hex.name} placed at: [${column}, ${row}]`);
                     console.log(hex.required);
                 }
 
                 if (this.debug) {
                     sprite.interactive = true;
-                    sprite.on("click", debugcallback);
+                    sprite.on("click", debugCallback);
                 }
 
                 pixiApp.stage.addChild(sprite);
