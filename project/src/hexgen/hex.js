@@ -21,9 +21,9 @@ let DEFAULT_HEX = {
  * #### Configuration
  * Hexes can be configured by being rotated or inverted. This changes
  * the associated background image by rotating [clockwise] or
- * inverting it [along the x-axis], and the Hex keeps track of these 
- * edge types. This allows us to make a grid of Hexes in various 
- * configurations, meaning we can use less art assets to make more 
+ * inverting it [along the x-axis], and the Hex keeps track of these
+ * edge types. This allows us to make a grid of Hexes in various
+ * configurations, meaning we can use less art assets to make more
  * backgrounds.
  *
  *   Rotated x1   Inverted
@@ -39,18 +39,18 @@ let DEFAULT_HEX = {
  * something like:
  * ```js
  * edgelines: {
- *     default: ["forest", "forest", "plains", "lake", "lake", "road"],
- *     rOnce: ["road", "forest", "forest", "plains", "lake", "lake"],
- *     rTwice: ["lake", "road", "forest", "forest", "plains", "lake"],
- *     rThrice: ["lake", "lake", "road", "forest", "forest", "plains"],
- *     rQuarce: ["plains", "lake", "lake", "road", "forest", "forest"],
- *     rQuince: ["forest", "plains", "lake", "lake", "road", "forest"],
- *     inverted: ["forest", "forest", "road", "lake", "lake", "plains"],
- *     irOnce: ["plains", "forest", "forest", "road", "lake", "lake"],
- *     irTwice: ["lake", "plains", "forest", "forest", "road", "lake"],
- *     irThrice: ["lake", "lake", "plains", "forest", "forest", "road"],
- *     irQuarce: ["road", "lake", "lake", "plains", "forest", "forest"],
- *     irQuince: ["forest", "road", "lake", "lake", "plains", "forest"],
+ *     default:     ["forest", "forest", "plains", "lake", "lake", "road"],
+ *     rOnce:       ["road", "forest", "forest", "plains", "lake", "lake"],
+ *     rTwice:      ["lake", "road", "forest", "forest", "plains", "lake"],
+ *     rThrice:     ["lake", "lake", "road", "forest", "forest", "plains"],
+ *     rQuarce:     ["plains", "lake", "lake", "road", "forest", "forest"],
+ *     rQuince:     ["forest", "plains", "lake", "lake", "road", "forest"],
+ *     inverted:    ["forest", "forest", "road", "lake", "lake", "plains"],
+ *     irOnce:      ["plains", "forest", "forest", "road", "lake", "lake"],
+ *     irTwice:     ["lake", "plains", "forest", "forest", "road", "lake"],
+ *     irThrice:    ["lake", "lake", "plains", "forest", "forest", "road"],
+ *     irQuarce:    ["road", "lake", "lake", "plains", "forest", "forest"],
+ *     irQuince:    ["forest", "road", "lake", "lake", "plains", "forest"],
  * }
  * ```
  * This prevents uneccesary computation at the cost of ROM memory.
@@ -89,6 +89,8 @@ class Hex {
             this.edgelines.irQuarce = rotate(this.edgelines.irThrice);
             this.edgelines.irQuince = rotate(this.edgelines.irQuarce);
 
+            // Report the edges to the console.
+            // TODO: Make this only show up if <Grid>.debug is true.
             console.error(
                 `This hex does not have the values in all possible configurations. Please copy and paste this code into the <Hex>.edgelines field object for ${this.src}:`
             );
@@ -203,9 +205,9 @@ class Hex {
         }
     }
 
-    /** 
-     * Turn the edges Array of a Hex into a string. This will let us 
-     * copy and paste it, so that we don't have to manually compute 
+    /**
+     * Turn the edges Array of a Hex into a string. This will let us
+     * copy and paste it, so that we don't have to manually compute
      * each possible configuration of edges for a Hex.
      */
     static reportEdgelines(configuration) {

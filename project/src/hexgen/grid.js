@@ -1,12 +1,17 @@
 let DEFAULT_GRID = {
     // Number of Columns
-    width: 8,
+    width: 5,
     // Number of Rows
-    height: 8,
+    height: 5,
     debug: true,
 };
 
 /**
+ * Makes a grid out of Hexii.
+ *
+ * NOTE: This requires the hexii object.
+ * NOTE: This requires the Hex class.
+ * Perhaps both of these should be embedded into the Grid class.
  *
  * Be aware that due to how hexagons tile, a grid will have odd
  * numbered rows indented. Consider the x-positions of each hex in a
@@ -143,6 +148,9 @@ class Grid {
     // there are a lot of Hexes to check, then it becomes
     // computationally heavy. As such, it is highly desired to
     // optimize this method.
+    // One way to optimize would be to make a subclass/array/object
+    // for each Hex edgeset, so that we don't have to check every hex,
+    // but rather each set of edgesets that we have.
     getPotentialHexii(edgelineArray) {
         // [ "lake", "lake", "none", "none", "none", "plains" ]
         let solarr = [];
@@ -375,7 +383,7 @@ class Grid {
                 // Set up some debug information.
                 function debugCallback() {
                     console.log(`Hex ${hex.name} placed at: [${column}, ${row}]`);
-                    console.log(hex.required);
+                    // console.log(hex.required);
                 }
 
                 if (this.debug) {

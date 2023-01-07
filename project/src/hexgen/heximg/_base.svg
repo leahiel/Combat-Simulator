@@ -29,14 +29,14 @@
      showgrid="false"
      showguides="false"
      inkscape:zoom="0.7048082"
-     inkscape:cx="146.84846"
-     inkscape:cy="488.07604"
+     inkscape:cx="339.09935"
+     inkscape:cy="394.43355"
      inkscape:window-width="1920"
      inkscape:window-height="1057"
-     inkscape:window-x="1912"
+     inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g1785" />
+     inkscape:current-layer="layer2" />
   <defs
      id="defs2">
     <inkscape:path-effect
@@ -118,7 +118,7 @@
          sodipodi:insensitive="true"
          transform="rotate(-60)" />
       <rect
-         style="display:inline;fill:#80b3ff;fill-opacity:1;stroke-width:0;paint-order:stroke fill markers"
+         style="display:inline;fill:#8a9ea3;fill-opacity:1;stroke-width:0;paint-order:stroke fill markers"
          id="rect20853"
          width="8.4045773"
          height="8.4045773"
@@ -127,7 +127,7 @@
          inkscape:label="L Marker"
          sodipodi:insensitive="true" />
       <rect
-         style="display:inline;fill:#80b3ff;fill-opacity:1;stroke-width:0;paint-order:stroke fill markers"
+         style="display:inline;fill:#8a9ea3;fill-opacity:1;stroke-width:0;paint-order:stroke fill markers"
          id="rect20855"
          width="5.7989492"
          height="5.7989492"
@@ -137,7 +137,7 @@
          inkscape:label="BL Marker"
          sodipodi:insensitive="true" />
       <rect
-         style="display:inline;fill:#80b3ff;fill-opacity:1;stroke-width:0;paint-order:stroke fill markers"
+         style="display:inline;fill:#8a9ea3;fill-opacity:1;stroke-width:0;paint-order:stroke fill markers"
          id="rect20857"
          width="6.1054602"
          height="6.1054602"
@@ -147,7 +147,7 @@
          inkscape:label="BR Marker"
          sodipodi:insensitive="true" />
       <rect
-         style="display:inline;fill:#80b3ff;fill-opacity:1;stroke-width:0;paint-order:stroke fill markers"
+         style="display:inline;fill:#8a9ea3;fill-opacity:1;stroke-width:0;paint-order:stroke fill markers"
          id="rect20859"
          width="8.4984264"
          height="8.4984264"
@@ -156,7 +156,7 @@
          inkscape:label="R Marker"
          sodipodi:insensitive="true" />
       <rect
-         style="display:inline;fill:#80b3ff;fill-opacity:1;stroke-width:0;paint-order:stroke fill markers"
+         style="display:inline;fill:#8a9ea3;fill-opacity:1;stroke-width:0;paint-order:stroke fill markers"
          id="rect20861"
          width="5.875577"
          height="5.875577"
@@ -166,7 +166,7 @@
          inkscape:label="TR Marker"
          sodipodi:insensitive="true" />
       <rect
-         style="display:inline;fill:#80b3ff;fill-opacity:1;stroke-width:0;paint-order:stroke fill markers"
+         style="display:inline;fill:#8a9ea3;fill-opacity:1;stroke-width:0;paint-order:stroke fill markers"
          id="rect20863"
          width="6.0288324"
          height="6.0288324"
