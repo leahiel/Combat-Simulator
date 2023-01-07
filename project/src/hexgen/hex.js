@@ -32,8 +32,6 @@ let DEFAULT_HEX = {
  *     F ⬡ C        F ⬡ C
  *      E D          A B
  *
- * TODO: Double check inversion.
- *
  * #### Automated Configuration
  * Hexes should be made from an object that contain all possible
  * configuration of edges in a field object named `edgelines`. That

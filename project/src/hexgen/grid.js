@@ -1,9 +1,9 @@
 let DEFAULT_GRID = {
     // Number of Columns
-    width: 4,
+    width: 6,
     // Number of Rows
-    height: 4,
-    debug: false,
+    height: 6,
+    debug: true,
 };
 
 /**
@@ -43,9 +43,7 @@ class Grid {
         return this;
     }
 
-    /** 
-     * Generates an empty grid based on the built-in width and height values. 
-     */
+    /** Generates an empty grid based on the width and height values. */
     // REVIEW: Make Private?
     generateEmptyGrid() {
         // Width dictates the length of each row.
@@ -78,7 +76,19 @@ class Grid {
         // Go through each coord and assign them a value.
         for (let rowNum = 0; rowNum < this.height; rowNum++) {
             for (let columnNum = 0; columnNum < this.width; columnNum++) {
-                // Because the grid is offset on odd rows, there is one less cell to populate on those rows.
+                /** 
+                 * A hexagonal grid will have some rows indented. 
+                 * Consider the x-positions of each hex in a 5x7 grid:
+                 * ```
+                 *    0 1 2 3 4 5 6    // Non-Indented
+                 *     0 1 2 3 4 5     // Indented
+                 *    0 1 2 3 4 5 6    // Non-Indented
+                 *     0 1 2 3 4 5     // Indented
+                 *    0 1 2 3 4 5 6    // Non-Indented
+                 * ```
+                 * Because of this indentation, there is one less cell
+                 * to populate on odd indexed rows.
+                 */
                 if (rowNum % 2 === 1 && columnNum === this.width - 1) {
                     continue;
                 }
@@ -86,10 +96,11 @@ class Grid {
                 /** An array of the edgelines around the hex that is to be placed. */
                 let adjacentEdgelines = this.getAdjacentEdgelines([columnNum, rowNum]);
 
-                // Get array of hexes with their configurations that fulfill the adjacentEdgelines conditions.
+                /** An array of hexes with their configurations that fulfill the adjacentEdgelines conditions. */
                 let potentialHexii = this.getPotentialHexii(adjacentEdgelines);
 
-                // If there are no viable solutions for a hex, potentialHexii can return nothing.
+                // If there are no viable solutions for a Hex, 
+                // potentialHexii can return an empty Array.
                 if (potentialHexii.length === 0) {
                     if (this.debug) {
                         console.log("Reattempting...");
@@ -118,7 +129,7 @@ class Grid {
      *      hex: <Hex>,
      *      configuration: "configuration",
      *      required: edgelineArray,
-     *      weight: 10, // NYI: Determine the rarity weight of a Hex.
+     *      weight: Number, // NYI: Determine the rarity weight of a Hex.
      * }
      * ```
      * 
@@ -126,10 +137,10 @@ class Grid {
      * 0 occurs when there are no potential Hexes that can be placed.
      */
     // REVIEW: Make private?
-    // NOTE: This method can become computationally heavy. This is 
-    // because it checked every single possible Hex, so if there are 
-    // a lot of Hexes to check, then it could take some time. As such,
-    // it is highly desired to optimize this method.
+    // NOTE: This method is checked every single possible Hex, so if 
+    // there are a lot of Hexes to check, then it becomes 
+    // computationally heavy. As such, it is highly desired to
+    // optimize this method.
     getPotentialHexii(edgelineArray) {
         // [ "lake", "lake", "none", "none", "none", "plains" ]
         let solarr = [];

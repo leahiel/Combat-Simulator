@@ -1,0 +1,16 @@
+Shorthand in Filenames:
+R - Road
+[NYI] I - rIver
+P - Plains
+[NYI] L - Lake
+[NYI] F - Forest
+
+Road e9ddafff : Marker (via calligraphy) with 8px width. Use path effect Roughen with default settings to make it rougher. Marker Stroke should be 2px.
+
+River 80b3ffff : Marker (via calligraphy) with 32px width. Use path effect Roughen with default settings to make it rougher. Marker Stroke should be 2px.
+
+"Ridges" : Use Ridge3 (via calligragraphy) preset.
+
+Forest 768f73ff : [NYI]
+Lake 8a9ea3ff : [NYI] 
+Plains 8b9768 : Base Background 
