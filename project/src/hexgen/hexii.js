@@ -11,7 +11,7 @@
 // REVIEW: Is it wise to have a field named `default`?
 let hexii = [
     {
-        name: "PPPPPP-1.svg",
+        name: "PPPPPP-1",
         src: "project/src/hexgen/heximg/PPPPPP-1.svg",
         version: 0,
         edgelines: {
@@ -30,7 +30,7 @@ let hexii = [
         },
     },
     {
-        name: "RPPPPP-1.svg",
+        name: "RPPPPP-1",
         src: "project/src/hexgen/heximg/RPPPPP-1.svg",
         version: 0,
         edgelines: {
@@ -49,7 +49,7 @@ let hexii = [
         },
     },
     {
-        name: "RPRPPP-1.svg",
+        name: "RPRPPP-1",
         src: "project/src/hexgen/heximg/RPRPPP-1.svg",
         version: 0,
         edgelines: {
@@ -68,7 +68,7 @@ let hexii = [
         },
     },
     {
-        name: "RPRRPP-1.svg",
+        name: "RPRRPP-1",
         src: "project/src/hexgen/heximg/RPRRPP-1.svg",
         version: 0,
         edgelines: {
@@ -87,7 +87,7 @@ let hexii = [
         },
     },
     // {
-    //     name: "RIIPRP-1.svg",
+    //     name: "RIIPRP-1",
     //     src: "project/src/hexgen/heximg/RIIPRP-1.svg",
     //     version: 0,
     //     edgelines: {
