@@ -9,7 +9,7 @@ function importGameSSR() {
 
             db = new db();
 
-            if (!recall("user-uuid")) {
+            if (!recall("user-uid")) {
                 /* Brand new UUID, so the user will need to log in. */
                 memorize("user-uuid", uuid_v4());
                 db.createLoginChecker(recall("user-uuid"), loggedin);

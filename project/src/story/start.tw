@@ -45,3 +45,36 @@ Words
 <<link [["Map Testing"|Map]]>><</link>>
 <br>
 <<link [["Hexgen Clone"|Hexgen]]>><</link>>
+<br>
+<<link [["Textbox Testing"|Textboxes]]>><</link>>
+
+:: Textboxes
+<<button "A variety of settings">>
+	<<script>>
+		new setup.tb.TextBox({
+			showBackground: false,
+			backgroundSrc: "",
+			showDimmer: true,
+			showPortrait: false,
+			showSpeakerName: false,
+			lines: [
+				new setup.tb.Line({
+					line: "No name. No portrait.",
+				}),
+				new setup.tb.Line({
+					portrait: "assets/imported/img/png/turn_icon_pl.png",
+					line: "No name. Yes portrait.",
+				}),
+				new setup.tb.Line({
+					speaker: "Concerned Man",
+					line: "Yes name. No portrait.",
+				}),
+				new setup.tb.Line({
+					portrait: "assets/imported/img/png/turn_icon_pl.png",
+					speaker: "Concerned Man",
+					line: "Yes name. Yes portrait.",
+				}),
+			],
+		});
+	<</script>>
+<</button>>

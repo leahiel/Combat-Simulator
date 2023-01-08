@@ -8,5 +8,6 @@
             "scheme": "file",
             "pattern": "index.html"
         }
-    ]
+    ],
+    "javascript.format.semicolons": "insert"
 }

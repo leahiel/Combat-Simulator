@@ -143,8 +143,10 @@ class Grid {
      * WARNING: The Array's length can be of any size, including 0.
      * 0 occurs when there are no potential Hexes that can be placed.
      */
+    // TODO: Don't allow the same Hex as one of the already existing
+    // touching hexes to be duplicated.
     // REVIEW: Make private?
-    // NOTE: This method is checked every single possible Hex, so if
+    // NOTE: This method is called every single Hex, so if
     // there are a lot of Hexes to check, then it becomes
     // computationally heavy. As such, it is highly desired to
     // optimize this method.

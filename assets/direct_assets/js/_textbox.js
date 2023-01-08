@@ -1,9 +1,9 @@
-/** 
- * TODO: 
+/**
+ * TODO:
  *  Finalize the textbox design. They should ideally look like Evincle 1's textboxes.
  *  There should be a different textbox for speakers and thoughts/descriptions.
  *  A TB should be able to lead to another TB. This will allow textboxs to turn off speaker names and whatnot.
- *  
+ *
  * DESIRED
  *  Red text if seen Line (not TB).
  *  Ability to fast-forward text by holding a button.
@@ -15,13 +15,7 @@ let DEFAULTTEXTBOX = {
     showBackground: false,
     backgroundSrc: "",
     showDimmer: true,
-    showPortrait: false,
-    showSpeakerName: false,
-    lines: [{ 
-        portrait: "assets/imported/img/png/turn_icon_pl.png",
-        speaker: "Speaker Name",
-        line: "Default TextBox Line 1.",
-     }],
+    lines: [new Line({ DEFAULTLINE })],
 };
 
 /**
@@ -57,58 +51,67 @@ class TextBox {
             this.next();
         });
 
-        /* Technically speaking, you can't show dimmer and background at the same time due to how the CSS is written. Should this happen, the background will show while the dimmer will be deactivated. */
+        /**
+         * Show Dimmer.
+         * Note: Technically speaking, you can't show dimmer and
+         * background at the same time due to how the CSS is written.
+         * Should this happen, the background will show while the
+         * dimmer will be deactivated.
+         */
         if (this.showDimmer) {
             $("#textbox-container").removeClass("hidden");
         } else {
             $("#textbox-container").addClass("hidden");
         }
 
+        /** Show Background. */
         if (this.showBackground) {
             $("#textbox-container").addClass("showbackground");
             $("#textbox-container").css("background-image", `url(${this.backgroundSrc})`);
         } else {
             $("#textbox-container").removeClass("showbackground");
-            $("#textbox-container").css("background-image", '');
+            $("#textbox-container").css("background-image", "");
         }
 
-        if (this.showSpeakerName) {
-            $("#textbox-container").addClass("showspeakername");
-        } else {
-            $("#textbox-container").removeClass("showspeakername");
-        }
-
-        if (this.showPortrait) {
-            $("#textbox-container").addClass("showportrait");
-        } else {
-            $("#textbox-container").removeClass("showportrait");
-        }
-
+        /** Set everything to visible. */
         $("#textbox").removeClass("hidden");
 
         this.display(0);
     }
 
-    /** Update the TextBox to show names, text, and portraits. */
+    /**
+     * Update the TextBox to show names, text, and portraits.
+     */
     display(lineIdx) {
-        if (this.showSpeakerName) {
-            if (this.lines[lineIdx].speaker) {
-                $("#textbox #textbox-speaker").text(this.lines[lineIdx].speaker);
-            } else if ($("#textbox #textbox-speaker").text() === "") {
-                $("#textbox #textbox-speaker").text("Unknown Speaker");
-            }
+        // Handle Portraits
+        if (this.lines[lineIdx].portrait === null || this.lines[lineIdx].portrait === undefined) {
+            // There is no portrait for this line.
+            // Ergo, Remove the portrait.
+            $("#textbox-container").removeClass("showportrait");
+        } else if (this.lines[lineIdx].portrait !== null || this.lines[lineIdx].portrait !== undefined) {
+            // Set and show the portrait.
+            $("#textbox #textbox-portrait").css("background-image", `url(${this.lines[lineIdx].portrait})`);
+            $("#textbox-container").addClass("showportrait");
+        } else {
+            // Do naught: Keep the same portrait properties that we had before.
         }
 
-        if (this.showPortrait) {
-            if (this.lines[lineIdx].portrait) {
-                $("#textbox #textbox-portrait").css('background-image', `url(${this.lines[lineIdx].portrait})`);
-            } else if ($("#textbox #textbox-portrait").css('background-image') === "none") {
-                $("#textbox #textbox-portrait").css('background-image', `url("assets/imported/img/png/turn_icon_en.png")`);
-            }
+        // Handle Speaker Names
+        if (this.lines[lineIdx].speaker === null || this.lines[lineIdx].speaker === undefined) {
+            // There is no speaker for this line.
+            // Ergo, Remove the speaker.
+            $("#textbox-container").removeClass("showspeakername");
+        } else if (this.lines[lineIdx].speaker !== null || this.lines[lineIdx].speaker !== undefined) {
+            // Set and show the speaker.
+            $("#textbox #textbox-speaker").text(this.lines[lineIdx].speaker);
+            $("#textbox-container").addClass("showspeakername");
+        } else {
+            // Do naught: Keep the same speaker properties that we had before.
         }
 
+        // Display the line
         if (this.lines[lineIdx].wasSeen === true) {
-            /* We used the `previous()` method. */
+            // NYI: If we've already seen the line, we should add a class so that the text is red.
             $("#textbox #textbox-text").text(this.lines[lineIdx].line);
         } else {
             this.lines[lineIdx].wasSeen = true;
@@ -140,8 +143,8 @@ class TextBox {
         $("#textbox-container").addClass("hidden");
         $("#textbox").addClass("hidden");
         $("#textbox #textbox-text").text("");
-        $("#textbox-container").css("background-image", '');
-        $("#textbox #textbox-portrait").css("background-image", '');
+        $("#textbox-container").css("background-image", "");
+        $("#textbox #textbox-portrait").css("background-image", "");
 
         sv.GameState = sv.PrevGameState;
         sv.PrevGameState = undefined;

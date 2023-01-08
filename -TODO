@@ -1,0 +1,282 @@
+☐  = Planned for Implementation
+☑  = Currently Implemented
+→  = Currently Working On.
+... = Planned but not to be done soon.
+
+######    #######   ######  ##     ##  ######      ######   ########   #######  ##     ## ########  
+##       ##     ## ##    ## ##     ## ##    ##    ##    ##  ##     ## ##     ## ##     ## ##     ## 
+##       ##     ## ##       ##     ## ##          ##        ##     ## ##     ## ##     ## ##     ## 
+######   ##     ## ##       ##     ##  ######     ##   #### ########  ##     ## ##     ## ########  
+##       ##     ## ##       ##     ##       ##    ##    ##  ##   ##   ##     ## ##     ## ##        
+##       ##     ## ##    ## ##     ## ##    ##    ##    ##  ##    ##  ##     ## ##     ## ##        
+##        #######   ######   #######   ######      ######   ##     ##  #######   #######  ##        
+    ☐  Canvas
+        ☐  HP number should be shown.
+        ☐  "Init" should be next to init number.
+        ☐  Hovering over the init indicator should do something?
+        ☐  When dead, enemies should be red.
+    ☐  Main Screen
+        ☐  Add a thingy that says "Hover over Attacks to See their Information"
+        ☐  Add a thingy that says "Click to specific equipment."
+
+###### #  ######## ########    ###     ######  ########  #######  ########  
+##     ## ##       ##         ## ##   ##    ##    ##    ##     ## ##     ## 
+##     ## ##       ##        ##   ##  ##          ##    ##     ## ##     ## 
+###### #  ######   ######   ##     ## ##          ##    ##     ## ########  
+##   ##   ##       ##       ######### ##          ##    ##     ## ##   ##   
+##    ##  ##       ##       ##     ## ##    ##    ##    ##     ## ##    ##  
+##     ## ######## ##       ##     ##  ######     ##     #######  ##     ## 
+    ☐  Refactor CONSTS to be SCREAMING_SNAKE_CASE
+    ☐  Passage Tags should be refactored:
+        ☐  .tag => Common tags for CSS [classes] e.g. .overworld, .helper, .combat
+        ☐  #tag => Unique tags for CSS [IDs] e.g. #CombatOverlord
+        ☑  @tag => Title tags for titles e.g. @Title
+        ☑  tag => Functional/Compiler/Organizational tags e.g. nostats 
+
+   ###    ##     ## ########  ####  #######  
+  ## ##   ##     ## ##     ##  ##  ##     ## 
+ ##   ##  ##     ## ##     ##  ##  ##     ## 
+##     ## ##     ## ##     ##  ##  ##     ## 
+# ####### ##     ## ##     ##  ##  ##     ## 
+##     ## ##     ## ##     ##  ##  ##     ## 
+##     ##  #######  ########  ####  #######  
+    ☐  Implementation
+        ☐  Music
+        ☐  Sound Effects
+    ☐  Music
+    ☐  UI Sounds
+    ☐  Combat Sounds
+
+#### ##    ## ######## ########   #######  ########  ##     ##  ######  ######## ####  #######  ##    ## 
+ ##  ###   ##    ##    ##     ## ##     ## ##     ## ##     ## ##    ##    ##     ##  ##     ## ###   ## 
+ ##  ####  ##    ##    ##     ## ##     ## ##     ## ##     ## ##          ##     ##  ##     ## ####  ## 
+ ##  ## ## ##    ##    ########  ##     ## ##     ## ##     ## ##          ##     ##  ##     ## ## ## ## 
+ ##  ##  ####    ##    ##   ##   ##     ## ##     ## ##     ## ##          ##     ##  ##     ## ##  #### 
+ ##  ##   ###    ##    ##    ##  ##     ## ##     ## ##     ## ##    ##    ##     ##  ##     ## ##   ### 
+#### ##    ##    ##    ##     ##  #######  ########   #######   ######     ##    ####  #######  ##    ## 
+    ☐  Main Menu
+    ?
+    ?
+    ?
+
+ ######   #######  ##     ## ########     ###    ######## 
+##    ## ##     ## ###   ### ##     ##   ## ##      ##    
+##       ##     ## #### #### ##     ##  ##   ##     ##    
+##       ##     ## ## ### ## ########  ##     ##    ##    
+##       ##     ## ##     ## ##     ## #########    ##    
+##    ## ##     ## ##     ## ##     ## ##     ##    ##    
+ ######   #######  ##     ## ########  ##     ##    ##    
+    ☐  Primitive Combat Flash Messages
+        ☐  Words for Spells
+        ☐  Buffs
+        ☐  Healing
+    ☐  Animations
+        ☐  Attack
+            ☐  Primitive AoE
+            ☐  Primitive Single Target
+        ☐  Defense
+            ☐  Primitive Hit [Probably don't need as the attack animation would do it?]
+            ☐  Primitive Deflected
+            ☐  Primitive Blocked
+    ☐  Battle Log
+    ☐  AI
+        ☐  Implementation
+        ☑  Random Attacks Random Targets
+        ☐  Generalized - Simple   [Chooses attacks based on self. e.g. Won`t buff if already buffed with buff.]
+        ☐  Generalized - Normal   [Chooses attacks based on self and team. e.g. Won`t buff if team already buffed.]
+        ...Generalized - Advanced [Chooses attacks and targets based on self and enemy team.]
+        ...Generalized - Brutal   [ "" ,  but also picks an attack and targets an enemy that would die from that attack.]
+        ...Custom                 [Bosses, mostly.]
+    ☐  Reward/Defeat Screen 
+        ☑  Primitive
+        ...Drops
+            ...Predetermined [e.g. Quest Boss Rewards]
+            ...From Weighted Array [e.g. Farmable Zones]
+            ...From Enemy Drop Table [e.g. Farmable Monsters]
+    ...Ability to add more monsters in during combat
+    ...Buffs
+        ☑  On Apply
+        ☑  On Reapply
+        ☑  Per Init
+        ...When Targeted
+            ...Counter-Attacks [After Taking Damage]
+        ...When Take Damage
+        ...On Attack
+        ...On Spell
+        ...On Miracle
+        ...On Ally Attack
+        ...When Ally Hit
+        ...When hovering over buff/canvas, it should show buffs info.
+    ...Triggers
+        I need a system whereby when an event buffs, buffs can be applied. For instance, if I have a chance to bleed modifier on an axe, then bleeding should be able to be applied on every attack.
+            REVIEW: But do I really need one? Can`t I just `if (buff.onAttack)...`?
+            ANSWER: No, because buffs are only checked when they`re applied. If they`re not applied, they dont get checked. The trigger system would apply a buff or debuff to either the target or victim. 
+    ...Spells
+        ...Winds System. [The more people that use the spell, the less powerful it gets.]
+        ...Spell Casting Time
+        ...Spell Syncing [Party members with the same spell can cast it together, which makes a more powerful spell by increasing winds.]
+        ...Spells always have 0 WDM.
+    ...Miracles 
+    ...Divine Shield
+    ...Combat Canvas Refactor
+        ...Find better modern canvas library that is still simple or make the whole thing in PIXI.
+        ...Embedded Location and Name
+    ...Enemies use a "prefer backline/frontline" bool
+
+ ######  ##     ##    ###    ########     ###     ######  ######## ######## ########  
+##    ## ##     ##   ## ##   ##     ##   ## ##   ##    ##    ##    ##       ##     ## 
+##       ##     ##  ##   ##  ##     ##  ##   ##  ##          ##    ##       ##     ## 
+##       ######### ##     ## ########  ##     ## ##          ##    ######   ########  
+##       ##     ## ######### ##   ##   ######### ##          ##    ##       ##   ##   
+##    ## ##     ## ##     ## ##    ##  ##     ## ##    ##    ##    ##       ##    ##  
+ ######  ##     ## ##     ## ##     ## ##     ##  ######     ##    ######## ##     ## 
+    ☐ Items
+        ☐  Equipment InformationPlate
+            ☐  Information Present
+            ☐  CSS
+        ...Equipment should be governed like this: State.variables.account[[weapon, numowned], [weapon, numowned]]. Max owned should be 2.
+        ...A More/Increased stat for Material/Elemental/Occult. [REVIEW: Is this really needed?]
+        ...More/Increased Health 
+    ...Expertise
+        ...Weapon/Armor/Attack/Spell Expertise Modifier in Combat [Req: Player Stats!]
+        ...Increase the WDM of attacks the more familiar you are with the specific weapon name. ["Executioner`s Ax"]
+        ...Increase the WDM of attacks the more familiar you are with the weapon type. ["Two-Handed Axe"]
+        ...Increase the WDM of attacks the more familiar you are with the attack. ["Overhead Chop"]
+        ...Increase the Spell Power Modifier of spells the more familiar you are with the spell.
+        ...Increase the base stats of armor the more familiar you are with the armor.
+            ...Armor should increase by wearing it and taking hits.
+        ☑  Miracles do not have an expertise modifier.
+        ...Expertise should interact with the level system so that lower leveled monsters don't increase expertise as fast.
+    ...Growth
+        ...Leveling
+            ...Leveling increases all reasonable stats by BaseStat^(0.04n).
+            ...Experience requirements may or may not increase with levels.
+            ...Experience is given by enemies. The more you know about an enemy, the less experience it gives.
+    ...Passive System
+        ...Panning and Zooming http://fabricjs.com/fabric-intro-part-5
+        ...An item to respec the whole tree.
+        ...An item to respec just a point.
+    ...Trait System
+    ...Pawn System
+        ...Personal Pawn
+        ...Sharing Pawns
+    ...Spell System
+        ...Ablity to Learn Spells
+            ...By watching allies (tp!) cast spells
+            ...By watching enemies cast spells
+            ...By reading scrolls (P2P Premium Trading)
+            ...By studying (G2P Resource Trading)
+
+ ######   ##     ## ########  ######  ########  ######  
+##     ## ##     ## ##       ##    ##    ##    ##    ## 
+##     ## ##     ## ##       ##          ##    ##       
+##     ## ##     ## ######    ######     ##     ######  
+##  ## ## ##     ## ##             ##    ##          ## 
+##    ##  ##     ## ##       ##    ##    ##    ##    ## 
+ ##### ##  #######  ########  ######     ##     ######  
+    ☑ Maps
+        ☐  Implement the Hex Generator as the Map Background
+        ☐  Make and implement icons for:
+            ☐  Player
+            ☐  City
+            ☐  Combat Event
+            ☐  Non-Combat Event
+        ...Maps Rotatable with Aligned Icons (for Portrait/Landscape mode)
+    ☐ Cities
+        ☑  Guild Hall [Obtain/Abandon Quests. Switch Pawns]
+            ☐  Quest Screen
+                ☐  Randomized Quests
+                ...Randomized Quests based on Guild Rank.
+        ☑  Inn [Change Equipment, Magic, and Miracles]
+            ...Magic/Miracles Screen
+            ...Passive Skills Screen
+        ...Item Shop [Buy and Sell Materials and Items with NPCs]
+            ...Buy Screen
+            ...Sell Screen
+        ...Crafting Places [Create Items]
+            ...Jewelcrafter [Accesories]
+            ...Blacksmith [Plate / Material-Based Weapons]
+            ...Leatherworker [Leather]
+            ...Tailor [Cloth]
+            ...Magical Weapons Place [Elemental-Based Weapons]
+            ...Shrine [Occult-Based Weapons]
+        ...Bazaar [Auction House]
+            ...Search Screen
+            ...List Screen
+                ...Currently Listed Screen (?)
+            ...Receive Items Screen
+    ...Monster Rarity and Affix System
+    ...Combat Types
+        ...Survival [Number of Inits]
+        ...Extermination [Waves]
+    ...Guild Rank
+        ...As of this moment, Guild Rank isn`t planned to do anything special regarding the strength of a character.
+        ...Gives cheaper taxes on the action house. [To help prevent bots/Alts.]
+...Bestiary system that teaches you more about enemies the more you fight them.
+    ...First level teaches Max life.
+
+###  ### ######## ##     ## ######## ########   #######  ##     ## 
+   ##    ##        ##   ##     ##    ##     ## ##     ##  ##   ##  
+   ##    ##         ## ##      ##    ##     ## ##     ##   ## ##   
+   ##    ######      ###       ##    ########  ##     ##    ###    
+   ##    ##         ## ##      ##    ##     ## ##     ##   ## ##   
+   ##    ##        ##   ##     ##    ##     ## ##     ##  ##   ##  
+   ##    ######## ##     ##    ##    ########   #######  ##     ## 
+    ☑  Implementation
+        ☑  Portrait & Non-Portrait
+            ☑  Portrait/Non-Portrait decided by Lines.
+        ☑  Name Field
+            ☑  Name Field decided by Lines.
+        ☑  Text Field
+            ☑  Text Field with Portrait
+            ☑  Text Field without Portrait
+        ☑  Narration
+    ☑  Show Background during Textbox
+    ...Red text if seen Line (not TB).
+    ...Ability to fast-forward text by holding a button.
+    ...Ability to fast-forward text that has already been seen.
+    ...Ability to scroll backwards to see history.
+    ...Allow easy translations.
+
+
+
+##    ##  #######  ######## ########  ######                   
+###   ## ##     ##    ##    ##       ##    ##                  
+####  ## ##     ##    ##    ##       ##          #####         
+## ## ## ##     ##    ##    ######    ######           ####### 
+##  #### ##     ##    ##    ##             ##    #####         
+##   ### ##     ##    ##    ##       ##    ##                  
+##    ##  #######     ##    ########  ######                   
+-= Balancing =-
+    Monsters` innate stats have to make up for their lack of equipment.
+    Mods are what makes humans stronger than monsters, not equipment.
+    That means that all equipment should be relatively equal in strength, if in different ways.
+    Attacks should be focused more on WDM and increasing/more, and not flat damage.
+    Spells should be focused on flat damage.
+
+-= Implicit Weapon Balancing =-
+    Two Handed Weapons hit Area and Single, less defense.
+    X and Shield hit Single, more block.
+    Unarmed/Dual Weild attacks faster and has deflect.
+    Pierce type weapons crit more.
+    Blunt type weapons stun and direct more.
+    Elemental and Occult damage types have less implicit attacks, but pierce through more damage.
+        Lightning has higher damage ranges, crits for more, and has a less direct modifier.
+    Staves/Occult Tools are useful for their builds due to basic affixes and special mods.
+        While they have attacks, attacks are not the central focus of them.
+
+-= Structure of Quest =-
+A Quest is a collection of information that gives meaning to Maps, determining which interactables are visible at which time. 
+They should load all required data at the start of them. Expected quest time is 15 to 30 minutes.
+They also collect maps:
+    Maps should be procedurally generated with a collection of Interactables:
+        Interactables can be combat, textboxes, or cities. [Later, also places that give items.]
+
+-= Stats and Growth =-
+    Each level should exponentially increase calculated stats by 2 to 4%. Then, the game can be about increasing base stats, and everything can be balanced. Not sure how to handle Init, though.
+    Base stats would be split into 3 types:
+        Character: These are the stats you start with, plus bonii for reaching profiency levels and bestiary levels.
+        Items: The items you equipped. This would make balancing them easier too, as you can use the same weapon for all levels. On stat screens, this should include mods too.
+    These would be added up and then multiplied by the exponential modifier.
+    Of note, the higher the bestiary level of a mob, the less experience it gives.
+    ...The experience a monster gives is also increased by levels.

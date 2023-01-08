@@ -275,7 +275,7 @@ let sequence2 = new Sequence({
 
 // Combat Interactable
 let daddyinteraction = function () {
-    // BUG: This interaction is running as soon as sequence 3 is reacehd.
+    // BUG: This interaction is running as soon as sequence 3 is reached.
     console.log("This shouldn't run until interaction");
 
     new setup.tb.TextBox(setup.tbs.flavor_tbs.random());

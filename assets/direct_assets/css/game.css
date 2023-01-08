@@ -1,3 +1,8 @@
+/**
+ * Passage Tags can decide CSS, a la...
+ *  #passages[data-tags~=".Combat"] 
+ */
+
 @font-face {
     font-family: "Blackslash";
     src: url("../fonts/Backslash-RpJol.otf") format("otf");
@@ -1791,11 +1796,11 @@ body[data-tags~="#map"] #infoScreen {
     padding-bottom: 30%;
     box-sizing: border-box;
     border: 0.2rem solid hsl(0, 00%, 70%);
-    border-radius: .75rem;
+    border-radius: 0.75rem;
 
     background-image: url(assets/imported/img/png/rhombii.png);
     background-size: 20px;
-    background-color: hsl(240, 100%, 40%, .5);
+    background-color: hsl(240, 100%, 40%, 0.5);
     cursor: pointer;
     user-select: none;
 
@@ -1891,14 +1896,17 @@ body[data-tags~="#map"] #infoScreen {
  */
 
 #textbox-container {
-    /* TODO: Transition opacity. */
-    z-index: 200;
-    width: 100vw;
-    height: 100vh;
-    background: hsla(0, 0%, 0%, 20%);
+    position: absolute;
     top: 0;
     left: 0;
-    position: absolute;
+    z-index: 200;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: hsla(0, 0%, 0%, 25%);
+
+    /* TODO: Transition opacity. */
 }
 
 #textbox-container.showbackground {
@@ -1906,20 +1914,13 @@ body[data-tags~="#map"] #infoScreen {
 }
 
 #textbox-container #textbox {
-    display: grid;
-
-    grid-template-columns: min-content auto;
-    grid-template-rows: 1fr 10fr;
-
     /* TODO: Make it slide upwards. */
     z-index: 201;
-    width: 98vw;
-    height: 30vh;
+    width: 100vw;
+    height: 40vh;
     /* background: hsl(30, 33%, 46%); */
     bottom: 0;
     position: fixed;
-
-    left: 1vw;
 }
 
 #textbox-container #textbox #textbox-portrait {
@@ -1928,12 +1929,17 @@ body[data-tags~="#map"] #infoScreen {
 
 #textbox-container.showportrait #textbox #textbox-portrait {
     display: block;
-    grid-row: span 2;
+    position: fixed;
+    left: 2.5vw;
+    bottom: 2vh;
+
+    width: 18vw;
+    height: 50vh;
+
+    border-radius: 1.25rem;
+    border: 2px solid #daa520;
+
     background-size: contain;
-    margin: auto 0 auto 1em;
-    width: max(15vh, 15vw);
-    height: max(15vh, 15vw);
-    border: 1px solid goldenrod;
 }
 
 #textbox-container #textbox #textbox-speaker {
@@ -1941,31 +1947,43 @@ body[data-tags~="#map"] #infoScreen {
 }
 
 #textbox-container.showspeakername #textbox #textbox-speaker {
-    display: inline;
-    height: min-content;
-    padding-left: 1em;
-
-    margin-top: 1em;
-
-    border-bottom: 3px solid rgb(88, 32, 218);
+    display: block;
+    position: fixed;
+    bottom: 37vh;
+    left: 18vw;
 
     font-size: 2.25em;
     font-family: backslash;
-    color: black;
     text-shadow: none;
+
+    user-select: none;
+}
+
+#textbox-container.showspeakername.showportrait #textbox #textbox-speaker {
+    left: 21.5vw;
 }
 
 #textbox-container #textbox #textbox-text {
-    padding: 1em;
-    grid-column: 2;
-    grid-row: span 2;
-    font-size: 2.25em;
+    display: block;
+    position: fixed;
+    left: 15vw;
+    bottom: 5vh;
+
+    width: 75vw;
+    height: 25vh;
+
+    padding: 0.75em 1.25em;
+    background-color: #000;
+
+    border-radius: 1em;
+    border: 2px gray solid;
+
+    font-size: 1.75em;
     line-height: 1.25em;
-    color: white;
-    background: url(assets/imported/img/png/dialoguebox.png);
-    background-repeat: no-repeat;
-    background-size: contain;
+    color: #fff;
     text-shadow: none;
+
+    user-select: none;
 }
 
 /* 
