@@ -65,6 +65,7 @@ class TextBox {
         }
 
         /** Show Background. */
+        // TODO: Change background based on lines.
         if (this.showBackground) {
             $("#textbox-container").addClass("showbackground");
             $("#textbox-container").css("background-image", `url(${this.backgroundSrc})`);

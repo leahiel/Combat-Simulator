@@ -27,6 +27,7 @@
 ##    ##  ##       ##       ##     ## ##    ##    ##    ##     ## ##    ##  
 ##     ## ######## ##       ##     ##  ######     ##     #######  ##     ## 
     ☐  Refactor CONSTS to be SCREAMING_SNAKE_CASE
+    ☐  Refactor all lines to use the Line Class.
     ☐  Passage Tags should be refactored:
         ☐  .tag => Common tags for CSS [classes] e.g. .overworld, .helper, .combat
         ☐  #tag => Unique tags for CSS [IDs] e.g. #CombatOverlord
@@ -54,7 +55,11 @@
  ##  ##  ####    ##    ##   ##   ##     ## ##     ## ##     ## ##          ##     ##  ##     ## ##  #### 
  ##  ##   ###    ##    ##    ##  ##     ## ##     ## ##     ## ##    ##    ##     ##  ##     ## ##   ### 
 #### ##    ##    ##    ##     ##  #######  ########   #######   ######     ##    ####  #######  ##    ## 
-    ☐  Main Menu
+    ☑  Main Menu
+        ☑  New Game
+        ...Load Game
+        ...Connect Online
+        ☐  Settings
     ?
     ?
     ?

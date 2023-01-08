@@ -1,7 +1,11 @@
 let DEFAULTLINE = {
+    /** The source of the portrait to be shown, if any. */
     portrait: null,
+    /** The name String of the speaker to be shown, if any. */
     speaker: null,
+    /** The text to appear in the TextBox. */
     line: "Default Line Text. If you see this, you have encountered an error.",
+    /** Boolean regarding whether the player has seen this Line before. */
     wasSeen: false,
 };
 
