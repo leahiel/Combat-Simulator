@@ -1,4 +1,4 @@
-:: LocationsText [.uibar nostats] {"position":"500,100"}
+:: LocationsText [uibar nostats] {"position":"500,100"}
 <<include L_Template>>
 
 

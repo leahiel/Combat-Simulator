@@ -1,7 +1,7 @@
-:: Dialog_Win [.combat .helper nostats] {"position":"500,675"}
+:: Dialog_Win [.combat helper nostats] {"position":"500,675"}
 Winners Screen! Congratulations, this screen is Not Yet Implemented.
 
 
 
-:: Dialog_Lose [.combat .helper nostats] {"position":"500,700"}
+:: Dialog_Lose [.combat helper nostats] {"position":"500,700"}
 Losing Screen! This screen is Not Yet Implemented.

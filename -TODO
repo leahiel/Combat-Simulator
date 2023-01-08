@@ -19,21 +19,6 @@
         ☐  Add a thingy that says "Hover over Attacks to See their Information"
         ☐  Add a thingy that says "Click to specific equipment."
 
-###### #  ######## ########    ###     ######  ########  #######  ########  
-##     ## ##       ##         ## ##   ##    ##    ##    ##     ## ##     ## 
-##     ## ##       ##        ##   ##  ##          ##    ##     ## ##     ## 
-###### #  ######   ######   ##     ## ##          ##    ##     ## ########  
-##   ##   ##       ##       ######### ##          ##    ##     ## ##   ##   
-##    ##  ##       ##       ##     ## ##    ##    ##    ##     ## ##    ##  
-##     ## ######## ##       ##     ##  ######     ##     #######  ##     ## 
-    ☐  Refactor CONSTS to be SCREAMING_SNAKE_CASE
-    ☐  Refactor all lines to use the Line Class.
-    ☐  Passage Tags should be refactored:
-        ☐  .tag => Common tags for CSS [classes] e.g. .overworld, .helper, .combat
-        ☐  #tag => Unique tags for CSS [IDs] e.g. #CombatOverlord
-        ☑  @tag => Title tags for titles e.g. @Title
-        ☑  tag => Functional/Compiler/Organizational tags e.g. nostats 
-
    ###    ##     ## ########  ####  #######  
   ## ##   ##     ## ##     ##  ##  ##     ## 
  ##   ##  ##     ## ##     ##  ##  ##     ## 
@@ -228,14 +213,11 @@
    ##    ##        ##   ##     ##    ##     ## ##     ##  ##   ##  
    ##    ######## ##     ##    ##    ########   #######  ##     ## 
     ☑  Implementation
-        ☑  Portrait & Non-Portrait
-            ☑  Portrait/Non-Portrait decided by Lines.
+        ☑  Portrait
         ☑  Name Field
-            ☑  Name Field decided by Lines.
         ☑  Text Field
-            ☑  Text Field with Portrait
-            ☑  Text Field without Portrait
         ☑  Narration
+        ...Change Background based on Line.
     ☑  Show Background during Textbox
     ...Red text if seen Line (not TB).
     ...Ability to fast-forward text by holding a button.

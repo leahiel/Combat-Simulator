@@ -153,12 +153,12 @@ They're roughly ordered from least difficult to most difficult.
 
 
 
-:: Party_Preset_Select [.helper nostats] {"position":"275,350"}
+:: Party_Preset_Select [helper nostats] {"position":"275,350"}
 <<script>>
 	let sv = State.variables;
 	let st = State.temporary;
 	let Eq = setup.COM.Equippable;
-	let eq = setup.COM.equippables;
+	let eq = setup.COM.EQUIPPABLES;
 	let af = setup.COM.affixes;
 
 	/* TODO: Make presets. */

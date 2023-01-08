@@ -26,7 +26,7 @@
 class CombatInstance {
     constructor(obj) {
         // Merge our obj onto default, then merge those onto this.
-        jQuery.extend(true, this, /* DEFAULTATTACK, */ obj);
+        jQuery.extend(true, this, /* DEFAULT_ATTACK, */ obj);
 
         /* Default Values */
 

@@ -1,4 +1,4 @@
-:: PeopleText [.uibar nostats] {"position":"1150,25"}
+:: PeopleText [uibar nostats] {"position":"1150,25"}
 <<include P_Template>>
 
 

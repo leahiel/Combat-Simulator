@@ -1,4 +1,4 @@
-const DEFAULTINN = {
+const DEFAULT_INN = {
     name: "Unknown Name",
 };
 
@@ -10,7 +10,7 @@ class Inn {
         let sv = State.variables;
 
         // Merge our obj onto default, then merge those onto this.
-        jQuery.extend(true, this, DEFAULTINN, obj);
+        jQuery.extend(true, this, DEFAULT_INN, obj);
 
         /** Save the city menu HTML for later replacement. */
         this.cityMenu = cityMenu;

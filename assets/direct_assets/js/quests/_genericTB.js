@@ -7,37 +7,37 @@
     let inn_tbs = [
         {
             lines: [
-                {
+                new Line({
                     line: "Welcome to our inn!",
-                },
+                }),
             ],
         },
         {
             lines: [
-                {
+                new Line({
                     line: "Oh, a visitor! Welcome!",
-                },
+                }),
             ],
         },
         {
             lines: [
-                {
+                new Line({
                     line: "We got rooms available, feel free to stay the night!",
-                },
+                }),
             ],
         },
         {
             lines: [
-                {
+                new Line({
                     line: "Welcome to our- Oh, how cute! We'll give you the best bed!",
-                },
+                }),
             ],
         },
         {
             lines: [
-                {
+                new Line({
                     line: "First time here? There's an extra fee involved.",
-                },
+                }),
             ],
         },
     ];
@@ -45,55 +45,50 @@
     let flavor_tbs = [
         {
             lines: [
-                {
+                new Line({
                     line: "No portrait here!",
-                },
-                {
+                }),
+                new Line({
                     line: "String 2",
-                },
+                }),
             ],
         },
         {
-            showPortrait: true,
             lines: [
-                {
+                new Line({
+                    portrait: "assets/imported/img/png/turn_icon_pl.png",
                     line: "The portrait should be showing here.",
-                },
-                {
-                    line: "String 2",
-                },
+                }),
+                new Line({
+                    line: "And here too!.",
+                }),
             ],
         },
         {
-            showSpeakerName: true,
-            showPortrait: true,
             lines: [
-                {
+                new Line({
                     line: "An unknown speaker should be here.",
-                },
-                {
+                }),
+
+                new Line({
                     portrait: "assets/imported/img/png/turn_icon_pl.png",
                     speaker: "redrect3",
                     line: "The portrait and name should be showing here.",
-                },
-                {
-                    line: "The same name should sitll be here",
-                },
-                {
+                }),
+                new Line({
+                    line: "The same and portrait name should sitll be here",
+                }),
+                new Line({
                     portrait: "assets/imported/img/png/turn_icon.png",
                     speaker: "new name",
                     line: "A new name should now appear.",
-                },
+                }),
             ],
         },
         {
             showBackground: true,
             backgroundSrc: "assets/imported/img/png/tavern1.png",
-            lines: [
-                {
-                    line: "background image testing.",
-                },
-            ],
+            lines: [new Line({ line: "background image testing." })],
         },
     ];
 
@@ -102,11 +97,7 @@
         {
             showBackground: true,
             backgroundSrc: "assets/imported/img/png/tavern1.png",
-            lines: [
-                {
-                    line: "We're gathering info!",
-                },
-            ],
+            lines: [new Line({ line: "We're gathering info!" })],
         },
     ];
 
@@ -115,11 +106,7 @@
         {
             showBackground: true,
             backgroundSrc: "assets/imported/img/png/tavern1.png",
-            lines: [
-                {
-                    line: "Stay awhile and listen.",
-                },
-            ],
+            lines: [new Line({ line: "Stay awhile and listen." })],
         },
     ];
 

@@ -1,4 +1,4 @@
-:: KnowledgeText [.uibar nostats] {"position":"0,175"}
+:: KnowledgeText [uibar nostats] {"position":"0,175"}
 <<include K_Template>>
 
 

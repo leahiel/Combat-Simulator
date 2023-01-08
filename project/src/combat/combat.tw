@@ -97,7 +97,7 @@
 
 
 
-:: Combat_Zone [.combat .helper nostats] {"position":"500,650"}
+:: Combat_Zone [.combat helper nostats] {"position":"500,650"}
 /**
  * The Combat_Zone passage dictates the logic of the combat. It 
  * iterates through "ticks" of combat, which decrement all character's
@@ -258,7 +258,7 @@ processTurns(ci.pp, ci.ep);
 
 
 
-:: Combat_Zone_Main [.combat .helper nostats] {"position":"500,625"}
+:: Combat_Zone_Main [.combat helper nostats] {"position":"500,625"}
 /**
  * The HTML elements of the enemies.
  */
@@ -329,7 +329,7 @@ processTurns(ci.pp, ci.ep);
 
 
 
-:: Player_Zone [.combat .helper nostats] {"position":"600,625"}
+:: Player_Zone [.combat helper nostats] {"position":"600,625"}
 /* HTML elements of the player characters. */
 
 /**

@@ -1,4 +1,4 @@
-:: DevOptionsText [.uibar nostats] {"position":"1025,25"}
+:: DevOptionsText [uibar nostats] {"position":"1025,25"}
 @@.dialog-header;Development Options@@
 
 <span class="row">

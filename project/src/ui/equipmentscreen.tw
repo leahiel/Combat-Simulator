@@ -1,4 +1,4 @@
-:: Slot_Menu_Info_Widget [widget .infoscreen .helper nostats] {"position":"1100,575"}
+:: Slot_Menu_Info_Widget [widget .infoscreen helper nostats] {"position":"1100,575"}
 <<widget SlotMenuInfo>>
     /** Normally I would write error the following error, but since this widget won't ever be used again, who cares:
      *  WriteError: _args[0] should be "weapon" || "armor" || "accessory" 
@@ -101,7 +101,7 @@
 
 
 
-:: Slot_ModMenu_Info_Widget [widget .infoscreen .helper nostats] {"position":"1100,550"}
+:: Slot_ModMenu_Info_Widget [widget .infoscreen helper nostats] {"position":"1100,550"}
 <<widget SlotModMenuInfo>>
     /** Normally I would write error the following error, but since this widget won't ever be used again, who cares:
      *  WriteError: _args[0] should be "weapon" || "armor" || "accessory" 
@@ -231,7 +231,7 @@
 
 
 
-:: Show_Attacks [.infoscreen .helper nostats] {"position":"600,875"}
+:: Show_Attacks [.infoscreen helper nostats] {"position":"600,875"}
 <span id="infoScreenAttacks"></span>
 <<script>>
 setup.fns.waitForElm("#infoScreenAttacks").then((elm) => {
@@ -240,7 +240,7 @@ setup.fns.waitForElm("#infoScreenAttacks").then((elm) => {
 <</script>>
 
 
-:: Show_Attacks_Helper [.infoscreen .helper nostats] {"position":"600,850"}
+:: Show_Attacks_Helper [.infoscreen helper nostats] {"position":"600,850"}
 <<for _int, _attack range $info.current.equippables.weapon.attacks>>
     <<capture _attack>>
         <<run $("#infoScreenAttacks").wiki(Story.get("Player_Attack_Disabled").processText());>>

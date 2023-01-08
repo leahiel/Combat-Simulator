@@ -10,7 +10,7 @@
 
 // TODO: Move <Map>.preparePlayer() into <Quest>, and Map.movePlayer() into Quest.movePlayer().
 
-const DEFAULTMAP = {
+const DEFAULT_MAP = {
     debug: true,
     /** 
      * The map sequence is what is actually on the map. Since we're 
@@ -26,7 +26,7 @@ class Map {
         let pixiApp = State.temporary.pixi;
 
         // Merge the canvas into our obj, then onto default, then, onto this.
-        jQuery.extend(true, this, DEFAULTMAP, obj);
+        jQuery.extend(true, this, DEFAULT_MAP, obj);
 
         // Set the scale of the canvas.
         this.gridFidelity = Map.getGridFidelity();

@@ -1,4 +1,4 @@
-:: TooltipText [.uibar nostats] {"position":"625,100"}
+:: TooltipText [uibar nostats] {"position":"625,100"}
 /* The tool tips found in this file are strictly... tooltips. They're not meant to be seen with a button in the UI bar. */ 
 
 

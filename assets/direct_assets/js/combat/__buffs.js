@@ -4,7 +4,7 @@
 class Buff {
     constructor(obj) {
         // Merge our obj onto default, then merge those onto this.
-        jQuery.extend(true, this, DEFAULTBUFF, obj);
+        jQuery.extend(true, this, DEFAULT_BUFF, obj);
 
         if (this.description === undefined) {
             console.error(`Buff: ${this.name} lacks a description.`);
@@ -13,7 +13,7 @@ class Buff {
     }
 }
 
-const buffs = {
+const BUFFS = {
     buffAmp: new Buff({
         type: "buff",
         duration: 100,
@@ -288,10 +288,10 @@ const buffs = {
 };
 
 // Add buffs to setup.
-(function (S) {
-    if (!S.COM) {
-        S.COM = {};
-    }
+// (function (S) {
+//     if (!S.COM) {
+//         S.COM = {};
+//     }
 
-    S.COM.buffs = buffs;
-})(setup);
+//     S.COM.BUFFS = BUFFS;
+// })(setup);

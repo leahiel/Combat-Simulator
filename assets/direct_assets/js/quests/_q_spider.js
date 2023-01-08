@@ -29,18 +29,17 @@ let ittybittyman = function () {
                 showBackground: false,
                 backgroundSrc: "",
                 showDimmer: true,
-                showPortrait: false,
-                showSpeakerName: true,
                 lines: [
-                    {
+                    new Line({
                         portrait: "assets/imported/img/png/turn_icon_pl.png",
                         speaker: "Concerned Man",
                         line: "There sure have been a lot of the itty bitties around recently, but they don't seem to do much damage, so they'll be perfect for some young folk like you to handle.",
-                    },
-                    {
-                        speaker: "Narrator",
+                    }),
+                    new Line({
+                        portrait: null,
+                        speaker: null,
                         line: "You thank the man and move on.",
-                    },
+                    }),
                 ],
             };
 
@@ -147,18 +146,17 @@ let city_seq1_interaction = function () {
         showBackground: false,
         backgroundSrc: "",
         showDimmer: true,
-        showPortrait: false,
-        showSpeakerName: true,
         lines: [
-            {
+            new Line({
                 portrait: "assets/imported/img/png/turn_icon_pl.png",
                 speaker: "Mayor",
                 line: "There sure are a lot of spiders around. Why don't ya go to the guild and get some buddies and slay some of them for us.",
-            },
-            {
-                speaker: "Narrator",
+            }),
+            new Line({
+                portrait: null,
+                speaker: null,
                 line: "You thank the man and move on.",
-            },
+            }),
         ],
     };
 
@@ -172,18 +170,17 @@ let city_seq4_interaction = function () {
         showBackground: false,
         backgroundSrc: "",
         showDimmer: true,
-        showPortrait: false,
-        showSpeakerName: true,
         lines: [
-            {
+            new Line({
                 portrait: "assets/imported/img/png/turn_icon_pl.png",
                 speaker: "Mayor",
                 line: "Momma Spider time.",
-            },
-            {
-                speaker: "Narrator",
+            }),
+            new Line({
+                portrait: null,
+                speaker: null,
                 line: "You thank the man and move on.",
-            },
+            }),
         ],
     };
 
@@ -238,14 +235,12 @@ let sequence3intro_tb = {
     showBackground: false,
     backgroundSrc: "",
     showDimmer: true,
-    showPortrait: false,
-    showSpeakerName: true,
     lines: [
-        {
+        new Line({
             portrait: "assets/imported/img/png/turn_icon_pl.png",
             speaker: "Narrator",
             line: "In the distance you see a bigger spider along with its family moving about. Curious about the size of the beast, you decide to check it out.",
-        },
+        }),
     ],
 };
 

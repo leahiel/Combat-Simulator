@@ -1,7 +1,7 @@
 class Equippable {
     constructor(obj) {
         // Merge our obj onto default, then merge those onto this.
-        jQuery.extend(true, this, DEFAULTEQUIPPABLE, obj);
+        jQuery.extend(true, this, DEFAULT_EQUIPPABLE, obj);
 
         if (!this.slot) {
             console.error(`${this.name} equippable has no slot.`);
@@ -119,13 +119,13 @@ class Equippable {
  *
  * Proficiency should be a player stat. Player and their Main Pawn can gain it, while other pawns cannot.
  */
-const equippables = {
+const EQUIPPABLES = {
     // DEBUG
     debugweapon: new Equippable({
         name: "Debug Weapon",
         slot: "weapon",
         type: "unequipped",
-        attacks: mergeArray(setup.COM.familyAttacks.debugAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.debugAttacks),
         deflectChanceBase: 1,
         blockChanceBase: 1,
         tag: ["all", "unequipped"],
@@ -142,7 +142,7 @@ const equippables = {
         name: "No Weapon Equipped",
         slot: "weapon",
         type: "unequipped",
-        attacks: mergeArray(setup.COM.familyAttacks.unarmedAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.unarmedAttacks),
         damage: {
             blunt: {
                 min: 2,
@@ -191,7 +191,7 @@ const equippables = {
         name: "Arcane Bow",
         slot: "weapon",
         modslots: 4,
-        attacks: mergeArray(setup.COM.familyAttacks.bowWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.bowWeaponAttacks),
         damage: {
             fire: {
                 min: 1,
@@ -217,7 +217,7 @@ const equippables = {
         name: "Recurve Bow",
         slot: "weapon",
         modslots: 4,
-        attacks: mergeArray(setup.COM.familyAttacks.bowWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.bowWeaponAttacks),
         damage: {
             pierce: {
                 min: 4,
@@ -237,7 +237,7 @@ const equippables = {
         name: "Nimble Spear",
         slot: "weapon",
         modslots: 3,
-        attacks: mergeArray(setup.COM.familyAttacks.spearWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.spearWeaponAttacks),
         damage: {
             pierce: {
                 min: 4,
@@ -254,7 +254,7 @@ const equippables = {
         name: "Heavy Spear",
         slot: "weapon",
         modslots: 3,
-        attacks: mergeArray(setup.COM.familyAttacks.spearWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.spearWeaponAttacks),
         damage: {
             pierce: {
                 min: 5,
@@ -273,7 +273,7 @@ const equippables = {
         name: "Occultic Spear",
         slot: "weapon",
         modslots: 2,
-        attacks: mergeArray(setup.COM.familyAttacks.chaoticspearWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.chaoticspearWeaponAttacks),
         damage: {
             aether: {
                 min: 1,
@@ -296,7 +296,7 @@ const equippables = {
         name: "Abyssal Spear",
         slot: "weapon",
         modslots: 2,
-        attacks: mergeArray(setup.COM.familyAttacks.chaoticspearWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.chaoticspearWeaponAttacks),
         damage: {
             aether: {
                 min: 2,
@@ -316,7 +316,7 @@ const equippables = {
         name: "Short Sword and Shield",
         slot: "weapon",
         modslots: 3,
-        attacks: mergeArray(setup.COM.familyAttacks.swordandshieldWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.swordandshieldWeaponAttacks),
         damage: {
             pierce: {
                 min: 5,
@@ -337,7 +337,7 @@ const equippables = {
         name: "Mace and Shield",
         slot: "weapon",
         modslots: 3,
-        attacks: mergeArray(setup.COM.familyAttacks.maceandshieldWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.maceandshieldWeaponAttacks),
         damage: {
             blunt: {
                 min: 6,
@@ -357,7 +357,7 @@ const equippables = {
         name: "Acid Mace and Shield",
         slot: "weapon",
         modslots: 2,
-        attacks: mergeArray(setup.COM.familyAttacks.maceandshieldWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.maceandshieldWeaponAttacks),
         damage: {
             blunt: {
                 min: 2,
@@ -382,7 +382,7 @@ const equippables = {
         name: "Lumberman's Axe",
         slot: "weapon",
         modslots: 3,
-        attacks: mergeArray(setup.COM.familyAttacks.twohandedaxeWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.twohandedaxeWeaponAttacks),
         damage: {
             pierce: {
                 min: 5,
@@ -400,7 +400,7 @@ const equippables = {
         name: "Executioner's Axe",
         slot: "weapon",
         modslots: 2,
-        attacks: mergeArray(setup.COM.familyAttacks.twohandedaxeWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.twohandedaxeWeaponAttacks),
         damage: {
             pierce: {
                 min: 3,
@@ -605,5 +605,5 @@ const equippables = {
     }
 
     S.COM.Equippable = Equippable;
-    S.COM.equippables = equippables;
+    S.COM.EQUIPPABLES = EQUIPPABLES;
 })(setup);

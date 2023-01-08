@@ -39,9 +39,9 @@ class Player {
 const DEFAULTPLAYER = {
     family: "player",
     equippables: {
-        weapon: equippables.unequippedweapon,
-        armor: equippables.unequippedarmor,
-        accessory: equippables.unequippedaccessory,
+        weapon: EQUIPPABLES.unequippedweapon,
+        armor: EQUIPPABLES.unequippedarmor,
+        accessory: EQUIPPABLES.unequippedaccessory,
     },
 
     temp: true,

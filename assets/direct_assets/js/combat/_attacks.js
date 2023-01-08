@@ -4,7 +4,7 @@
 class Attack {
     constructor(obj) {
         // Merge our obj onto default, then merge those onto this.
-        jQuery.extend(true, this, DEFAULTATTACK, obj);
+        jQuery.extend(true, this, DEFAULT_ATTACK, obj);
 
         if (this.family === null) {
             console.error(`${this.name}'s family is null.`);
@@ -228,7 +228,7 @@ class Attack {
  * * 1.6 recovery for every additional hit after first
  */
 // TODO: All attacks should have a `dealsElement` bool. If false, character/equipment stuff doesn't apply to that element.
-const attacks = {
+const ATTACKS = {
     // ##      ## ########    ###    ########   #######  ##    ##  ######
     // ##  ##  ## ##         ## ##   ##     ## ##     ## ###   ## ##    ##
     // ##  ##  ## ##        ##   ##  ##     ## ##     ## ####  ## ##
@@ -259,7 +259,7 @@ const attacks = {
         },
         type: "buff",
         wdm: 0,
-        buffs: [buffs.buffAmp],
+        buffs: [BUFFS.buffAmp],
         description: "DEBUG: You hit everyone applying a strong buff.",
     }),
 
@@ -443,7 +443,7 @@ const attacks = {
             row: null,
         },
         description: "You hit your enemy for damage twice.",
-        buffs: [buffs.buffAmp],
+        buffs: [BUFFS.buffAmp],
     }),
 
     doublelegsweep: new Attack({
@@ -546,7 +546,7 @@ const attacks = {
             row: null,
         },
         description: "You posture yourself, making it harder to hit you.",
-        buffs: [buffs.buffSpearPosture],
+        buffs: [BUFFS.buffSpearPosture],
     }),
 
     /**
@@ -591,7 +591,7 @@ const attacks = {
             row: null,
         },
         description: "Sacrifice 10% of your current life to buff your occult damage.",
-        buffs: [buffs.buffSacrificeToChaos],
+        buffs: [BUFFS.buffSacrificeToChaos],
     }),
 
     unerringbolt: new Attack({
@@ -665,7 +665,7 @@ const attacks = {
             row: null,
         },
         description: "You posture yourself, increasing your block.",
-        buffs: [buffs.buffShieldPosture],
+        buffs: [BUFFS.buffShieldPosture],
     }),
 
     shieldbash: new Attack({
@@ -805,7 +805,7 @@ const attacks = {
         },
         description: "Spin yourself around thrice and hit foes multiple times.",
         hitnumber: 3,
-        buffs: [buffs.debuffBleed],
+        buffs: [BUFFS.debuffBleed],
     }),
 
     wideslash: new Attack({
@@ -826,7 +826,7 @@ const attacks = {
                 increased: 0.25,
             },
         },
-        buffs: [buffs.debuffBleed],
+        buffs: [BUFFS.debuffBleed],
     }),
 
     overheadchop: new Attack({
@@ -846,7 +846,7 @@ const attacks = {
                 max: 4,
             },
         },
-        buffs: [buffs.debuffBleed],
+        buffs: [BUFFS.debuffBleed],
         criticalChanceBase: 0.06,
         criticalChanceMore: 1.3,
         criticalDamageMore: 1.3,
@@ -865,7 +865,7 @@ const attacks = {
             row: null,
         },
         description: "Buff yourself to deal more pierce damage.",
-        buffs: [buffs.buffLumberjackStance],
+        buffs: [BUFFS.buffLumberjackStance],
     }),
 
     /*
@@ -928,7 +928,7 @@ const attacks = {
         },
         type: "buff",
         description: "Ensure everything is correct with your ammo, increasing your action speed.",
-        buffs: [buffs.buffCheckQuiver],
+        buffs: [BUFFS.buffCheckQuiver],
     }),
 
     sharptiparrows: new Attack({
@@ -943,7 +943,7 @@ const attacks = {
         },
         type: "buff",
         description: "Switch to Sharp-Tip Arrows, increasing your chance to critically hit.",
-        buffs: [buffs.buffSharpTipArrows],
+        buffs: [BUFFS.buffSharpTipArrows],
     }),
 
     // ######## ##    ## ######## ##     ##  ####  ########  ######
@@ -983,7 +983,7 @@ const attacks = {
                 increased: 1.75,
             },
         },
-        buffs: [buffs.debuffPoisoned],
+        buffs: [BUFFS.debuffPoisoned],
         description: "A vile bite, inflicting pierce and acid damage.",
     }),
 
@@ -1010,7 +1010,7 @@ const attacks = {
             },
         },
         description: "A gooey web that slows down the opponent.",
-        buffs: [buffs.debuffWebShot],
+        buffs: [BUFFS.debuffWebShot],
     }),
 
     EIGHT_LEGGED_RUSH: new Attack({
@@ -1084,7 +1084,7 @@ const attacks = {
             },
         },
         description: "The hog impales it's enemy with it's tusks, causing bleeding",
-        buffs: [buffs.debuffBleed],
+        buffs: [BUFFS.debuffBleed],
     }),
 
     HOG_ROAR: new Attack({
@@ -1099,7 +1099,7 @@ const attacks = {
             row: null,
         },
         description: "The hog roars, increasing it's material resistance.",
-        buffs: [buffs.buffHogRoar],
+        buffs: [BUFFS.buffHogRoar],
     }),
 
     /*
@@ -1211,7 +1211,7 @@ const attacks = {
             },
         },
         description: "Blazes a wall of fire on your enemies.",
-        buffs: [buffs.debuffFirewall],
+        buffs: [BUFFS.debuffFirewall],
     }),
 
     // Spell
@@ -1233,7 +1233,7 @@ const attacks = {
             },
         },
         description: "Freezes one of your units, lowering their action speed.",
-        buffs: [buffs.debuffIcePrison],
+        buffs: [BUFFS.debuffIcePrison],
     }),
 
     // Spell
@@ -1276,7 +1276,7 @@ const attacks = {
             row: null,
         },
         description: "Strikes fear into the hearts of your enemies, lowering their blunt resistance.",
-        buffs: [buffs.debuffRattle],
+        buffs: [BUFFS.debuffRattle],
     }),
 
     cackle: new Attack({
@@ -1292,7 +1292,7 @@ const attacks = {
             row: null,
         },
         description: "Cackle in your madness, buffing your blunt damage.",
-        buffs: [buffs.buffCackle],
+        buffs: [BUFFS.buffCackle],
     }),
 
     /*
@@ -1314,7 +1314,7 @@ const attacks = {
             row: null,
         },
         description: "Heals all undead units in combat by 20%.",
-        buffs: [buffs.buffHealUndead],
+        buffs: [BUFFS.buffHealUndead],
     }),
 
     /*
@@ -1335,7 +1335,7 @@ const attacks = {
             row: null,
         },
         description: "Encourage your teammates, reducing their attack recovery.",
-        buffs: [buffs.buffHerdMentor],
+        buffs: [BUFFS.buffHerdMentor],
     }),
 
     stampede: new Attack({
@@ -1396,7 +1396,7 @@ const attacks = {
             side: null,
             row: null,
         },
-        buffs: [buffs.buffRegenerate],
+        buffs: [BUFFS.buffRegenerate],
         description: "Regenerate life over time.",
     }),
 
@@ -1412,7 +1412,7 @@ const attacks = {
         },
         type: "buff",
         description: "Inspire your allies to attack more often.",
-        buffs: [buffs.buffGhoulScreech],
+        buffs: [BUFFS.buffGhoulScreech],
     }),
 
     poisonedClaw: new Attack({
@@ -1425,7 +1425,7 @@ const attacks = {
             side: "enemy",
             row: "front",
         },
-        buffs: [buffs.debuffPoisoned],
+        buffs: [BUFFS.debuffPoisoned],
         description: "Slash your target with a particularly nasty claw.",
         damage: {
             pierce: {
@@ -1442,15 +1442,15 @@ const attacks = {
  * Group up attacks of the same family so we can easily add them to
  * enemies and players.
  */
-const familyAttacks = {};
-for (let key in attacks) {
-    if (attacks[key].family) {
-        for (let idx in attacks[key].family) {
-            if (!familyAttacks[attacks[key].family[idx]]) {
-                familyAttacks[attacks[key].family[idx]] = [];
+const FAMILY_ATTACKS = {};
+for (let key in ATTACKS) {
+    if (ATTACKS[key].family) {
+        for (let idx in ATTACKS[key].family) {
+            if (!FAMILY_ATTACKS[ATTACKS[key].family[idx]]) {
+                FAMILY_ATTACKS[ATTACKS[key].family[idx]] = [];
             }
 
-            familyAttacks[attacks[key].family[idx]].push(attacks[key]);
+            FAMILY_ATTACKS[ATTACKS[key].family[idx]].push(ATTACKS[key]);
         }
     }
 }
@@ -1461,6 +1461,6 @@ for (let key in attacks) {
         S.COM = {};
     }
 
-    S.COM.attacks = attacks;
-    S.COM.familyAttacks = familyAttacks;
+    S.COM.ATTACKS = ATTACKS;
+    S.COM.FAMILY_ATTACKS = FAMILY_ATTACKS;
 })(setup);

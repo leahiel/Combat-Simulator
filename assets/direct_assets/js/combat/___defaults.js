@@ -1,4 +1,4 @@
-const DEFAULTEQUIPPABLE = {
+const DEFAULT_EQUIPPABLE = {
     modslots: 0,
     mods: [],
 
@@ -195,7 +195,7 @@ const DEFAULTEQUIPPABLE = {
     },
 };
 
-const DEFAULTBUFF = {
+const DEFAULT_BUFF = {
     duration: 0,
     onApply: function (target) {
         return;
@@ -208,7 +208,7 @@ const DEFAULTBUFF = {
     },
 };
 
-const DEFAULTATTACK = {
+const DEFAULT_ATTACK = {
     family: null,
     type: "attack" /* "attack", "spell", or "miracle". */,
     effect: "damage" /* "damage", "buff", or "debuff". */,
@@ -313,7 +313,7 @@ const DEFAULTATTACK = {
     },
 };
 
-const DEFAULTENEMY = {
+const DEFAULT_ENEMY = {
     family: null,
     description: null,
 

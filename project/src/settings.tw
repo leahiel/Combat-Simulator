@@ -161,16 +161,16 @@ let svai = State.variables.account.inventory;
 svai.weapons = [];
 svai.armors = [];
 svai.accessories = [];
-for (let equippable in setup.COM.equippables) {
-    switch (setup.COM.equippables[equippable].slot) {
+for (let equippable in setup.COM.EQUIPPABLES) {
+    switch (setup.COM.EQUIPPABLES[equippable].slot) {
         case "weapon":
-            svai.weapons.push(setup.COM.equippables[equippable]);
+            svai.weapons.push(setup.COM.EQUIPPABLES[equippable]);
             break;
         case "armor":
-            svai.armors.push(setup.COM.equippables[equippable]);
+            svai.armors.push(setup.COM.EQUIPPABLES[equippable]);
             break;
         case "accessory":
-            svai.accessories.push(setup.COM.equippables[equippable]);
+            svai.accessories.push(setup.COM.EQUIPPABLES[equippable]);
             break;
     }
 }

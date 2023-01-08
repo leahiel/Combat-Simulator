@@ -1,4 +1,4 @@
-:: Player_Attacks [.combat .helper nostats] {"position":"600,650"}
+:: Player_Attacks [.combat helper nostats] {"position":"600,650"}
 /**
  * Determines and shows which attacks are enabled or disabled.
  *
@@ -28,7 +28,7 @@
 <</script>>
 
 
-:: Player_Attack_Enabled [.combat .helper nostats] {"position":"575,675"}
+:: Player_Attack_Enabled [.combat helper nostats] {"position":"575,675"}
 /**
  * The button for enabled attacks on the #targetsZone grid.
  */
@@ -40,7 +40,7 @@
 <<run setup.fns.displayToInfoScreenOnMouseover(`#targetsZone #playerAttacks #${_id}`, _attack, $ci.activeCharacter);>>
 
 
-:: Player_Attack_Disabled [.combat .helper nostats] {"position":"625,675"}
+:: Player_Attack_Disabled [.combat helper nostats] {"position":"625,675"}
 /**
  * The button for disabled attacks on the #targetsZone grid.
  */
@@ -53,7 +53,7 @@
 
 
 
-:: Player_Attack_Targets [.combat .helper nostats] {"position":"600,700"}
+:: Player_Attack_Targets [.combat helper nostats] {"position":"600,700"}
 <<run setup.COM.updatePlayerAttacks()>>
 
 /* Show the correct targets given an attack.targets object. */
@@ -82,7 +82,7 @@
 
 
 
-:: Player_Attack_Targets_All [.combat .helper nostats] {"position":"600,725"}
+:: Player_Attack_Targets_All [.combat helper nostats] {"position":"600,725"}
 /* _attack.targets.style === "all" */
 <<run setup.COM.updatePlayerAttacks("target-all")>>
 
@@ -101,7 +101,7 @@
 <</but>>
 
 
-:: Player_Attack_Targets_Side [.combat .helper nostats] {"position":"600,750"}
+:: Player_Attack_Targets_Side [.combat helper nostats] {"position":"600,750"}
 /* _attack.targets.style === "side" */
 <<run setup.COM.updatePlayerAttacks("target-side")>>
 
@@ -136,7 +136,7 @@
 <</if>>
 
 
-:: Player_Attack_Targets_Row [.combat .helper nostats] {"position":"600,775"}
+:: Player_Attack_Targets_Row [.combat helper nostats] {"position":"600,775"}
 /* _attack.targets.style === "row" */
 <<run setup.COM.updatePlayerAttacks("target-row")>>
 
@@ -246,7 +246,7 @@
 <</for>>
 
 
-:: Player_Attack_Targets_Self [.combat .helper nostats] {"position":"600,825"}
+:: Player_Attack_Targets_Self [.combat helper nostats] {"position":"600,825"}
 /* _attack.targets.style === "self" */
 <<run setup.COM.updatePlayerAttacks("target-self")>>
 

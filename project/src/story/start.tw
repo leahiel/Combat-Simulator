@@ -51,7 +51,7 @@ Words
 <<link [["Main Menu"|MainMenu]]>><</link>>
 
 
-:: MainMenu [#mainmenu]
+:: MainMenu [#mainmenu @mainmenu]
 <span id="main-menu-start" class="animate-fade">Start...</span>
 <span id="main-menu-menu" class="hidden">
 	<<link [["New Game"|Start]]>><</link>>

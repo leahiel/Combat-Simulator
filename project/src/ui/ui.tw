@@ -46,13 +46,13 @@ current [non-dialog] passage, unless it calls:
   [Re-Render Current Passage] Engine.show()
 -->
 
-:: uiSettings [.ui nostats] {"position":"0,200"}
+:: uiSettings [ui nostats] {"position":"0,200"}
 ⚙️
 <<script>>
     $("li#settingsTab").click(() => UI.settings());
 <</script>>
 
-:: uiDisableContent [.ui nostats] {"position":"0,225"}
+:: uiDisableContent [ui nostats] {"position":"0,225"}
 ❌
 <<script>>
 $("li#disableContentsTab").click(() => {
@@ -63,14 +63,14 @@ $("li#disableContentsTab").click(() => {
 <</script>>
 
 
-:: uiSaves [.ui nostats] {"position":"0,250"}
+:: uiSaves [ui nostats] {"position":"0,250"}
 💾
 <<script>>
     $("li#savesTab").click(() => UI.saves());
 <</script>> 
 
 
-:: uiCredits [.ui nostats] {"position":"0,300"}
+:: uiCredits [ui nostats] {"position":"0,300"}
 📜
 <<script>>
 $("li#creditsTab").click(() => {
@@ -80,7 +80,7 @@ $("li#creditsTab").click(() => {
 });
 <</script>>
 
-:: uiDev [.ui nostats] {"position":"0,325"}
+:: uiDev [ui nostats] {"position":"0,325"}
 🛠️
 <<script>>
 if (Config.debug) {
@@ -94,7 +94,7 @@ if (Config.debug) {
 }
 <</script>>
 
-:: uiKnowledge [.ui nostats] {"position":"0,350"}
+:: uiKnowledge [ui nostats] {"position":"0,350"}
 📖
 <<script>>
 $("li#knowledgeTab").click(() => {
@@ -104,7 +104,7 @@ $("li#knowledgeTab").click(() => {
 });
 <</script>>
 
-:: uiPeople [.ui nostats] {"position":"0,375"}
+:: uiPeople [ui nostats] {"position":"0,375"}
 🧑🏻‍🤝‍🧑🏻
 <<script>>
 $("li#peopleTab").click(() => {
@@ -114,7 +114,7 @@ $("li#peopleTab").click(() => {
 });
 <</script>>
 
-:: uiDatabaseInfo [.ui nostats] {"position":"0,425"}
+:: uiDatabaseInfo [ui nostats] {"position":"0,425"}
 <span id="database-text"></span>
 <<script>>
 if (State.variables.user.logged_in) {
@@ -129,7 +129,7 @@ if (State.variables.user.logged_in) {
 }
 <</script>>
 
-:: uiBottomText [.ui nostats] {"position":"0,450"}
+:: uiBottomText [ui nostats] {"position":"0,450"}
 <<script>>
     /* TODO: Make this a db call. Have this as a backup.  Oh, have it call a different DB entry if the game is out of date. */
     $(output).wiki(setup.STR.bottomUIStr);

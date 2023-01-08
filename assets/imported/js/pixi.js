@@ -5421,7 +5421,7 @@ var PIXI = (function (exports) {
       }
     }
   
-    const defaultBufferOptions = {
+    const DEFAULT_BUFFerOptions = {
       scaleMode: SCALE_MODES.NEAREST,
       format: FORMATS.RGBA,
       alphaMode: ALPHA_MODES.NPM
@@ -5631,7 +5631,7 @@ var PIXI = (function (exports) {
         buffer = buffer || new Float32Array(width * height * 4);
         const resource = new BufferResource(buffer, { width, height });
         const type = buffer instanceof Float32Array ? TYPES.FLOAT : TYPES.UNSIGNED_BYTE;
-        return new _BaseTexture(resource, Object.assign({}, defaultBufferOptions, options || { width, height, type }));
+        return new _BaseTexture(resource, Object.assign({}, DEFAULT_BUFFerOptions, options || { width, height, type }));
       }
       static addToCache(baseTexture, id) {
         if (id) {

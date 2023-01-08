@@ -6,7 +6,7 @@
 class Enemy {
     constructor(obj) {
         // Merge our obj onto default, then merge those onto this.
-        jQuery.extend(true, this, DEFAULTENEMY, obj);
+        jQuery.extend(true, this, DEFAULT_ENEMY, obj);
 
         if (this.family === null) {
             console.error(`${this.name}'s family is null.`);
@@ -31,7 +31,7 @@ const monsters = {
         family: "mommySpider",
         healthMax: 120,
         initStart: 62,
-        attacks: setup.COM.familyAttacks.mommySpider,
+        attacks: setup.COM.FAMILY_ATTACKS.mommySpider,
         description: "A filthy abomination in a larger than acceptable size. Complementary baby spiders come with it.",
         damage: {
             blunt: {
@@ -59,7 +59,7 @@ const monsters = {
         family: "mommySpider",
         healthMax: 94,
         initStart: 56,
-        attacks: setup.COM.familyAttacks.mommySpider,
+        attacks: setup.COM.FAMILY_ATTACKS.mommySpider,
         description: "It's hard to believe that this one spider caused the birth of so many others.",
         damage: {
             blunt: {
@@ -88,7 +88,7 @@ const monsters = {
         healthMax: 28,
         initStart: 26,
         initStartVariance: 0.3,
-        attacks: setup.COM.familyAttacks.babySpider,
+        attacks: setup.COM.FAMILY_ATTACKS.babySpider,
         description: "A small little spider. It's almost kinda cute...",
         damage: {
             blunt: {
@@ -113,7 +113,7 @@ const monsters = {
         healthMax: 38,
         initStart: 28,
         initStartVariance: 0.24,
-        attacks: setup.COM.familyAttacks.babySpider,
+        attacks: setup.COM.FAMILY_ATTACKS.babySpider,
         description: "A large spider. Not very cute.",
         damage: {
             blunt: {
@@ -136,7 +136,7 @@ const monsters = {
         family: "Hog",
         healthMax: 240,
         initStart: 28,
-        attacks: setup.COM.familyAttacks.Hog,
+        attacks: setup.COM.FAMILY_ATTACKS.Hog,
         description: "A boar, a hog, a whore, they're all the same, and they're all vicious.",
         resistance: {
             blunt: 0.2,
@@ -166,7 +166,7 @@ const monsters = {
         healthMax: 60,
         initStart: 22,
         initStartVariance: 0.24,
-        attacks: setup.COM.familyAttacks.Carbuncle,
+        attacks: setup.COM.FAMILY_ATTACKS.Carbuncle,
         description: "An adorable little rabbit with crystals growing on it.",
         damage: {
             acid: {
@@ -204,7 +204,7 @@ const monsters = {
         healthMax: 49,
         initStart: 22,
         initStartVariance: 0.24,
-        attacks: mergeArray(setup.COM.familyAttacks.Carbuncle, setup.COM.attacks.acidicshot),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.Carbuncle, setup.COM.ATTACKS.acidicshot),
         description: "A magical rabbit focusing on acidic magic.",
         damage: {
             acid: {
@@ -225,7 +225,7 @@ const monsters = {
         healthMax: 72,
         initStart: 25,
         initStartVariance: 0.24,
-        attacks: mergeArray(setup.COM.familyAttacks.Carbuncle, setup.COM.attacks.rockfall),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.Carbuncle, setup.COM.ATTACKS.rockfall),
         description: "A magical rabbit focusing on blunt magic.",
         damage: {
             blunt: {
@@ -246,7 +246,7 @@ const monsters = {
         healthMax: 49,
         initStart: 22,
         initStartVariance: 0.24,
-        attacks: mergeArray(setup.COM.familyAttacks.Carbuncle, setup.COM.attacks.firewall),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.Carbuncle, setup.COM.ATTACKS.firewall),
         description: "A magical rabbit focusing on fire magic.",
         damage: {
             fire: {
@@ -267,7 +267,7 @@ const monsters = {
         healthMax: 49,
         initStart: 22,
         initStartVariance: 0.24,
-        attacks: mergeArray(setup.COM.familyAttacks.Carbuncle, setup.COM.attacks.iceprison),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.Carbuncle, setup.COM.ATTACKS.iceprison),
         description: "A magical rabbit focusing on frost magic.",
         damage: {
             frost: {
@@ -288,7 +288,7 @@ const monsters = {
         healthMax: 49,
         initStart: 22,
         initStartVariance: 0.24,
-        attacks: mergeArray(setup.COM.familyAttacks.Carbuncle, setup.COM.attacks.flash),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.Carbuncle, setup.COM.ATTACKS.flash),
         description: "A magical rabbit focusing on lightning magic.",
         damage: {
             lightning: {
@@ -316,7 +316,7 @@ const monsters = {
         initStart: 30,
         initStartVariance: 0.24,
         initRecoveryModifier: 2.3, // NYI: initRecoveryModifier
-        attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.unarmedAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.Skeleton, setup.COM.FAMILY_ATTACKS.unarmedAttacks),
         description: "A spoopy skeleton animated out of arcane magicks.",
         damage: {
             blunt: {
@@ -341,7 +341,7 @@ const monsters = {
         initStart: 32,
         initStartVariance: 0.24,
         initRecoveryModifier: 1.8,
-        attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.spearWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.Skeleton, setup.COM.FAMILY_ATTACKS.spearWeaponAttacks),
         description: "A spoopy skeleton spearman animated out of arcane magicks.",
         damage: {
             pierce: {
@@ -366,7 +366,7 @@ const monsters = {
         initStart: 28,
         initStartVariance: 0.24,
         initRecoveryModifier: 1.8,
-        attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.swordandshieldWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.Skeleton, setup.COM.FAMILY_ATTACKS.swordandshieldWeaponAttacks),
         description: "A spoopy skeleton spearman animated out of arcane magicks.",
         damage: {
             pierce: {
@@ -392,7 +392,7 @@ const monsters = {
         initStart: 28,
         initStartVariance: 0.24,
         initRecoveryModifier: 1.8,
-        attacks: mergeArray(setup.COM.familyAttacks.Skeleton, setup.COM.familyAttacks.bowWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.Skeleton, setup.COM.FAMILY_ATTACKS.bowWeaponAttacks),
         description: "A spoopy skeleton spearman animated out of arcane magicks.",
         damage: {
             pierce: {
@@ -424,7 +424,7 @@ const monsters = {
         initStart: 19,
         initStartVariance: 0.16,
         initRecoveryModifier: 1.3,
-        attacks: mergeArray(setup.COM.familyAttacks.Centaur, setup.COM.familyAttacks.bowWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.Centaur, setup.COM.FAMILY_ATTACKS.bowWeaponAttacks),
         description: "A proud centaur bowmen.",
         directChanceBase: 5,
         directChanceIncreased: 0.5,
@@ -452,9 +452,9 @@ const monsters = {
         initStartVariance: 0.24,
         initRecoveryModifier: 1.5,
         attacks: mergeArray(
-            setup.COM.familyAttacks.Centaur,
-            [setup.COM.attacks.herdmentor],
-            setup.COM.familyAttacks.shieldWeaponAttacks
+            setup.COM.FAMILY_ATTACKS.Centaur,
+            [setup.COM.ATTACKS.herdmentor],
+            setup.COM.FAMILY_ATTACKS.shieldWeaponAttacks
         ),
         description: "A shielded veteran centaur.",
         directChanceBase: 5,
@@ -483,7 +483,7 @@ const monsters = {
         initStart: 19,
         initStartVariance: 0.16,
         initRecoveryModifier: 1.3,
-        attacks: mergeArray(setup.COM.familyAttacks.Centaur, setup.COM.familyAttacks.maceandshieldWeaponAttacks),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.Centaur, setup.COM.FAMILY_ATTACKS.maceandshieldWeaponAttacks),
         description: "A shield and mace wielding warrior.",
         directChanceBase: 5,
         directChanceIncreased: 0.5,
@@ -512,9 +512,9 @@ const monsters = {
         initStartVariance: 0.16,
         initRecoveryModifier: 1.3,
         attacks: mergeArray(
-            setup.COM.familyAttacks.Centaur,
-            setup.COM.familyAttacks.shieldWeaponAttacks,
-            setup.COM.familyAttacks.chaoticspearWeaponAttacks
+            setup.COM.FAMILY_ATTACKS.Centaur,
+            setup.COM.FAMILY_ATTACKS.shieldWeaponAttacks,
+            setup.COM.FAMILY_ATTACKS.chaoticspearWeaponAttacks
         ),
         description: "An unholy spear wielding centaur, complete with a shield.",
         directChanceBase: 5,
@@ -561,7 +561,7 @@ const monsters = {
         initStart: 15,
         initStartVariance: 0.12,
         initRecoveryModifier: 1,
-        attacks: mergeArray(setup.COM.familyAttacks.Ghoul),
+        attacks: mergeArray(setup.COM.FAMILY_ATTACKS.Ghoul),
         description: "A nasty ghoul, highly resistant to material damage.",
         criticalChanceBase: 9,
         criticalChanceIncreased: 0.5,
@@ -593,7 +593,7 @@ const monsters = {
         healthMax: 64,
         initStart: 19,
         initStartVariance: 0.12,
-        attacks: mergeArray(setup.COM.attacks.healUndead, setup.COM.attacks.flash),
+        attacks: mergeArray(setup.COM.ATTACKS.healUndead, setup.COM.ATTACKS.flash),
         description: "The oldest of enemies that wish to see everything burn: A Sauson.",
         damage: {
             shadow: {
