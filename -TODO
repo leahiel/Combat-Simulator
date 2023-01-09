@@ -45,9 +45,18 @@
         ...Load Game
         ...Connect Online
         ☐  Settings
-    ?
-    ?
-    ?
+            ☐  Music
+            ☐  Sound Effects
+            ☐  UI Sound
+    ☐  Introduction Sequence
+
+    ☐  Located somewhere random
+    ☐  Fight
+    ...Pawn Generated Mid-Fight
+    ☐  Go off to town.
+    ☐  Join Guild
+    ☐  Get Guild tutorial.
+    ☐  Game actually starts. 
 
  ######   #######  ##     ## ########     ###    ######## 
 ##    ## ##     ## ###   ### ##     ##   ## ##      ##    
@@ -128,7 +137,7 @@
         ...A More/Increased stat for Material/Elemental/Occult. [REVIEW: Is this really needed?]
         ...More/Increased Health 
     ...Expertise
-        ...Weapon/Armor/Attack/Spell Expertise Modifier in Combat [Req: Player Stats!]
+        ...Weapon/Armor/Attack/Spell Expertise Modifier in Combat
         ...Increase the WDM of attacks the more familiar you are with the specific weapon name. ["Executioner`s Ax"]
         ...Increase the WDM of attacks the more familiar you are with the weapon type. ["Two-Handed Axe"]
         ...Increase the WDM of attacks the more familiar you are with the attack. ["Overhead Chop"]
@@ -205,7 +214,7 @@
 ...Bestiary system that teaches you more about enemies the more you fight them.
     ...First level teaches Max life.
 
-###  ### ######## ##     ## ######## ########   #######  ##     ## 
+#### ### ######## ##     ## ######## ########   #######  ##     ## 
    ##    ##        ##   ##     ##    ##     ## ##     ##  ##   ##  
    ##    ##         ## ##      ##    ##     ## ##     ##   ## ##   
    ##    ######      ###       ##    ########  ##     ##    ###    

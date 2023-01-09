@@ -1,0 +1,64 @@
+/*
+ * ##     ##    ###    #### ##    ##    ##     ## ######## ##    ## ##     ## 
+ * ###   ###   ## ##    ##  ###   ##    ###   ### ##       ###   ## ##     ## 
+ * #### ####  ##   ##   ##  ####  ##    #### #### ##       ####  ## ##     ## 
+ * ## ### ## ##     ##  ##  ## ## ##    ## ### ## ######   ## ## ## ##     ## 
+ * ##     ## #########  ##  ##  ####    ##     ## ##       ##  #### ##     ## 
+ * ##     ## ##     ##  ##  ##   ###    ##     ## ##       ##   ### ##     ## 
+ * ##     ## ##     ## #### ##    ##    ##     ## ######## ##    ##  #######  
+ */
+
+body[data-tags~="#mainmenu"] {
+    margin: initial;
+    width: 100vw;
+}
+
+body[data-tags~="#mainmenu"] #passages {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+
+    padding: 0;
+
+    background-color: black;
+}
+
+body[data-tags~="#mainmenu"] #storyTabs,
+body[data-tags~="#mainmenu"] #databaseInfoTab,
+body[data-tags~="#mainmenu"] #chapterheader,
+body[data-tags~="#mainmenu"] #wrapperBottomText,
+body[data-tags~="#mainmenu"] #main-menu-start.hidden,
+body[data-tags~="#mainmenu"] #main-menu-menu.hidden {
+    display: none;
+}
+
+body[data-tags~="#mainmenu"] #main-menu-start,
+body[data-tags~="#mainmenu"] #main-menu-menu {
+    display: block;
+
+    margin-top: 62vh;
+
+    color: rgb(115, 115, 115);
+    font-size: 2rem;
+    line-height: 1.75em;
+    font-family: backslash;
+    text-align: center;
+
+    user-select: none;
+}
+
+body[data-tags~="#mainmenu"] a {
+    color: rgb(120, 120, 120);
+}
+
+body[data-tags~="#mainmenu"] a:hover {
+    color: rgb(185, 185, 185);
+}
+
+body[data-tags~="#mainmenu"] #main-menu-start {
+    margin-top: 72vh;
+}

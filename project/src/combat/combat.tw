@@ -1,4 +1,4 @@
-:: Combat_Overlord [@combatoverlord .combat nostats] {"position":"550,575"}
+:: Combat_Overlord [@combatoverlord #combat .combat nostats] {"position":"550,575"}
 /**
  * This passage will only be run once, and will be the predominant 
  * passage until combat is over. This will allow us to keep _vars 

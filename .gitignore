@@ -1,6 +1,9 @@
 # Ignore Tagged Files
 -notes/
 
+# Ignore .wav Files
+**.wav
+
 # Ignore Generated Files
 **/node_modules
 package-lock.json

@@ -1,0 +1,24 @@
+:: MainMenu [#mainmenu @mainmenu]
+<<audio "MainMenu" load>>
+<span id="main-menu-start" class="animate-fade">Start...</span>
+<span id="main-menu-menu" class="hidden">
+	<<link [["New Game"|Start]]>><</link>>
+	<br>
+	<span class="disabled">Load Game</span>
+	<br>
+	<span class="disabled">Connect Online</span>
+	<br>
+	<span class="disabled">Settings</span>
+</span>
+
+<<done>>
+<<script>>
+	/* On click, hide main-menu-start, unhide main-menu-menu. */
+	$(`#passages`).one('click', function () {
+		$.wiki(`<<audio "MainMenu" volume 0.0 fadeoverto 2.5 1.0>>`);
+		/* TODO: Make pretty transition. */
+		$(`#main-menu-start`).addClass("hidden");
+		$(`#main-menu-menu`).removeClass("hidden");
+	});
+<</script>>
+<</done>>

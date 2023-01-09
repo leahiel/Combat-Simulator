@@ -132,5 +132,5 @@ if (State.variables.user.logged_in) {
 :: uiBottomText [ui nostats] {"position":"0,450"}
 <<script>>
     /* TODO: Make this a db call. Have this as a backup.  Oh, have it call a different DB entry if the game is out of date. */
-    $(output).wiki(setup.STR.bottomUIStr);
+    $(output).wiki(Story.get("StorySubtitle").processText());
 <</script>>

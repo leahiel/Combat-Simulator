@@ -1,9 +1,9 @@
-:: StoryTitle [.initialize] {"position":"0,25"}
+:: StoryTitle [initialize] {"position":"0,25"}
 Combat Simulator
 
 
 
-:: StoryData [.initialize] {"position":"0,50"}
+:: StoryData [initialize] {"position":"0,50"}
 {
     "ifid": "8A91596D-1642-4080-BDFE-707526D32D3E",
     "format": "SugarCube",
@@ -12,17 +12,23 @@ Combat Simulator
 
 
 
-:: StorySubtitle [.initialize] {"position":"0,75"}
+:: StorySubtitle [initialize nostats] {"position":"0,75"}
+<span style="color:brown">This game is in InDev development. Currently, saving and loading is unavailable.</span>
+<br><br>
+You're playing <span style="font-style:italic; color:lightblue"><<print Story.title>></span>, Version <span style="color:lightblue"><<print setup.STR.version>></span>, by <a href="https://leahiel.itch.io/" target="_blank" rel="noreferrer noopener">LeahPeach↗</a>
+<br><br>
+Find my other games at <a href="https://leahiel.itch.io/" target="_blank" rel="noreferrer noopener">Itch.io</a>. 
+<br>
+Follow me if you'd like to be notified of my future games as well!
 
 
 
-
-:: StoryAuthor [.initialize] {"position":"0,100"}
+:: StoryAuthor [initialize] {"position":"0,100"}
 LeahPeach
 
 
 
-:: StoryInit [.initialize] {"position":"0,125"}
+:: StoryInit [initialize] {"position":"0,125"}
 /* Everything here is only called once, when the story is initialized. */
 
 <<script>>
@@ -295,8 +301,41 @@ Setting.save();
 */
 <<cacheaudio "light_tick" "assets/imported/audio/light_tick.mp3">>
 
+<<cacheaudio "WaveShop1" "assets/imported/audio/music/WaveShop1.ogg">>
+<<cacheaudio "WaveShop2" "assets/imported/audio/music/WaveShop2.ogg">>
+<<cacheaudio "MainMenu" "assets/imported/audio/music/MainMenu.ogg">>
+<<cacheaudio "WaveShop4" "assets/imported/audio/music/WaveShop4.ogg">>
+<<cacheaudio "WaveShop5" "assets/imported/audio/music/WaveShop5.ogg">>
+<<cacheaudio "WaveShop6" "assets/imported/audio/music/WaveShop6.ogg">>
+<<cacheaudio "WaveShop7" "assets/imported/audio/music/WaveShop7.ogg">>
+<<cacheaudio "WaveShop8" "assets/imported/audio/music/WaveShop8.ogg">>
+<<cacheaudio "WaveShop9" "assets/imported/audio/music/WaveShop9.ogg">>
+<<cacheaudio "WaveShop10" "assets/imported/audio/music/WaveShop10.ogg">>
+<<cacheaudio "WaveShop11" "assets/imported/audio/music/WaveShop11.ogg">>
+<<cacheaudio "WaveShop12" "assets/imported/audio/music/WaveShop12.ogg">>
+<<cacheaudio "WaveShop13" "assets/imported/audio/music/WaveShop13.ogg">>
+<<cacheaudio "WaveShop14" "assets/imported/audio/music/WaveShop14.ogg">>
+<<cacheaudio "WaveShop15" "assets/imported/audio/music/WaveShop15.ogg">>
+
+<<createaudiogroup ":music">>
+    <<track "WaveShop1">>
+    <<track "WaveShop2">>
+    <<track "MainMenu">>
+    <<track "WaveShop4">>
+    <<track "WaveShop5">>
+    <<track "WaveShop6">>
+    <<track "WaveShop7">>
+    <<track "WaveShop8">>
+    <<track "WaveShop9">>
+    <<track "WaveShop10">>
+    <<track "WaveShop11">>
+    <<track "WaveShop12">>
+    <<track "WaveShop13">>
+    <<track "WaveShop14">>
+    <<track "WaveShop15">>
+<</createaudiogroup>>
+
 <<script>>
-    
     State.variables.audio = {};
     let sva = State.variables.audio;
     sva.sfx = {};
