@@ -1098,11 +1098,11 @@ let hexii = [
     });
 
     $(document).on(&quot;mouseenter&quot;, &#39;.playerAttack&#39;, function() {
-        State.variables.audio.sfx.light_tick.play();
+        $.wiki(`&lt;&lt;audio tick1 play&gt;&gt;`);
     });
 
     $(document).on(&quot;click&quot;, &#39;.playerAttack&#39;, function() {
-        State.variables.audio.sfx.light_tick.play();
+        $.wiki(`&lt;&lt;audio tick1 play&gt;&gt;`);
     });
 
     $(document).on(&#39;:dialogopening&#39;, function (ev) {
@@ -1969,6 +1969,61 @@ if (!Config.debug) {
 }
 */
 
+&lt;&lt;/script&gt;&gt;
+/*
+   ###    ##     ## ########  ####  #######  
+  ## ##   ##     ## ##     ##  ##  ##     ## 
+ ##   ##  ##     ## ##     ##  ##  ##     ## 
+##     ## ##     ## ##     ##  ##  ##     ## 
+######### ##     ## ##     ##  ##  ##     ## 
+##     ## ##     ## ##     ##  ##  ##     ## 
+##     ##  #######  ########  ####  #######  
+*/
+/* Like the sound you here when you click &quot;Start...&quot; after opening up the game for the first time. */
+&lt;&lt;cacheaudio &quot;tick1&quot; &quot;assets/imported/audio/sfx/tick1.ogg&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;tick2&quot; &quot;assets/imported/audio/sfx/tick2.ogg&quot;&gt;&gt;
+&lt;&lt;createaudiogroup &quot;:sfx&quot;&gt;&gt;
+    &lt;&lt;track &quot;tick1&quot;&gt;&gt;
+    &lt;&lt;track &quot;tick2&quot;&gt;&gt;
+&lt;&lt;/createaudiogroup&gt;&gt;
+
+&lt;&lt;cacheaudio &quot;WaveShop1&quot; &quot;assets/imported/audio/music/WaveShop1.ogg&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;WaveShop2&quot; &quot;assets/imported/audio/music/WaveShop2.ogg&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;MainMenu&quot; &quot;assets/imported/audio/music/MainMenu.ogg&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;WaveShop4&quot; &quot;assets/imported/audio/music/WaveShop4.ogg&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;WaveShop5&quot; &quot;assets/imported/audio/music/WaveShop5.ogg&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;WaveShop6&quot; &quot;assets/imported/audio/music/WaveShop6.ogg&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;WaveShop7&quot; &quot;assets/imported/audio/music/WaveShop7.ogg&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;WaveShop8&quot; &quot;assets/imported/audio/music/WaveShop8.ogg&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;WaveShop9&quot; &quot;assets/imported/audio/music/WaveShop9.ogg&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;WaveShop10&quot; &quot;assets/imported/audio/music/WaveShop10.ogg&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;WaveShop11&quot; &quot;assets/imported/audio/music/WaveShop11.ogg&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;WaveShop12&quot; &quot;assets/imported/audio/music/WaveShop12.ogg&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;WaveShop13&quot; &quot;assets/imported/audio/music/WaveShop13.ogg&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;WaveShop14&quot; &quot;assets/imported/audio/music/WaveShop14.ogg&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;WaveShop15&quot; &quot;assets/imported/audio/music/WaveShop15.ogg&quot;&gt;&gt;
+
+&lt;&lt;createaudiogroup &quot;:music&quot;&gt;&gt;
+    &lt;&lt;track &quot;WaveShop1&quot;&gt;&gt;
+    &lt;&lt;track &quot;WaveShop2&quot;&gt;&gt;
+    &lt;&lt;track &quot;MainMenu&quot;&gt;&gt;
+    &lt;&lt;track &quot;WaveShop4&quot;&gt;&gt;
+    &lt;&lt;track &quot;WaveShop5&quot;&gt;&gt;
+    &lt;&lt;track &quot;WaveShop6&quot;&gt;&gt;
+    &lt;&lt;track &quot;WaveShop7&quot;&gt;&gt;
+    &lt;&lt;track &quot;WaveShop8&quot;&gt;&gt;
+    &lt;&lt;track &quot;WaveShop9&quot;&gt;&gt;
+    &lt;&lt;track &quot;WaveShop10&quot;&gt;&gt;
+    &lt;&lt;track &quot;WaveShop11&quot;&gt;&gt;
+    &lt;&lt;track &quot;WaveShop12&quot;&gt;&gt;
+    &lt;&lt;track &quot;WaveShop13&quot;&gt;&gt;
+    &lt;&lt;track &quot;WaveShop14&quot;&gt;&gt;
+    &lt;&lt;track &quot;WaveShop15&quot;&gt;&gt;
+&lt;&lt;/createaudiogroup&gt;&gt;
+
+&lt;&lt;script&gt;&gt;
+let sv = State.variables;
+
 /*
 ########     ###    ########    ###    ########     ###     ######  ######## 
 ##     ##   ## ##      ##      ## ##   ##     ##   ## ##   ##    ## ##       
@@ -2133,20 +2188,20 @@ Setting.addToggle(&quot;bgimg&quot;, {
 });
 settings.bgimg = true;
 
-// REQUIRED:
+// TODO:
 // Toggle to hide images.
 // Toggle to turn off image blurring.
 
-// Toggle option for tooltips.
-Setting.addToggle(&quot;tooltips&quot;, {
-    label: &quot;Show tooltips on important text?&quot;,
-    default: true,
-    onChange: () =&gt; {
-        Engine.show()
-    },
-});
-settings.tooltips = true;
-Setting.save();
+// // Toggle option for tooltips.
+// Setting.addToggle(&quot;tooltips&quot;, {
+//     label: &quot;Show tooltips on important text?&quot;,
+//     default: true,
+//     onChange: () =&gt; {
+//         Engine.show()
+//     },
+// });
+// settings.tooltips = true;
+// Setting.save();
 
 // Pronouns
 Setting.addList(&quot;pronouns&quot;, {
@@ -2161,65 +2216,52 @@ Setting.addList(&quot;pronouns&quot;, {
         Engine.show()
     },
 });
-settings.pronouns = &quot;female&quot;;
-Setting.save();
+
+// Audio
+Setting.addHeader(&quot;Audio Settings&quot;);
+Setting.addRange(&quot;masterVolume&quot;, {
+    label: &quot;Master Volume&quot;,
+    min: 0,
+    max: 100,
+    step: 5,
+    onChange: function () {
+        $.wiki(`&lt;&lt;masteraudio volume ${settings.masterVolume / 100}&gt;&gt;`);
+    }
+});
+
+Setting.addRange(&quot;musicVolume&quot;, {
+    label: &quot;Music Volume&quot;,
+    min: 0,
+    max: 100,
+    step: 5,
+    onChange: function () {
+        $.wiki(`&lt;&lt;audio &quot;:music&quot; volume ${settings.musicVolume / 100}&gt;&gt;`);
+    }
+});
+
+Setting.addRange(&quot;sfxVolume&quot;, {
+    label: &quot;SFX Volume&quot;,
+    min: 0,
+    max: 100,
+    step: 5,
+    onChange: function () {
+        $.wiki(`&lt;&lt;audio &quot;:sfx&quot; volume ${settings.sfxVolume / 100}&gt;&gt;`);
+    }
+});
 
 /** 
  * ~FIXME~: Pronouns get reset on refresh.  
  * REVIEW: Is this still a bug? 
  */
-&lt;&lt;/script&gt;&gt;
 
-/*
-   ###    ##     ## ########  ####  #######  
-  ## ##   ##     ## ##     ##  ##  ##     ## 
- ##   ##  ##     ## ##     ##  ##  ##     ## 
-##     ## ##     ## ##     ##  ##  ##     ## 
-######### ##     ## ##     ##  ##  ##     ## 
-##     ## ##     ## ##     ##  ##  ##     ## 
-##     ##  #######  ########  ####  #######  
-*/
-&lt;&lt;cacheaudio &quot;light_tick&quot; &quot;assets/imported/audio/light_tick.mp3&quot;&gt;&gt;
-
-&lt;&lt;cacheaudio &quot;WaveShop1&quot; &quot;assets/imported/audio/music/WaveShop1.ogg&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;WaveShop2&quot; &quot;assets/imported/audio/music/WaveShop2.ogg&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;MainMenu&quot; &quot;assets/imported/audio/music/MainMenu.ogg&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;WaveShop4&quot; &quot;assets/imported/audio/music/WaveShop4.ogg&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;WaveShop5&quot; &quot;assets/imported/audio/music/WaveShop5.ogg&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;WaveShop6&quot; &quot;assets/imported/audio/music/WaveShop6.ogg&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;WaveShop7&quot; &quot;assets/imported/audio/music/WaveShop7.ogg&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;WaveShop8&quot; &quot;assets/imported/audio/music/WaveShop8.ogg&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;WaveShop9&quot; &quot;assets/imported/audio/music/WaveShop9.ogg&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;WaveShop10&quot; &quot;assets/imported/audio/music/WaveShop10.ogg&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;WaveShop11&quot; &quot;assets/imported/audio/music/WaveShop11.ogg&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;WaveShop12&quot; &quot;assets/imported/audio/music/WaveShop12.ogg&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;WaveShop13&quot; &quot;assets/imported/audio/music/WaveShop13.ogg&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;WaveShop14&quot; &quot;assets/imported/audio/music/WaveShop14.ogg&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;WaveShop15&quot; &quot;assets/imported/audio/music/WaveShop15.ogg&quot;&gt;&gt;
-
-&lt;&lt;createaudiogroup &quot;:music&quot;&gt;&gt;
-    &lt;&lt;track &quot;WaveShop1&quot;&gt;&gt;
-    &lt;&lt;track &quot;WaveShop2&quot;&gt;&gt;
-    &lt;&lt;track &quot;MainMenu&quot;&gt;&gt;
-    &lt;&lt;track &quot;WaveShop4&quot;&gt;&gt;
-    &lt;&lt;track &quot;WaveShop5&quot;&gt;&gt;
-    &lt;&lt;track &quot;WaveShop6&quot;&gt;&gt;
-    &lt;&lt;track &quot;WaveShop7&quot;&gt;&gt;
-    &lt;&lt;track &quot;WaveShop8&quot;&gt;&gt;
-    &lt;&lt;track &quot;WaveShop9&quot;&gt;&gt;
-    &lt;&lt;track &quot;WaveShop10&quot;&gt;&gt;
-    &lt;&lt;track &quot;WaveShop11&quot;&gt;&gt;
-    &lt;&lt;track &quot;WaveShop12&quot;&gt;&gt;
-    &lt;&lt;track &quot;WaveShop13&quot;&gt;&gt;
-    &lt;&lt;track &quot;WaveShop14&quot;&gt;&gt;
-    &lt;&lt;track &quot;WaveShop15&quot;&gt;&gt;
-&lt;&lt;/createaudiogroup&gt;&gt;
-
-&lt;&lt;script&gt;&gt;
-    State.variables.audio = {};
-    let sva = State.variables.audio;
-    sva.sfx = {};
-    sva.sfx.light_tick = SimpleAudio.tracks.get(&quot;light_tick&quot;);
+/**
+ * Audio
+ * 
+ * &lt;&lt;masteraudio volume 0.40&gt;&gt;
+ * &lt;&lt;audio &quot;:music&quot; volume 1&gt;&gt;
+ * &lt;&lt;audio &quot;:sfx&quot; volume 1&gt;&gt;
+ * &lt;&lt;audio &quot;:combat&quot; volume 1&gt;&gt;
+ */
 &lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="Inbetween" tags="@rest" position="575,350" size="100,100">This passage exists so that you can change your party configuration and items inbetween combat instances.
 &lt;br&gt;
 I hope you&#39;re enjoying my simulator! 
@@ -2683,6 +2725,7 @@ This is the helper text that appears after you pick an option.</tw-passagedata><
  * going back in time in order to fight evils. First quest? Get 
  * stronger. 
  */</tw-passagedata><tw-passagedata pid="42" name="MainMenu" tags="#mainmenu @mainmenu" position="225,600" size="100,100">&lt;&lt;audio &quot;MainMenu&quot; load&gt;&gt;
+/* &lt;&lt;audio &quot;HeavyClickReverb&quot; load&gt;&gt; */
 &lt;span id=&quot;main-menu-start&quot; class=&quot;animate-fade&quot;&gt;Start...&lt;/span&gt;
 &lt;span id=&quot;main-menu-menu&quot; class=&quot;hidden&quot;&gt;
 	&lt;&lt;link [[&quot;New Game&quot;|Start]]&gt;&gt;&lt;&lt;/link&gt;&gt;
@@ -2691,7 +2734,7 @@ This is the helper text that appears after you pick an option.</tw-passagedata><
 	&lt;br&gt;
 	&lt;span class=&quot;disabled&quot;&gt;Connect Online&lt;/span&gt;
 	&lt;br&gt;
-	&lt;span class=&quot;disabled&quot;&gt;Settings&lt;/span&gt;
+	&lt;&lt;link &quot;Settings&quot;&gt;&gt;&lt;&lt;run UI.settings()&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;/span&gt;
 
 &lt;&lt;done&gt;&gt;
@@ -2702,6 +2745,11 @@ This is the helper text that appears after you pick an option.</tw-passagedata><
 		/* TODO: Make pretty transition. */
 		$(`#main-menu-start`).addClass(&quot;hidden&quot;);
 		$(`#main-menu-menu`).removeClass(&quot;hidden&quot;);
+	});
+
+	/* On hover, play tick sound. */
+	$(`#main-menu-menu a`).on(&#39;mouseenter&#39;, function () {
+		$.wiki(`&lt;&lt;audio tick2 play&gt;&gt;`);
 	});
 &lt;&lt;/script&gt;&gt;
 &lt;&lt;/done&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="Map" tags="#map nostats" position="350,600" size="100,100">&lt;&lt;set $GameState = &quot;map&quot;&gt;&gt;

@@ -89,6 +89,61 @@ if (!Config.debug) {
 }
 */
 
+<</script>>
+/*
+   ###    ##     ## ########  ####  #######  
+  ## ##   ##     ## ##     ##  ##  ##     ## 
+ ##   ##  ##     ## ##     ##  ##  ##     ## 
+##     ## ##     ## ##     ##  ##  ##     ## 
+######### ##     ## ##     ##  ##  ##     ## 
+##     ## ##     ## ##     ##  ##  ##     ## 
+##     ##  #######  ########  ####  #######  
+*/
+/* Like the sound you here when you click "Start..." after opening up the game for the first time. */
+<<cacheaudio "tick1" "assets/imported/audio/sfx/tick1.ogg">>
+<<cacheaudio "tick2" "assets/imported/audio/sfx/tick2.ogg">>
+<<createaudiogroup ":sfx">>
+    <<track "tick1">>
+    <<track "tick2">>
+<</createaudiogroup>>
+
+<<cacheaudio "WaveShop1" "assets/imported/audio/music/WaveShop1.ogg">>
+<<cacheaudio "WaveShop2" "assets/imported/audio/music/WaveShop2.ogg">>
+<<cacheaudio "MainMenu" "assets/imported/audio/music/MainMenu.ogg">>
+<<cacheaudio "WaveShop4" "assets/imported/audio/music/WaveShop4.ogg">>
+<<cacheaudio "WaveShop5" "assets/imported/audio/music/WaveShop5.ogg">>
+<<cacheaudio "WaveShop6" "assets/imported/audio/music/WaveShop6.ogg">>
+<<cacheaudio "WaveShop7" "assets/imported/audio/music/WaveShop7.ogg">>
+<<cacheaudio "WaveShop8" "assets/imported/audio/music/WaveShop8.ogg">>
+<<cacheaudio "WaveShop9" "assets/imported/audio/music/WaveShop9.ogg">>
+<<cacheaudio "WaveShop10" "assets/imported/audio/music/WaveShop10.ogg">>
+<<cacheaudio "WaveShop11" "assets/imported/audio/music/WaveShop11.ogg">>
+<<cacheaudio "WaveShop12" "assets/imported/audio/music/WaveShop12.ogg">>
+<<cacheaudio "WaveShop13" "assets/imported/audio/music/WaveShop13.ogg">>
+<<cacheaudio "WaveShop14" "assets/imported/audio/music/WaveShop14.ogg">>
+<<cacheaudio "WaveShop15" "assets/imported/audio/music/WaveShop15.ogg">>
+
+<<createaudiogroup ":music">>
+    <<track "WaveShop1">>
+    <<track "WaveShop2">>
+    <<track "MainMenu">>
+    <<track "WaveShop4">>
+    <<track "WaveShop5">>
+    <<track "WaveShop6">>
+    <<track "WaveShop7">>
+    <<track "WaveShop8">>
+    <<track "WaveShop9">>
+    <<track "WaveShop10">>
+    <<track "WaveShop11">>
+    <<track "WaveShop12">>
+    <<track "WaveShop13">>
+    <<track "WaveShop14">>
+    <<track "WaveShop15">>
+<</createaudiogroup>>
+
+<<script>>
+let sv = State.variables;
+
 /*
 ########     ###    ########    ###    ########     ###     ######  ######## 
 ##     ##   ## ##      ##      ## ##   ##     ##   ## ##   ##    ## ##       
@@ -253,20 +308,20 @@ Setting.addToggle("bgimg", {
 });
 settings.bgimg = true;
 
-// REQUIRED:
+// TODO:
 // Toggle to hide images.
 // Toggle to turn off image blurring.
 
-// Toggle option for tooltips.
-Setting.addToggle("tooltips", {
-    label: "Show tooltips on important text?",
-    default: true,
-    onChange: () => {
-        Engine.show()
-    },
-});
-settings.tooltips = true;
-Setting.save();
+// // Toggle option for tooltips.
+// Setting.addToggle("tooltips", {
+//     label: "Show tooltips on important text?",
+//     default: true,
+//     onChange: () => {
+//         Engine.show()
+//     },
+// });
+// settings.tooltips = true;
+// Setting.save();
 
 // Pronouns
 Setting.addList("pronouns", {
@@ -281,63 +336,50 @@ Setting.addList("pronouns", {
         Engine.show()
     },
 });
-settings.pronouns = "female";
-Setting.save();
+
+// Audio
+Setting.addHeader("Audio Settings");
+Setting.addRange("masterVolume", {
+    label: "Master Volume",
+    min: 0,
+    max: 100,
+    step: 5,
+    onChange: function () {
+        $.wiki(`<<masteraudio volume ${settings.masterVolume / 100}>>`);
+    }
+});
+
+Setting.addRange("musicVolume", {
+    label: "Music Volume",
+    min: 0,
+    max: 100,
+    step: 5,
+    onChange: function () {
+        $.wiki(`<<audio ":music" volume ${settings.musicVolume / 100}>>`);
+    }
+});
+
+Setting.addRange("sfxVolume", {
+    label: "SFX Volume",
+    min: 0,
+    max: 100,
+    step: 5,
+    onChange: function () {
+        $.wiki(`<<audio ":sfx" volume ${settings.sfxVolume / 100}>>`);
+    }
+});
 
 /** 
  * ~FIXME~: Pronouns get reset on refresh.  
  * REVIEW: Is this still a bug? 
  */
-<</script>>
 
-/*
-   ###    ##     ## ########  ####  #######  
-  ## ##   ##     ## ##     ##  ##  ##     ## 
- ##   ##  ##     ## ##     ##  ##  ##     ## 
-##     ## ##     ## ##     ##  ##  ##     ## 
-######### ##     ## ##     ##  ##  ##     ## 
-##     ## ##     ## ##     ##  ##  ##     ## 
-##     ##  #######  ########  ####  #######  
-*/
-<<cacheaudio "light_tick" "assets/imported/audio/light_tick.mp3">>
-
-<<cacheaudio "WaveShop1" "assets/imported/audio/music/WaveShop1.ogg">>
-<<cacheaudio "WaveShop2" "assets/imported/audio/music/WaveShop2.ogg">>
-<<cacheaudio "MainMenu" "assets/imported/audio/music/MainMenu.ogg">>
-<<cacheaudio "WaveShop4" "assets/imported/audio/music/WaveShop4.ogg">>
-<<cacheaudio "WaveShop5" "assets/imported/audio/music/WaveShop5.ogg">>
-<<cacheaudio "WaveShop6" "assets/imported/audio/music/WaveShop6.ogg">>
-<<cacheaudio "WaveShop7" "assets/imported/audio/music/WaveShop7.ogg">>
-<<cacheaudio "WaveShop8" "assets/imported/audio/music/WaveShop8.ogg">>
-<<cacheaudio "WaveShop9" "assets/imported/audio/music/WaveShop9.ogg">>
-<<cacheaudio "WaveShop10" "assets/imported/audio/music/WaveShop10.ogg">>
-<<cacheaudio "WaveShop11" "assets/imported/audio/music/WaveShop11.ogg">>
-<<cacheaudio "WaveShop12" "assets/imported/audio/music/WaveShop12.ogg">>
-<<cacheaudio "WaveShop13" "assets/imported/audio/music/WaveShop13.ogg">>
-<<cacheaudio "WaveShop14" "assets/imported/audio/music/WaveShop14.ogg">>
-<<cacheaudio "WaveShop15" "assets/imported/audio/music/WaveShop15.ogg">>
-
-<<createaudiogroup ":music">>
-    <<track "WaveShop1">>
-    <<track "WaveShop2">>
-    <<track "MainMenu">>
-    <<track "WaveShop4">>
-    <<track "WaveShop5">>
-    <<track "WaveShop6">>
-    <<track "WaveShop7">>
-    <<track "WaveShop8">>
-    <<track "WaveShop9">>
-    <<track "WaveShop10">>
-    <<track "WaveShop11">>
-    <<track "WaveShop12">>
-    <<track "WaveShop13">>
-    <<track "WaveShop14">>
-    <<track "WaveShop15">>
-<</createaudiogroup>>
-
-<<script>>
-    State.variables.audio = {};
-    let sva = State.variables.audio;
-    sva.sfx = {};
-    sva.sfx.light_tick = SimpleAudio.tracks.get("light_tick");
+/**
+ * Audio
+ * 
+ * <<masteraudio volume 0.40>>
+ * <<audio ":music" volume 1>>
+ * <<audio ":sfx" volume 1>>
+ * <<audio ":combat" volume 1>>
+ */
 <</script>>

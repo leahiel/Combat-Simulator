@@ -1,5 +1,6 @@
 :: MainMenu [#mainmenu @mainmenu]
 <<audio "MainMenu" load>>
+/* <<audio "HeavyClickReverb" load>> */
 <span id="main-menu-start" class="animate-fade">Start...</span>
 <span id="main-menu-menu" class="hidden">
 	<<link [["New Game"|Start]]>><</link>>
@@ -8,7 +9,7 @@
 	<br>
 	<span class="disabled">Connect Online</span>
 	<br>
-	<span class="disabled">Settings</span>
+	<<link "Settings">><<run UI.settings()>><</link>>
 </span>
 
 <<done>>
@@ -19,6 +20,11 @@
 		/* TODO: Make pretty transition. */
 		$(`#main-menu-start`).addClass("hidden");
 		$(`#main-menu-menu`).removeClass("hidden");
+	});
+
+	/* On hover, play tick sound. */
+	$(`#main-menu-menu a`).on('mouseenter', function () {
+		$.wiki(`<<audio tick2 play>>`);
 	});
 <</script>>
 <</done>>

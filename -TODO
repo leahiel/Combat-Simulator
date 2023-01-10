@@ -26,10 +26,11 @@
 # ####### ##     ## ##     ##  ##  ##     ## 
 ##     ## ##     ## ##     ##  ##  ##     ## 
 ##     ##  #######  ########  ####  #######  
-    ☐  Implementation
-        ☐  Music
-        ☐  Sound Effects
-    ☐  Music
+    ☑  Implementation
+        ☑  Master
+        ☑  Music
+        ☑  Sound Effects
+    ☑  Music
     ☐  UI Sounds
     ☐  Combat Sounds
 
