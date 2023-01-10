@@ -16,7 +16,7 @@
 <<script>>
 	/* On click, hide main-menu-start, unhide main-menu-menu. */
 	$(`#passages`).one('click', function () {
-		$.wiki(`<<audio "MainMenu" volume 0.0 fadeoverto 2.5 1.0>>`);
+		$.wiki(`<<audio "MainMenu" volume 0.0 fadeoverto 2 1.0>>`);
 		/* TODO: Make pretty transition. */
 		$(`#main-menu-start`).addClass("hidden");
 		$(`#main-menu-menu`).removeClass("hidden");
@@ -24,7 +24,7 @@
 
 	/* On hover, play tick sound. */
 	$(`#main-menu-menu a`).on('mouseenter', function () {
-		$.wiki(`<<audio tick2 play>>`);
+		SimpleAudio.select("tick2").play();
 	});
 <</script>>
 <</done>>

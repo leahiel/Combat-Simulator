@@ -31,7 +31,7 @@
         ☑  Music
         ☑  Sound Effects
     ☑  Music
-    ☐  UI Sounds
+    ☐  UI Sounds [SoundSnap.com]
     ☐  Combat Sounds
 
 #### ##    ## ######## ########   #######  ########  ##     ##  ######  ######## ####  #######  ##    ## 
@@ -45,15 +45,11 @@
         ☑  New Game
         ...Load Game
         ...Connect Online
-        ☐  Settings
-            ☐  Music
-            ☐  Sound Effects
-            ☐  UI Sound
+        ☑  Settings
     ☐  Introduction Sequence
-
     ☐  Located somewhere random
     ☐  Fight
-    ...Pawn Generated Mid-Fight
+    ...Pawn Generated Mid-Fight?
     ☐  Go off to town.
     ☐  Join Guild
     ☐  Get Guild tutorial.
@@ -79,11 +75,11 @@
             ☐  Primitive Deflected
             ☐  Primitive Blocked
     ☐  Battle Log
-    ☐  AI
-        ☐  Implementation
+    ...AI
+        ☑  Implementation
         ☑  Random Attacks Random Targets
-        ☐  Generalized - Simple   [Chooses attacks based on self. e.g. Won`t buff if already buffed with buff.]
-        ☐  Generalized - Normal   [Chooses attacks based on self and team. e.g. Won`t buff if team already buffed.]
+        ☑  Generalized - Simple   [Chooses attacks based on self. e.g. Won`t buff if already buffed with buff.]
+        ☑  Generalized - Normal   [Chooses attacks based on self and team. e.g. Won`t buff if team already buffed.]
         ...Generalized - Advanced [Chooses attacks and targets based on self and enemy team.]
         ...Generalized - Brutal   [ "" ,  but also picks an attack and targets an enemy that would die from that attack.]
         ...Custom                 [Bosses, mostly.]

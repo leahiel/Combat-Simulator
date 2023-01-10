@@ -201,8 +201,8 @@ function assignViableTargets(attack, attacker) {
  * Randomly decided on an attack, then randomly determine the targets
  * of the attack, then processes the attack.
  */
-function attackRandomWithRandom(attacker) {
-    let attacksClone = cloneDeep(attacker.attacks);
+function combatAIRandom(ci) {
+    let attacksClone = cloneDeep(ci.activeCharacter.attacks);
     let chosenAttack;
     let targets;
 
@@ -219,7 +219,7 @@ function attackRandomWithRandom(attacker) {
         }
 
         chosenAttack = ranItems(1, attacksClone)[0];
-        targets = assignViableTargets(chosenAttack, attacker);
+        targets = assignViableTargets(chosenAttack, ci.activeCharacter);
 
         if (targets.length === 0) {
             /* If no targets, remove attack from attacksClone and get another attack. */
@@ -229,12 +229,171 @@ function attackRandomWithRandom(attacker) {
         }
     }
 
+    // Pick one target at random if it in a single target attack.
     if (chosenAttack.targetType === "single") {
-        // Pick one target at random.
-        targets = ranItems(1, targets);
+        chosenAttack.targets = ranItems(1, targets);
     }
 
-    attackCalculations(chosenAttack, attacker, targets);
+    attackCalculations(chosenAttack, ci.activeCharacter, targets);
+}
+
+/**
+ * The simple AI only takes into consideration the attacker itself.
+ *
+ * Essentially, Combatants with this AI won't buff themselves if they
+ * are already buffed. Their attacks are still random with random
+ * targets though.
+ */
+function combatAISimple(ci) {
+    let attacksClone = cloneDeep(ci.activeCharacter.attacks);
+    let chosenAttack;
+    let targets;
+
+    // Remove buffs from the pool of eligible attacks if
+    // attacker already has the buff.
+    let curBuffs = [];
+    for (let buff of ci.activeCharacter.buffs) {
+        curBuffs.push(buff.name);
+    }
+
+    for (let attack of attacksClone) {
+        // If it's not a buff, we don't care.
+        if (attack.type !== "buff") {
+            continue;
+        }
+
+        // If it's not something that can buff the attacker, we don't care.
+        if (attack.targets.style !== "self" || (attack.targets.style !== "row" && attack.targets.side !== "ally")) {
+            continue;
+        }
+
+        if (curBuffs.includes(attack.buffs.name)) {
+            // We're already buffed with this buff, so remove the buff.
+            attacksClone = attacksClone.filter((attack) => attack !== chosenAttack);
+        }
+    }
+
+    // NYI: If an attack would heal self, don't do it if we don't heal
+    // for at least 60% of the heal amount.
+
+    /**
+     * Determine which attack to use, but if the attack has no viable
+     * targets, then chose a different attack.
+     */
+    let determiningAttack = true;
+    while (determiningAttack) {
+        if (attacksClone.length === 0) {
+            // There are no viable targets left.
+            chosenAttack = null;
+            determiningAttack = false;
+        }
+
+        chosenAttack = ranItems(1, attacksClone)[0];
+        targets = assignViableTargets(chosenAttack, ci.activeCharacter);
+
+        if (targets.length === 0) {
+            /* If no targets, remove attack from attacksClone and get another attack. */
+            attacksClone = attacksClone.filter((attack) => attack !== chosenAttack);
+        } else {
+            determiningAttack = false;
+        }
+    }
+
+    // Pick one target at random if it in a single target attack.
+    if (chosenAttack.targetType === "single") {
+        chosenAttack.targets = ranItems(1, targets);
+    }
+
+    attackCalculations(chosenAttack, ci.activeCharacter, targets);
+}
+
+/**
+ * The normal AI only takes into consideration the attacker and their
+ * team.
+ *
+ * Essentially, Combatants won't buff team members with a buff if that
+ * team member already has the buff.
+ */
+function combatAINormal(ci) {
+    let attacksClone = cloneDeep(ci.activeCharacter.attacks);
+    let chosenAttack;
+
+    // For each attack, we need to determine the targets. If no
+    // targets, then we remove it.
+    for (let attack of attacksClone) {
+        attack.targeting = assignViableTargets(attack, ci.activeCharacter);
+
+        // Single Target Attacks
+        if (attack.targets.style === "self") {
+            for (let target of attack.targeting) {
+                if (ci.ep.includes(target)) {
+                    // Don't buff if target already has buff.
+                    if (attack.type === "buff") {
+                        let curBuffs = [];
+                        for (let buff of target.buffs) {
+                            curBuffs.push(buff.name);
+                        }
+
+                        if (curBuffs.includes(attack.buffs.name)) {
+                            // Target already buffed with this buff, so remove the target.
+                            attack.targeting = attack.targeting.filter((char) => char !== target);
+                        }
+                    }
+
+                    // NYI: Don't heal if target won't heal for at least 60% of the heal amount.
+                }
+            }
+
+            /* If no targets, remove attack from attacksClone. */
+            if (attack.targeting.length === 0) {
+                attacksClone = attacksClone.filter((attack) => attack !== chosenAttack);
+            }
+        } else {
+            // AoE Target Attacks
+            for (let target of attack.targeting) {
+                // Don't consider enemy targets.
+                if (ci.pp.includes(target)) {
+                    attack.targeting = attack.targeting.filter((char) => char !== target);
+                    continue;
+                }
+
+                // Don't buff if target already has buff.
+                let curBuffs = [];
+                for (let buff of target.buffs) {
+                    curBuffs.push(buff.name);
+                }
+
+                if (curBuffs.includes(attack.buffs.name)) {
+                    // Target already buffed with this buff, so remove the target.
+                    attack.targeting = attack.targeting.filter((char) => char !== target);
+                }
+
+                // NYI: Don't heal if target won't heal for at least 60% of the heal amount.
+            }
+
+            // If no targets, remove attack from attacksClone.
+            // Otherwise, regenerate the targets.
+            if (attack.targeting.length === 0) {
+                attacksClone = attacksClone.filter((attack) => attack !== chosenAttack);
+            } else {
+                // TODO: If "row" with "both", choose a side here before regenerating the targets.
+                attack.targeting = assignViableTargets(attack, ci.activeCharacter);
+            }
+        }
+    }
+
+    /**
+     * Determine which attack to use, but if the attack has no viable
+     * targets, then chose a different attack.
+     */
+    chosenAttack = ranItems(1, attacksClone)[0];
+
+    // Pick one target at random if it in a single target attack.
+    if (chosenAttack.targetType === "single") {
+        chosenAttack.targeting = ranItems(1, chosenAttack.targeting);
+    }
+
+    attackCalculations(chosenAttack, ci.activeCharacter, chosenAttack.targeting);
 }
 
 /**
@@ -663,8 +822,16 @@ function determineRowViabilities() {
         return assignViableTargets(attacker, attack);
     };
 
-    S.COM.attackRandomWithRandom = function (attacker) {
-        return attackRandomWithRandom(attacker);
+    S.COM.combatAIRandom = function (ci) {
+        return combatAIRandom(ci);
+    };
+
+    S.COM.combatAISimple = function (ci) {
+        return combatAISimple(ci);
+    };
+
+    S.COM.combatAINormal = function (ci) {
+        return combatAINormal(ci);
     };
 
     S.COM.attackCalculations = function (attack, attacker, targets) {

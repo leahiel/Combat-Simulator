@@ -27,6 +27,7 @@ const monsters = {
      */
     EN_MOMMY_SPIDER: new Enemy({
         imgSrc: "assets/imported/img/png/turn_icon_en.png",
+        ai: setup.COM.combatAISimple,
         name: "Momma Spider",
         family: "mommySpider",
         healthMax: 120,
@@ -55,6 +56,7 @@ const monsters = {
 
     EN_DADDY_SPIDER: new Enemy({
         imgSrc: "assets/imported/img/svg/icons/spider-alt.svg",
+        ai: setup.COM.combatAISimple,
         name: "Daddy Spider",
         family: "mommySpider",
         healthMax: 94,
@@ -83,6 +85,7 @@ const monsters = {
 
     EN_BABY_SPIDER: new Enemy({
         imgSrc: "assets/imported/img/svg/icons/hanging-spider.svg",
+        ai: setup.COM.combatAISimple,
         name: "Baby Spider",
         family: "babySpider",
         healthMax: 28,
@@ -108,6 +111,7 @@ const monsters = {
 
     EN_SPIDER: new Enemy({
         imgSrc: "assets/imported/img/svg/icons/masked-spider.svg",
+        ai: setup.COM.combatAISimple,
         name: "Spider",
         family: "babySpider",
         healthMax: 38,
@@ -132,6 +136,7 @@ const monsters = {
     }),
 
     EN_HOG: new Enemy({
+        ai: setup.COM.combatAISimple,
         name: "Hog",
         family: "Hog",
         healthMax: 240,
@@ -161,6 +166,7 @@ const monsters = {
      *  YboodP dP""""Yb 88  Yb 88oodP `YbodP' 88  Y8  YboodP 88ood8 888888 8bodP'
      */
     EN_CARBUNCLE: new Enemy({
+        ai: setup.COM.combatAISimple,
         name: "Carbuncle",
         family: "Carbuncle",
         healthMax: 60,
@@ -199,6 +205,7 @@ const monsters = {
     }),
 
     EN_EMERALD_CARBUNCLE: new Enemy({
+        ai: setup.COM.combatAISimple,
         name: "Emerald Carbuncle",
         family: "Carbuncle",
         healthMax: 49,
@@ -220,6 +227,7 @@ const monsters = {
     }),
 
     EN_OYNX_CARBUNCLE: new Enemy({
+        ai: setup.COM.combatAISimple,
         name: "Onyx Carbuncle",
         family: "Carbuncle",
         healthMax: 72,
@@ -241,6 +249,7 @@ const monsters = {
     }),
 
     EN_RUBY_CARBUNCLE: new Enemy({
+        ai: setup.COM.combatAISimple,
         name: "Ruby Carbuncle",
         family: "Carbuncle",
         healthMax: 49,
@@ -262,6 +271,7 @@ const monsters = {
     }),
 
     EN_SAPPHIRE_CARBUNCLE: new Enemy({
+        ai: setup.COM.combatAISimple,
         name: "Sapphire Carbuncle",
         family: "Carbuncle",
         healthMax: 49,
@@ -283,6 +293,7 @@ const monsters = {
     }),
 
     EN_TOPAZ_CARBUNCLE: new Enemy({
+        ai: setup.COM.combatAISimple,
         name: "Topaz Carbuncle",
         family: "Carbuncle",
         healthMax: 49,
@@ -310,6 +321,7 @@ const monsters = {
      * 8bodP' 88  Yb 888888 88ood8 888888   88    YbodP  88  Y8 8bodP'
      */
     EN_UNARMED_SKELETON: new Enemy({
+        ai: setup.COM.combatAIRandom,
         name: "Unarmed Skeleton",
         family: "Skeleton",
         healthMax: 43,
@@ -335,6 +347,7 @@ const monsters = {
     }),
 
     EN_SPEAR_SKELETON: new Enemy({
+        ai: setup.COM.combatAIRandom,
         name: "Skeleton Spearman",
         family: "Skeleton",
         healthMax: 43,
@@ -360,6 +373,7 @@ const monsters = {
     }),
 
     EN_SWORDSHIELD_SKELETON: new Enemy({
+        ai: setup.COM.combatAIRandom,
         name: "Skeleton Swordsman",
         family: "Skeleton",
         healthMax: 43,
@@ -385,6 +399,7 @@ const monsters = {
     }),
 
     EN_BOW_SKELETON: new Enemy({
+        ai: setup.COM.combatAIRandom,
         name: "Skeleton Archer",
         family: "Skeleton",
         positionPreferance: "backline", // NYI: positionPreferance. After CI are randomly performed, parties should shuffle for preferances.
@@ -417,6 +432,7 @@ const monsters = {
      *  YboodP 888888 88  Y8   88   dP""""Yb `YbodP' 88  Yb 8bodP'
      */
     EN_CENTAUR_BOWMAN: new Enemy({
+        ai: setup.COM.combatAINormal,
         name: "Centaur Bowman",
         family: "Centaur",
         positionPreferance: "backline", // NYI: positionPreferance. After CI are randomly performed, parties should shuffle for preferances.
@@ -445,6 +461,7 @@ const monsters = {
     }),
 
     EN_CENTAUR_HERD_MENTOR: new Enemy({
+        ai: setup.COM.combatAINormal,
         name: "Centaur Herd Mentor",
         family: "Centaur",
         healthMax: 98,
@@ -477,6 +494,7 @@ const monsters = {
     }),
 
     EN_CENTAUR_WARRIOR: new Enemy({
+        ai: setup.COM.combatAINormal,
         name: "Centaur Warrior",
         family: "Centaur",
         healthMax: 143,
@@ -505,6 +523,7 @@ const monsters = {
     }),
 
     EN_CHAOS_CENTAUR: new Enemy({
+        ai: setup.COM.combatAINormal,
         name: "Chaos Centaur",
         family: "Centaur",
         healthMax: 143,
@@ -555,6 +574,7 @@ const monsters = {
      *  YboodP 88  88  YbodP  `YbodP' 88ood8 8bodP'
      */
     EN_GHOUL: new Enemy({
+        ai: setup.COM.combatAIRandom,
         name: "Ghoul",
         family: "Ghoul",
         healthMax: 84,
@@ -587,6 +607,7 @@ const monsters = {
     }),
 
     EN_SAUSON_GHOUL_MASTER: new Enemy({
+        ai: setup.COM.combatAINormal,
         name: "Sauson Ghoul Master",
         family: "Sauson",
         positionPreferance: "backline", // NYI: positionPreferance. After CI are randomly performed, parties should shuffle for preferances.

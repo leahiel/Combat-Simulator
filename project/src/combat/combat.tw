@@ -13,11 +13,11 @@
     });
 
     $(document).on("mouseenter", '.playerAttack', function() {
-        $.wiki(`<<audio tick1 play>>`);
+        SimpleAudio.select("tick1").play();
     });
 
     $(document).on("click", '.playerAttack', function() {
-        $.wiki(`<<audio tick1 play>>`);
+       SimpleAudio.select("tick1").play();
     });
 
     $(document).on(':dialogopening', function (ev) {
@@ -241,8 +241,7 @@ async function processTurns(pp, ep) {
         await setup.fns.waitFor(500);
 
         /* Enemy AI */
-        /* Not yet fully implemented, but this should call activeCharacter.ai() when complete.  */
-        setup.COM.attackRandomWithRandom(activeCharacter);
+        activeCharacter.ai(ci);
 
         /* TODO: Return a promise that ensure's an attacks animation is over before proceeding. */
         $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
