@@ -74,7 +74,12 @@
             ☐  Primitive Hit [Probably don't need as the attack animation would do it?]
             ☐  Primitive Deflected
             ☐  Primitive Blocked
-    ☐  Battle Log
+    ☑  Battle Log
+        ...Add a battle log icon to #battlelogicon.
+        ...Refactor the Battle Log to be a Class so that we can:
+            ...Reshow the Battle Log after an attack is made
+        ...Preserve the Battle Log so that players can view it after the fight is over.
+        ...Add colors to the Battle Log to easily differientiate things that are going on in it.
     ...AI
         ☑  Implementation
         ☑  Random Attacks Random Targets

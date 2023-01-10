@@ -49,7 +49,7 @@ body[data-tags~="#combat"] #wrapperBottomText {
 
 #MainCombatGrid #enemyZone {
     grid-column-start: 1;
-    grid-column-end: 3;
+    grid-column-end: 4;
     grid-row: 1;
 
     display: grid;
@@ -70,7 +70,7 @@ body[data-tags~="#combat"] #wrapperBottomText {
 }
 
 #MainCombatGrid #playerZone {
-    grid-column: 2;
+    grid-column: 3;
     grid-row: 2;
 
     display: grid;
@@ -97,6 +97,8 @@ body[data-tags~="#combat"] #wrapperBottomText {
     grid-row-start: 2;
     grid-row-end: 4;
 
+    width: 21vw;
+
     border-radius: 1rem;
     padding: 1em;
 
@@ -104,13 +106,52 @@ body[data-tags~="#combat"] #wrapperBottomText {
 }
 
 #combatNotifications #AttackInformationPlate,
-#combatNotifications #CombatantInformationPlate {
+#combatNotifications #CombatantInformationPlate,
+#combatNotifications #battleLog {
     height: 100%;
     overflow-y: scroll;
     margin: auto;
 
     border-radius: 0;
     border-color: var(--backgroundplus2);
+
+    font-size: 0.9rem;
+}
+
+#combatNotifications #battleLog {
+    display: block;
+    padding: 0.9rem;
+
+    line-height: 1.5;
+
+    border: 1px solid hsl(312deg 74% 16% / 0%);
+    box-shadow: var(--boxShadow);
+    border-radius: 20px;
+    background-color: hsl(0, 0%, 5%);
+}
+
+#MainCombatGrid #combatButtons {
+    display: flex;
+
+    grid-column: 2;
+    grid-row-start: 2;
+    grid-row-end: 4;
+
+    width: 7.5vw;
+    align-items: end;
+}
+
+#MainCombatGrid #combatButtons span {
+    display: flex;
+    height: 7.5vw;
+
+    border: 1px solid var(--backgroundplus2);
+    border-radius: 8px;
+    box-shadow: var(--boxShadow);
+    background-color: #0c0c0c;
+
+    text-align: center;
+    align-items: center;
 }
 
 #notifArea.playerTurn {
@@ -122,7 +163,7 @@ body[data-tags~="#combat"] #wrapperBottomText {
 }
 
 #MainCombatGrid #targetsZone {
-    grid-column: 2;
+    grid-column: 3;
     grid-row: 3;
     height: 100%;
 

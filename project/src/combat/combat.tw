@@ -5,21 +5,29 @@
  * until we are done with the combat. 
  */
 <<script>>
+    /* On passage completion, initialize. */
     $(document).one(":passagedisplay", function() {
-        /* On passage completion, initialize. */
         $("#enemyZone").wiki(Story.get("Combat_Zone").processText());
-        /* And scroll into view. */
-        document.getElementById("passagetitleheader").scrollIntoView();
     });
 
-    $(document).on("mouseenter", '.playerAttack', function() {
-        SimpleAudio.select("tick1").play();
+    /* UI Audio */
+    $(document).on("mouseenter mouseleave click", '.playerAttack', function() {
+        SimpleAudio.select("tick2").play();
     });
 
-    $(document).on("click", '.playerAttack', function() {
-       SimpleAudio.select("tick1").play();
+    /* Battle Log */
+    $(document).on("mouseenter", '#battlelogicon', function() {
+        let sv = State.variables; 
+        console.log(sv.ci.log);
+        let tempHTML = `<span id="battleLog">`;
+        for (let i = 0; i < sv.ci.log.length; i++) {
+            tempHTML += `${sv.ci.log[i]}<br>`;
+        }
+        tempHTML += `</span>`;
+         $("#MainCombatGrid #combatNotifications").html(tempHTML);
     });
 
+    /* Processing after Reward/Defeat Dialog. */
     $(document).on(':dialogopening', function (ev) {
         let sv = State.variables; 
 
@@ -55,14 +63,14 @@
         if ($(ev.target).attr('class') === "dialogCombatWon") {
             $(document).off(':dialogclosing');
             
-            loc = State.variables.ci.winPassage;
-            State.variables.ci = undefined;
+            loc = sv.ci.winPassage;
+            sv.ci = undefined;
             Engine.play(loc);
         } else if ($(ev.target).attr('class') === "dialogCombatLoss") {
             $(document).off(':dialogclosing');
             
-            loc = State.variables.ci.losePassage;
-            State.variables.ci = undefined;
+            loc = sv.ci.losePassage;
+            sv.ci = undefined;
             Engine.play(loc);
         }
     });
@@ -74,7 +82,13 @@
     <span id="enemyZone"></span>
 
     /* The "center field", if you will. */
-    <span id="combatNotifications"><span class="infoNYI">NYI: The combat log goes here.</span></span>
+    <span id="combatNotifications">
+        <span id="battleLog"></span>
+    </span>
+
+    <span id="combatButtons">
+        <span id="battlelogicon">Battle Log Icon Here</span>
+    </span>
 
     /**
     * This is effectively the player's side of the "field". 

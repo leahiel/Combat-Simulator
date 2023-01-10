@@ -26,7 +26,9 @@
 class CombatInstance {
     constructor(obj) {
         // Merge our obj onto default, then merge those onto this.
-        jQuery.extend(true, this, /* DEFAULT_ATTACK, */ obj);
+        jQuery.extend(true, this, /* DEFAULT_COMBAT_INSTANCE, */ obj);
+
+        this.log = [];
 
         /* Default Values */
 
@@ -631,6 +633,7 @@ function attackCalculations(attack, attacker, targets) {
     /*
      * Actual Attack Calculations
      */
+    // TODO: solobj should be solarr, and an Array.
     let solobj = {};
     targets.forEach((target, idx) => {
         for (let i = 0; i < attack.hitnumber; i++) {
@@ -638,11 +641,12 @@ function attackCalculations(attack, attacker, targets) {
                 solobj[i] = {};
             }
             solobj[i][idx] = {};
+            solobj[i][idx].name = target.name;
 
             // Apply the attacker's stats to a copy of the attack.
             let thisAttack = applyStats(attack, attacker);
 
-            if (thisAttack.effect === "buff" || thisAttack.effect === "buff") {
+            if (thisAttack.effect === "buff" || thisAttack.effect === "debuff") {
                 return;
             }
 
@@ -746,6 +750,9 @@ function attackCalculations(attack, attacker, targets) {
 
             // Apply Buffs and Debuffs
             if (attack.buffs.length > 0) {
+                solobj[i][idx].buffsapplied = [];
+                solobj[i][idx].buffsreapplied = [];
+
                 for (let buff of attack.buffs) {
                     // Get an array of buff names from targets[idx].
                     let buffNames = assignFieldOfObjectsToArray(targets[idx].buffs, "name");
@@ -754,6 +761,8 @@ function attackCalculations(attack, attacker, targets) {
                     if (!buffNames.includes(buff.name)) {
                         targets[idx].buffs.push(cloneDeep(buff));
                         buff.onApply(targets[idx]);
+
+                        solobj[i][idx].buffsapplied.push(buff);
 
                         // Reapply buff if target already has the buff.
                     } else if (buffNames.includes(buff.name)) {
@@ -764,6 +773,8 @@ function attackCalculations(attack, attacker, targets) {
 
                         // Reapply the buff.
                         buff.onReapply(targets[idx]);
+
+                        solobj[i][idx].buffsreapplied.push(buff);
                     }
                 }
             }
@@ -780,6 +791,48 @@ function attackCalculations(attack, attacker, targets) {
     }
 
     attacker.init += attack.initRecovery * attacker.initRecoveryModifier;
+
+    // Battle Log
+    // TODO: We should call ci as an argument instead of this.
+    let cilog = State.variables.ci.log;
+    cilog.push(`${attacker.name} used ${attack.name}!`);
+    for (let i = 0; i < Object.keys(solobj).length; i++) {
+        for (let j = 0; j < Object.keys(solobj[i]).length; j++) {
+            if (solobj[i][j].blocked) {
+                // Blocked
+                cilog.push(`${solobj[i][j].name} blocked it, taking ${solobj[i][j].damage} damage.`);
+            } else if (solobj[i][j].deflected) {
+                // Deflected
+                cilog.push(`${solobj[i][j].name} deflected it, taking ${solobj[i][j].damage} damage.`);
+            } else if (solobj[i][j].damage > 0) {
+                // Else
+                cilog.push(`Dealt ${solobj[i][j].damage} damage to ${solobj[i][j].name}.`);
+            }
+
+            // Applied Buffs
+            if (solobj[i][j].buffsapplied) {
+                for (let buff of solobj[i][j].buffsapplied) {
+                    if (buff.type === "buff") {
+                        cilog.push(`${solobj[i][j].name} was buffed with ${buff.name}.`)
+                    } else if (buff.type === "buff") {
+                        cilog.push(`${solobj[i][j].name} was inflicted with ${buff.name}.`)
+                    }
+                }
+            }
+
+            // Re-Applied Buffs
+            if (solobj[i][j].buffsreapplied) {
+                for (let buff of solobj[i][j].buffsreapplied) {
+                    if (buff.type === "buff") {
+                        cilog.push(`${solobj[i][j].name} was re-buffed with ${buff.name}.`)
+                    } else if (buff.type === "buff") {
+                        cilog.push(`${solobj[i][j].name} was re-inflicted with ${buff.name}.`)
+                    }
+                }
+            }
+        }
+    }
+    cilog.push(`<br>`);
 }
 
 function determineRowViabilities() {
