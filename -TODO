@@ -69,17 +69,14 @@
     ☐  Animations
         ☐  Attack
             ☐  Primitive AoE
+                ☐  All
+                ☐  Side
+                ☐  Row
             ☐  Primitive Single Target
         ☐  Defense
             ☐  Primitive Hit [Probably don't need as the attack animation would do it?]
             ☐  Primitive Deflected
             ☐  Primitive Blocked
-    ☑  Battle Log
-        ...Add a battle log icon to #battlelogicon.
-        ...Refactor the Battle Log to be a Class so that we can:
-            ...Reshow the Battle Log after an attack is made
-        ...Preserve the Battle Log so that players can view it after the fight is over.
-        ...Add colors to the Battle Log to easily differientiate things that are going on in it.
     ...AI
         ☑  Implementation
         ☑  Random Attacks Random Targets
@@ -131,10 +128,10 @@
 ##       ##     ## ######### ##   ##   ######### ##          ##    ##       ##   ##   
 ##    ## ##     ## ##     ## ##    ##  ##     ## ##    ##    ##    ##       ##    ##  
  ######  ##     ## ##     ## ##     ## ##     ##  ######     ##    ######## ##     ## 
-    ☐ Items
-        ☐  Equipment InformationPlate
-            ☐  Information Present
-            ☐  CSS
+    ...Items
+        ...Equipment InformationPlate
+            ...Information Present
+            ...CSS
         ...Equipment should be governed like this: State.variables.account[[weapon, numowned], [weapon, numowned]]. Max owned should be 2.
         ...A More/Increased stat for Material/Elemental/Occult. [REVIEW: Is this really needed?]
         ...More/Increased Health 
@@ -176,7 +173,7 @@
 ##    ##  ##     ## ##       ##    ##    ##    ##    ## 
  ##### ##  #######  ########  ######     ##     ######  
     ☑ Maps
-        ☐  Implement the Hex Generator as the Map Background
+        ☑  Implement the Hex Generator as the Map Background
         ☐  Make and implement icons for:
             ☐  Player
             ☐  City
@@ -184,6 +181,7 @@
             ☐  Non-Combat Event
         ...Maps Rotatable with Aligned Icons (for Portrait/Landscape mode)
     ☐ Cities
+        ☐  CSS
         ☑  Guild Hall [Obtain/Abandon Quests. Switch Pawns]
             ☐  Quest Screen
                 ☐  Randomized Quests
@@ -223,18 +221,27 @@
    ##    ##         ## ##      ##    ##     ## ##     ##   ## ##   
    ##    ##        ##   ##     ##    ##     ## ##     ##  ##   ##  
    ##    ######## ##     ##    ##    ########   #######  ##     ## 
-    ☑  Implementation
-        ☑  Portrait
-        ☑  Name Field
-        ☑  Text Field
-        ☑  Narration
-        ...Change Background based on Line.
-    ☑  Show Background during Textbox
+    ...Implementation
+        ...Show and change Background based on Line instead of TextBox.
     ...Red text if seen Line (not TB).
     ...Ability to fast-forward text by holding a button.
     ...Ability to fast-forward text that has already been seen.
     ...Ability to scroll backwards to see history.
     ...Allow easy translations.
+
+# ######  ######## ########    ###     ######  ########  #######  ########  
+##     ## ##       ##         ## ##   ##    ##    ##    ##     ## ##     ## 
+##     ## ##       ##        ##   ##  ##          ##    ##     ## ##     ## 
+# ######  ######   ######   ##     ## ##          ##    ##     ## ########  
+##   ##   ##       ##       ######### ##          ##    ##     ## ##   ##   
+##    ##  ##       ##       ##     ## ##    ##    ##    ##     ## ##    ##  
+##     ## ######## ##       ##     ##  ######     ##     #######  ##     ## 
+☑  Battle Log
+    ...Add a battle log icon to #battlelogicon.
+    ...Refactor the Battle Log to be a Class so that we can:
+        ...Reshow the Battle Log after an attack is made
+    ...Preserve the Battle Log so that players can view it after the fight is over.
+    ...Add colors to the Battle Log to easily differientiate things that are going on in it.
 
 
 

@@ -1,7 +1,7 @@
 /**
  * PIXI Documentation:
  * https://pixijs.download/release/docs/index.html
- * 
+ *
  * The map is only the canvas. It will ONLY draw already existing objects.
  * The PIXI app is stored in sv.pixi.
  *
@@ -12,12 +12,12 @@
 
 const DEFAULT_MAP = {
     debug: true,
-    /** 
-     * The map sequence is what is actually on the map. Since we're 
-     * making a new map, the sequence has to be less than the Quest 
-     * sequence. 
+    /**
+     * The map sequence is what is actually on the map. Since we're
+     * making a new map, the sequence has to be less than the Quest
+     * sequence.
      */
-    sequence: -1, // 
+    sequence: -1, //
 };
 
 class Map {
@@ -42,7 +42,10 @@ class Map {
         }
 
         // Prepare and draw the background.
-        this.drawBackground(pixiApp, "");
+        this.backgroundHexes = State.variables.grid.createGrid(pixiApp);
+        this.background = this.createBackground(pixiApp);
+
+        // this.drawBackground(pixiApp);
         if (this.debug) {
             this.drawGridlines(pixiApp);
         }
@@ -84,15 +87,13 @@ class Map {
     }
 
     /** Draws the background of the canvas. */
-    drawBackground(app, background) {
-        // if (this.debug) {
-            background = new PIXI.Sprite(PIXI.Texture.WHITE);
-        // }
+    createBackground(pixiApp) {
+        // Create an invisible background Sprite that we use for interactivity.
+        let background = new PIXI.Sprite("");
+        background.width = pixiApp.screen.width;
+        background.height = pixiApp.screen.height;
 
-        background.width = app.screen.width;
-        background.height = app.screen.height;
-        background.tint = 0x9c284b;
-
+        // Add interactivity to the background Sprite.
         let canvas = this;
         if (this.debug) {
             background.interactive = true;
@@ -124,11 +125,12 @@ class Map {
                 );
             });
         }
-        app.stage.addChild(background);
+
+        return background;
     }
 
     /** DEBUG FEATURE: Grid lines. */
-    drawGridlines(app) {
+    drawGridlines(pixiApp) {
         /* Draw Vertical Lines */
         for (let i = 0; i <= window.innerWidth / this.gridFidelity; i++) {
             let start = { x: i * this.gridFidelity, y: 0 };
@@ -139,7 +141,7 @@ class Map {
             line.moveTo(start.x, start.y);
             line.lineTo(end.x, end.y);
 
-            app.stage.addChild(line);
+            pixiApp.stage.addChild(line);
         }
 
         /* Draw Horizontal Lines */
@@ -152,7 +154,7 @@ class Map {
             line.moveTo(start.x, start.y);
             line.lineTo(end.x, end.y);
 
-            app.stage.addChild(line);
+            pixiApp.stage.addChild(line);
         }
     }
 
@@ -170,11 +172,6 @@ class Map {
         player.y = this.gridFidelity * State.variables.quest.playerLoc.y;
 
         return player;
-    }
-
-    /** Draw the player */
-    drawPlayer(app, playerObj) {
-        app.stage.addChild(playerObj);
     }
 
     /**
@@ -225,10 +222,10 @@ class Map {
         });
     }
 
-    static gameLoop(app) {
+    static gameLoop(pixiApp) {
         let sv = State.variables;
 
-        app.ticker.add((delta) => {
+        pixiApp.ticker.add((delta) => {
             if (sv.map === null) {
                 // Map was intentionally erased.
                 return;
@@ -267,7 +264,7 @@ class Map {
              */
             function removeInteractableIfRequested() {
                 let sv = State.variables;
-                
+
                 if (sv.quest.currentInteractable === undefined) {
                     return;
                 }
@@ -378,6 +375,18 @@ class Map {
             );
 
             /**
+             * Render Background
+             */
+            // Background Cells
+            // DESIRED: I don't really want to call this method every frame.
+            sv.map.backgroundHexes = State.variables.grid.createGrid(pixiApp);
+            for (let hex of sv.map.backgroundHexes) {
+                pixiApp.stage.addChild(hex);
+            }
+            // Invisible Background Sprite
+            pixiApp.stage.addChild(sv.map.background);
+
+            /**
              * Render NonInteractables
              */
             // TODO: Rendering NonInteractables.
@@ -386,14 +395,14 @@ class Map {
              * Render Interactables.
              */
             sv.quest.interactables.forEach((interactable) => {
-                app.stage.addChild(interactable.icon);
+                pixiApp.stage.addChild(interactable.icon);
             });
 
             /**
              * Render Stuff
              */
             // Render the player.
-            sv.map.drawPlayer(app, sv.map.player);
+            pixiApp.stage.addChild(sv.map.player);
 
             /**
              * Check if there are any intersections.

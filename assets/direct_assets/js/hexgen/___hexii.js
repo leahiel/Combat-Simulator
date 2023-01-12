@@ -19,7 +19,7 @@
 let hexii = [
     {
         name: "PPPPPP-1",
-        src: "project/src/hexgen/heximg/PPPPPP-1.svg",
+        src: "assets/imported/img/svg/hex/PPPPPP-1.svg",
         version: 0,
         edgelines: {
             default: ["plains", "plains", "plains", "plains", "plains", "plains"],
@@ -38,7 +38,7 @@ let hexii = [
     },
     {
         name: "RPPPPP-1",
-        src: "project/src/hexgen/heximg/RPPPPP-1.svg",
+        src: "assets/imported/img/svg/hex/RPPPPP-1.svg",
         version: 0,
         edgelines: {
             default: ["road", "plains", "plains", "plains", "plains", "plains"],
@@ -57,7 +57,7 @@ let hexii = [
     },
     {
         name: "RPPPPP-2",
-        src: "project/src/hexgen/heximg/RPPPPP-2.svg",
+        src: "assets/imported/img/svg/hex/RPPPPP-2.svg",
         version: 0,
         edgelines: {
             default: ["road", "plains", "plains", "plains", "plains", "plains"],
@@ -76,7 +76,7 @@ let hexii = [
     },
     {
         name: "RRPPPP-1",
-        src: "project/src/hexgen/heximg/RRPPPP-1.svg",
+        src: "assets/imported/img/svg/hex/RRPPPP-1.svg",
         version: 0,
         edgelines: {
             default: ["road", "roads", "plains", "plains", "plains", "plains"],
@@ -95,7 +95,7 @@ let hexii = [
     },
     {
         name: "RRPPPP-2",
-        src: "project/src/hexgen/heximg/RRPPPP-2.svg",
+        src: "assets/imported/img/svg/hex/RRPPPP-2.svg",
         version: 0,
         edgelines: {
             default: ["road", "roads", "plains", "plains", "plains", "plains"],
@@ -114,7 +114,7 @@ let hexii = [
     },
     {
         name: "RPRPPP-1",
-        src: "project/src/hexgen/heximg/RPRPPP-1.svg",
+        src: "assets/imported/img/svg/hex/RPRPPP-1.svg",
         version: 0,
         edgelines: {
             default: ["road", "plains", "road", "plains", "plains", "plains"],
@@ -133,7 +133,7 @@ let hexii = [
     },
     {
         name: "RPRPPP-2",
-        src: "project/src/hexgen/heximg/RPRPPP-2.svg",
+        src: "assets/imported/img/svg/hex/RPRPPP-2.svg",
         version: 0,
         edgelines: {
             default: ["road", "plains", "road", "plains", "plains", "plains"],
@@ -152,7 +152,7 @@ let hexii = [
     },
     {
         name: "RPPRPP-1",
-        src: "project/src/hexgen/heximg/RPPRPP-1.svg",
+        src: "assets/imported/img/svg/hex/RPPRPP-1.svg",
         version: 0,
         edgelines: {
             default: ["road", "plains", "plains", "road", "plains", "plains"],
@@ -171,7 +171,7 @@ let hexii = [
     },
     {
         name: "RPRRPP-1",
-        src: "project/src/hexgen/heximg/RPRRPP-1.svg",
+        src: "assets/imported/img/svg/hex/RPRRPP-1.svg",
         version: 0,
         edgelines: {
             default: ["road", "plains", "road", "road", "plains", "plains"],
@@ -190,7 +190,7 @@ let hexii = [
     },
     // {
     //     name: "RIIPRP-1",
-    //     src: "project/src/hexgen/heximg/RIIPRP-1.svg",
+    //     src: "assets/imported/img/svg/hex/RIIPRP-1.svg",
     //     version: 0,
     //     edgelines: {
     //         default: ["road", "river", "river", "plains", "road", "plains"],

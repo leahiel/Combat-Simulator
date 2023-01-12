@@ -1,8 +1,8 @@
 let DEFAULT_GRID = {
     // Number of Columns
-    width: 5,
+    width: 6,
     // Number of Rows
-    height: 5,
+    height: 6,
     debug: true,
 };
 
@@ -286,26 +286,27 @@ class Grid {
     }
 
     /**
-     * Graphically display the Hexagon grid with its Hex images onto a
-     * PIXI application.
+     * Creates the Hexagon grid with its Hex images to be used on a
+     * PIXI application. Returns the Sprites in an array.
      *
      * ```
      * let st = State.temporary;
      * st.pixi = new PIXI.Application({width: 960, height: 540});
      *
      * st.grid = new setup.hex.Grid({width: 6, height: 4});
-     * st.grid.displayGrid(st.pixi);
+     * st.grid.createGrid(st.pixi);
      * // Grid is now displayed to the PIXI application.
      * ```
      */
-    displayGrid(pixiApp) {
+    createGrid(pixiApp) {
         /** Get the scale of each image, so we know the grid can fully fit on the PIXI app. */
         // BUG: Not scaling to smaller of two values.
+        let solarr = [];
         let scale;
         if (pixiApp.renderer.width / this.width <= pixiApp.renderer.height / this.height) {
-            scale = this.width - 2;
+            scale = this.width - 3;
         } else {
-            scale = this.height - 2;
+            scale = this.height - 3;
         }
 
         // DESIRED: Convert to standard loop. `let idx in ...` is the slowest way to loop through arrays.
@@ -393,9 +394,10 @@ class Grid {
                     sprite.on("click", debugCallback);
                 }
 
-                pixiApp.stage.addChild(sprite);
+                solarr.push(sprite);
             }
         }
+        return solarr;
     }
 }
 

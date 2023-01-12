@@ -3,7 +3,7 @@
 /* <<audio "HeavyClickReverb" load>> */
 <span id="main-menu-start" class="animate-fade">Start...</span>
 <span id="main-menu-menu" class="hidden">
-	<<link [["New Game"|Start]]>><</link>>
+	<<link [["New Game"|Intro1]]>><</link>>
 	<br>
 	<span class="disabled">Load Game</span>
 	<br>
@@ -24,7 +24,7 @@
 
 	/* On hover, play tick sound. */
 	$(`#main-menu-menu a`).on('mouseenter', function () {
-		SimpleAudio.select("tick2").play();
+		SimpleAudio.select("tick2").loop(true).play();
 	});
 <</script>>
 <</done>>

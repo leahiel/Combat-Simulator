@@ -40,15 +40,19 @@ body[data-tags~="#mainmenu"] #main-menu-start,
 body[data-tags~="#mainmenu"] #main-menu-menu {
     display: block;
 
-    margin-top: 62vh;
+    margin-top: 56vh;
 
     color: rgb(115, 115, 115);
-    font-size: 2rem;
+    font-size: 1.75rem;
     line-height: 1.75em;
     font-family: backslash;
     text-align: center;
 
     user-select: none;
+}
+
+body[data-tags~="#mainmenu"] #main-menu-start {
+    margin-top: 72vh;
 }
 
 body[data-tags~="#mainmenu"] a {
@@ -57,8 +61,4 @@ body[data-tags~="#mainmenu"] a {
 
 body[data-tags~="#mainmenu"] a:hover {
     color: rgb(185, 185, 185);
-}
-
-body[data-tags~="#mainmenu"] #main-menu-start {
-    margin-top: 72vh;
 }

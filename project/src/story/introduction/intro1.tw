@@ -1,7 +1,10 @@
 :: Intro1 [.introduction @intro1]
-/* #147 bgm */
+<<audio ":music" stop>>
+<<audio "147" volume 0 fadein loop>>
+
 /**
  * Sci-Fi introduction scene where it is explained to you that you're 
  * going back in time in order to fight evils. First quest? Get 
  * stronger. 
  */
+ 
