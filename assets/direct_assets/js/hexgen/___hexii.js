@@ -16,7 +16,7 @@
  *            4 3
  */
 // REVIEW: Is it wise to have a field named `default`?
-let hexii = [
+let HEXII = [
     {
         name: "PPPPPP-1",
         src: "assets/imported/img/svg/hex/PPPPPP-1.svg",
@@ -214,5 +214,5 @@ let hexii = [
         S.hex = {};
     }
 
-    S.hex.hexii = hexii;
+    S.hex.HEXII = HEXII;
 })(setup);

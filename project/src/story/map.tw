@@ -19,17 +19,6 @@
     $(`#passage-map`).append(st.pixi.view);
 
     sv.grid = new setup.hex.Grid();
-
-    /* Amount of time in seconds since our demo has been running. */
-    /* let elapsed = 0.0; */
-
-    /* Tell the application to run a callback every frame. */
-    /* 
-    st.pixi.ticker.add((delta)=> {
-        elapsed += delta;
-    });
-    */
-
     sv.map = new setup.map.Map({debug: false});
 <</script>>
 <</done>>

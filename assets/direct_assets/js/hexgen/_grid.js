@@ -32,7 +32,7 @@ class Grid {
         if (this.debug) {
             console.debug("Grid Debug is checking all hexii.");
             // Make every single hex so we can see if they have any errors.
-            for (let hex of hexii) {
+            for (let hex of HEXII) {
                 new Hex(hex);
             }
             console.debug("All hexii have been verified.");
@@ -158,7 +158,7 @@ class Grid {
         let solarr = [];
 
         // DESIRED: Convert to standard loop. `let idx of ...` is the slowest way to loop through arrays.
-        for (let hex of hexii) {
+        for (let hex of HEXII) {
             // DESIRED: Convert to standard loop. `let idx in ...` is the slowest way to loop through arrays.
             for (let configuration in hex.edgelines) {
                 let isUsable = true;
@@ -324,6 +324,8 @@ class Grid {
 
                 // Set the image to be used.
                 let sprite = PIXI.Sprite.from(hex.src);
+                // SVG textures can't be loaded before they're processed.
+                sprite.loaded = false;
 
                 // Scale the image appropriately.
                 // TODO: Scaling currently weird.

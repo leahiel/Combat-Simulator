@@ -378,7 +378,13 @@ class Map {
              * Render Background
              */
             // Background Cells
-            // DESIRED: I don't really want to call this method every frame.
+            // DESIRED: I cannot figure out how to properly load SVGs
+            // so for now I just remove the hexes and make new sprites
+            // that will eventually have the loaded SVG textures and
+            // display those.
+            for (let hex of sv.map.backgroundHexes) {
+                pixiApp.stage.removeChild(hex);
+            }
             sv.map.backgroundHexes = State.variables.grid.createGrid(pixiApp);
             for (let hex of sv.map.backgroundHexes) {
                 pixiApp.stage.addChild(hex);
