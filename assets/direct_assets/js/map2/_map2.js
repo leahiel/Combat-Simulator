@@ -378,10 +378,10 @@ class Map {
              * Render Background
              */
             // Background Cells
-            // DESIRED: I cannot figure out how to properly load SVGs
+            // BUG: I cannot figure out how to properly load SVGs
             // so for now I just remove the hexes and make new sprites
             // that will eventually have the loaded SVG textures and
-            // display those.
+            // display those. Technically not a bug, just bad programming.
             for (let hex of sv.map.backgroundHexes) {
                 pixiApp.stage.removeChild(hex);
             }

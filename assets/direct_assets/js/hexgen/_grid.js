@@ -325,7 +325,7 @@ class Grid {
                 // Set the image to be used.
                 let sprite = PIXI.Sprite.from(hex.src);
                 // SVG textures can't be loaded before they're processed.
-                sprite.loaded = false;
+                // sprite.loaded = false;
 
                 // Scale the image appropriately.
                 // TODO: Scaling currently weird.

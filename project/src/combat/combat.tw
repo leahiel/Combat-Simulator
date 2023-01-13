@@ -226,11 +226,44 @@ async function processTurns(pp, ep) {
         pp.forEach((char) => {
             if (char.health > 0) {
                 decrementInits(char);
+            } else {
+                switch (char.location){
+                    case "playerA":
+                        $(`#playerZone griditem#gitemA`).addClass('dead');
+                        break;
+                    case "playerB":
+                        $(`#playerZone griditem#gitemB`).addClass('dead');
+                        break;
+                    case "playerC":
+                        $(`#playerZone griditem#gitemC`).addClass('dead');
+                        break;
+                    case "playerD":
+                        $(`#playerZone griditem#gitemD`).addClass('dead');
+                        break;
+                }
             }
         });
         ep.forEach((char) => {
             if (char.health > 0) {
                 decrementInits(char);
+            } else {
+                switch (char.location) {
+                    case "enemyA":
+                        $(`#enemyZone griditem#gitemA`).addClass('dead');
+                        break;
+                    case "enemyB":
+                        $(`#enemyZone griditem#gitemB`).addClass('dead');
+                        break;
+                    case "enemyC":
+                        $(`#enemyZone griditem#gitemC`).addClass('dead');
+                        break;
+                    case "enemyD":
+                        $(`#enemyZone griditem#gitemD`).addClass('dead');
+                        break;
+                    case "enemyE":
+                        $(`#enemyZone griditem#gitemE`).addClass('dead');
+                        break;
+                }
             }
         });
 

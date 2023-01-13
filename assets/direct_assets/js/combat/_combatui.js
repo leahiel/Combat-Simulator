@@ -232,7 +232,7 @@ function updateCanvas(char, canvasElement) {
     // Outline
     canvasElement.drawLine({
         strokeStyle: "#000000",
-        strokeWidth: 80,
+        strokeWidth: 100,
         rounded: true,
         x1: hpBarXPos - 20,
         y1: 78,
@@ -242,7 +242,7 @@ function updateCanvas(char, canvasElement) {
     // Background
     canvasElement.drawLine({
         strokeStyle: "#8C99A6",
-        strokeWidth: 60,
+        strokeWidth: 80,
         rounded: true,
         x1: hpBarXPos,
         y1: 78,
@@ -253,7 +253,7 @@ function updateCanvas(char, canvasElement) {
     if (char.health > 0) {
         canvasElement.drawLine({
             strokeStyle: "#AA0000",
-            strokeWidth: 60,
+            strokeWidth: 80,
             rounded: true,
             x1: hpBarXPos,
             y1: 78,
@@ -261,6 +261,16 @@ function updateCanvas(char, canvasElement) {
             y2: 78,
         });
     }
+    // Health Amount
+    canvasElement.drawText({
+        fillStyle: "#FFFFFF",
+        fontSize: 85,
+        // strokeWidth: 0,
+        // strokeStyle: "#000000",
+        text: `${char.health} / ${char.healthMax}`,
+        x: hpBarXPos *2,
+        y: 78,
+    });
 
     /** Init Bar */
     // The rhombus.
@@ -294,7 +304,7 @@ function updateCanvas(char, canvasElement) {
         rounded: true,
         x1: horiBarXPos,
         y1: 256,
-        x2: 1700,
+        x2: 1600,
         y2: 256,
     });
 
@@ -305,8 +315,18 @@ function updateCanvas(char, canvasElement) {
         strokeWidth: 5,
         strokeStyle: "#FFFFFF",
         text: Math.ceil(char.init),
-        x: 1850,
+        x: 1725,
         y: 256,
+    });
+    // "INIT" Text
+    canvasElement.drawText({
+        fillStyle: "#FFFFFF",
+        fontSize: 60,
+        strokeWidth: 5,
+        strokeStyle: "#FFFFFF",
+        text: "INIT",
+        x: 1875,
+        y: 280,
     });
 
     // Init indicator.

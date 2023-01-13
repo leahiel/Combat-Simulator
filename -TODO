@@ -3,22 +3,6 @@
 →  = Currently Working On.
 ... = Planned but not to be done soon.
 
-######    #######   ######  ##     ##  ######      ######   ########   #######  ##     ## ########  
-##       ##     ## ##    ## ##     ## ##    ##    ##    ##  ##     ## ##     ## ##     ## ##     ## 
-##       ##     ## ##       ##     ## ##          ##        ##     ## ##     ## ##     ## ##     ## 
-######   ##     ## ##       ##     ##  ######     ##   #### ########  ##     ## ##     ## ########  
-##       ##     ## ##       ##     ##       ##    ##    ##  ##   ##   ##     ## ##     ## ##        
-##       ##     ## ##    ## ##     ## ##    ##    ##    ##  ##    ##  ##     ## ##     ## ##        
-##        #######   ######   #######   ######      ######   ##     ##  #######   #######  ##        
-    ☐  Canvas
-        ☐  HP number should be shown.
-        ☐  "Init" should be next to init number.
-        ☐  Hovering over the init indicator should do something?
-        ☐  When dead, enemies should be red.
-    ☐  Main Screen
-        ☐  Add a thingy that says "Hover over Attacks to See their Information"
-        ☐  Add a thingy that says "Click to specific equipment."
-
    ###    ##     ## ########  ####  #######  
   ## ##   ##     ## ##     ##  ##  ##     ## 
  ##   ##  ##     ## ##     ##  ##  ##     ## 
@@ -183,6 +167,9 @@
                 ☐  Randomized Quests
                 ...Randomized Quests based on Guild Rank.
         ☑  Inn [Change Equipment, Magic, and Miracles]
+            ☐  Equipment Screen
+                ☐  Add a thingy that says "Hover over Attacks to See their Information"
+                ☐  Add a thingy that says "Click to change equipment."
             ...Magic/Miracles Screen
             ...Passive Skills Screen
         ...Item Shop [Buy and Sell Materials and Items with NPCs]
